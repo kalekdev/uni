@@ -52,11 +52,15 @@ likely the more equations are introduced into the system. Examples: Parallel
 lines, trianglular prism from 3 planes.
 
 == Gaussische Eliminationsverfahren
+Ideal method for solving a $m times n$ system of equations, easy to implement
+algorithmically and works for all dimensions.
+
 _Pivot_ - element on the diagonal of a matrix that has a non 0 coefficient
 
-_Rang / rank_ - number of non 0 pivots, TODO: Intuitive meaning
+_Rang / rank_ - number of non 0 pivots, ie (number of rows - number of
+Kompatibilitaetsbedingungen) TODO: Intuitive meaning
 
-_Kombatilitaetsbedingungen_ - Empty rows at the bottom of the matrix (0
+_Kompatibilitaetsbedingungen_ - Empty rows at the bottom of the matrix (0
 coefficients in one of the equations). If their result is not 0 then there are
 no solutions for the system. If their result is 0 and the number of equations $<=$ the
 number of variables, there are infinite solutions.\
@@ -67,18 +71,36 @@ as a system of planes, two planes will intersect along an entire line. In 2D,
 there would just be a single line, which of course has solutions along its
 entirety.
 
-Any variables not accounted due to an all 0 row are called _free variables_ and
-can take any real value.
+Any variables not accounted for due to an all 0 row / no pivot in their column
+are called _free variables_ and can take any real value. TODO: Solidify
+understanding
 
 === Tips:\
 - Never divide / subtract in Gaussian elimination. Either multiply by $1/x$ or -1.
   Order is half of the work in maths.
+- Switch rows columns carefully *before* carrying out additions.
 - When switching rows to get pivots in the correct place, it is usually best to
   swap a line with zero pivot with the row that has the largest pivot in that
   place.
 
-TODO: Consider Gaussian elimination for non square matrix and why the stagger
-skips some columns\
-TODO: Understand protocol matrix
+_U - Upper (Deutsch: R - Rechts) Matrix_ - Matrix with 0s under the diagonal and
+any numbers above it\
+_L - Lower Matrix_ - Matrix with 0s above the diagonal and any numbers below it\
+_Identity Matrix_ - Matrix with 0s above and below the diagonal, which only
+contains 1s\
+_Tridiagonal Matrix_ - Matrix with 3 diagonals, and otherwise 0s everywhere
 
-In dem Ergebnis matrix, alle Zeilen sind lineare Kombiationen der Pivot Zeilen.
+_Protokolmatrix (aka L / Kontrollmatrix)_ - Identity matrix with the same
+dimensions as the system matrix, used for tracking the elimination process
+(TODO: Expand after learning LU decomposition). The scalar by which another row
+was multiplied $times -1$ is written in the position of the currently eliminated
+variable of the row it was added to. *Caution*: when swapping rows, do NOT
+forget adjusting the Protokolmatrix accordingly, by simply swapping all non
+diagonal values in the rows.
+
+_Homogene LGS_ - $bold(A x) = 0$ hat eine triviale Loesung $bold(x) = 0$, unless
+it has free variables.\
+
+=== Square Matrices ($m times n$):
+_Regular Matrix_ - Rank = n - has exactly one solution\
+_Singular Matrix_ - Rank < n - has infinite / no solutions
