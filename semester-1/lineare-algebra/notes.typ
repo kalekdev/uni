@@ -102,5 +102,9 @@ _Homogene LGS_ - $bold(A x) = 0$ hat eine triviale Loesung $bold(x) = 0$, unless
 it has free variables.\
 
 === Square Matrices ($m times n$):
-_Regular Matrix_ - Rank = n - has exactly one solution\
-_Singular Matrix_ - Rank < n - has infinite / no solutions
+_Regular Matrix_, Rank = n, has exactly one solution and only the trivial solution when homogenous\
+_Singular Matrix_, Rank < n, has infinite / no solutions and has infinite non trivial solutions when homogenous
+
+TODO: Ask professor / TA regarding question from Series 1 - _Wir betrachten im Folgenden ein lineares Gleichungssystem mit m Zeilen, n Spalten und Rang r. Das Gleichungssystem ist nicht für beliebige rechte Seiten lösbar, wenn $r<m$._\
+However an overdefined system may still (albeit rarely) have a unique solution if rank = n.
+https://en.wikipedia.org/wiki/Overdetermined_system#/media/File:3_equations_-5.JPG
