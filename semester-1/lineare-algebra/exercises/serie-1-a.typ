@@ -44,3 +44,34 @@ $
 ) vec(1,3,2,2) = vec(x_1, x_2, x_3, x_4) = vec(-4.5, 2,3.5,-1.75)
 $
 There is an arithmetic error somewhere in the above calculations, which would take too much time to find in relation to how much it would teach me.
+
+8. $
+    &mat(augment: #2,
+ -1/2,-1,1;
+  2,2,2)\
+    &mat(augment: #2,
+ -1/2,-1,1;
+  0,-2,6)\
+    x_2 &= -3\
+    x_1 &= -2(x_2+1) = -2(-2) = 4
+  $
+
+9. $
+    &mat(augment: #3,
+ 1,2,-2,3;
+ 0,1,3,2;
+ 0,0,1,3)\
+    &mat(augment: #3,
+ 1,2,-2,3;
+ 0,1,0,-7;
+ 0,0,1,3)\
+    &mat(augment: #3,
+ 1,0,-2,17;
+ 0,1,0,-7;
+ 0,0,1,3)\
+    &mat(augment: #3,
+ 1,0,0,23;
+ 0,1,0,-7;
+ 0,0,1,3)\
+    "Answer" = vec(23,-7,3)
+  $

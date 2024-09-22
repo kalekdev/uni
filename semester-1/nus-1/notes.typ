@@ -94,3 +94,5 @@ $
 $
 
 == Gauss'sche Gesetz
+TODO Definition and derivation\
+Can be used in reverse with infinitely small Gaussian surfaces to calculate the electric field around certain charge distributions.
