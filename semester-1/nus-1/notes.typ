@@ -1,8 +1,3 @@
-TODO:
-- Buy physical copy of Elektrotechnik - Albach
-
-_Uebungsgruppe Polybox_: https://polybox.ethz.ch/index.php/s/TovEOAu8zo6xh0p
-
 *Surface / Volume Integration nudge factors:*\
 _Cylindrical coordinate system:_ $r$\
 _Spherical coordinate system:_ $r^2sin(theta.alt)$ (where $theta.alt$ is the
@@ -19,6 +14,7 @@ Zum Beispiel: Elektrische, magnetisch
 - A positive test charge of 1C is used to plot electric fields - this means a
   positive charge has arrows away from it
 - Unit vector is always $arrow(r)_12/abs(r)=arrow(e)_12$
+- Electric field lines cannot be closed loops with a constant direction - this would lead to perpetual motion (see electric potential closed integral)
 
 _Feld_ - die eigenschaften eines Raums, die eine Wirkung auf andere Ladungsstoffen haben\
 _Homogene Feld_ - Field with the same strength and direction in all points. In reality it exists only when zooming in on a small area. Antonym: _inhomogene / ortsabhaengige Feld_.
@@ -33,6 +29,8 @@ Any point in a field always has a unique direction. The electric field at the po
 
 _Quantitative_ - Numbers based\
 _Qualitative_ - Interpretation based
+
+A cluster of like charges behaves like a point charge with the sum of their charges on the macroscopic scale. Opposite charge clusters (ex. Dipole) lead to no field around them on a large scale.
 
 == Das elektrostastische Potential
 $
@@ -78,12 +76,10 @@ $
   arrow(D) = epsilon_0 arrow(E) = arrow(e_r)Q / (4 pi r^2)
 $
 
-_Elektrische Fluss ($Psi$)_ - Total flux density flowing through a surface. In the case of a charge inside an arbitrary closed surface, it is equal to $Q$ regardless of the charges position / size of the surface.
-
-Electric Flux Density, considering a charge Q inside a sphere with radius $r$:
+_Elektrische Fluss ($Psi$)_ - Total flux density flowing through a surface, Considering a charge Q inside a sphere with radius $r$:
 $
   r &= "constant"\
-  Psi &:= integral.surf arrow(D) dot d arrow(A)\
+  Psi_D &:= integral.surf arrow(D) dot d arrow(A)\
   &"Nudge factor needed for spherical coordinate system"\
   &= integral_0^(2 pi) integral_0^pi r^2sin(theta.alt) epsilon_0 arrow(E(r, theta.alt, phi )) dot d theta.alt d phi\
   &= (epsilon_0 Q r^2) / (4pi epsilon_0 r^2) integral_0^(2 pi) integral_0^pi sin(theta.alt) arrow(e_r) dot d theta.alt d phi\
@@ -94,5 +90,20 @@ $
 $
 
 == Gauss'sche Gesetz
-TODO Definition and derivation\
-Can be used in reverse with infinitely small Gaussian surfaces to calculate the electric field around certain charge distributions.
+The above derived relationship is known as Gauss's law:
+$
+  Psi_E &:= integral.surf arrow(E) dot d arrow(A)=Q / epsilon_0\
+  Psi_D &:= integral.surf arrow(D) dot d arrow(A)=Q\
+$
+The total electric flux through an arbitrary closed surface is equal to the charge enclosed inside, regardless of the charges position / area of the surface.
+
+This law is one of Maxwell's equations and can be used in reverse with infinitely small Gaussian surfaces to calculate the electric field around certain charge distributions, for example, the electric field at the surface of any point on a charged plane.
+
+== Leitenden Koerper
+The electric lines are always perpendicular to the surface of a conductor, as any tangential component of the field redistributes charges to prevent this.
+
+The electric field inside a conductor is always 0, as the free charges repel each other and arrange themselves on the surface, of which the superposed electric fields at any point in the conductor are 0. The same applies if the conductor is brought into an external electric field.
+
+The negative charge on the surface of a conductor arises from a *surplus of electrons*. Positive charge arises due to lack of electrons - a *surplus of holes*. Protons do not move throughout the conductor.
+
+_Influenzierten Ladungen_ - The separation of charges influenced by an electric field.
