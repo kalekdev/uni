@@ -32,6 +32,8 @@ $
   "Cylindrical:" e_rho times e_phi &= e_z
 $
 
+TODO: Think about how Pythagoras makes sense geometrically in all coordinate systems
+
 Position Vectors:
 $
   "Cartesian:" bold(r) &= x e_x + y e_y + z e_z\
