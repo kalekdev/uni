@@ -68,3 +68,27 @@ $
 Sie sind nicht aequivalent.
 
 == 1.3
+
+a) $
+"Sei" n &:= 123456789\
+5 dot 4^(((3n+1)^2-1)/3) &= 5 dot 4^((9n^2+6n)/3) = 5 dot 4^(3n^2+2n)\
+&"Lemma: eine Ganze zahl Quadriert ist eine ganze Zahl."\
+&"Lemma: 2 eine ganze zahl ist ganz."\
+therefore 3n^2+2n "ist ganz"\
+&"Lemma: Eine ganze Zahl hoch eine ganze Zahl ist eine ganze Zahl"\
+therefore 5 dot 4^(((3dot 123456789+1)^2-1)/3) "ist ganz" qed
+$
+
+b) i) Zu beweisen $sqrt(3) < sqrt(5)$\
+$
+  "Nehmen wir an, dass" sqrt(3) >= sqrt(5)\
+  "Lemma: Monotonie des Quadrierens"\
+  therefore sqrt(5) <= sqrt(3) => 5<=3\
+  "Kontraposition:" not (5<=3) => not (sqrt(5) <= sqrt(3))\
+  5 > 3 => sqrt(5) < sqrt(3) qed\
+  "Widerspruch:" 5 <=3 "ist falsch, therefore" not (sqrt(3)< sqrt(5)) "wurde widersprochen" qed
+$
+
+ii) $
+
+$
