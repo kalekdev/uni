@@ -6,8 +6,6 @@ _Luegner Paradox_ - Das ist keine Aussage: "Dieser Satz ist falsch"\
 
 _Menge (Set)_ - eine ungeordnete Zusammenfassung verschiedener Objekte zu einem Ganzen\
 
-$exists$ - Existenzquantor - Es gibt\
-$forall$ - Allquantor - Fuer alle\
 $and$ - and\
 $or$ - or\
 $or.dot$ (XOR) - either ... or ...\
@@ -27,11 +25,6 @@ Das ist genauso wahr aufgrund der Physik.
 Wahr: $0<0=>1+1=2$\
 Falsch: $0<0<=>1+1=2$
 
-== De Morgan's Laws
-$
-  not (A and B) = not A or not B\
-  not (A or B) = not A and not B\
-$
 TODO: Distributions gesetz
 
 == Proofs
@@ -44,6 +37,7 @@ q.e.d. ($qed$) - end of proof
 
 _Beweiss formalisieren_ - Express a proof formally in terms of symbols and Limmas, can be checked by a computer.\
 _Divide et impera_ - divide and conquer
+_Zermelo + Fraenkel Axioms_ - Foundational axioms of all proofs
 
 == Beweis Methode
 
@@ -78,6 +72,8 @@ Lemma (Monotonie des Quadrierens): $sqrt(2)>= sqrt(3) => 2 >= 3$\
 Widerspruch: $2>=3$ ist falsch, deshalb ist $sqrt(2) >= sqrt(3)$ auch falsch.\
 $not(sqrt(2) >= sqrt(3)) equiv sqrt(2) < sqrt(3) space qed$
 
+It is more rigorous to prove / rewrite something through Contraposition, because we start with a false statement in contradiction.
+
 *Vollstaendige Induktion*\
 $n in N_0, P(n)$ ist eine Aussage\
 $P(0)$ ist wahr\
@@ -96,10 +92,51 @@ $
 Vollstaendige Induktion gibt, dass $forall n in N_0, P(n)$ wahr ist. $qed$
 
 == Mengenlehre
+Eine ungeordnete Zusammenfassung von Elemente.
+
+$emptyset$ - Leere Menge, hat keine Elemente\
 ${emptyset}$ hat genau ein Element
 
-_Aussageform_ ${x | P(x)} "or" {x; P(x)}$ - die Menge aller $x$, fuer die $P(x)$ gilt
+_Aussageform_ ${x | P(x)} "or" {x; P(x)}$ - die Menge aller $x$, fuer die $P(x)$ gilt\
+Example:
+${x | x in NN_0, x "ist gerade"}$
+
+_Russelsche Antonomie_ - ${x | x in X, x in.not x} therefore X "ist keine Menge"$\
+Loesung: {x in X | P(x)} TODO: Understand this
 
 $A sect B - {x | x in A and x in B}$ - Intersection\
 $A union B - {x | x in A or x in B}$ - Union\
 $A without B - {x in A | x in.not B}$ - Without\
+$A subset.eq B$ - Jedes Element von liegt in B\
+$A subset.eq X, A^complement = X \\ A$
+
+$(1, 2, 3)$ - _Tuple_ - Ordered set\
+Kartesische Potenz - $X times Y = {(x, y) | x in X, y in Y}$\
+Example:
+$
+  X :={0, 1}, Y := {alpha, beta}\
+  X times Y := {(0,alpha), (0, beta), (1, alpha), (1, beta)}\
+  abs(X times Y) = abs(X) times abs(Y)
+$
+$RR^n$ := n-dimensionalen Koordinatenraum\
+$RR^2 = X times Y$\
+$RR^3 = X times Y times Z$\
+
+== De Morgan's Laws
+Also apply to boolean logic, where $A, B := 1, 0$
+$
+  (A sect B)^complement = A^complement union B^complement\
+  (A union B)^complement = A^complement sect B^complement\
+$
+
+== Quantoren
+They cannot simply be swapped! See the largest natural number problem in script.
+
+$exists$ - Existenzquantor - Es gibt\
+$forall$ - Allquantor - Fuer alle\
+
+$not (forall x in X| P(x)) = exists x in X | not P(x)$
+
+_Goethe Prinzip_ - When a variable is renamed correctly, a statement is still logically equivalent TODO: Check script
+
+
