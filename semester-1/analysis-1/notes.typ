@@ -13,6 +13,7 @@ _Materiale Aequivalenz_ ($<=>$)\
 _Logische Aequivalenz_ ($equiv$)
 $A<=>B equiv (A=>B) and (B=>A)$ - Sie haben die gleichen Wahrheitstabellen
 
+$A<=>B$ - A genau dann wenn B\
 $A=>B$ - Wenn A, dann B\
 $not B=>not A$ - Kontraposition\
 $A=>B equiv not B=>not A$
@@ -101,17 +102,19 @@ _Aussageform_ ${x | P(x)} "or" {x; P(x)}$ - die Menge aller $x$, fuer die $P(x)$
 Example:
 ${x | x in NN_0, x "ist gerade"}$
 
-_Russelsche Antonomie_ - ${x | x in X, x in.not x} therefore X "ist keine Menge"$\
-Loesung: {x in X | P(x)} TODO: Understand this
+_Russelsche Antonomie_ - ${x | x in X, x in.not x}$ ist ein Paradox\
+Loesung: Es muss immer so definiert werden ${x in X | P(x)}$, wo X eine Menge ist.
 
 $A sect B - {x | x in A and x in B}$ - Intersection\
 $A union B - {x | x in A or x in B}$ - Union\
 $A without B - {x in A | x in.not B}$ - Without\
-$A subset.eq B$ - Jedes Element von liegt in B\
-$A subset.eq X, A^complement = X \\ A$
+$A subset.eq B$ - Jedes Element von A liegt in B\
+$A subset B$ - Jedes Element von A liegt in B und A enthaelt weniger Elemente als B\
+$A subset.eq X, A^complement = X \\ A$, wo X die Grundmenge ist, die jeder Element die wir betrachten enthaelt.
 
 $(1, 2, 3)$ - _Tuple_ - Ordered set\
-Kartesische Potenz - $X times Y = {(x, y) | x in X, y in Y}$\
+
+Kartesische Product / Potenz - $X times Y = {(x, y) | x in X, y in Y}$\
 Example:
 $
   X :={0, 1}, Y := {alpha, beta}\
@@ -135,8 +138,36 @@ They cannot simply be swapped! See the largest natural number problem in script.
 $exists$ - Existenzquantor - Es gibt\
 $forall$ - Allquantor - Fuer alle\
 
-$not (forall x in X| P(x)) = exists x in X | not P(x)$
+$not (forall x in X| P(x)) = exists x in X | not P(x)$\
+$not (exists x in X| P(x)) = forall x in X | not P(x)$
 
-_Goethe Prinzip_ - When a variable is renamed correctly, a statement is still logically equivalent TODO: Check script
+_Goethe Prinzip_ - When a variable is renamed correctly, a statement is still logically equivalent
 
+== Funktionen
+Eine Funktion ist ein Tripel $f=(X, Y, G)$, wobei $X$ und $Y$ Mengen sind und $G subset.eq X times Y$, sodass $forall x in X exists y in Y$, sodass $(x, y) in G$
 
+_Domain_ - Set of possible inputs for a function\
+_Codomain (Range)_ - Set of possible outputs of a function
+
+Example:\
+Both are Quadratic funktions but are not equal:\
+$X := Y := RR, G = {(x, x^2) | x in RR^2}$\
+$X := RR, Y := ]0, infinity[, G = {(x, x^2) | x in RR^2}$
+
+$X -> X, id(x) := x$ - _Identitaets Funktion_
+
+$f^(< -1>)(y) := f^(< -1>)({y}) = {x in X | f(x)=y}$ - _Umkehr Funktion_\
+The inverse is the reflection of the original function over the line $y=x$
+
+_Surjektiv_ - Es gibt fuer jeder Ausgang einige dazugehoerige Eingang\
+_Injektiv_ - Es gibt genau eine Ausgang fuer jeder Eingang in dem Definitionsbereich\
+_Bijektiv_ - Es ist Surjektiv und Injektiv, weshalb es eine Inverse hat\
+
+Do not forget to consider the given domain / range when considering if a function is bijektiv!
+
+== Zahlen und Vektoren
+$NN_0 := {0,1,2,...}$\
+$NN := {1,2,3,...}$\
+$ZZ := {..., -1, 0, 1, ...}$\
+$QQ := {m / n | m in Z and n in N}$\
+$NN_0 subset.eq ZZ subset.eq QQ$\

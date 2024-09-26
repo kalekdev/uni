@@ -62,8 +62,8 @@ A - Kaffee\
 U - Kuchen\
 Moegliche Interpretationen:
 $
-  (M and A) or U - "gleich wie entweder ... oder"\
-  M and (A or U)\
+  (M and A) or.dot U - "gleich wie entweder ... oder"\
+  M and (A or.dot U)\
 $
 Sie sind nicht aequivalent.
 
@@ -90,5 +90,37 @@ $
 $
 
 ii) $
-
+ A &:= sqrt(3 + sqrt(5)) < sqrt(6)\
+not A &= sqrt(3 + sqrt(5)) >= sqrt(6)\
+"Lemma: Monotonie des Quadrierens"\
+therefore not A &=> B\
+therefore sqrt(3 + sqrt(5)) >= sqrt(6) &=> 3+sqrt(5) >= 6\
+B &:= sqrt(5) >= 3\
+"Lemma: Monotonie des Quadrierens"\
+therefore sqrt(5) >= 3 => 5 >= 9\
+5 >= 9 "ist falsch" therefore B "muss auch falsch sein und" not B "ist wahr"\
+"Kontraposition:" not B => A\
+5<9 => sqrt(3 + sqrt(5)) < sqrt(6) qed\
 $
+
+c) Es ist kein korrekter Beweis, da es mit einer falsche Aussage startet, die nicht zuruck zur urspruenglichen zu bewiesene Aussage hergeleitet wird.
+
+#pagebreak()
+
+== 1.4
+a) $
+"Zu beweisen:" sum_(i=1)^n i^2 &= 1/6n(n+1)(2n+1)\
+"Es gilt fuer" n=1: 1^2 &= 1/6 dot 1 dot 2 dot 3 =1\
+"Nehmen wir an, dass" sum_(i=1)^n i^2 &= 1/6n(n+1)(2n+1)\
+"Zu zeigen:" sum_(i=1)^(n+1) i^2 &= 1/6(n+1)((n+1)+1)(2(n+1)+1)\
+ &=1/6(n+1)(n+2)(2n+3)\
+&= 1/6(n+1)(2n^2+7n+6)\
+"Beweis:" sum_(i=1)^(n+1) i^2 &= sum_(i=1)^n i^2 + (n+1)^2\
+ &= 1/6n(n+1)(2n+1) + (n+1)^2\
+ &= (n+1)(1/6n(2n+1) + (n+1))\
+ &= 1/6(n+1)(n(2n+1)+6(n+1))\
+ &= 1/6(n+1)(2n^2+7n+6)qed\
+$
+
+== 1.5
+Obwohl die Gruppe wegen der Behauptung eine Farbe hat, es kann eine andere Farbe zu P(1) sein. Deshalb koennnen wir das nicht fuer $k in NN_(>1), P(k)$ extrapolieren.
