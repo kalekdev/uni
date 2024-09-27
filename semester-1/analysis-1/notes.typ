@@ -154,16 +154,35 @@ Both are Quadratic funktions but are not equal:\
 $X := Y := RR, G = {(x, x^2) | x in RR^2}$\
 $X := RR, Y := ]0, infinity[, G = {(x, x^2) | x in RR^2}$
 
-$X -> X, id(x) := x$ - _Identitaets Funktion_
+$X -> X, id(x) := x$ - _Identitaets Funktion_\
 
-$f^(< -1>)(y) := f^(< -1>)({y}) = {x in X | f(x)=y}$ - _Umkehr Funktion_\
-The inverse is the reflection of the original function over the line $y=x$
+*Bild und Urbild* - Muss nicht bijektiv sein\
+$im(X) := f(X)$ - _Bild von f_\
+$f:X -> alpha, f^(-1)(Y) := {x in X | f(x) in Y}$ - _Urbild von y unter f_
 
-_Surjektiv_ - Es gibt fuer jeder Ausgang einige dazugehoerige Eingang\
-_Injektiv_ - Es gibt genau eine Ausgang fuer jeder Eingang in dem Definitionsbereich\
+_Surjektiv_ - $forall y in Y exists x in X: f(x) = y$ - Es gibt fuer jeder Ausgang einige dazugehoerige Eingang\
+_Injektiv_ - $forall x, x' in X : x != x' => f(x) != f(x')$ - Es gibt genau eine Ausgang fuer jeder Eingang in dem Definitionsbereich\
 _Bijektiv_ - Es ist Surjektiv und Injektiv, weshalb es eine Inverse hat\
 
+*Umkehrfunktion*\
+Sei $ f: X -> Y "eine Bijektive funktion", f^(< -1>) := Y -> X$ - _Umkehr Funktion_\
+The inverse can ONLY be defined when the function is Bijektiv, unlike the Urbild. When $X = Y = RR$ it is the reflection of the original function over the line $y=x$. It is sometimes notated as $f^(-1)$ when the context is clear.
+
 Do not forget to consider the given domain / range when considering if a function is bijektiv!
+
+Zum Beispiel:
+$
+  f: RR -> RR, f(x) := x^2\
+  im(f) = f(RR) = [0, oo]\
+  f^(-1)([-oo, 4]) = [-2, 2]
+$
+The inverse can be only be defined if $f$ is Bijektiv:
+$
+  f: [0, oo] -> [0, oo], f(X) := x^2\
+  f^(< -1>) = sqrt(X)
+$
+
+$g circle.small f := g(f(x))$ - Only possible if the $"codom"(f) = "dom"(g)$
 
 == Zahlen und Vektoren
 $NN_0 := {0,1,2,...}$\
@@ -171,3 +190,5 @@ $NN := {1,2,3,...}$\
 $ZZ := {..., -1, 0, 1, ...}$\
 $QQ := {m / n | m in Z and n in N}$\
 $NN_0 subset.eq ZZ subset.eq QQ$\
+
+There are infinite gaps in the number line of rational numbers. These can be filled with $RR \\ QQ$ - Irrational numbers, for example $sqrt(2), pi, e$.
