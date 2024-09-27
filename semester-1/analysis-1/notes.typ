@@ -26,7 +26,11 @@ Das ist genauso wahr aufgrund der Physik.
 Wahr: $0<0=>1+1=2$\
 Falsch: $0<0<=>1+1=2$
 
-TODO: Distributions gesetz
+*Distributive*:
+$
+  P and (Q or R) equiv (P and Q) or (P and R)\
+  P or (Q and R) equiv (P or Q) and (P or R)\
+$
 
 == Proofs
 
@@ -112,6 +116,12 @@ $A subset.eq B$ - Jedes Element von A liegt in B\
 $A subset B$ - Jedes Element von A liegt in B und A enthaelt weniger Elemente als B\
 $A subset.eq X, A^complement = X \\ A$, wo X die Grundmenge ist, die jeder Element die wir betrachten enthaelt.
 
+*Distributive*:
+$
+  A union (B sect C) = (A union B) sect (A union C)\
+  A sect (B union C) = (A sect B) union (A sect C)\
+$
+
 $(1, 2, 3)$ - _Tuple_ - Ordered set\
 
 Kartesische Product / Potenz - $X times Y = {(x, y) | x in X, y in Y}$\
@@ -124,6 +134,15 @@ $
 $RR^n$ := n-dimensionalen Koordinatenraum\
 $RR^2 = X times Y$\
 $RR^3 = X times Y times Z$\
+
+*Interval Notation*
+$
+  [a, b] - a <= x <= b\
+  (a, b) - a < x < b\
+$
+
+_Supremum_ - Upper bound of an open interval\
+_Infimum_ - Lower bound of an open interval\
 
 == De Morgan's Laws
 Also apply to boolean logic, where $A, B := 1, 0$
@@ -160,7 +179,7 @@ $X -> X, id(x) := x$ - _Identitaets Funktion_\
 $im(X) := f(X)$ - _Bild von f_\
 $f:X -> alpha, f^(-1)(Y) := {x in X | f(x) in Y}$ - _Urbild von y unter f_
 
-_Surjektiv_ - $forall y in Y exists x in X: f(x) = y$ - Es gibt fuer jeder Ausgang einige dazugehoerige Eingang\
+_Surjektiv_ - $forall y in Y exists x in X: f(x) = y$ - Es gibt fuer jeder Ausgang einige dazugehoerige Eingange\
 _Injektiv_ - $forall x, x' in X : x != x' => f(x) != f(x')$ - Es gibt genau eine Ausgang fuer jeder Eingang in dem Definitionsbereich\
 _Bijektiv_ - Es ist Surjektiv und Injektiv, weshalb es eine Inverse hat\
 
