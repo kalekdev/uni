@@ -7,8 +7,10 @@ angle from the z axis)
 
 == Das Coulomb'sche Gesetz
 $
-  arrow(F_2) = (Q_1Q_2 arrow(e_12)) / (4pi epsilon_0 abs(arrow(r_12))^2)
+  arrow(F_2) = (Q_1Q_2 arrow(e_12)) / (4pi epsilon abs(arrow(r_12))^2)
 $
+
+$epsilon$ is often replaced with $epsilon_0$ as calculations are assumed to take place in a vacuum.
 
 == Das elektrostatische Feld
 - Distance is from centre of point charge
@@ -75,11 +77,10 @@ $
 $
 
 == Elektrische Fluss (Flux)
-TODO: Reread Anhang C to understand where the name Fluss comes from
 
-_Elektrische Flussdichte (aka elektrische Erregung)_: How the electric field interacts with a material at a point in space. TODO: Expand after learning about permittivity.
+_Electric Displacement Field (aka Flux Density)_: An imaginary field that describes the effect of a charge on space, independent of if it's through a vacuum, dielectric or conductor.
 $
-  arrow(D) &= epsilon_0 arrow(E)\
+  arrow(D) &= epsilon arrow(E)\
   "Point charge" &= arrow(e_r)Q / (4 pi r^2)
 $
 
@@ -104,12 +105,20 @@ $
 $
 The total electric flux density through an arbitrary closed surface (electric flux) is equal to the charge enclosed inside, regardless of the charges position / area of the surface.
 
-This law is one of Maxwell's equations and can be used in reverse with infinitely small symmetric Gaussian surfaces to calculate the electric field around certain charge distributions, for example, the electric field at the surface of any point on a charged plane.
+This law is one of Maxwell's equations and can be used in reverse with infinitely small symmetric Gaussian surfaces to calculate the electric field around certain charge distributions, for example, the electric field at the surface of any point on a charged plane. #footnote([See _Electricity and Magnetism | Purcell_ for some great derivations of electric fields by various charge distributions.])
+
+== Line Charge
+
+The electric field at distance $r$ from a line charge with uniform charge distribution $lambda$ can be calculated using either the integral of contributions to the field by small sections of the line, or far simpler using a cylinder and Gauss's law:
+$
+  arrow(E(r)) = lambda / (2 pi epsilon r)
+$
+
 
 == Infinite Charged Plane
 As derived using Gauss's law, the electric field around an infinitely large charged plane with surface charge density $sigma$ is:
 $
-  arrow(E) &= sigma / (2 epsilon_0)
+  arrow(E) &= sigma / (2 epsilon)
 $
 
 This is the same regardless of distance from the plane, as when moving further away, more area contributes to the superposed field.
@@ -118,8 +127,15 @@ The direction of the field is perpendicular to the surface of the plane.
 
 When two charged planes with equal and opposite charge densities are parallel to one another (capacitor), the field behind each one is cancelled due to their superposing opposite fields. The electric field between the two planes is twice as strong:
 $
-  arrow(E) &= sigma / epsilon_0
+  arrow(E) &= sigma / epsilon
 $
+
+If they have an equal charge distribution, the electric field between plates of a capacitor is homogenous. This results in the potential difference between them:
+$
+  U = E d = sigma / (epsilon d)
+$
+
+If an isolated, conductive plate is brought in between them, the total distance between the plates throughout which a test charge is under the influence of an electric field decreases by the thickness of the conductive plate. This results in a lower potential difference between the plates.
 
 == Leitenden Koerper (Macroscopic Level)
 The electric lines are always perpendicular to the surface of a conductor, as any tangential component of the field redistributes charges to prevent this.
@@ -133,3 +149,69 @@ The negative charge on the surface of a conductor arises from a *surplus of elec
 _Influenzierten Ladungen_ - The separation of charges influenced by an electric field.
 
 _Faraday Cage_ - A hollow, conductive, closed volume. In an external electric field, the free charges are influenced so that the electric field inside the cage (the walls of the cage and the hollow inside it) is cancelled out. This phenomenon is very useful for electromagnetic shielding. A conductive hollow volume with gaps also reduces the inner field vastly, although it is not perfect.
+
+== Dielectrics
+
+_Dielectric_ - An electric insulator that can be polarised by an electric field. Regular "insulators" tend to have a low degree of polarisation.
+
+Although dielectrics do not contain free charges, they still experience a small degree of polarisation at the atomic level, as the cloud of electrons surrounding the nucleus is distorted in the direction of the applied electric field.
+
+When a dielectric is placed between two plates, there is still a (macroscopic) electric field throughout the dielectric (albeit lower than through a perfect insulator, as the dipoles generate fields in the opposite direction). This results in a lower potential difference between the plates, although still higher than if it were a conductor.
+
+== Dipoles
+
+_Dipole_ - A phenonmenon when electric charges / magnetic poles are separated. Examples of electric dipoles are ions under the influence of an external electric field or certain molecules, such as $H_2O$ which are permanent dipoles due to their asymmetric structure.
+
+_Electric Dipole Moment_ - for a dipole with charge $Q$ on the positive end and vector $arrow(d)$ from the main negative point to the main positive point, the electric dipole moment is:
+$
+  arrow(p) = Q arrow(d)
+$
+It can be thought of as a measure of a systems polarity.
+
+When a material containing dipoles is in an external electric field, the dipoles align in the same direction, resulting in an overall polarization of the material (essentially a larger dipole). Temperature has a large effect on this, as the random movements of particles disrupt the perfect alignment encouraged by the electric field.
+
+The overall polarization of a dielectric with volume $V$ is:
+$
+  arrow(P) = (sum_(i=1)^n arrow(p_n)) / V
+$
+
+A polarized conductor / dielectric with a net 0 charge in a non-homogeonous field, such as near a point charge will usually have a resultant force, for example a dipole near a point charge (regardless of polarity) will experience a stronger attractive force and the dipole will have a resultant force towards the point charge.
+
+== Permittivity
+
+_Absolute Permittivity /Dielectric Constant_ -
+A measure of the electric polarizability of a material, ie. the capacity of it to oppose / how well it stores energy from an external electric field through polarisation. Higher for conductors / dielectrics than insulators.
+$
+  epsilon = epsilon_r epsilon_0
+$
+
+_Permittivity of free space_ - $epsilon_0 = 8.85418782 × 10^(-12)$
+
+_Relative Permittivity_ - $epsilon_r$ (sometimes $kappa$) - The ratio of a material's permittivity $epsilon$ to the permittivitiy of free space $epsilon_0$. The permittivity of air is very close to that of a vacuum $epsilon_0$, hence its relative permittivity is nearly 1.
+$
+  epsilon_r = epsilon / epsilon_0
+$
+
+The higher the permittivity of a medium, the more it's electric field is reduced due to polarisation. Electric field strength is inversely linearly proportional to the permittivity, as seen in Coulomb's law (but not for all materials, for example ferroelectric crystals).
+
+*Taking place in a medium with permittivity $epsilon$:*\
+The difference in electric field before and after polarisation:
+$
+  arrow(P) &= epsilon arrow(E) - epsilon_0 arrow(E)
+$
+
+Therefore the electric displacement field (field only due to charges, polarization) is equal to the permittivity of the space x (electric field after polarization + the change in electric field due to polarization):
+$
+  arrow(D) &= epsilon_0 arrow(E_"if it happened in vacuum") &= epsilon_0(arrow(E) + arrow(P)) = epsilon (
+    arrow(E) -(epsilon arrow(E) - epsilon_0 arrow(E))
+  )\
+  &= epsilon(arrow(E)(1-epsilon)+epsilon_0 arrow(E))\
+  &= epsilon(1-epsilon)arrow(E) + epsilon epsilon_0 arrow(E)
+$
+Where $E$ is the net electric field after polarisation
+
+TODO: Check what went wrong with a fresh head^
+
+== Boundary Conditions
+
+TODO: Revisit after learning the Maxwell-Faraday law.

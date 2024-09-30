@@ -156,6 +156,7 @@ They cannot simply be swapped! See the largest natural number problem in script.
 
 $exists$ - Existenzquantor - Es gibt\
 $forall$ - Allquantor - Fuer alle\
+$exists!$ - Es gibt genau ein element
 
 $not (forall x in X| P(x)) = exists x in X | not P(x)$\
 $not (exists x in X| P(x)) = forall x in X | not P(x)$
