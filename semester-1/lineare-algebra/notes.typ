@@ -15,7 +15,10 @@ Matrix multiplication comes from the motivation for an efficient way of represen
 An LGS can be viewed geometrically (2D/3D) in multiple different ways:
 1. A linear combination of vectors (the columns of the matrix), where we are solving for the set of scalars where the superposition of the vectors is equal to the RHS. The columns of the matrix can be viewed as basis vectors of a custom coordinate system, in which we need to find the equivalent of the RHS vector.
 2. Alternatively it can be viewed as a set of line / plane equations (where each row is the normal vector to the plane, unsure if the coefficients are meaningful in ax + by=c) and solutions are points / lines of intersection.
-3. The LHS can also be viewed (usually in 3B1B videos) as a transformation of space. The solution is therefore the vector which after being transformed results in the RHS vector.
+3. The LHS can also be viewed (usually in 3B1B videos) as a linear transformation of space, where the columns of the matrix are where the basis vector of each dimension lands after the transformation. The solution is therefore the vector which after being transformed results in the RHS vector.
+
+*NOTE*: I will mostly think in terms of the _linear transformation of space_ intuition, because the others are not very meaningful when considering inverse matrices.
+
 
 === Superposition:
 In this example, one of the LHS vectors is a linear combination of the other two. This results in the LGS only being able to express vectors in a single plane rather than the entire 3D space (it doesn't contain a 3rd base component).
@@ -54,17 +57,10 @@ _L - Lower Matrix_ - Matrix with 0s above the diagonal and any numbers below it\
 _Identity Matrix_ - Matrix with 0s above and below the diagonal, which only contains 1s\
 _Tridiagonal Matrix_ - Matrix with 3 diagonals, and otherwise 0s everywhere
 
-_Protokolmatrix (aka L / Kontrollmatrix)_ - Identity matrix with the same dimensions as the system matrix, used for tracking the elimination process
-(TODO: Expand after learning LU decomposition). The scalar by which another row
-was multiplied $times -1$ is written in the position of the currently eliminated
-variable of the row it was added to. *Caution*: when swapping rows, do NOT
-forget adjusting the Protokolmatrix accordingly, by simply swapping all non
-diagonal values in the rows.
-
 _Homogene LGS_ - $bold(A x) = 0$ hat eine triviale Loesung $bold(x) = 0$, unless it has free variables.\
 
 === Square Matrices ($m times n$):
-_Regular Matrix_, Rank = n, has exactly one solution and only the trivial solution when homogenous\
+_Regular Matrix_, Rank = n, has exactly one solution for arbitrary RHS and only the trivial solution when homogenous\
 _Singular Matrix (Single / peculiar)_, Rank < n, has infinite / no solutions and has infinite non trivial solutions when homogenous
 
 $m>n$ - An overdetermined LGS only has solutions for specific RHS values (if the rows are not linearly dependent)
@@ -118,7 +114,65 @@ $"Rank"(bold(A X)) = min("Rank"(bold(A)), "Rank"(bold(X)))$
 
 Matrix multiplication is usually not commutative, however always associative and distributive.
 
+== Eliminationsmatrix (aka Protokolmatrix)
+Matrix used for tracking the process of Gaussian elimination. The LHS / RHS multiplied by the elimination matrix results in the current state of the elimination!
+
+It starts as the identity matrix, then the scalar by which another row was multiplied by before adding is written in the position of the currently eliminated variable of the row it was added to.
+*Caution*: when swapping rows, do NOT forget adjusting the Elimination Matrix accordingly, by simply swapping all non diagonal values in the rows.
+
 == Inverse
+The inverse of a matrix $bold(A)$ is denoted as $bold(A^(-1))$, which reverses the transformation of space represented by matrix $bold(A)$. Therefore $bold(A A^(-1) = I)$.
+
+The inverse can be used to solve a LGS for arbitrary RHS vectors.
+
+_Regulaer, invertierbar und voller Rang_ sind synonyme dafuer, dass eine Matrix einen Inverse hat. Therefore here are some equivalent conditions which show that a matrix $bold(A)$ is regular:
+- $bold(A)$ is invertierbar
+- Rang($bold(A)) = n$
+- $bold(A x = b)$ is solvable for any $bold(b)$
+- $bold(A x = 0)$ only has the trivial solution $x=0$
+
+Identities:
+$
+  bold((A B)^(-1) = B^(-1) A^(-1))\
+  bold((A^T)^(-1) = (A^(-1))^T)
+$
+
+== Calculating the Inverse
+The inverse can be calculated through Gaussian elimination (full Gaussian elimination, ie. with back substitution already carried out so the LHS matrix is the identity matrix) with a RHS of $bold(b) = vec(b_1, b_2, ..., b_n)$ and then finding which $bold(X)$ results in $bold(X^(-1)b)=$ our eliminated original matrix (by simply reading the coefficients of each component of $bold(b)$).
+
+This can be simplified as the so-called *Gauss-Jordan Elimination*. This can be described as the following transformation through regular Gaussian elimination, where the RHS is the elimination matrix (tracks the elimination).
+$
+  [bold(A | I)] arrow.squiggly [bold(I | A^(-1))]\
+  mat(augment: #3,
+  2, -1, 0, 1, 0, 0;
+  -1, 2, -1, 0, 1, 0;
+  0, -1, 2, 0, 0, 1
+) arrow.squiggly
+  mat(augment: #3,
+  1, 0, 0, 3/4, 1/2, 1/4;
+  0, 1, 0, 1/2, 1, 1/2;
+  0, 0, 1, 1/4, 1/2, 3/4
+)
+$
+
+The elimination matrix can be used with any $bold(b)$ to apply the steps of elimination, for example when the first row was multiplied by 2 and added to the 2nd row: $
+mat(
+  1, 0, 0;
+  2, 1, 0;
+  0, 0, 1;
+) vec(b_1, b_2, b_3) = vec(b_1, 2b_1 + b_2, b_3)
+$
+
+*Cool Fact*: Just before each row was multiplied to make the pivots 1, the pivots of the LHS multiplied together is equal to the determinant, which is how computers calculate it for very large matrices. This can also be related to the fact, that a matrix is only invertable if its determinant is non 0 (therefore there are no empty rows / pivots).
+
+== LU Zerlegung
+A matrix is decomposed into an upper and lower matrix during Gaussian elimination, such that:
+$
+  bold(A = L U)
+$
+This is the most computationally demanding step of the elimination algorithm.
+
+Doing it some other way (which I didn't understand yet) is more efficient, which is very important since matrix operations are such a large part of the modern world.
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
