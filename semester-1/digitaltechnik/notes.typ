@@ -26,3 +26,25 @@ NOT'ing a gate usually means the resistor just needs to be moved before the tran
 *XNOR* - High if both inputs are the same, gate symbol is a =.
 
 *Antivalenz (XOR)* - High if only one of the inputs is high.
+
+== CMOS
+_Transistor_ - Trans-Resistor (controllable resistor)\
+_MOS Transistor_ - Eine elektronische Bauelement mit Kontakte *S* ource, *D* rain und *G* ate. Ladungstraeger fliessen von S nach D. They are controlled through a voltage at G (unlike a current with BJT) and are therefore more efficient for high power usage. They are also easier to etch in ICs and are therefore predominantly used in logic circuits.
+
+$abs(V_(g s)) < abs(V_(t h)), R_(S D) -> oo$ - The transistor is off\
+$abs(V_(g s)) > abs(V_(t h)), R_(S D) -> 0$ - The transistor is on
+
+_N-Typ (NMOS)_ - Electrons flow from D to S. Threshold voltage is positive.\
+_P-Typ (PMOS)_ - circle at the gate in symbol. Holes flow from S to D. The threshold voltage is negative.
+
+PMOS transistors can replace pull-up resistors in logic gates to reduce wasted energy. In this case:
+- CMOS Gatter müssen aus genau so vielen NMOS und PMOS Transistoren bestehen
+- Bei m Eingängen gibt es m NMOS und m PMOS transistoren
+
+The $V_D$ of an "off" MOS transistor is floating (undefined) TODO: Double check
+
+TODO: What exactly is a Pull-up vs Pull-down Pfad?
+
+$t_(p H L)$ - Time taken to switch on once 50% of the gate voltage is reached until 90% of $V_(D S)$ is reached TODO: Check\
+$t_(p L H)$ - Time taken to switch off\
+$t_d = (t_(p H L) +t_(p L H)) / 2$ - Average switching time

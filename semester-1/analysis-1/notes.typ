@@ -211,4 +211,12 @@ $ZZ := {..., -1, 0, 1, ...}$\
 $QQ := {m / n | m in Z and n in N}$\
 $NN_0 subset.eq ZZ subset.eq QQ$\
 
-There are infinite gaps in the number line of rational numbers. These can be filled with $RR \\ QQ$ - Irrational numbers, for example $sqrt(2), pi, e$.
+$QQ$ ist eine sogennante "total geordneter Koerper", da es multipliziert, addiert, subtraiert und dividiert werden kann.
+
+There are infinite gaps in the number line of rational numbers. These can be filled with $RR \\ QQ$ - Irrational numbers, for example $sqrt(2), pi, e$. For example: $exists.not s in QQ | s^2 = 2$.
+
+== Reelen Zahlen
+$
+  RR := "reele Zahl" := "Dedekind Schnitt"\
+  x subset QQ
+$

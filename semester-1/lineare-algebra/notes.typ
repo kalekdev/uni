@@ -114,12 +114,6 @@ $"Rank"(bold(A X)) = min("Rank"(bold(A)), "Rank"(bold(X)))$
 
 Matrix multiplication is usually not commutative, however always associative and distributive.
 
-== Eliminationsmatrix (aka Protokolmatrix)
-Matrix used for tracking the process of Gaussian elimination. The LHS / RHS multiplied by the elimination matrix results in the current state of the elimination!
-
-It starts as the identity matrix, then the scalar by which another row was multiplied by before adding is written in the position of the currently eliminated variable of the row it was added to.
-*Caution*: when swapping rows, do NOT forget adjusting the Elimination Matrix accordingly, by simply swapping all non diagonal values in the rows.
-
 == Inverse
 The inverse of a matrix $bold(A)$ is denoted as $bold(A^(-1))$, which reverses the transformation of space represented by matrix $bold(A)$. Therefore $bold(A A^(-1) = I)$.
 
@@ -137,6 +131,27 @@ $
   bold((A^T)^(-1) = (A^(-1))^T)
 $
 
+== Eliminationsmatrix (aka Protokolmatrix)
+Matrix used for tracking the process of Gaussian elimination. The LHS / RHS multiplied by the elimination matrix results in the current state of the elimination!
+
+It starts as the identity matrix, then the scalar by which another row was multiplied by before adding is written in the position of the currently eliminated variable of the row it was added to.
+*Caution*: when swapping rows, do NOT forget adjusting the Elimination Matrix accordingly, by simply swapping all non diagonal values in the rows (this is done in a mathematical manner with P matrices later).
+
+*Properties of elimination matrices:*\
+- The inverse of the elimination matrix is itself, but non diagonal values become negative. This makes sense intuitively, as $bold(E E^(-1) = I)$ so for $bold(E_(i j) + E^(-1)_(i j) =0)$ they must have opposite polarities.
+- Two lower elimination matrices (with no overlapping elements!) multiplied together is the identity matrix with the combination of both lower elements. This means we can chain steps of Gaussian elimination together nicely. TODO: The conditions for this aren't mentioned in the script, did I understand this correctly? Is it even possible for an elimination matrix that doesn't satisfy these conditions to arise from Gaussian elimination?
+
+== Permutation Matrix
+
+Matrix used to track the permutation of rows in LU-Zerlegung. This is simply the identity matrix with the corresponding rows swapped.\
+
+*Properties of permutation matrices:*\
+$
+  bold(P_13) := mat(0,0,1;0,1,0;1,0,0)\
+  bold(P^(-1) = P^T)\
+  "Row permutation:" space bold(P_13) mat(1,2,3;4,5,6;7,8,9) &= mat(7,8,9;4,5,6;1,2,3)\
+  "Column permutation:" space mat(1,2,3;4,5,6;7,8,9) bold(P_13) &= mat(3,2,1;6,5,4;9,8,7)\
+$
 == Calculating the Inverse
 The inverse can be calculated through Gaussian elimination (full Gaussian elimination, ie. with back substitution already carried out so the LHS matrix is the identity matrix) with a RHS of $bold(b) = vec(b_1, b_2, ..., b_n)$ and then finding which $bold(X)$ results in $bold(X^(-1)b)=$ our eliminated original matrix (by simply reading the coefficients of each component of $bold(b)$).
 
@@ -168,11 +183,33 @@ $
 == LU Zerlegung
 A matrix is decomposed into an upper and lower matrix during Gaussian elimination, such that:
 $
-  bold(A = L U)
+  bold(A = L U)\
+  bold(P A = L U)
 $
 This is the most computationally demanding step of the elimination algorithm.
 
-Doing it some other way (which I didn't understand yet) is more efficient, which is very important since matrix operations are such a large part of the modern world.
+When the number of RHS we need to solve for is relatively small and the LGS is extremely large, it is more efficient to carry out LU Zerlegung for each system separately rather than to calculate the inverse through Gauss-Jordan elimination.
+
+*Proof of $bold(A = L U)$:*\
+For steps $1,2,3,...,n$ of Gaussian elimination, the end result of the LHS is an upper matrix.
+$
+  bold(E_n E_(n-1) E_(n-2)...E_1 A = U)
+$
+The chain of steps (elimination matrices) can be moved to the RHS by multiplying both sides by their inverses due to $bold(E E^(-1) = I)$:
+$
+  bold(A = E^(-1)_n E^(-1)_(n-1) E^(-1)_(n-2)...E^(-1)_1 U)
+$
+The chain of elimination steps can of course be represented as a single lower matrix $bold(E)$, therefore:
+$
+  bold(A = E^(-1) U = L U)
+$
+Where $E^(-1)$ is very easy to find (non diagonal elements simply $times -1$ as mentioned earlier).
+
+Using a combination of Elimination matrices and row + column permutations (these are needed to preserve the diagonal 1s of the resulting elimination matrix), the entire Gaussian elimination process can be encoded as one L matrix.
+
+This is very powerful as the inverses of E and P matrices are easy to find and apply in reverse to the RHS in order to solve the LGS.
+
+The decomposed system can then be used to solve $bold(x)$ in another more efficient way to typical Gauss elimination TODO: Understand from script
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
