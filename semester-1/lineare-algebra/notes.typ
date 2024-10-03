@@ -1,5 +1,9 @@
 = Lineare Algebra
 
+Übungsstunde Notizen:
+- https://n.ethz.ch/~jamatter/
+- https://www.felixgbreuer.com/linalg
+
 _LGS_ - Lineare Gleichung System - linear system of equations
 
 == Vektoren
@@ -47,9 +51,12 @@ In 2D, there would just be a single line, which of course has solutions along it
 
 Any variables not accounted for due to an all 0 row / no pivot in their column are called _free variables_ and can take any real value. TODO: Solidify understanding
 
+*"Order is half of the work in maths."* - _Vasile Gradinaru_
+
 === Tips:\
-- Never divide / subtract in Gaussian elimination. Either multiply by $1/x$ or -1. Order is half of the work in maths. - _Vasile Gradinaru_
+- Never divide / subtract in Gaussian elimination. Either multiply by $1/x$ or -1.
 - Switch rows columns carefully *before* carrying out additions.
+- *Only* add the row who's pivot is currently being considered! Otherwise it is difficult to capture the operation in the elimination matrix (more on this later).
 - When switching rows to get pivots in the correct place, it is usually best to swap a line with zero pivot with the row that has the largest pivot in that place.
 
 _U - Upper (Deutsch: R - Rechts) Matrix_ - Matrix with 0s under the diagonal and any numbers above it\
@@ -60,10 +67,12 @@ _Tridiagonal Matrix_ - Matrix with 3 diagonals, and otherwise 0s everywhere
 _Homogene LGS_ - $bold(A x) = 0$ hat eine triviale Loesung $bold(x) = 0$, unless it has free variables.\
 
 === Square Matrices ($m times n$):
+*This only applies to square matrices*
+
 _Regular Matrix_, Rank = n, has exactly one solution for arbitrary RHS and only the trivial solution when homogenous\
 _Singular Matrix (Single / peculiar)_, Rank < n, has infinite / no solutions and has infinite non trivial solutions when homogenous
 
-$m>n$ - An overdetermined LGS only has solutions for specific RHS values (if the rows are not linearly dependent)
+$m>n$ - An overdetermined LGS only has solutions for specific RHS values (if the rows are not linearly dependent) and therefore has no inverse (singular).
 
 == Transposed Matrix
 For a matrix with notation:
@@ -135,11 +144,14 @@ $
 Matrix used for tracking the process of Gaussian elimination. The LHS / RHS multiplied by the elimination matrix results in the current state of the elimination!
 
 It starts as the identity matrix, then the scalar by which another row was multiplied by before adding is written in the position of the currently eliminated variable of the row it was added to.
-*Caution*: when swapping rows, do NOT forget adjusting the Elimination Matrix accordingly, by simply swapping all non diagonal values in the rows (this is done in a mathematical manner with P matrices later).
+
+*Important*: Keep the elimination matrix lower! This means that for the current column, only the current row with 1 in the diagonal may be added to other rows. If this doesn't work, use a permutation.
+
+*Caution*: when swapping rows, do NOT forget adjusting the Elimination Matrix accordingly, by simply swapping all non diagonal values in the rows (this is done in a mathematical manner with Permutation matrices later).
 
 *Properties of elimination matrices:*\
 - The inverse of the elimination matrix is itself, but non diagonal values become negative. This makes sense intuitively, as $bold(E E^(-1) = I)$ so for $bold(E_(i j) + E^(-1)_(i j) =0)$ they must have opposite polarities.
-- Two lower elimination matrices (with no overlapping elements!) multiplied together is the identity matrix with the combination of both lower elements. This means we can chain steps of Gaussian elimination together nicely. TODO: The conditions for this aren't mentioned in the script, did I understand this correctly? Is it even possible for an elimination matrix that doesn't satisfy these conditions to arise from Gaussian elimination?
+- Two lower elimination matrices (with no overlapping elements!) multiplied together is the identity matrix with the combination of both lower elements. This means we can chain steps of Gaussian elimination together nicely.
 
 == Permutation Matrix
 
@@ -155,7 +167,7 @@ $
 == Calculating the Inverse
 The inverse can be calculated through Gaussian elimination (full Gaussian elimination, ie. with back substitution already carried out so the LHS matrix is the identity matrix) with a RHS of $bold(b) = vec(b_1, b_2, ..., b_n)$ and then finding which $bold(X)$ results in $bold(X^(-1)b)=$ our eliminated original matrix (by simply reading the coefficients of each component of $bold(b)$).
 
-This can be simplified as the so-called *Gauss-Jordan Elimination*. This can be described as the following transformation through regular Gaussian elimination, where the RHS is the elimination matrix (tracks the elimination).
+This can be simplified as the so-called *Gauss-Jordan Elimination*. This can be described as the following transformation through regular Gaussian elimination. All operations happen on both sides in both matrices, unlike LU decomposition.
 $
   [bold(A | I)] arrow.squiggly [bold(I | A^(-1))]\
   mat(augment: #3,
@@ -180,15 +192,14 @@ $
 
 *Cool Fact*: Just before each row was multiplied to make the pivots 1, the pivots of the LHS multiplied together is equal to the determinant, which is how computers calculate it for very large matrices. This can also be related to the fact, that a matrix is only invertable if its determinant is non 0 (therefore there are no empty rows / pivots).
 
-== LU Zerlegung
-A matrix is decomposed into an upper and lower matrix during Gaussian elimination, such that:
+== LU Lower Upper (LR Left Right) Zerlegung
+A matrix can be decomposed into an upper and lower matrix, such that:
 $
   bold(A = L U)\
   bold(P A = L U)
 $
-This is the most computationally demanding step of the elimination algorithm.
 
-When the number of RHS we need to solve for is relatively small and the LGS is extremely large, it is more efficient to carry out LU Zerlegung for each system separately rather than to calculate the inverse through Gauss-Jordan elimination.
+This can be used to decouple the factorization phase from the actual solving phase in Gaussian elimination. When the number of RHS we need to solve for is relatively small and the LGS is extremely large, it is more efficient to carry out LU Zerlegung and the additional steps to solve each system separately rather than to calculate the inverse through Gauss-Jordan elimination.
 
 *Proof of $bold(A = L U)$:*\
 For steps $1,2,3,...,n$ of Gaussian elimination, the end result of the LHS is an upper matrix.
@@ -209,7 +220,20 @@ Using a combination of Elimination matrices and row + column permutations (these
 
 This is very powerful as the inverses of E and P matrices are easy to find and apply in reverse to the RHS in order to solve the LGS.
 
-The decomposed system can then be used to solve $bold(x)$ in another more efficient way to typical Gauss elimination TODO: Understand from script
+The decomposed system can then be used to solve $bold(x)$ in another more efficient way to typical Gauss elimination TODO: Understand exactly how from script
+$
+  A x = b\
+  P A = L U\
+  L c = P b\
+  U x = c
+$
+
+== Orthogonale Matrizen
+_Orthogonal_ - Every column of a matrix is perpendicular to each other (dot product 0) and their Euclidean Norms are 1.
+$
+  bold(A^T A = I) - "Orthogonal"\
+  bold(A^H A = I) - "Unitär"\
+$
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
