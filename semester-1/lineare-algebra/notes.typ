@@ -96,6 +96,7 @@ Vectors may be treated like $RR^(n times 1), CC^(n times 1)$ matrices and transp
 Matrix addition / scalar multiplication is carried out in the same way as vectors.
 
 $
+  bold((A B)^T = B^T A^T)\
   bold((A + B)^T = A^T + B^T)\
   bold((A + B)^H = A^H + B^H)\
 $
@@ -228,12 +229,99 @@ $
   U x = c
 $
 
+TODO: Other decomposition methods (Cholesky etc)
+
+== Vector Operations
+*Euclidean Norm:*
+$
+  bold(x) in RR\
+  abs(bold(x)) = sqrt(x_1^2 + x_2^2 + ... + x_n^2)\
+  bold(x) in CC\
+  abs(bold(x)) = sqrt(abs(x_1)^2 + abs(x_2)^2 + ... + abs(x_n)^2)\
+  "Where" abs(x_1) = sqrt("re"(x_1)^2 + "im"(x_1)^2)\
+$
+
+TODO: Cross product
+
+*Dot Product:*\
+$
+  <x, y> = abs(x)abs(y)cos(hat((x, y)))\
+  hat((x, y)) = arccos (<x, y>) / (abs(x) abs(y))\
+  x perp y "is Orthogonal" <=> <x, y> = 0
+$
+TODO: Only valid for certain angles!
+
 == Orthogonale Matrizen
-_Orthogonal_ - Every column of a matrix is perpendicular to each other (dot product 0) and their Euclidean Norms are 1.
+_Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate space.
 $
-  bold(A^T A = I) - "Orthogonal"\
-  bold(A^H A = I) - "Unitär"\
+  bold(Q^T Q = I) - "Orthogonal"\
+  bold(Q^H Q = I) - "Unitär"\
 $
+
+*Rotation Matrix* - Matrix that rotates space by $alpha$ degrees anticlockwise:
+$
+  R(alpha) = mat(
+  cos(alpha), -sin(alpha);
+  sin(alpha), cos(alpha)
+)
+$
+Due to the identity $bold(Q^(-1) = Q^T)$ (Orthogonal matrices):
+$
+  R(alpha)^T = R(-alpha) = mat(
+  cos(alpha), sin(alpha);
+  -sin(alpha), cos(alpha)
+)
+$
+
+For a rotation in a certain plane of $RR^3$, simply replace certain elements of the $3 times 3$ identity matrix with the rotation matrix. For example a rotation in the $x times y$ plane:
+$
+  mat(
+  cos(alpha), -sin(alpha), 0;
+  sin(alpha), cos(alpha), 0;
+  0, 0, 1
+)
+$
+$x times z$ plane:
+$
+  mat(
+  cos(alpha), 0, -sin(alpha);
+  0, 1, 0;
+  sin(alpha), 0, cos(alpha);
+)
+$
+and so on in higher dimension...
+
+Rotations which are not confined to a plane can be done through decomposition into several rotations. TODO
+
+*Reflection Matrix* - Reflection of space (a vector $bold(x)$ which does not lie on the plane) across an arbitrary plane with normal *unit* vector $bold(u)$:
+- Projection of x on the plane $= a u$
+TODO: Derivation from script\
+The matrix which achieves this transformation is called the Householder Matrix:\
+$
+  abs(bold(u)) = 1\
+  bold(Q = 1-2 u u^T)
+$
+
+*"Fuer die Computer sind alle Zahlen schön"* - _Vasile Gradinaru_
+
+== QR Zerlegung (QU Zerlegung)
+In LU Decomposition, the matrices are not orthogonal which can lead to rounding errors. QR Decomposition is a different approach, where the matrix Q is orthogonal (which is useful).
+
+Likewise, it can be used to solve LGSs, with the advantage of :
+$
+  bold(A x = b <=> Q R x + b <=> R x + Q^T b)
+$
+Advantage:
+- reduced rounding errors
+Disadvantage:
+- 3 times as inefficient as LU-Zerlegung
+
+TODO: What exactly are the rounding errors?
+
+Calculation:
+Create 0 in the lower half of R only using orthogonal transformations. It can be done with either rotations or Householder matrices (reflections):
+1. Use a combination of rotation matrices with certain angles and clockwise / anti-clockwise to bring elements under the pivot to 0 without affecting others
+2.
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.

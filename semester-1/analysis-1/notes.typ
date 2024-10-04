@@ -1,5 +1,8 @@
 = Analysis 1
 
+_Analysis 1 ITET, F Ziltener_ - https://metaphor.ethz.ch/x/2024/hs/401-0231-10L/Ziltener_Notizen_Analysis_1_ITET_RW.pdf
+_Analysis für Informatik, M Struwe_ - https://people.math.ethz.ch/~struwe/Skripten/InfAnalysis-bbm-8-11-2010.pdf
+
 == Logik
 _Aussage_ - Eine Aeusserung, die entweder wahr oder falsch ist\
 _Luegner Paradox_ - Das ist keine Aussage: "Dieser Satz ist falsch"\
@@ -141,8 +144,26 @@ $
   (a, b) - a < x < b\
 $
 
-_Supremum_ - Upper bound of an open interval\
-_Infimum_ - Lower bound of an open interval\
+Open bounds cannot be the maximum / minimum of a set, as they are not contained in the set (and $0.dot(9) equiv 1$ etc.).
+
+Let $A subset.eq RR$\
+_Supremum_
+$
+  sup A = cases(
+  "Smallest upper bound" space &"if A has an upper bound",
+  oo &"if A doesn't have an upper bound",
+  -oo &"if" A = emptyset
+)
+$
+_Infimum_ - Largest lower bound\
+$
+  inf A = cases(
+  "Largest lower bound" space &"if A has a lower bound",
+  -oo &"if A doesn't have a lower bound",
+  oo &"if" A = emptyset
+)
+$
+Infinity cannot be a Supre/Infimum, becuase $oo in.not RR$
 
 == De Morgan's Laws
 Also apply to boolean logic, where $A, B := 1, 0$
@@ -211,12 +232,41 @@ $ZZ := {..., -1, 0, 1, ...}$\
 $QQ := {m / n | m in Z and n in N}$\
 $NN_0 subset.eq ZZ subset.eq QQ$\
 
-$QQ$ ist eine sogennante "total geordneter Koerper", da es multipliziert, addiert, subtraiert und dividiert werden kann.
-
 There are infinite gaps in the number line of rational numbers. These can be filled with $RR \\ QQ$ - Irrational numbers, for example $sqrt(2), pi, e$. For example: $exists.not s in QQ | s^2 = 2$.
 
 == Reelen Zahlen
+*Dedekind Cut*\
+A Dedekind cut is a way of representing the real numbers using the rational numbers by cutting the number line into two sections around a "gap" represented by an irrational number.
+Let $x subset QQ$ (x contains less elements than $QQ$), the following properties describe the cut:
 $
-  RR := "reele Zahl" := "Dedekind Schnitt"\
-  x subset QQ
+  x in.not emptyset\
+  forall r in x forall s in QQ: s > r => s in x\
+  forall r in x exists s_0 in x: s_0 < r
 $
+This definition can of course include $QQ union (RR\\QQ)$ and therefore the entire $RR$ set.
+
+The elementary number operations (addition, subtraction, multiplication, inequalities etc.) can be defined in terms of Dedekind cuts, precisely defining our understanding of arithmetic. $RR$ (und deshalb auch $QQ$) ist eine sogennante "total geordneter Koerper".
+
+_Dedekind Completeness_ - Every nonempty subset of $RR$ with an upper / lower limit has a smallest / largest upper / lower limit.\
+This proves that the irrational numbers are not complete: ${r in Q | r^2 < 2}$ has no smallest upper limit.
+
+*b-adischer Bruch*\
+This is the formal name of the place value system which is defined for all bases $>= 2$. The values of the digits before the radix point are $n b$, and $1/(n b)$ after the radix.
+
+*Youngsche Ungleichung*
+$
+  x, y, c in RR\
+  c > 0\
+  2 abs(x y) <= c x^2 + y^2 / c
+$
+
+== Cardinality (Mächtigkeit)
+Two sets have the same cardinality if they have the same size and therefore a bijective mapping between them exists (see Cantor's Diagonalmethod).
+$
+  abs(NN_0) = abs(ZZ) = abs(QQ) eq.not abs(RR)
+$
+
+== Complex Numbers
+The Real numbers contain no solution for $x^2 = -1$, which is why the imaginary number $i=sqrt(-1)$ was introduced, first considered by Cardano. They can be used to solve real world problems throughout electrical engineering, particularly for oscillations because powers of $i^n$ have a repetitive nature.
+
+TODO: Rigorous definition of the complex body (set and its operations)
