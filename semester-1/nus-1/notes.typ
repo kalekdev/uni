@@ -194,13 +194,14 @@ $
 
 The higher the permittivity of a medium, the more it's electric field is reduced due to polarisation. Electric field strength is inversely linearly proportional to the permittivity, as seen in Coulomb's law (but not for all materials, for example ferroelectric crystals).
 
-*Taking place in a medium with permittivity $epsilon$:*\
-The difference in electric field before and after polarisation:
+*TODO: The following thinking is not completely correct, I am still wrapping my head around what exactly the displacement field and permittivity is. Revisit later when I have free time*\
+Taking place in a medium with permittivity $epsilon$:\
+The difference in the displacement field before and after polarisation:
 $
   arrow(P) &= epsilon arrow(E) - epsilon_0 arrow(E)
 $
 
-Therefore the electric displacement field (field only due to charges, polarization) is equal to the permittivity of the space x (electric field after polarization + the change in electric field due to polarization):
+Therefore the resulting electric displacement field (field only due to charges, polarization) is equal to the permittivity of the space x (electric field after polarization + the change in electric field due to polarization):
 $
   arrow(D) &= epsilon_0 arrow(E_"if it happened in vacuum") &= epsilon_0(arrow(E) + arrow(P)) = epsilon (
     arrow(E) -(epsilon arrow(E) - epsilon_0 arrow(E))
@@ -208,9 +209,8 @@ $
   &= epsilon(arrow(E)(1-epsilon)+epsilon_0 arrow(E))\
   &= epsilon(1-epsilon)arrow(E) + epsilon epsilon_0 arrow(E)
 $
-Where $E$ is the net electric field after polarisation
-
-TODO: Check what went wrong with a fresh head^
+Where $E$ is the net electric field after polarisation\
+*END OF IDEA*
 
 == Boundary Conditions
 
