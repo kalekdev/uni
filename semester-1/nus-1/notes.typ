@@ -132,7 +132,7 @@ $
 
 If they have an equal charge distribution, the electric field between plates of a capacitor is homogenous. This results in the potential difference between them:
 $
-  U = E d = sigma / (epsilon d)
+  U = E d = (sigma d) / epsilon
 $
 
 If an isolated, conductive plate is brought in between them, the total distance between the plates throughout which a test charge is under the influence of an electric field decreases by the thickness of the conductive plate. This results in a lower potential difference between the plates.
@@ -213,5 +213,108 @@ Where $E$ is the net electric field after polarisation\
 *END OF IDEA*
 
 == Boundary Conditions
+The electric field strength changes as it passes through the border of two different dielectric materials. However, it can be broken down into the normal and tangential components in order to calculate the resulting field:
 
-TODO: Revisit after learning the Maxwell-Faraday law.
+As an external electric field pases through the boundary of dielectrics with absolute permittivity $epsilon_1$ and $epsilon_2$:
+$
+  epsilon_1 E_(n 1) = epsilon_2 E_(n 2)\
+  E_(t 1) = E_(t 2)\
+$
+
+Supposing the external field enters at angle $alpha_1$ to the normal and leaves with angle $alpha_2$, the fields at the boundary can be expressed as:
+$
+  tan alpha_1 &= E_(t 1) / E_(n 1)\
+  tan alpha_2 &= E_(t 2) / E_(n 2)\
+  (tan alpha_1) / (tan alpha_2) &= (E_(t 1) / E_(n 1)) / (E_(t 2) / E_(n 2)) = E_(n 2) / E_(n 1) = epsilon_1 / epsilon_2
+$
+
+== Capacitance
+Considering the equation for the potential difference between two equally and oppositely charged plates of a capacitor, each with charge $Q$ and area $A$:
+$
+  U &= E d = (sigma d) / epsilon = (Q d) / (epsilon A)\
+  Q &= C U, "where" C = (epsilon A) / d\
+  C &= Q / U
+$
+
+Q is directly proportional to U regardless of the geometry of the capacitor. The constanct of propertionality C is called the capacitance of such an arrangement and has the unit *F* Farad, ie. the ability of a body to store electrical charge. Formally defined:
+$
+  C = (epsilon integral.surf_A arrow(E) dot d arrow(A)) / (integral_S arrow(E) dot d arrow(s))
+$
+
+*Spherical Capacitor*\
+Considering two spherical shells, the inner with radius a and outer with radius b, each with an equal and opposite charge Q. The capacitance of such a body is:
+$
+  C &= Q / U = Q / (integral_a^b arrow(E) d r)\
+  &= (Q 4 pi epsilon) / (Q integral_a^b 1 / r^2 d r) = (4 pi epsilon) / ((b-a) / (a b))\
+  &= (4 pi epsilon a b) / (b-a)
+$
+
+== Capacitor Networks
+Large capacitor networks can be broken down into a single capacitor using the following rules:
+#align(
+  center,
+  table(
+    columns: 3,
+    inset: 10pt,
+    table.header([], [Parallel], [Series]),
+    [Total Capacitance], $sum_(i=1)^n C_n$, $(sum_(i=1)^n C_n^(-1))^(-1)$,
+    [Derivation],
+    [All capacitors in parallel have the same voltage across them. Therefore an equivalent single capacitor would have capacitance: $Q_"total" / V = sum_(i=1)^n C_i$],
+    [The total voltage dropped across the series of capacitors is equal to the voltage between the first and last terminal. Due to the conservation of charge, no new charge can be brought in between the inner capacitors: $U_"total" = sum_(i=1)^n U_i = sum_(i=1)^n Q/C_i\ therefore 1/C_"total" = sum_(i=1)^n 1/C_i$],
+  ),
+)
+
+== Real-world capacitors
+A capacitor consisting of two plates would need to be extremely large to be of any practical use. In real life, various forms of layered capacitors are used.#footnote([See chapter 1.19 of Elektrotechnik, Albach])
+
+In general, their capacitance can be calculated by identifying the number of individual plate capacitors they form between layers and summing their capacitance (they are essentially connected in parallel). The capacitance around the edges of layers is negligible.
+
+_Variable capacitor_ - A layered capacitor, who's overlapping area can be adjusted mechanically. Capacitance can be expressed in terms of an angle, depending on its construction.
+
+_Film capacitor_ - This is essentially a plate capacitor wrapped into a cylinder. Its capacitance can be calculated in the same fashion as a plate capacitor, but *multiplied by 2*, as both sides of the conductor contribute to the capacitance.
+
+#pagebreak()
+== Energy stored by capacitor
+The energy stored by a capacitance C with voltage U across it's terminals is:
+$
+  W_e = 1 / 2 C U^2
+$
+
+This is derived by integrating a differential equation of the change in energy as a function of the change in charge whilst the capacitor is connected to a constant voltage source (and is therefore independent of the geometry of the capacitor):
+$
+  d W_e &= U d q = 1 / C q d q\
+  W_e &= 1 / C integral_0^Q q d q = 1 / 2 Q^2 / C\
+  &= 1 / 2 C U^2
+$
+
+The stored energy can also be represented as energy density ($J m^(-3)$) with the following equation (TODO: Revisit after reading Purcell):
+$
+  w_e = 1 / 2 arrow(E) dot arrow(D)
+$
+
+== Current
+The net rate of flow of positive charge through a surface (*A* mperes). In conventional current, holes flow from higher to lower potential, although the electrons actually flow from low to high potential.
+$
+  I(t) = (d Q) / (d t)
+$
+
+_Convection current_ - Current caused by the transport of charges.
+
+
+== Current Density
+The current that is flowing per unit area at a point in space. It can be expressed in terms of volume charge density $rho$ and velocity of the charges $arrow(v)$:
+$
+  arrow(J) = rho arrow(v)
+$
+It is always positive regardless of the polarity of the charge density, as in that case the charge will be moving in the opposite direction anyway.
+
+The total current flowing through an area can be calculated with the help of a surface integral:
+$
+  I = integral.double_A arrow(J) dot d arrow(A)
+$
+
+== Resistance
+As electrons in a conductor are accelerated in the same direction by an external electric field, they bump into stationary nuclei in the lattice, causing them to decelerate and scatter. The resulting average velocity of electrons (hence the negative sign) at a point is called the *drift velocity* and is directly proportional to the electric field. The constant of proportionality $mu$ is called *electron mobility (Beweglichkeit)*:
+$
+  arrow(v_e) = -mu_e arrow(E)
+$
