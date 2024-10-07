@@ -115,7 +115,7 @@ Loesung: Es muss immer so definiert werden ${x in X | P(x)}$, wo X eine Menge is
 $A sect B - {x | x in A and x in B}$ - Intersection\
 $A union B - {x | x in A or x in B}$ - Union\
 $A without B - {x in A | x in.not B}$ - Without\
-$A subset.eq B$ - Jedes Element von A liegt in B\
+$A subset.eq B$ - Jedes Element von A liegt in B (between two sets, unlike $x in A$ which describes a single element $x$ being inside the set $A$)\
 $A subset B$ - Jedes Element von A liegt in B und A enthaelt weniger Elemente als B\
 $A subset.eq X, A^complement = X \\ A$, wo X die Grundmenge ist, die jeder Element die wir betrachten enthaelt.
 
@@ -270,3 +270,7 @@ $
 The Real numbers contain no solution for $x^2 = -1$, which is why the imaginary number $i=sqrt(-1)$ was introduced, first considered by Cardano. They can be used to solve real world problems throughout electrical engineering, particularly for oscillations because powers of $i^n$ have a repetitive nature.
 
 TODO: Rigorous definition of the complex body (set and its operations)
+$
+  "cis"(theta) = cos(theta) + i sin(theta)\
+  "cis"(theta)"cis"(phi) = "cis"(theta + phi)
+$

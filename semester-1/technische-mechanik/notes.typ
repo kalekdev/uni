@@ -7,7 +7,8 @@ _Dynamics_ - Which conditions are needed to create movement in a system in a
 certain way\
 
 _Time derivative_ - $dot(x) = (d y) / (d t)$\
-== Starre Koerper
+
+== Rigid bodies
 A body in which deformation is negligible. There are no ideal rigid bodies in real life.
 
 Let $P, Q$ be points in a rigid body
@@ -32,38 +33,32 @@ $
   "Cylindrical:" e_rho times e_phi &= e_z
 $
 
-TODO: Think about how Pythagoras makes sense geometrically in all coordinate systems
-
 Position Vectors:
 $
   "Cartesian:" bold(r) &= x e_x + y e_y + z e_z\
   "Cylindrical:" bold(r) &= rho e_rho + z e_z
 $
-There is no separate $e_phi$ component in the cylindrical position vectors, as it's already accounted for by the $e_rho$ unit vector.
+There is no separate $e_phi$ component in a cylindrical position vector, as it's already accounted for by the $e_rho$ unit vector. The following derivatives are useful for calcutions in the cylindrical co-ordinate system:
 $
   "Wegen des Einheitskreises:" e_rho &= cos(phi)e_x + sin(phi)e_y\
-$
-
-This is important to remember when taking time derivatives in the cylindrical / spherical coordinate systems.
-
-$
   "Intuitiv:" e_phi &= d(e_rho) / (d phi) = -sin(phi)e_x + cos(phi)e_y \
   d(e_phi) / (d phi) &= -cos(phi)e_x - sin(phi)e_y = -e_rho\
   d(e_rho) / (d phi) &= e_phi\
 $
-
+The time derivatives can be found by deriving the cartesian formulae with respect to time and doing some substitution:
 $
-  "TODO: How to derive the derivatives with respect to t?"\
   d(e_phi) / (d t) = -dot(phi) e_rho\
   d(e_rho) / (d t) =dot(phi)e_phi\
 $
-
-Example of how to use the above derivatives:
+Thus the velocity formula in the cylindrical co-ordinate system:
 $
-  r &= vec(rho, phi, z) = vec(cos(t), t, sin(t)) = cos(t)e_rho + sin(t) e_z\
-  t = phi, therefore\
-  dot(r) &=vec(d(cos(t)e_rho)/(d t), d(sin(t) e_z)/(d t))= -sin(t) e_rho + cos(t)dot(e_rho) + cos(t) e_z + sin(t) dot(e_z)\
-  &= -sin(t)e_rho + cos(t)e_phi+ cos(t)e_z\
-  abs(dot(r))&= sqrt((-sin(t))^2 + (cos(t))^2 + cos^2(t))\
-  &= sqrt(1+cos^2(t))
+  arrow(v) &= dot(rho) e_rho + rho dot(phi) e_phi + dot(z) e_z
+$
+
+== Degrees of freedom
+The minimum number of position vectors to clearly determine the state of a system.
+
+Considering a system with several bodies. For a sum of degrees of freedom of $n$, and $b$ linearly dependent connection equations, the resulting degrees of freedom of the whole system is:
+$
+  f = n -b
 $
