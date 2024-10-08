@@ -6,25 +6,10 @@ rest\
 _Dynamics_ - Which conditions are needed to create movement in a system in a
 certain way\
 
+== Generic Facts
+$arrow(a) times (b + c) = arrow(a) times arrow(b) + arrow(a) times arrow(c)$\
+$kappa$ - Set of all points in a body\
 _Time derivative_ - $dot(x) = (d y) / (d t)$\
-
-== Rigid bodies
-A body in which deformation is negligible. There are no ideal rigid bodies in real life.
-
-Let $P, Q$ be points in a rigid body
-$
-  forall P, Q in RR^3, abs(bold(r_Q) - bold(r_P)) = "Constant"
-$
-
-_Satz der Projizierten Geschwindigkeiten_:
-The velocities of any two points in a rigid body projected on the vector between them is always the same. This means the body is not getting shorter or longer (deforming).\
-Useful for determining the velocities of points on rigid bodies with relation to each other.
-$
-  abs(r_Q-r_P) = "Konst" forall P, Q in RR^3 -> v_Q dot e = v_P dot e\
-  "wo" e = (r_Q-r_P) / abs(r_Q-r_P)
-$
-
-$v'_A$ = Velocity of A projected onto the vector alongside a rigid body.
 
 == Coordinate Systems
 Orthogonale Koordinatensystemen:
@@ -55,10 +40,72 @@ $
   arrow(v) &= dot(rho) e_rho + rho dot(phi) e_phi + dot(z) e_z
 $
 
-== Degrees of freedom
-The minimum number of position vectors to clearly determine the state of a system.
+== Rigid bodies
+A body in which deformation is negligible. There are no ideal rigid bodies in real life.
 
-Considering a system with several bodies. For a sum of degrees of freedom of $n$, and $b$ linearly dependent connection equations, the resulting degrees of freedom of the whole system is:
+Let $P, Q$ be points in a rigid body
+$
+  forall P, Q in RR^3, abs(bold(r_Q) - bold(r_P)) = "Constant"
+$
+
+=== Satz der Projizierten Geschwindigkeiten
+The velocities of any two points in a rigid body projected on the vector between them is always the same. This means the body is not getting shorter or longer (deforming).\
+Useful for determining the velocities of points on rigid bodies with relation to each other.
+$
+  abs(r_Q-r_P) = "Konst" forall P, Q in RR^3 -> arrow(v_Q) dot e = arrow(v_P) dot e\
+  "wo" e = (r_Q-r_P) / abs(r_Q-r_P)
+$
+
+$arrow(v_A) dot e = v'_A$ = Velocity of A projected onto the vector alongside a rigid body.
+
+_Translation_ - for all points $P, arrow(v_P)$ is equal
+
+== Movement across a plane
+- All velocities are parallel to a certain plane
+- All points along a normal to the plane have the same velocity
+- It is either a translation or a rotation at any point in time
+
+=== Rotation
+If at least two points in a rigid body do not have the same velocity, it is currently rotating. The momentary, static center of rotation is the intersection of lines perpendicular to the velocities of two points. The points rotate around the center with the *same angular velocity* $omega$.
+
+Considering a point with vector $arrow(r_P)$ from the center of rotation, rotating with angular velocity $omega = (d Theta)/(d t)$. Its velocity vector can be determined as:
+$
+  arrow(v_P) = (omega e_z) times arrow(r_P)
+$
+The unit vector $e_z$ is simply needed so the resulting direction is perpendicular to $arrow(r_P)$.
+
+_Polbahn_ - The path traced by the momentary center of rotation of a rigid body.
+
+== Movement in space
+In 3D space, simultaneous translation & rotation is possible due to the extra dimension.
+
+=== Starrkörperformel
+The following extremely useful formula can be used to link the unique angular velocity vector to the velocity of any two points in a rotating body:#footnote("Derivation available in the 5th Powerpoint of Dr. P Tiso")
+$
+  arrow(v_P) = arrow(v_B) + arrow(omega) times arrow(r_(B P))
+$
+
+The following properties of movement in space are constant and called "Invariants":
+1. $I_1 = arrow(omega)$ - The angular velocity is the same regardless of the reference point
+2. $I_2 =arrow(omega) dot v_P forall P in kappa$ - The component of the velocity of a point in the direction of the rotation axis is the same for all points in the body
+
+TODO: Test these in a simulation :)
+
+_Schraubung_ - The combination of a rotation with a translation in the direction of the rotation axis
+
+Types of movement in space:
++ Translation: $arrow(omega) = 0$
++ Rotation: $arrow(omega) eq.not 0 and I_2 = 0$
++ Schraubung: $I_2 eq.not 0$
+
+TODO in lernphase: Understand Rechteck Beispiel in script
+
+== Degrees of freedom
+The minimum number of coordinates to clearly determine the state of a system.
+
+Considering a system with several bodies. For a sum of degrees of freedom of $n$, and $b$ restricted degrees of freedom due to connections, the resulting degrees of freedom of the whole system is:
 $
   f = n -b
 $
+#image("images/degrees-of-freedom.png")
+#image("images/degrees-of-freedom-joints.png")
