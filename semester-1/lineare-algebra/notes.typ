@@ -4,7 +4,8 @@
 - https://n.ethz.ch/~jamatter/
 - https://www.felixgbreuer.com/linalg
 
-_LGS_ - Lineare Gleichung System - linear system of equations
+_LGS_ - Lineare Gleichung System - linear system of equations\
+$cal(A)(bold(x)) = bold(A x)$ - the corresponding Abbildung von the matrix A. Matrix multiplication is often referred to as a function
 
 == Vektoren
 _Lineare kombination_ - Summe von skalierten Vektoren\
@@ -49,7 +50,7 @@ _Kompatibilitaetsbedingungen_ - Empty rows at the bottom of the matrix (0 coeffi
 _Intuition:_ When thinking of the LGS as superposition, each LHS vector has a 0 component in this dimension, meaning that $forall x in RR$ scalar in the Lineare Kombination satisfies the system. Viewing the system with insufficient equations as a system of planes, two planes will intersect along an entire line.
 In 2D, there would just be a single line, which of course has solutions along its entirety.
 
-Any variables not accounted for due to an all 0 row / no pivot in their column are called _free variables_ and can take any real value. TODO: Solidify understanding
+Any variables not accounted for due to an all 0 row / no pivot in their column are called _free variables_ and can take any real value.
 
 *"Order is half of the work in maths."* - _Vasile Gradinaru_
 
@@ -156,7 +157,7 @@ It starts as the identity matrix, then the scalar by which another row was multi
 
 == Permutation Matrix
 
-Matrix used to track the permutation of rows in LU-Zerlegung. This is simply the identity matrix with the corresponding rows swapped.\
+Orthogonal Matrix used to track the permutation of rows in LU-Zerlegung. This is simply the identity matrix with the corresponding rows swapped.\
 
 *Properties of permutation matrices:*\
 $
@@ -200,7 +201,7 @@ $
   bold(P A = L U)
 $
 
-This can be used to decouple the factorization phase from the actual solving phase in Gaussian elimination. When the number of RHS we need to solve for is relatively small and the LGS is extremely large, it is more efficient to carry out LU Zerlegung and the additional steps to solve each system separately rather than to calculate the inverse through Gauss-Jordan elimination.
+This can be used to decouple the factorization phase from the actual solving phase in Gaussian elimination. When the number of RHS we need to solve for is relatively small and the A is extremely large, it is more efficient to carry out LU Zerlegung and the additional steps to solve each system separately rather than to calculate the inverse through Gauss-Jordan elimination.
 
 *Proof of $bold(A = L U)$:*\
 For steps $1,2,3,...,n$ of Gaussian elimination, the end result of the LHS is an upper matrix.
@@ -221,18 +222,17 @@ Using a combination of Elimination matrices and row + column permutations (these
 
 This is very powerful as the inverses of E and P matrices are easy to find and apply in reverse to the RHS in order to solve the LGS.
 
-The decomposed system can then be used to solve $bold(x)$ in another more efficient way to typical Gauss elimination TODO: Understand exactly how from script
-$
-  A x = b\
-  P A = L U\
-  L c = P b\
-  U x = c
-$
+=== Using the LU Decomposition
+The decomposed system can then be used to solve for $bold(x)$ in the following way:
+1. $A x = b$
+2. Decompose into the form $P A = L U$
+3. Replacing A as PLU, $L c = P b$. $c$ can be solved easily thanks to the form of $L$
+4. Based on the above rearrangement, $c = U x$, in which x can also be solved easily with backsubstitution
 
-TODO: Other decomposition methods (Cholesky etc)
+LTD: Other decomposition methods (Cholesky etc)
 
 == Vector Operations
-*Euclidean Norm:*
+=== Euclidean Norm
 $
   bold(x) in RR\
   abs(bold(x)) = sqrt(x_1^2 + x_2^2 + ... + x_n^2)\
@@ -241,31 +241,71 @@ $
   "Where" abs(x_1) = sqrt("re"(x_1)^2 + "im"(x_1)^2)\
 $
 
-TODO: Cross product
-
-*Dot Product:*\
+=== Dot / skalar Product
+$
+  bold(x\, y) in RR^n\
+  <bold(x\, y)> = x_1 y_1 + x_2 y_2 + ... + x_n y_n = bold(x^T y)\
+  bold(x\, y) in CC^n\
+  <bold(x\, y)> = overline(x_1) y_1 + overline(x_2) y_2 + ... + overline(x_n) y_n = bold(x^H y)
+$
+The dot product can be used to calculate the angle between two vectors:
 $
   <x, y> = abs(x)abs(y)cos(hat((x, y)))\
   hat((x, y)) = arccos (<x, y>) / (abs(x) abs(y))\
   x perp y "is Orthogonal" <=> <x, y> = 0
 $
-TODO: Only valid for certain angles!
+$(<x, y>) / (abs(x) abs(y)) in [-1, 1]$ is proven by the Cauchy–Schwarz inequality.
+
+Thus it can also be used with a unit vector to calculate the projection of a vector in its direction:
+$
+  abs(u) = 1\
+  <x, u> = abs(x)1 (x_u) / abs(x)\
+$
+
+=== Cross / Vektor product
+The cross product is only defined in $RR^3$ and results in a vector orthogonal to both inputs, whose direction can be determined with the right hand rule.
+$
+  bold(x\, y) in RR^3\
+  bold(x times y) = mat(delim: "|",
+  bold(e^x), bold(e^y), bold(e^z);
+  x_1, x_2, x_3;
+  y_1, y_2, y_3)\
+$
+It can also be used for determining the angle between two vectors in $RR^3$ :
+$
+  bold(x\, y) in RR^3\
+  bold(x times y) = abs(bold(x)) abs(bold(y)) bold(n) sin theta
+$
+($bold(n)$ is the unit vector normal to the plane spanned by $bold(x\, y)$)
 
 == Orthogonale Matrizen
-_Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate space.
-$
-  bold(Q^T Q = I) - "Orthogonal"\
-  bold(Q^H Q = I) - "Unitär"\
-$
+_Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space.
 
-*Rotation Matrix* - Matrix that rotates space by $alpha$ degrees anticlockwise:
+The inverse of a "rotation / reflection of space" is logically its transposition (consider the rotation of base vectors to different axis):
+$
+  bold(Q^T Q = I) : "Q is Orthogonal"\
+  bold(Q^H Q = I) : "Q is Unitär"\
+  "Sei P Orthogonal"\
+  bold(Q P) "und" bold(P Q) "sind auch Orthogonal"
+$
+Orthogonal matrix multiplication is still generally not commutative.
+
+=== Properties of orthogonal matrices
+Let $bold(A)$ be an orthogonal matrix:
+$
+  <bold(A x\, A y)> = <bold(x\, y)>\
+  abs(bold(A x)) = abs(bold(x))\
+  hat(bold(A x\, A y)) = hat(bold(x\, y))
+$
+=== Rotation Matrix
+Matrix that rotates space by $alpha$ degrees anticlockwise:#footnote("Derivation through trigonometry in script by Dr. V Gradinaru")
 $
   R(alpha) = mat(
   cos(alpha), -sin(alpha);
   sin(alpha), cos(alpha)
 )
 $
-Due to the identity $bold(Q^(-1) = Q^T)$ (Orthogonal matrices):
+Due to the identity $bold(Q^(-1) = Q^T)$ rotation anti-clockwise is:
 $
   R(alpha)^T = R(-alpha) = mat(
   cos(alpha), sin(alpha);
@@ -273,7 +313,7 @@ $
 )
 $
 
-For a rotation in a certain plane of $RR^3$, simply replace certain elements of the $3 times 3$ identity matrix with the rotation matrix. For example a rotation in the $x times y$ plane:
+For a rotation in a certain plane of $RR^n$, simply keep all columns and rows unaffected by the rotation as the identity matrix. For example a anti-clockwise rotation in the $x times y$ plane of $RR^3$:
 $
   mat(
   cos(alpha), -sin(alpha), 0;
@@ -289,39 +329,68 @@ $
   sin(alpha), 0, cos(alpha);
 )
 $
-and so on in higher dimension...
+and so on in higher dimensions...
 
-Rotations which are not confined to a plane can be done through decomposition into several rotations. TODO
+_Givens Rotation_ $G(phi) = R(-phi)$ - Simply a rotation by the angle $phi$ in the anti-clockwise direction
 
-*Reflection Matrix* - Reflection of space (a vector $bold(x)$ which does not lie on the plane) across an arbitrary plane with normal *unit* vector $bold(u)$:
-- Projection of x on the plane $= a u$
-TODO: Derivation from script\
-The matrix which achieves this transformation is called the Householder Matrix:\
+TODO: Rotations which are not confined to a plane can be done through decomposition into several rotations.
+
+=== Reflection (Householder) Matrix
+The orthogonal Householder matrix $Q$ represents the reflection of space (a vector $bold(x)$ which does not lie on the plane) over an arbitrary plane with normal *unit* vector $bold(u)$:
+
 $
   abs(bold(u)) = 1\
-  bold(Q = 1-2 u u^T)
+  bold(Q = I-2 u u^T)
 $
 
 *"Fuer die Computer sind alle Zahlen schön"* - _Vasile Gradinaru_
 
 == QR Zerlegung (QU Zerlegung)
-In LU Decomposition, the matrices are not orthogonal which can lead to rounding errors. QR Decomposition is a different approach, where the matrix Q is orthogonal (which is useful).
+QR Decomposition is a different approach to solving LGSs, where the matrix Q is orthogonal.
 
-Likewise, it can be used to solve LGSs, with the advantage of :
+Likewise to LU decomposition, it can be used to solve LGSs:
 $
-  bold(A x = b <=> Q R x + b <=> R x + Q^T b)
+  bold(A x = b <=> Q R x = b <=> R x = Q^T b)
 $
 Advantage:
-- reduced rounding errors
+- Reduced rounding errors due to the way computers represent floating point numbers (fractions)
 Disadvantage:
 - 3 times as inefficient as LU-Zerlegung
 
-TODO: What exactly are the rounding errors?
+The goal is to find a series of orthogonal transformations, which transform $bold(A)$ into an upper matrix when multiplying it. Since orthogonal matrices multiplied together result in an orthogonal matrix, they can easily be combined into one and used to solve the LGS as described above.
 
-Calculation:
-Create 0 in the lower half of R only using orthogonal transformations. It can be done with either rotations or Householder matrices (reflections):
-1. Use a combination of rotation matrices with certain angles and clockwise / anti-clockwise to bring elements under the pivot to 0 without affecting others
-2.
+=== Givens rotations
+Considering a vector, for example $vec(x_1, x_2)$. We can transform one of its components into 0 by rotating it onto an axis, resulting in $vec(r, 0)$ the following applies:
+$
+  r &= sqrt(x_1^2+x_2^2)\
+  cos(theta) &= x_1 / r\
+  sin(theta) &= x_2 / r
+$
+This works in $RR^n$ dimensions. TODO: Complex as well?
+
+Using these formulas with a Givens (clockwise) rotation, we can simply replace $cos$ and $sin$ in the matrix with the fractions, targeting the row we don't mind changing and the element we currently want to transform into 0.
+
+By applying a series of Givens rotations, we can carry out the full Gaussian elimination, ending up with an Upper / Right matrix.
+
+=== Householder reflection
+The goal is to find a Householder matrix that reflects a column of $A$ onto the axis of the row we are *not* trying to eliminate. As we know the resulting vector, for example $abs(bold(x)) dot e_x$, the unit vector $u$ is simply the normed vector between the original and resulting column of $A$:
+
+$
+  bold(x) in RR^n\
+  bold(v) = bold(x) - abs(bold(x)) dot e_n\
+  bold(u) = bold(v) / abs(bold(v))
+$
+
+The Householder matrix can then be found as before:
+$
+  bold(Q = I-2 u u^T)
+$
+
+When targeting inner columns, the reflection matrix should only be in the bottom right corner of the current $Q$, to avoid ruining our previous progress (the rest of it stays as $I$. This means that we ignore the upper row(s).
+
+=== Which method to choose?
+- Givens rotation is great for targeting specfic elements to turn into 0, and it needs a series of rotations to reduce several dimensions at once. It is ideal if there are already several 0s in the column.
+- Householder reflections have the power to turn all except one element of a column into 0s at once (reflect a vector in $RR^3$ directly onto the x-axis for example)
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.

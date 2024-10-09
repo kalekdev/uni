@@ -58,3 +58,17 @@ These can be converted between one another by breaking the circuit into parallel
 $t_(p H L)$ - Time taken to switch on once 50% of the gate voltage is reached until 90% of $V_(D S)$ is reached TODO: Check\
 $t_(p L H)$ - Time taken to switch off\
 $t_d = (t_(p H L) +t_(p L H)) / 2$ - Average switching time
+
+== Boolean Algebra
+TODO:
+- last 2 fundamental rules of boolean algebra
+- order of operations
+- De Morgan's laws
+- Distributive law loop
+- Universal gates NAND & NOR conversion - Advantage as they all have the same properties such as timing
+- Relationship between pull up and pull down paths
+
+== Min / Maxterm
+TODO: Is this a method to create a boolean expression for any arbitrary truth table?
+
+Lectures 1-4 (inclusive) in the test next week
