@@ -281,7 +281,7 @@ $
 == Orthogonale Matrizen
 _Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space.
 
-The inverse of a "rotation / reflection of space" is logically its transposition (consider the rotation of base vectors to different axis):
+The inverse of a rotation / reflection of space is logically its transposition (consider the rotation of base vectors to different axis):
 $
   bold(Q^T Q = I) : "Q is Orthogonal"\
   bold(Q^H Q = I) : "Q is Unitär"\
@@ -333,7 +333,7 @@ and so on in higher dimensions...
 
 _Givens Rotation_ $G(phi) = R(-phi)$ - Simply a rotation by the angle $phi$ in the anti-clockwise direction
 
-TODO: Rotations which are not confined to a plane can be done through decomposition into several rotations.
+Rotations which are not confined to a plane can be achieved through a series of plane rotations multiplied together, still resulting in an orthogonal matrix.
 
 === Reflection (Householder) Matrix
 The orthogonal Householder matrix $Q$ represents the reflection of space (a vector $bold(x)$ which does not lie on the plane) over an arbitrary plane with normal *unit* vector $bold(u)$:
