@@ -194,7 +194,7 @@ $
 
 The higher the permittivity of a medium, the more it's electric field is reduced due to polarisation. Electric field strength is inversely linearly proportional to the permittivity, as seen in Coulomb's law (but not for all materials, for example ferroelectric crystals).
 
-*TODO: The following thinking is not completely correct, I am still wrapping my head around what exactly the displacement field and permittivity is. Revisit later when I have free time*\
+*LTD: The following thinking is not completely correct, I am still wrapping my head around what exactly the displacement field and permittivity is. Revisit later after reading Purcell*\
 Taking place in a medium with permittivity $epsilon$:\
 The difference in the displacement field before and after polarisation:
 $
@@ -220,6 +220,8 @@ $
   epsilon_1 E_(n 1) = epsilon_2 E_(n 2)\
   E_(t 1) = E_(t 2)\
 $
+The normal component is derived using Gauss's law and an infinitely thin cylinder at the boundary. LTD: Revisit tangential proof after learning Faraday's law
+https://ximera.osu.edu/electromagnetics/electromagnetics/electrostatics/digInElectricFieldBoundaryConditions
 
 Supposing the external field enters at angle $alpha_1$ to the normal and leaves with angle $alpha_2$, the fields at the boundary can be expressed as:
 $
@@ -236,10 +238,11 @@ $
   C &= Q / U
 $
 
-Q is directly proportional to U regardless of the geometry of the capacitor. The constanct of propertionality C is called the capacitance of such an arrangement and has the unit *F* Farad, ie. the ability of a body to store electrical charge. Formally defined:
+Q is directly proportional to U regardless of the geometry of the capacitor. The constant of propertionality C is called the capacitance of such an arrangement and has the unit *F* Farad, ie. the ability of a body to store electrical charge. Formally defined:
 $
   C = (epsilon integral.surf_A arrow(E) dot d arrow(A)) / (integral_S arrow(E) dot d arrow(s))
 $
+LTD: Compute capacitance of arbitrary systems in physics simulator
 
 *Spherical Capacitor*\
 Considering two spherical shells, the inner with radius a and outer with radius b, each with an equal and opposite charge Q. The capacitance of such a body is:
@@ -287,7 +290,7 @@ $
   &= 1 / 2 C U^2
 $
 
-The stored energy can also be represented as energy density ($J m^(-3)$) with the following equation (TODO: Revisit after reading Purcell):
+The stored energy can also be expressed in terms of fields (with energy density $J m^(-3)$) through the following equation (LTD: Revisit after reading Purcell):
 $
   w_e = 1 / 2 arrow(E) dot arrow(D)
 $
@@ -317,4 +320,84 @@ $
 As electrons in a conductor are accelerated in the same direction by an external electric field, they bump into stationary nuclei in the lattice, causing them to decelerate and scatter. The resulting average velocity of electrons (hence the negative sign) at a point is called the *drift velocity* and is directly proportional to the electric field. The constant of proportionality $mu$ is called *electron mobility (Beweglichkeit)*:
 $
   arrow(v_e) = -mu_e arrow(E)
+$
+
+=== Specific Resistivity ($rho_R$) & Conductivity ($kappa$)
+These are two fundamental properties of a material which are reciprocals of each other. They describe how well a material resists / conducts electricity:
+$
+  rho_R = 1 / kappa
+$
+
+#align(
+  center,
+  table(
+    columns: 3,
+    inset: 10pt,
+    table.header([], [Resistivity], [Conductivity]),
+    [Symbol], $rho_R$, $kappa$,
+    [Units], [$ohm m$ Ohm meters], [$S m^(-1)$ Siemens per meter],
+  ),
+)
+
+For a metal with $n$ electrons per unit volume, $rho = -e n$. The current density can be expressed in terms of the specific conductivity $kappa$ as:
+$
+  arrow(J) =-n e arrow(v) = n e mu_e arrow(E) = kappa arrow(E)
+$
+
+Resistivity is heavily dependant on temperature and pressure. A higher temperature results in nuclei oscillating around their equilibrium faster and thus increasing resistivity. On the other hand, the resistivity of semiconductors generally decreases with increasing temperature, as the oscillations free more electrons from the individual atoms. A factor $alpha$ is often used to calculate the resistivity with temperature taken into account:
+$
+  rho_R(T_"old", T_"new") = rho_(R "T old") (1+ alpha Delta T)\
+  "where" Delta T = T_"new" - T_"old"
+$
+This is of course only accurate within a specific range of temperatures. A better approximation can sometimes be calculated with a 2nd factor $beta$:
+$
+  rho_R(T_"old", T_"new") = rho_(R "T old") (1+ alpha Delta T + beta (Delta T)^2)\
+$
+
+Alloys usually have worse conductivity than pure metals due to their irregular atomic structure.
+
+=== Ohm's Law
+In differential form:
+$
+  arrow(J) = kappa arrow(E)
+$
+
+Considering a cylinder with length $l$, homogenous conductivity $kappa$ and cross sectional area $A$ laying orthogonal to a homogenous electric field caused by electrodes with constant potentials $phi_1$ and $phi_2$ which continuously provides charges / holes. By integrating the fields in this equation we can derive the most fundamental equation in electronics.
+
+The current through any cross-section in the cylinder is:
+$
+  I = integral.double_A arrow(J) dot d arrow(A) = J_x A\
+  J_x = I / A
+$
+
+Thus we can express the electric field through the cylinder as:
+$
+  E_x = 1 / kappa J_x = I / (kappa A)
+$
+
+The potential difference between the ends of the cylinder is:
+$
+  U_12 = phi_1 - phi_2 = integral_0^l arrow(E) arrow(d s) = E_x l = (I l) / (kappa A)
+$
+
+Resistance can be expressed in terms of resistivity (and thus $kappa$) as:
+$
+  R = (rho_R l) / A = l / (kappa A)
+$
+
+And thus:
+$
+  U_12 = I R qed
+$
+
+In summary:
+$
+  R = U / I = (integral_s arrow(E) arrow(d s)) / (kappa integral.surf arrow(E) arrow(d A))
+$
+
+_Aside:_ Since the resistance is directly proportional to the resistivity of the material, the temperature change formulas can be applied in exactly the same way.
+
+Sometimes the conductance of a component is expressed as:
+$
+  G = 1 / R
 $

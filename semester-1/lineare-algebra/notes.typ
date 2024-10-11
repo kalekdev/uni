@@ -392,6 +392,8 @@ When targeting inner columns, the reflection matrix should only be in the bottom
 - Givens rotation is great for targeting specfic elements to turn into 0, and it needs a series of rotations to reduce several dimensions at once. It is ideal if there are already several 0s in the column.
 - Householder reflections have the power to turn all except one element of a column into 0s at once (reflect a vector in $RR^3$ directly onto the x-axis for example)
 
+== Vector space
+*"Es macht Spaß"* - _Vasile Gradinaru_
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
 
