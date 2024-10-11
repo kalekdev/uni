@@ -1,4 +1,6 @@
-= Technische Mechanik
+#heading(outlined: false)[Technische Mechanik]
+
+#outline()
 
 _Kinematiks_ - how a model is currently at motion\
 _Statics_ - Which conditions (forces & moments) are needed to keep a system at
@@ -6,10 +8,11 @@ rest\
 _Dynamics_ - Which conditions are needed to create movement in a system in a
 certain way\
 
-== Generic Facts
 $arrow(a) times (b + c) = arrow(a) times arrow(b) + arrow(a) times arrow(c)$\
 $kappa$ - Set of all points in a body\
 _Time derivative_ - $dot(x) = (d y) / (d t)$\
+
+#pagebreak()
 
 == Coordinate Systems
 Orthogonale Koordinatensystemen:

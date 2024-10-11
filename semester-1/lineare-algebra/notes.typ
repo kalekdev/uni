@@ -1,4 +1,6 @@
-= Lineare Algebra
+#heading(outlined: false)[Lineare Algebra]
+
+#outline()
 
 Übungsstunde Notizen:
 - https://n.ethz.ch/~jamatter/
@@ -6,6 +8,9 @@
 
 _LGS_ - Lineare Gleichung System - linear system of equations\
 $cal(A)(bold(x)) = bold(A x)$ - the corresponding Abbildung von the matrix A. Matrix multiplication is often referred to as a function
+
+#pagebreak()
+
 
 == Vektoren
 _Lineare kombination_ - Summe von skalierten Vektoren\

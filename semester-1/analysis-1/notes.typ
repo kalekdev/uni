@@ -1,7 +1,12 @@
-= Analysis 1
+#heading(outlined: false)[Analysis 1]
 
-_Analysis 1 ITET, F Ziltener_ - https://metaphor.ethz.ch/x/2024/hs/401-0231-10L/Ziltener_Notizen_Analysis_1_ITET_RW.pdf
-_Analysis für Informatik, M Struwe_ - https://people.math.ethz.ch/~struwe/Skripten/InfAnalysis-bbm-8-11-2010.pdf
+#outline()
+
+- _Analysis 1 ITET, F Ziltener_ - https://metaphor.ethz.ch/x/2024/hs/401-0231-10L/Ziltener_Notizen_Analysis_1_ITET_RW.pdf
+- _Analysis für Informatik, M Struwe_ - https://people.math.ethz.ch/~struwe/Skripten/InfAnalysis-bbm-8-11-2010.pdf
+
+#pagebreak()
+
 
 == Logik
 _Aussage_ - Eine Aeusserung, die entweder wahr oder falsch ist\

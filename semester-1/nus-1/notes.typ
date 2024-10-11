@@ -1,4 +1,7 @@
-= Netzwerke und Schaltungen 1
+#heading(outlined: false)[Netzwerke und Schaltungen 1]
+
+#outline()
+#pagebreak()
 
 *Surface / Volume Integration nudge factors:*\
 _Cylindrical coordinate system:_ $r$\

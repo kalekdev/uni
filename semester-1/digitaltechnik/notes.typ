@@ -1,10 +1,13 @@
-= Digitaltechnik
+#heading(outlined: false)[Digitaltechnik]
+
+#outline()
 
 _MSB_ - Most significant bit\
 _LSB_ - Least significant bit
 
 $x % 1$ - drop decimal value from $x$.\
 $2^n$ - number of possible states with $n$ bits.\
+
 
 === Resistance of a wire
 $rho$ - resistivity of the metal ($ohm m$)\
@@ -15,6 +18,8 @@ $R=(rho l) / A$
 Modern electronics uses 0.8V as high.
 
 _Floating Voltage_ - when a pin / contact is not connected by a "normal" (lower than that of air) resistance to V_DD / circuit ground. Essentially the same as any metal surface in the room, on which a very weak 50Hz signal is usually seen due to induction from all the EM sources in the room.
+
+#pagebreak()
 
 == Schaltfunktionen
 _Schaltfunktion_ - $Y = f(X_0, X_1, X_2, ..., X_(N-1))$ - Nimmt mehrere Bits als Input und produziert eine einzige Bit als Ausgang.
