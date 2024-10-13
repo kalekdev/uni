@@ -215,7 +215,7 @@ $
 Where $E$ is the net electric field after polarisation\
 *END OF IDEA*
 
-== Boundary Conditions
+== Dielectric Boundary Conditions
 The electric field strength changes as it passes through the border of two different dielectric materials. However, it can be broken down into the normal and tangential components in order to calculate the resulting field:
 
 As an external electric field pases through the boundary of dielectrics with absolute permittivity $epsilon_1$ and $epsilon_2$:
@@ -383,7 +383,7 @@ $
   U_12 = phi_1 - phi_2 = integral_0^l arrow(E) arrow(d s) = E_x l = (I l) / (kappa A)
 $
 
-Resistance can be expressed in terms of resistivity (and thus $kappa$) as:
+Resistance of the cylinder (and therefore most wires) can be expressed in terms of resistivity (and thus $kappa$) as:
 $
   R = (rho_R l) / A = l / (kappa A)
 $
@@ -404,3 +404,84 @@ Sometimes the conductance of a component is expressed as:
 $
   G = 1 / R
 $
+
+The resistance of a hollow sphere with radius $a$ for the first shell and $b$ at the second shell, which are separated by a material with specific resistivity $rho_R$ is:
+$
+  R = (rho_R (b - a)) / (4pi a b)
+$
+
+== Real-world Resistors
+Manufacturers usually produce series of resistors with certain tolerances, so that there are no gaps between the maximum / minimum allowed resistance in their catalogue. This ensures that no resistors are wasted and each can be sorted into a value, then marked with the corresponding key (coloured rings for through-hole, number codes on SMD resistors).
+
+_Thin Film_ - A thin film of carbon / metal is applied onto a ceramic or glass base, then coated with plastic to prevent damage. This is the typical through-hole resistor that comes to mind and is the most common technology for SMD resistors, however it is not the most precise / power tolerant. Sometimes parts of the film are etched away to reduce cross-sectional area of the conductor and increase resistance.
+
+_Wirewound_ - A thin wire is wound around a ceramic core, usually in a zig-zag manner to reduce parastic inductance. These are very precise and suitable for high-power applications, but are typically not available in SMD form.
+
+_Metal Strip_ - This is simply a strip of metal / alloy (depending on desired resistance), usually resulting in a very low ohmic value. They are often used as shunts for measuring current.
+
+_Potentiometer_ - Variable resistor adjusted by moving a physical contact.
+
+_Thermistor_ - These are used in all kinds of temperature measurement circuits. They are made from semiconductors and are usually NTC (negative temperature coefficient), meaning their resistance decreases by a reliable amount as temperature increases, although PTC thermistors are also available.
+
+_VDR (Voltage dependent resistor)_ - These are used to protect against voltage surges.
+
+_LDR_ - Light dependent resistor.
+
+== Conductor Boundary Conditions
+As a constant current passes through the boundary of two different conductors with specific conductivity $kappa_1$ and $kappa_2$, we can analyse the change in normal and tangential components of the current density and electrical (caused by the voltage source) fields. Let us once again consider an infinitely small cylinder at the boundary.
+
+=== Normal:
+The normal current density must of course stay constant, otherwise charges are being generated / dissapearing:
+$
+  arrow(J_(n 1)) = arrow(J_(n 2))
+$
+
+Due to the change in conductivity, the normal component of the electric field must have changed:
+$
+  kappa_1 arrow(E_(n 1)) = kappa_2 arrow(E_(n 2))
+$
+
+=== Tangential:
+The tangential electric field must be the same to obey the conservation of energy as a test charge is moved through a closed loop over the boundary:
+$
+  arrow(E_(t 1)) = arrow(E_(t 2))
+$
+Hence due to the relationship $arrow(J) = kappa arrow(E)$, the tangential current densities are:
+$
+  J_(t 1) / J_(t 2) = kappa_1 / kappa_2
+$
+This make intuitive sense when considering the following arrangement ($sigma = kappa$):
+#image("images/tangential-current-boundary.png", width: 50%)
+
+Thus:
+$
+  tan(alpha_1) / tan(alpha_2) = E_(n 2) / E_(n 1) = J_(t 1) / J_(t 2) = kappa_1 / kappa_2
+$
+
+LTD: Confirm after reading Purcell
+The stronger electric field through the material with lower conductivity makes intuitive sense, as it would have a corresponding higher permittivity.
+
+At the boundary with an insulator, current obviously cannot flow into it. This results in only the tangential current density being substantial. The electrical field therefore also stays in the wire.
+LTD: Simulate electric field staying within a wire.
+
+LTD: Interesting paper to revisit https://www.ifi.unicamp.br/~assis/Found-Phys-V29-p729-753(1999).pdf
+
+TODO: Surface charges in a wire, where is the electric field actually coming from?
+
+== Power
+The work done on a set of charges $Q$ as they traveled through a potential difference $U$ is:
+$
+  W_e = U Q
+$
+Therefore power can be expressed as:
+$
+  P(t) &= (d W_e) / (d t) => U I\
+  &= I^2 R = U^2 / R
+$
+
+Power density is often a more useful value rather than the entire power lost to a component:
+$
+  p_V = (Delta P) / (Delta V) = arrow(E) dot arrow(J)
+$
+
+== Network Analysis

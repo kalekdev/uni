@@ -11,7 +11,6 @@ $cal(A)(bold(x)) = bold(A x)$ - the corresponding Abbildung von the matrix A. Ma
 
 #pagebreak()
 
-
 == Vektoren
 _Lineare kombination_ - Summe von skalierten Vektoren\
 _Linearly dependent_ - When two vectors can be expressed as a linear combination of the other and thus doesn't add any information to a LGS.
