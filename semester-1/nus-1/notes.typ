@@ -308,11 +308,11 @@ _Convection current_ - Current caused by the transport of charges.
 
 
 == Current Density
-The current that is flowing per unit area at a point in space. It can be expressed in terms of volume charge density $rho$ and velocity of the charges $arrow(v)$:
+A field containing current that is flowing per unit area at a point in space. It can be expressed in terms of volume charge density $rho$ and velocity of the charges $arrow(v)$:
 $
   arrow(J) = rho arrow(v)
 $
-It is always positive regardless of the polarity of the charge density, as in that case the charge will be moving in the opposite direction anyway.
+It has the same polarity regardless of if the flow of electrons or holes is being considered, as in that case the charges will be moving in opposite directions.
 
 The total current flowing through an area can be calculated with the help of a surface integral:
 $
@@ -485,3 +485,49 @@ $
 $
 
 == Network Analysis
+When designing real world circuits, analysing them in terms of fields is usually cumbersome. Hence we rely on manufacturers providing accurate values for components and with the help of some abstractions, most circuits are designed with the integral values of Voltage, Resistance, Current, Capacitance etc.
+
+Potential Difference and Current are scalar values represented by arrows in circuit diagrams, which point in the direction of the electric field (hence conventional current).
+
+_Ideal Voltage Source_ - Maintains a constant voltage at its terminals, current depends on the connected load. Vertical straight line in circuit symbol\
+_Ideal Current Source_ - Maintains a constant current through the circuit, terminal voltage depends on the connected load. Horizontal straight line in circuit symbol
+
+=== Kirchhoff's Circuit Laws
+Gustav Kirchhoff's discovered two laws that make analysing circuits possible without measuring every individual component.
+
+1. The sum of currents entering a point in a circuit is equal to the current leaving that point:
+$
+  sum_"Node" I = 0
+$
+
+2. The directed sum of the potential differences around any closed loop (Masche) is zero:
+$
+  sum_"Loop" V = 0
+$
+This are due to the work done integral in a closed path and current density integral of a closed surface being 0 because of conservation of energy / charge.
+
+=== Resistor Networks
+Considering that the voltage across resistors *in series* is the sum of their individual voltage drops, the total resistance is simply the sum:
+$
+  R_"total" = sum_(i=1)^n R_i
+$
+
+The voltage across each path *in parallel* is the same but the total current is the sum of currents through each path. The total resistance is the reciprocal of the sum of reciprocals
+$
+  R_"total" = 1 / (sum_(i=1)^n 1 / R_i)
+$
+It is always smaller than the smallest resistance of a path, which makes intuitive sense as the charge carriers have more possible paths through that section of the circuit.\
+Conductivity is the reciprocal of resistance, hence:
+$
+  G_"total" = sum_(i=1)^n G_i
+$
+
+=== Voltage Divider
+The ratio of voltages is the same as the ratio of resistances:
+$
+  U_1 / U_2 = R_1 / R_2
+$
+
+_Wheatstone Bridge_ - Circuit used for accurately measuring resistance using 2 Potential dividers in parallel, of which 3 of the resistances are known, and a voltmeter in between is used to determine how imbalanced the divided voltage is.
+
+TODO: Mention load
