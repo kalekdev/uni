@@ -274,8 +274,70 @@ $
 == Complex Numbers
 The Real numbers contain no solution for $x^2 = -1$, which is why the imaginary number $i=sqrt(-1)$ was introduced, first considered by Cardano. They can be used to solve real world problems throughout electrical engineering, particularly for oscillations because powers of $i^n$ have a repetitive nature.
 
-TODO: Rigorous definition of the complex body (set and its operations)
+Complex addition is identical to real addition $+_(RR^2)$.
+
+Complex multiplication is defined as:
+$
+  dot_CC: RR^2 times RR^2 -> RR^2, vec(r, m) dot_CC vec(r', m') &:= vec(r r' - m m', r m' + r' m)\
+  (r + m i)(r' + m' i) &= r r' + r m'i + m r' i + m m' i^2\
+  &= r r' - m m' + (r m' + r' m)i
+$
+
+Therefore the complex body is defined as a tuple with the operations:
+$
+  CC := (RR^2, +_(RR^2), dot_CC)\
+  i in CC, i := vec(0, 1)
+$
+It is not a complete body as it doesn't contain any definitions for inequalities, like $RR$.
+
+The following injective, non surjective function maps real numbers to complex numbers:
+$
+  RR -> CC: x in RR, vec(x, 0) in CC
+$
+
+There exists a root for -1 in the complex body:
+$
+  i^2 = vec(0, 1) dot_CC vec(0, 1) = vec(-1, 0)\
+  sqrt(-1) = plus.minus i
+$
+
+The complex conjugate is defined as follows:
+$
+  z := a + b i\
+  Re(z) = a\
+  Im(z) = b\
+  overline(z) = a - b i\
+$
+
+The euclidian norm is defined as:
+$
+  abs(z) = sqrt(abs(z_1)^2 + abs(z_2)^2 + ... + abs(z_n)^2)\
+$
+
+General identities:
+$
+  z overline(z) = abs(z)^2\
+  overline(z + z') = overline(z) + overline(z')\
+  overline(z z') = overline(z) dot overline(z')
+$
+
+The function cis is defined to handle complex numbers in polar form:
 $
   "cis"(theta) = cos(theta) + i sin(theta)\
-  "cis"(theta)"cis"(phi) = "cis"(theta + phi)
+  "cis"(theta)"cis"(phi) = "cis"(theta + phi)\
+  "cis"(k pi / 2) = i^k forall k in ZZ\
+  z = abs(z) "cis"(phi) = abs(z) e^(i phi)\
+  z z' = abs(z) abs(z') "cis"(phi + phi')\
+  z^k = abs(z)^k "cis"(k phi)\
+  overline(z) = abs(z)"cis"(-phi)
 $
+
+=== k'th Roots
+For a complex number $z$, the k'th roots $w$ are straightforward to determine:
+$
+  w^k = z\
+  zeta_k (j) = w_j = abs(z)^(1 / k) "cis"((phi + 2j pi) / k), j := 0, 1, ..., k-1\
+$
+
+TODO: Don't understand exactly what these are, roots?
+Every non-constant polynomial contains at least 1 complex root.

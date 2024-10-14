@@ -1,6 +1,12 @@
 #heading(outlined: false)[Netzwerke und Schaltungen 1]
 
 #outline()
+
+*Fundamental Laws of Electromagnetism:*\
+Maxwell's Equations and the Lorentz Force law are the only fundamental laws of electromagnetism, which work for all materials and at quantum scale. Coulomb's law was discovered through experiment and can be derived from Gauss's law, and Ohm's law does not hold true for all materials.
+
+Nonetheless they are very useful in practice and certainly worth studying.
+
 #pagebreak()
 
 *Surface / Volume Integration nudge factors:*\
@@ -530,4 +536,6 @@ $
 
 _Wheatstone Bridge_ - Circuit used for accurately measuring resistance using 2 Potential dividers in parallel, of which 3 of the resistances are known, and a voltmeter in between is used to determine how imbalanced the divided voltage is.
 
-TODO: Mention load
+When a load is connected to a voltage divider, it is effectively in parallel with the 2nd resistor and thus reduces the voltage at V_OUT. Furthermore, there are very high power losses, which is why voltage dividers are usually used for measuring resistances rather than as voltage regulators (where switching supplies / OPAMPs excel).
+
+When measuring circuits, voltmeters ideally have an infinitely high resistance and ammeters should have a resistance as close to 0 as possible. If the resistance of a measuring device is known, the error can be corrected or alternatively a more suitable resistance can be chosen for the expected voltage to prevent damaging the meter without massively affecting the measurement.
