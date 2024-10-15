@@ -52,7 +52,7 @@ _Beweiss formalisieren_ - Express a proof formally in terms of symbols and Limma
 _Divide et impera_ - divide and conquer
 _Zermelo + Fraenkel Axioms_ - Foundational axioms of all proofs
 
-== Beweis Methode
+=== Beweis Methode
 
 *Modus ponens* - Wird (meistens mehrmals) verwendet, um etwas zu beweisen:\
 $A:=$ Es hat geregnet (Premise)\
@@ -170,7 +170,7 @@ $
 $
 Infinity cannot be a Supre/Infimum, becuase $oo in.not RR$
 
-== De Morgan's Laws
+=== De Morgan's Laws
 Also apply to boolean logic, where $A, B := 1, 0$
 $
   (A sect B)^complement = A^complement union B^complement\
@@ -239,7 +239,7 @@ $NN_0 subset.eq ZZ subset.eq QQ$\
 
 There are infinite gaps in the number line of rational numbers. These can be filled with $RR \\ QQ$ - Irrational numbers, for example $sqrt(2), pi, e$. For example: $exists.not s in QQ | s^2 = 2$.
 
-== Reelen Zahlen
+=== Reelen Zahlen
 *Dedekind Cut*\
 A Dedekind cut is a way of representing the real numbers using the rational numbers by cutting the number line into two sections around a "gap" represented by an irrational number.
 Let $x subset QQ$ (x contains less elements than $QQ$), the following properties describe the cut:
@@ -265,7 +265,7 @@ $
   2 abs(x y) <= c x^2 + y^2 / c
 $
 
-== Cardinality (Mächtigkeit)
+=== Cardinality (Mächtigkeit)
 Two sets have the same cardinality if they have the same size and therefore a bijective mapping between them exists (see Cantor's Diagonalmethod).
 $
   abs(NN_0) = abs(ZZ) = abs(QQ) eq.not abs(RR)
@@ -328,16 +328,52 @@ $
   "cis"(k pi / 2) = i^k forall k in ZZ\
   z = abs(z) "cis"(phi) = abs(z) e^(i phi)\
   z z' = abs(z) abs(z') "cis"(phi + phi')\
-  z^k = abs(z)^k "cis"(k phi)\
   overline(z) = abs(z)"cis"(-phi)
+$
+
+De Moivre's Theorem:
+$
+  z^k = abs(z)^k "cis"(k phi) = abs(z)^k e^(i k phi)\
 $
 
 === k'th Roots
 For a complex number $z$, the k'th roots $w$ are straightforward to determine:
 $
   w^k = z\
-  zeta_k (j) = w_j = abs(z)^(1 / k) "cis"((phi + 2j pi) / k), j := 0, 1, ..., k-1\
+  w_j = abs(z)^(1 / k) "cis"((phi + 2j pi) / k), j := 0, 1, ..., k-1\
+$
+Any of these roots to the power of k is equal to z, as well the product of all of them together. If $j >= k$ the angle completes a full circle and the same roots are found.
+
+The roots of $z = 1$ are called roots of unity, these will be important later in Fourier transforms:
+$
+  w^k = 1\
+  zeta_k (j) = e^((2 j pi i) / k), j := 0, 1, ..., k-1\
 $
 
-TODO: Don't understand exactly what these are, roots?
-Every non-constant polynomial contains at least 1 complex root.
+_Fundamental Theroem of Algebra_ - Every non-constant single variable polynomial contains at least 1 complex root.
+
+== Sequences and Series
+_Sequence_ - A function that maps a natural index $n in NN_0 -> CC$\
+_Series_ - Sequence of partial sums of the terms in a sequence
+
+_Taylor Series_ - A series of derivatives of a function at a point, that converges towards the value of the function at that same point, more on this later...
+
+_Geometric Sequence - $n in NN_0, a_n -> z^n$ - Converges towards 0 when $z <1$\
+_Geometric Series - $n in NN_0, a_n -> sum_(k=0)^n z^k$
+
+_Harmonic Sequence_ - $n in NN_0, a_n -> 1/n$ - Converges towards 0
+
+=== Convergence
+$
+  A in CC\
+  "A sequence converges towards " A <=> forall epsilon in (
+    0, oo
+  ) exists n_0 in NN_0 forall n in NN_0: n >= n_0, abs(a_n - A) <= epsilon\
+  a_n -> A space ("converges towards A")
+$
+
+We can also express this as a limit:
+$
+  lim_(n -> oo) a_n = A
+$
+Note: The index n cannot be set as $oo$, as infinity is not a natural number.
