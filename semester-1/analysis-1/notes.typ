@@ -396,4 +396,23 @@ $
 $
 
 === Convergence Criteria
-TODO: Read corresponding bridging course and understand divergence proof
+_Monotone Increasing_ - $a_0 <= a_1 <= a_2 <= a_3 ...$
+
+The Geometric series can be written as:
+$
+  a_n = (1-x^(n+1)) / (1-x)
+$
+It converges towards:
+$
+  a_oo = 1 / (1-x)
+$
+
+If a sequence is defined as the sum, product, quotient or inequality of two convergent sequences, the resulting sequence also converges towards the sum, product, etc. of the contained limits.
+
+=== Euler's Number
+An irrational number defined as:
+$
+  e := lim_(n -> oo) (1+1 / n)^n
+$
+
+TODO: Read corresponding bridging course
