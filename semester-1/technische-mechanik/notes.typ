@@ -112,3 +112,11 @@ $
 $
 #image("images/degrees-of-freedom.png")
 #image("images/degrees-of-freedom-joints.png")
+
+TODO:
+- Newton's Laws
+- Inner vs outer forces, sum of inner forces is 0
+- $cal(P) = arrow(F) dot arrow(v)$
+- Accelerating vs breaking force vs perpendicular
+- pacman identity for dot / scalar product
+- moment, the z component describes the angular direction

@@ -363,10 +363,20 @@ _Geometric Series - $n in NN_0, a_n -> sum_(k=0)^n z^k$
 
 _Harmonic Sequence_ - $n in NN_0, a_n -> 1/n$ - Converges towards 0
 
+=== Archimedes' Axiom
+$
+  forall x in RR exists n in NN_0, x <= n
+$
+
+=== Triangle Inequality
+$
+  abs(x + y) <= abs(x) + abs(y)\
+  abs(x - y) >= abs(x) - abs(y)
+$
+
 === Convergence
 $
-  A in CC\
-  "A sequence converges towards " A <=> forall epsilon in (
+  "A sequence converges towards " A <=> exists A in CC forall epsilon in (
     0, oo
   ) exists n_0 in NN_0 forall n in NN_0: n >= n_0, abs(a_n - A) <= epsilon\
   a_n -> A space ("converges towards A")
@@ -377,3 +387,13 @@ $
   lim_(n -> oo) a_n = A
 $
 Note: The index n cannot be set as $oo$, as infinity is not a natural number.
+
+Divergence can be proved by proving the conjugate of the definition of convergence:
+$
+  "A sequence diverges " <=> forall A in CC exists epsilon in (
+    0, oo
+  ) forall n_0 in NN_0 exists n in NN_0: n >= n_0, abs(a_n - A) > epsilon\
+$
+
+=== Convergence Criteria
+TODO: Read corresponding bridging course and understand divergence proof
