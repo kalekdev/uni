@@ -74,6 +74,25 @@ TODO:
 - Relationship between pull up and pull down paths
 
 == Min / Maxterm
-TODO: Is this a method to create a boolean expression for any arbitrary truth table?
+Normal form, can either be made using min or maxterms.
+DNF (or coupling of all minterms) or KNF (and coupling of maxterms) - they both result in the same desired output
+Results in a boolean expression for the variables that returns the desired output
 
+== Karnaugh Diagrams
+Used to simplify a DNF / KNF, systematic way instead of boolean algebra, therefore useful for functions with many variables
+Easier to use with DNF (Minterms)
+Simply a graphic way of using the neighbour simplification rule:
+$(not A and not B) or (A and not B) = not B$
+
+The packets must contain $2^n$ cells!
+Create packets using the largest possible rectangle with 1s, remove the variable that doesn't change
+
+packets may overlap and "pacman" over the border (even diagonally!), but not take non rectangle shapes
+
+3+ variable diagrams are split so that moving in any one step from a cell, only one variable changes
+4+ variables needs two+ layers, which need to be simultaneously simplified
+
+_Don't care_ - Combinations of inputs for which the output doesn't matter, for example extra numbers in a boolean counting system. Marked with an X in a Karnaugh Diagram. The X's can be treated as 1s when creating packets if it reduces the amount of packets (and therefore AND gates) in the simplified expression.
+
+Static hazards (TODO: Define) can be recognized in Karnaugh diagrams: where two paackets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet two join the place of the hazard.
 Lectures 1-4 (inclusive) in the test next week
