@@ -85,6 +85,8 @@ $
   U_12 = phi(P_1) - phi(P_2) = integral_(P_1)^(P_2) arrow(E) dot d arrow(s)
 $
 
+A multimeter can only measure voltage between conductors (and not with for example the air as a reference point) as it relies on a small current to make the measurement. LTD: Revisit capacitive coupling
+
 == Elektrische Fluss (Flux)
 
 _Electric Displacement Field (aka Flux Density)_: An imaginary field that describes the effect of a charge on space, independent of if it's through a vacuum, dielectric or conductor.

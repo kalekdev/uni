@@ -396,8 +396,109 @@ When targeting inner columns, the reflection matrix should only be in the bottom
 - Givens rotation is great for targeting specfic elements to turn into 0, and it needs a series of rotations to reduce several dimensions at once. It is ideal if there are already several 0s in the column.
 - Householder reflections have the power to turn all except one element of a column into 0s at once (reflect a vector in $RR^3$ directly onto the x-axis for example)
 
-== Vector space
+#pagebreak()
+
+== Linear Vector Spaces
 *"Es macht Spaß"* - _Vasile Gradinaru_
+
+_Linear_ - Lines are mapped to lines after the transformation
+
+$RR^n$ and $CC^n$ are only two example of many possible vector spaces. Considering the vector space $V$, the following operations / axioms are defined:
+#image("images/vector-space.png")
+
+=== Continuous Differentiable Functions
+$
+  C^s [a, b] := {f: [a, b] -> RR, f "is continuous and has" s "derivatives"}
+$
+
+_Continuous_ - The function is continuous between [a, b], meaning there are no gaps or jumps in this interval.\
+_Has s derivatives_ - The derivative exists at all points in the interval $[a, b]$ (ie. it is never a vertical line with an infinite gradient) and so on s times.
+
+The following red function is a member of $C^1 [0, 1]$ but not $C^2 [0, 1]$, as its first derivative jumps from a positive to a negative value and is therefore not continuous nor can it be differentiated.
+#image("images/one-derivative.png", width: 20%)
+
+The trigonometric functions have infinite continuous derivatives:
+$
+  {sin, cos} in C^oo [a, b]
+$
+
+The larger the value of s, the smaller the set. All functions in $C^2$ also belong in $C^1$ and so on...
+$
+  C^oo subset ... subset C^3 subset C^2 subset C^1 subset C^0
+$
+
+This set is a linear vector space, as addition and / or scalar multiplication result in a member of the same set, for example two continuous functions in an interval $[a, b]$ added together still result in a continuous function throughout the same interval.
+
+=== Polynomials
+$
+  cal(P)_n := {"polynomials of degree" <= n-1}\
+  cal(P)_1 subset cal(P)_2 subset cal(P)_3 subset ... subset cal(P)_oo
+$
+
+For example the polynomial $x^2+1$ with degree 2 is a member of $cal(P)_3$ but also all higher sets such as $cal(P)_4$ as the coefficient of $x^3$ is simply 0.
+
+Addition and *scalar* multiplication are indeed valid operations that result in a member of the same set, therefore it is a linear vector space.
+
+Taylor Series in Analysis will demonstrate how any continuous function in $C^0$ can be expressed using $cal(P)_n$.
+
+_Basis of $cal(P)_n$_ - ${x^(i)| i in NN_0 < n}$ - any element of $cal(P)_n$ can be expressed as a linear combination of these basis vectors.
+
+=== Other Linear Spaces
+- $L^2 [a, b] := {f: [a, b] -> RR, integral_a^b abs(f)^2 d t}$- Space of quadratically integrable functions
+- $cal(l) := {a_n "converges"}$- Space of convergent sequences
+- $cal(l) := {a_n "converges"}$- Space of convergent sequences
+
+=== Linear Subspace
+#image("images/subspace.png")
+A linear subspace must also include a zero vector.
+
+$
+  U := {bold(x) in vec(x_1, 0) in RR^2}\
+  U' := {bold(x) in vec(x_1, 5) in RR^2}
+$
+$U'$ is not a subspace, as vector addition leads to $vec(x_1', 10)$ which has left the space.
+
+A single contradictory example must be found to prove that something is not a linear subspace.
+
+=== Span
+The set of all possible linear combinations of elements of a linear space. For example the span of basis vectors of $RR^3$ is the entire $RR^3$, as any point in 3D space can be expressed as linear combination of the basis.
+
+The range of the transformation of space $cal(A)(x) = bold(A x)$ can be expressed as the span of its columns:
+$
+  cal(A): RR^n -> RR^m\
+  "Range" cal(A) = "Span"{A_1, A_2, ..., A_n}
+$
+
+_Erzeugendensystem_ - Set of vectors which span a vector space $V$.
+
+The range of a transformation can be found by capturing any compatibility conditions in a vector (if there are any), for example of $b_3 - b_1 - b_2 = 0$, the range can be expressed as:
+$
+  {vec(b_1, b_2, b_1 + b_2), b_1, b_2 in RR}
+$
+
+This can also be expressed as a span by breaking it into a linear combination:
+$
+  b_1 vec(1, 0, 1) + b_2 vec(0, 1, 1) = "Span" {vec(1, 0, 1), vec(0, 1, 1)}
+$
+
+=== Kernel (Null-Space / Kern)
+Let $bold(A):= m times n$. The kernel is the set of vectors that is transformed to 0 by $bold(A)$.
+
+The kernel can be found by solving the LGS $bold(A x = 0)$ with Gaussian Elimination. This provides infinite solutions for a singular matrix or the null vector for a regular system.
+
+Each linear space already has two simple subspaces:
+- The kernel of its matrix
+- The range of it as a transformation
+
+=== Finite Dimensional Vector Space
+A vector space is finite dimensional if a finite set of basis vectors spans the entire space.
+
+Examples:
+- Finite dimensional: $RR^2, cal(P)_n$
+- Non-finite dimensional: $cal(P), C^k, L^2$
+
+Sometimes non-finite spaces can be approximated using finite dimensional spaces (Taylor series)
+
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
 
