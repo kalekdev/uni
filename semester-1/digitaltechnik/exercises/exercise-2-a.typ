@@ -16,7 +16,7 @@
   $
 b) $U=not B and B and not A, V=B and A, W=not C and not B, X=U or V or W, Z = W$
 
-#image("exercise-2-q-3.jpeg", width: 60%)
+#image("images/exercise-2-q-3.jpeg", width: 60%)
 
 4. a) $
     #table(columns: 9, table.header([A], [B], [T1], [T2], [T3], [T4], [T5], [T6], [Z]),
@@ -45,5 +45,5 @@ $
 - C: Eingang
 - D: Eingang
 
-#image("exercise-2-q-5.jpeg", width: 50%)
+#image("images/exercise-2-q-5.jpeg", width: 50%)
 e) $(not A and not B and not C) or (not D and not E) or not F$

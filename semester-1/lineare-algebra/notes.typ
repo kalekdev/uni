@@ -106,6 +106,11 @@ $
   bold((A + B)^H = A^H + B^H)\
 $
 
+The rank of a matrix is the same as its tranpose:
+$
+  "Rank"(bold(A)) = "Rank"(bold(A^T))
+$
+
 == Matrix Symmetry
 _Symmetrical_ - $bold(A^T) = bold(A)$\
 _Antisymmetrical_ - $bold(A^T) = -bold(A)$\
@@ -498,6 +503,13 @@ Examples:
 - Non-finite dimensional: $cal(P), C^k, L^2$
 
 Sometimes non-finite spaces can be approximated using finite dimensional spaces (Taylor series)
+
+== Basis
+Erzeugenden system can have more vectors than needed, basis only the essential
+There can be several bases in a space
+Base - minimal generating system
+
+=== Fundamental Satz von Lineare Algebra
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.

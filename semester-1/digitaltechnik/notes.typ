@@ -17,30 +17,33 @@ $R=(rho l) / A$
 
 Modern electronics uses 0.8V as high.
 
-_Floating Voltage_ - when a pin / contact is not connected by a "normal" (lower than that of air) resistance to V_DD / circuit ground. Essentially the same as any metal surface in the room, on which a very weak 50Hz signal is usually seen due to induction from all the EM sources in the room.
+_Floating Voltage_ - when a pin / contact is not connected by a "normal" (lower than that of air) resistance to V_DD / circuit ground. Essentially the same as any conductive surface in the room, on which a very weak 50Hz signal is usually seen due to induction from all the EM sources in the room.
 
 #pagebreak()
 
 == Schaltfunktionen
 _Schaltfunktion_ - $Y = f(X_0, X_1, X_2, ..., X_(N-1))$ - Nimmt mehrere Bits als Input und produziert eine einzige Bit als Ausgang.
 
-Alle Schaltfunktionen lassen sich als einer Wahrheitstabelle darstellen mit $N+1$ Spalten und $2^N$ Zeilen, wo N ist der Nummer von Inputs.
+Alle Schaltfunktionen lassen sich als einer Wahrheitstabelle darstellen mit mindestens $N+1$ Spalten und $2^N$ Zeilen, wo N ist der Nummer von Inputs.
 
 NOT'ing a gate usually means the resistor just needs to be moved before the transistors (essentially appending a NOT gate).
 
-*AND* - The resistor after the output point is needed to prevent a short circuit when both inputs are high.
+*OR* - Disjunction
 
-*XNOR* - High if both inputs are the same, gate symbol is a =.
+*AND* - Conjunction - The resistor after the output point is needed to prevent a short circuit when both inputs are high.
 
 *Antivalenz (XOR)* - High if only one of the inputs is high.
 
+*XNOR* - High if both inputs are the same, gate symbol is a =.
+
 == CMOS (Complementary Metal Oxide Semiconductor) Technology
 _Transistor_ - Trans-Resistor (changable resistor)\
-_MOS Transistor_ - Electronic component with contacts *S* ource, *D* rain und *G* ate. Charge carriers flow from S to D. They are controlled through a voltage at G (unlike a current with BJT) and is therefore more efficient for very low / high power applications. They are also easier to etch in ICs and are therefore predominantly used in logic circuits.\
+_MOS Transistor_ - Electronic component with contacts *S* ource, *D* rain und *G* ate. Charge carriers flow from S to D. They are always controlled through a voltage between Gate and Source (unlike a current with BJT) and is therefore more efficient for very low / high power applications. They are also easier to etch in ICs and are therefore predominantly used in logic circuits.
+
 Although very high pull up resistors vastly reduce power loss when using a single MOS transistor, such large resistances are difficult to fabricate in ICs. CMOS uses a PMOS instead which has practically $oo$ resistance when "open".
 
-$abs(V_(g s)) < abs(V_(t h)), R_(S D) -> oo$ - The transistor is off\
-$abs(V_(g s)) > abs(V_(t h)), R_(S D) -> 0$ - The transistor is on
+$abs(V_(G S)) < abs(V_(t h)), R_(S D) -> oo$ - The transistor is off\
+$abs(V_(G S)) > abs(V_(t h)), R_(S D) -> 0$ - The transistor is on
 
 _N-Type (NMOS)_ - Threshold voltage is positive. Negative electrons flow from S to D (Hence D is connected to the positive terminal in a circuit)\
 _P-Type (PMOS)_ - Threshold voltage is negative. Positive Holes flow from S to D. Circle at the gate in symbol.
@@ -60,26 +63,66 @@ A CMOS gate can be split into two networks / Pfads:
 )
 These can be converted between one another by breaking the circuit into parallel / series blocks until each block contains one transistor, then switching the type of transistor and connecting them again in the opposite manner (parallel $<=>$ series). V_DD becomes the output and the output becomes ground.
 
-$t_(p H L)$ - Time taken to switch on once 50% of the gate voltage is reached until 90% of $V_(D S)$ is reached TODO: Check\
-$t_(p L H)$ - Time taken to switch off\
-$t_d = (t_(p H L) +t_(p L H)) / 2$ - Average switching time
+=== Switching Delays
+- $t_(p H L), t_(p L H)$ - Propogation delay - Time taken between a 50% change in the input voltage leading to a 50% change in the output
+- $t_(t H L) (t_"fall"), t_(t L H) (t_"rise")$ - Time between the output rising / falling between 10% and 90% voltage
+$t_d = (t_(p H L) +t_(p L H)) / 2$ - Average switching time, easier to work with in practice
 
 == Boolean Algebra
-TODO:
-- last 2 fundamental rules of boolean algebra
-- order of operations
-- De Morgan's laws
-- Distributive law loop
-- Universal gates NAND & NOR conversion - Advantage as they all have the same properties such as timing
-- Relationship between pull up and pull down paths
+The following properties apply to an expresion only containing AND / OR gates:
+- Commutative, order does not matter
+- Associative, grouping / order of (the same) operations is irrelevant
+- Distributive, $A and (B or C) = (A and B) or (A and C)$
 
-== Min / Maxterm
-Normal form, can either be made using min or maxterms.
-DNF (or coupling of all minterms) or KNF (and coupling of maxterms) - they both result in the same desired output
-Results in a boolean expression for the variables that returns the desired output
+Some not so obvious axioms of boolena algebra:
+- $A or (A and B) = A = A and (A or B)$ - consider the effect on the whole circuit when the outer variable is high / low
+- $(A and B) or (not A and B) = (A or B) and (not A or B) = B$ - Neighbourhood law
+
+=== Order of Operations
+1. Brackets
+2. Negation
+3. AND, NAND, OR, NOR
+4. XOR, XNOR
+
+An expression with missing brackets is ambiguous and invalid.
+
+=== De Morgan's Laws
+$
+  not (A and B and C and ...) equiv not A or not B or not C or...\
+  not (A or B or C or ...) equiv not A and not B and not C and ...
+$
+
+The conversion between the pull up and pull down expression in a CMOS circuit uses De Morgan's laws:
+#align(center, image("images/pu-pd-demorgan.png", width: 50%))
+
+=== Universal Gates
+Any logic circuit can be expressed using only NAND / NOR gates. This is very advantageous as all gates in the circuit would have the same timing properties, reducing costs and errors.
+
+To convert a logical expression into NAND / NOR, double negation + De Morgan's laws can be used, for example:
+$
+  A and B equiv ?\
+  not not A and B equiv not not A or not B\
+  not A "NOR" not B equiv (A "NOR" A) "NOR" (B "NOR" B)
+$
+
+=== Min / Maxterms
+For $n$ variables there are $2^n$ possible min / maxterms:
+- Minterm: Expression that outputs 1 for *one* specific combination of inputs, if we want 1 only when A low, B High, minterm: $not A and B$
+- Maxterm: Expression that outputs 0 for *one* specific combination of inputs, if we want 0 only when
+
+Let us consider we want expressions that output high / low only when $A=0, B=1$:
+- Minterm: $not A and B$, high only in this case
+- Maxterm: $A or not B$, low only in this case
+
+== Normal Forms
+A way of expressing a boolean expression that can easily be determined from the desired truth table (and later simplified). After constructing either a list of minterms for each 1 in the output, or list of maxterms for each 0:
+- Disjunctive Normal Form - Minterms joined using disjunctions (OR)
+- Conjunctive Normal Form - Maxterms joined using conjunctions (AND)
+
+Both result in the same output, DNF is more comfortable to use in Karnaugh diagrams.
 
 == Karnaugh Diagrams
-Used to simplify a DNF / KNF, systematic way instead of boolean algebra, therefore useful for functions with many variables
+TODO: Used to simplify a DNF / KNF, systematic way instead of boolean algebra, therefore useful for functions with many variables
 Easier to use with DNF (Minterms)
 Simply a graphic way of using the neighbour simplification rule:
 $(not A and not B) or (A and not B) = not B$
