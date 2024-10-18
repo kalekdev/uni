@@ -497,7 +497,7 @@ When designing real world circuits, analysing them in terms of fields is usually
 
 Potential Difference and Current are scalar values represented by arrows in circuit diagrams, which point in the direction of the electric field (hence conventional current).
 
-_Ideal Voltage Source_ - Maintains a constant voltage at its terminals, current depends on the connected load. Vertical straight line in circuit symbol\
+_Ideal Voltage Source_ - Maintains a constant voltage between its terminals, current depends on the connected load. Vertical straight line in circuit symbol\
 _Ideal Current Source_ - Maintains a constant current through the circuit, terminal voltage depends on the connected load. Horizontal straight line in circuit symbol
 
 === Kirchhoff's Circuit Laws
@@ -540,4 +540,18 @@ _Wheatstone Bridge_ - Circuit used for accurately measuring resistance using 2 P
 
 When a load is connected to a voltage divider, it is effectively in parallel with the 2nd resistor and thus reduces the voltage at V_OUT. Furthermore, there are very high power losses, which is why voltage dividers are usually used for measuring resistances rather than as voltage regulators (where switching supplies / OPAMPs excel).
 
+=== Measuring Resistance
 When measuring circuits, voltmeters ideally have an infinitely high resistance and ammeters should have a resistance as close to 0 as possible. If the resistance of a measuring device is known, the error can be corrected or alternatively a more suitable resistance can be chosen for the expected voltage to prevent damaging the meter without massively affecting the measurement.
+
+Regardless, it is best that the ammeter is included in the parallel path of the target resistor, so that its erroring resistance only exists in the denominator and leads to a smaller error than if it were connected outside of the voltmeters connection:
+#grid(
+  columns: (auto, auto),
+  align: horizon,
+  image("images/resistance-measurement.png", width: 70%),
+  $
+    R = (U_V - U_A) / I_A
+  $,
+)
+
+== TODO
+The internal resistance of a current source is in parallel, as a series resistance wouldn't influence the output current. Therefore the internal resistance of an ideal current source is infinite, so that the entire current flows through the output path.

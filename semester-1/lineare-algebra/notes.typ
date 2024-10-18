@@ -495,21 +495,39 @@ Each linear space already has two simple subspaces:
 - The kernel of its matrix
 - The range of it as a transformation
 
-=== Finite Dimensional Vector Space
-A vector space is finite dimensional if a finite set of basis vectors spans the entire space.
+=== Basis
+_Linearly Dependant_ - There exists a real scalar which multiplies a vector to the other:
+$
+  bold(v_1) = alpha bold(v_2)
+$
+Otherwise they are linearly independent.
+
+This check can be restructured as an LGS for several vectors $bold(v_n)$, where we find the kernel of the matrix $bold(A)$:
+$
+  x_1 bold(v_1) + x_2 bold(v_2) +x_3 bold(v_3) +x_4 bold(v_4) + ...= 0\
+  bold(A x = 0)
+$
+If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent. This can be determined using Gaussian Elimination (more on this later).
+
+TODO: Monomes
+
+_Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system). There can be several independent bases in a space, but all bases have the same number of elements.
+
+_Canonical basis_ - Special basis for each space, for example $e_x, e_y, e_z in RR^3$
+
+=== Dimensions
+The number of elements in a basis of a space.
+
+_Finite Dimensional Vector Space_ - A finite set of basis vectors spans the entire space.
 
 Examples:
-- Finite dimensional: $RR^2, cal(P)_n$
+- Finite dimensional: $RR^n, cal(P)_n$ - Dimension = $n$. (Hence the awkward degree $<= n-1$ notation for $cal(P)_n$)
 - Non-finite dimensional: $cal(P), C^k, L^2$
 
-Sometimes non-finite spaces can be approximated using finite dimensional spaces (Taylor series)
-
-== Basis
-Erzeugenden system can have more vectors than needed, basis only the essential
-There can be several bases in a space
-Base - minimal generating system
+Sometimes non-finite spaces can be approximated using finite dimensional spaces (Taylor series).
 
 === Fundamental Satz von Lineare Algebra
+TODO: Diagram from script: where the basis is the set of columns with a pivot and any others are linearly dependent - they do not provide any new dimensions to the space
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.

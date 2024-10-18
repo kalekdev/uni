@@ -115,7 +115,7 @@ Example:
 ${x | x in NN_0, x "ist gerade"}$
 
 _Russelsche Antonomie_ - ${x | x in X, x in.not x}$ ist ein Paradox\
-Loesung: Es muss immer so definiert werden ${x in X | P(x)}$, wo X eine Menge ist.
+Loesung: Es muss immer so definiert werden ${x in X | P(x)}$, wo X eine andere Menge ist.
 
 $A sect B - {x | x in A and x in B}$ - Intersection\
 $A union B - {x | x in A or x in B}$ - Union\
@@ -274,7 +274,7 @@ $
 == Complex Numbers
 The Real numbers contain no solution for $x^2 = -1$, which is why the imaginary number $i=sqrt(-1)$ was introduced, first considered by Cardano. They can be used to solve real world problems throughout electrical engineering, particularly for oscillations because powers of $i^n$ have a repetitive nature.
 
-Complex addition is identical to real addition $+_(RR^2)$.
+Complex addition is identical to real addition $+_(RR^2)$ between the real and imaginary parts.
 
 Complex multiplication is defined as:
 $
@@ -321,7 +321,7 @@ $
   overline(z z') = overline(z) dot overline(z')
 $
 
-The function cis is defined to handle complex numbers in polar form:
+The function cis can be used to handle complex numbers in polar form:
 $
   "cis"(theta) = cos(theta) + i sin(theta)\
   "cis"(theta)"cis"(phi) = "cis"(theta + phi)\
@@ -331,9 +331,14 @@ $
   overline(z) = abs(z)"cis"(-phi)
 $
 
+Polar form can also be written in terms of Euler's equation, which was derived from the Taylor Series' of $e^x$ and the trigonometric functions:
+$
+  z = abs(z) e^(i theta)\
+$
+
 De Moivre's Theorem:
 $
-  z^k = abs(z)^k "cis"(k phi) = abs(z)^k e^(i k phi)\
+  z^k = abs(z)^k "cis"(k phi)
 $
 
 === k'th Roots
@@ -414,5 +419,6 @@ An irrational number defined as:
 $
   e := lim_(n -> oo) (1+1 / n)^n
 $
+This converging sequence was discovered by Bernoulli whilst calculating the effect of frequency of payments on compound interest: https://en.wikipedia.org/wiki/E_(mathematical_constant)#Compound_interest
 
-TODO: Read corresponding bridging course
+The exponential growth function $e^x$ also displays the unique property that its derivative at any point is $e^x$.
