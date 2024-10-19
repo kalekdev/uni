@@ -407,7 +407,7 @@ The Geometric series can be written as:
 $
   a_n = (1-x^(n+1)) / (1-x)
 $
-It converges towards:
+When $x<= 1$, it converges towards:
 $
   a_oo = 1 / (1-x)
 $
