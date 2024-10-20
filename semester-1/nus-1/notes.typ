@@ -560,5 +560,23 @@ _Real Voltage Source_ - The internal resistance is modelled *in series* with the
 
 _Real Current Source_ - Internal resistance is modelled *in parallel* (if it were in series the current source would simply increase the voltage accordingly to reach its target current) with the EMF source. The load should ideally have a low resistance, so the majority of the current flows through the parallel load path.
 
+Voltage / Current sources can be converted between one another such that they have the same open terminal voltage and short circuit current - their behaviour is then identical.
+
+Batteries connected in parallel can charge one another - they only discharge at the same rate if their internal resistances are identical.
+
+=== Load Power
+The *maximum (useful) power at the load* is transferred when the load and internal resistance are *the same*. This can be expressed as:
+$
+  P_(L "max") = U_0^2 / (4R_i)
+$
+
+The normalized load power against current graph looks like this:
+#align(image("images/load-power.png", width: 40%), center)
+
+*Efficiency*, on the other hand, varies depending on the power source, as mentioned previously in the "optimal manner" in which they should be operated. It can be expressed as follows:
+$
+  eta = P_"L" / P_"total" = (R_L / R_i) / (1+ R_L / R_i) dot 100% = (1-I / I_"max") dot 100%
+$
+Due to this, power transmission systems use voltage in the kV range to minimise the current and therefore energy losses.
 == TODO
 The internal resistance of a current source is in parallel, as a series resistance wouldn't influence the output current. Therefore the internal resistance of an ideal current source is infinite, so that the entire current flows through the output path.
