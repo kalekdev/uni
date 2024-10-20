@@ -553,5 +553,12 @@ Regardless, it is best that the ammeter is included in the parallel path of the 
   $,
 )
 
+== Real Power Sources
+Real world voltage and current sources cannot simply continue to output high power without losses. These losses can be modelled with an internal resistance $R_i$, over which voltage / current is lost.
+
+_Real Voltage Source_ - The internal resistance is modelled *in series* with the EMF source, meaning that the higher the current pulled by the load, the more power is lost internally; therefore a voltage source should ideally be used with low currents.
+
+_Real Current Source_ - Internal resistance is modelled *in parallel* (if it were in series the current source would simply increase the voltage accordingly to reach its target current) with the EMF source. The load should ideally have a low resistance, so the majority of the current flows through the parallel load path.
+
 == TODO
 The internal resistance of a current source is in parallel, as a series resistance wouldn't influence the output current. Therefore the internal resistance of an ideal current source is infinite, so that the entire current flows through the output path.
