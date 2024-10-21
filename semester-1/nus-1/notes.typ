@@ -503,7 +503,7 @@ _Ideal Current Source_ - Maintains a constant current through the circuit, termi
 === Kirchhoff's Circuit Laws
 Gustav Kirchhoff's discovered two laws that make analysing circuits possible without measuring every individual component.
 
-1. The sum of currents entering a point in a circuit is equal to the current leaving that point:
+1. The sum of currents entering a node in a circuit is equal to the current leaving that node:
 $
   sum_"Node" I = 0
 $
@@ -570,13 +570,51 @@ $
   P_(L "max") = U_0^2 / (4R_i)
 $
 
-The normalized load power against current graph looks like this:
+The normalized load power (efficiency) against normalized current graph looks like this:
 #align(image("images/load-power.png", width: 40%), center)
 
 *Efficiency*, on the other hand, varies depending on the power source, as mentioned previously in the "optimal manner" in which they should be operated. It can be expressed as follows:
 $
   eta = P_"L" / P_"total" = (R_L / R_i) / (1+ R_L / R_i) dot 100% = (1-I / I_"max") dot 100%
 $
-Due to this, power transmission systems use voltage in the kV range to minimise the current and therefore energy losses.
-== TODO
-The internal resistance of a current source is in parallel, as a series resistance wouldn't influence the output current. Therefore the internal resistance of an ideal current source is infinite, so that the entire current flows through the output path.
+Due to this, power transmission systems use voltage in the kV range to minimise the current and therefore reduce energy losses.
+
+== Network Analysis Techniques
+Various techniques may be employed to analyse more complicated circuits, either manually or by a computer.
+
+=== Thevenin's / Norton's Equivalents
+_"Set to zero"_:
+- Voltage Source: Replace with a short circuit and the internal resistance if applicable; no voltage can be lost over an ideal short circuit
+- Current Source: Replace with open terminals or the internal resistance in series with the original terminals, no current can flow through open terminals
+
+_Thevenin's / Helmholtz's Theorem_ - Any linear circuit between two terminals can be replaced with a single resistor and voltage source in series. The voltage can be calculated as the voltage between the two target terminals when no load is connected, the resistance is the resistance between the two terminals after setting every voltage / current source in between to zero.
+
+_Norton's Theorem_ - It can be replaced by a single current source and resistor in parallel. The current can be found by shorting the target terminals and the resistance is calculated in the same process as the Thevenin equivalent.
+
+These techniques can be used fundamentally to convert between a voltage and current source.
+
+=== Y-$Delta$ Transform
+Complicated resistor networks can be simplified with help of the so called Y-$Delta$ Transform.
+#image("images/y-delta.png", width: 60%)
+#image("images/y-delta-equations.png")
+
+=== Superposition Principle
+Like many natural phenomena, voltage and current in a linear circuit can be determined by superposing (summing) the individual contributions of each power source over a particular branch. This is not applicable to power, which is a quadratic equation when expressed only in terms of current / voltage.
+
++ Choose the power source to analyse and set all other power sources to zero as in the Thevenin equivalent.
++ Express voltage / current of the target branch(es) in terms of the power source's voltage / current.
++ Analyze all remaining power sources' contributions and sum them all together to calculate the total voltage / current across the branch.
+
+=== Linear System of Equations
+Thanks to Ohm's law, we can reduce the number of unknowns across a component to 1 (resistance is a constant of proportionality) as current and voltage can be determined from one another.
+
+_Branch_ - Components connected in series between two nodes. These also have 1 unknown (either current or voltage) as they share the same current.
+
+This leads to a general method for finding voltage and current in a linear circuit using a linear system of equations, which can be solved efficiently by computers with methods covered in linear algebra.
+
+A circuit with $z$ branches needs at least $z$ linearly independent equations to solve the unknowns, which can be found using Kirchoff's circuit laws.
+
++ A direction must be chosen for current flow and voltage drops. This can often be predicted correctly but is not an issue if incorrect, as a negative value will simply be calculated. It *must* however be used *consistently*.
++ For a circuit containing $k$ nodes, $k-1$ linearly independent equations can be found where the current is equal to 0 (Kirchhoff's current law).
++ The remaining $z - k - 1$ equations can be found using the voltage drops around a loop (equal to 0). Linearly independent equations can be ensured by "excluding" a particular branch after an equation for it has been included, forcing a new branch to be included to assemble the next equation.
++ The voltage drop equations can then be expressed in terms of resistance (as coefficients) and current, leading to a square, regular system of equations - ready to be solved!
