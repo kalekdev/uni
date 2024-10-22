@@ -18,5 +18,12 @@
     = A
   $
 4. $
-    Z = A or (not A and B and not C) or (not A and not B and C)
+    Z = ((B and not C) and (A or not A)) or ((not B and C) and (A or not A))\
+    = (B and not C) or (not B and C)
+  $
+5. $
+    (A and (D or (not D and not C) or (C and not D))) or ((B and C) and (D or not A))\
+    A or ((B and C) and (D or not A))\
+    (A or (B and C)) and ((A or D) or (A or not A))\
+    A or (B and C)
   $

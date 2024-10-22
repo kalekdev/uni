@@ -119,4 +119,13 @@ TODO:
 - $cal(P) = arrow(F) dot arrow(v)$
 - Accelerating vs breaking force vs perpendicular
 - pacman identity for dot / scalar product
-- moment, the z component describes the angular direction
+- moment, the z component describes the angular direction, resultant moment points in the direction of the axis of rotation
+- Kinematik & Dynamik - summary of the current movement of a body
+- Total power formula
+- Force groups
+- Two force groups are statically equivalent when: $cal(P)_"tot"({G_1}) = cal(P)_"tot"({G_2})$ (when considering the same body) , ie equivalent when the resultant force and moment are equal. This works for any reference points, as long as it is used on the body
+- equivalent forces with the same line of action - only for a rigid body
+- action lines through the same point, resultant force but no moment
+- torque, moments with same magnitude, only rotation, no resultant force, independent of the center of rotation
+- formula for transforming moment with respect to one point to another
+- invariants of dynamics

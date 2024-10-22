@@ -614,6 +614,7 @@ This leads to a general method for finding voltage and current in a linear circu
 
 A circuit with $z$ branches needs at least $z$ linearly independent equations to solve the unknowns, which can be found using Kirchoff's circuit laws.
 
++ The circuit must firstly be redrawn without components, rather a connection of branches (which may contain several components in series) and nodes.
 + A direction must be chosen for current flow and voltage drops. This can often be predicted correctly but is not an issue if incorrect, as a negative value will simply be calculated. It *must* however be used *consistently*.
 + For a circuit containing $k$ nodes, $k-1$ linearly independent equations can be found where the current is equal to 0 (Kirchhoff's current law).
 + The remaining $z - k - 1$ equations can be found using the voltage drops around a loop (equal to 0). Linearly independent equations can be ensured by "excluding" a particular branch after an equation for it has been included, forcing a new branch to be included to assemble the next equation.
