@@ -408,8 +408,10 @@ When targeting inner columns, the reflection matrix should only be in the bottom
 
 _Linear_ - Lines are mapped to lines after the transformation
 
-$RR^n$ and $CC^n$ are only two example of many possible vector spaces. Considering the vector space $V$, the following operations / axioms are defined:
+$RR^n$ and $CC^n$ are only two examples of many possible vector spaces. Considering the vector space $V$, the following operations / axioms are defined:
 #image("images/vector-space.png")
+
+Two linear spaces can proved to be equal to one another by proving $A subset.eq B and B subset.eq A therefore A = B$
 
 === Continuous Differentiable Functions
 $
@@ -419,7 +421,8 @@ $
 _Continuous_ - The function is continuous between [a, b], meaning there are no gaps or jumps in this interval.\
 _Has s derivatives_ - The derivative exists at all points in the interval $[a, b]$ (ie. it is never a vertical line with an infinite gradient) and so on s times.
 
-The following red function is a member of $C^1 [0, 1]$ but not $C^2 [0, 1]$, as its first derivative jumps from a positive to a negative value and is therefore not continuous nor can it be differentiated.
+The following red function is a member of $C^1 [0, 1]$ but not $C^2 [0, 1]$, as its first derivative jumps from a positive to a negative value and its derivative therefore doesn't exist at the point of the jump (non-continuous).
+
 #image("images/one-derivative.png", width: 20%)
 
 The trigonometric functions have infinite continuous derivatives:
@@ -444,7 +447,7 @@ For example the polynomial $x^2+1$ with degree 2 is a member of $cal(P)_3$ but a
 
 Addition and *scalar* multiplication are indeed valid operations that result in a member of the same set, therefore it is a linear vector space.
 
-Taylor Series in Analysis will demonstrate how any continuous function in $C^0$ can be expressed using $cal(P)_n$.
+Taylor Series in Analysis will demonstrate how any continuous function in $C^0$ can be approximated using $cal(P)_n$.
 
 _Basis of $cal(P)_n$_ - ${x^(i)| i in NN_0 < n}$ - any element of $cal(P)_n$ can be expressed as a linear combination of these basis vectors.
 
@@ -476,7 +479,7 @@ $
 
 _Erzeugendensystem_ - Set of vectors which span a vector space $V$.
 
-The range of a transformation can be found by capturing any compatibility conditions in a vector (if there are any), for example of $b_3 - b_1 - b_2 = 0$, the range can be expressed as:
+The range (codomain) of a transformation can be found by capturing any compatibility conditions in a vector (if there are any), for example of $b_3 - b_1 - b_2 = 0$, the range can be expressed as:
 $
   {vec(b_1, b_2, b_1 + b_2), b_1, b_2 in RR}
 $
@@ -485,6 +488,9 @@ This can also be expressed as a span by breaking it into a linear combination:
 $
   b_1 vec(1, 0, 1) + b_2 vec(0, 1, 1) = "Span" {vec(1, 0, 1), vec(0, 1, 1)}
 $
+
+_Monome_ - $p_n(t) = t^n$, for example $p_0(t) = 1, p_1(t) = t, p_2(t) = t^2, ...$\
+The set of monomes is a linear subspace of the polynomials $cal(P_n)$, which can be spanned by $"Span"{p_k | k < n}$
 
 === Kernel (Null-Space / Kern)
 Let $bold(A):= m times n$. The kernel is the set of vectors that is transformed to 0 by $bold(A)$.
@@ -495,6 +501,7 @@ Each linear space already has two simple subspaces:
 - The kernel of its matrix
 - The range of it as a transformation
 
+TODO: Continue here, erzeugende system in script
 === Basis
 _Linearly Dependant_ - There exists a real scalar which multiplies a vector to the other:
 $
@@ -502,14 +509,12 @@ $
 $
 Otherwise they are linearly independent.
 
-This check can be restructured as an LGS for several vectors $bold(v_n)$, where we find the kernel of the matrix $bold(A)$:
+This check can be restructured as a linear combination of several vectors $bold(v_n)$, where we find the kernel of the matrix $bold(A)$:
 $
   x_1 bold(v_1) + x_2 bold(v_2) +x_3 bold(v_3) +x_4 bold(v_4) + ...= 0\
   bold(A x = 0)
 $
 If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent. This can be determined using Gaussian Elimination (more on this later).
-
-TODO: Monomes
 
 _Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system). There can be several independent bases in a space, but all bases have the same number of elements.
 

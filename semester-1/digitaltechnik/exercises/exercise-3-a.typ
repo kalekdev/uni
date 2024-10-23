@@ -60,4 +60,6 @@ Error: $>=1$
 Man müsste zumindest eine dritte state zu dem Steuereinheit hinzufügen, zum Beispiel durch 2 Bit Binary Kodierung.
 
 == 3
-TODO
+a) #image("images/exercise-3-q-3.png", width: 80%)
+b) $t_(p L H A Z) = 70"ns"$\
+$t_(p H L A Z) = 40"ns"$
