@@ -139,3 +139,50 @@ _Don't care_ - Combinations of inputs for which the output doesn't matter, for e
 
 Static hazards (TODO: Define) can be recognized in Karnaugh diagrams: where two paackets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet two join the place of the hazard.
 Lectures 1-4 (inclusive) in the test next week
+
+== Number Systems
+_Base (Radix)_ - b-adischen Reiehen like in analysis, negative indices of the base for defining decimals
+
+_Hexadecimal_ - Uses digits $0-9$ and $A-F$ for 16 possible digits in total. Used to represent binary numbers in a more compact format by splitting a binary number into groups of 4 digits
+
+_Octal_ - Radix 8, can be converted from binary using groups of 3 binary digits.
+
+=== Converting Decimal to Radix R
++ Perform whole number division of the decimal $D$ by the Radix $R$: $D/R = Q_0 + r_0$, the remainder is the first digit in the target radix
++ Divide the result of the previous whole-number division $Q_0$ by the radix R again, this remainder is now the second digit in the target radix and so on
++ Continue until $Q_i$ reaches 0
+
+=== Converting $0 <= D_(10) < 1$ to Radix R
+This is the same process but the decimal is multiplied by the radix R and the resulting product is used in the next multipliciation. The current digit is the floor of TODO: Coefficients?, starting with the most significant bit.
+
+Only possible for a finite number of decimal digits.
+
+== Signed Binary Numbers
+- Signing bit
+- 1s complement
+- 2s complement: Advantageous for performing arithmetic with signed numbers as the sign remains accurate
+
+=== 2s Complement
+TODO: Screenshot from script (Konstruktion von 2er-Komplementen)
+How it can be converted back into decimal, either convert to positive then calculate or use first bit (sign) as $-(2)^n$ and the others as positive binary digits
+
+Fractional numbers still have $plus.minus 2^0$ as the signing bit, converted in the same way. In the case of a whole + fractional number only the first bit is a signing bit
+
+IMPORTANT: Do not forget signing bit for positive numbers
+
+== Binary Arithmetic
+Addition of two binary numbers, with maximum $n$ digits has at most $n+1$ bits in the result
+
+Binary subtraction can be written as the addition of 2s complement numbers
+
+== Encoding
+Tetraden / Nibble - groups of 4 bits
+
+Many different ways to encode 10 numbers, each has their advantages / disadvantages. Gray / O'Brien useful for counting TODO: Why?
+
+=== Parity Bit
+Additional bit representing if the number of 1s in a word / block is odd / even TODO: Double check
+
+An extra word can be sent with the purpose of checking and also correcting previous words
+
+
