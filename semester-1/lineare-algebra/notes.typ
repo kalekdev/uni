@@ -449,8 +449,6 @@ Addition and *scalar* multiplication are indeed valid operations that result in 
 
 Taylor Series in Analysis will demonstrate how any continuous function in $C^0$ can be approximated using $cal(P)_n$.
 
-_Basis of $cal(P)_n$_ - ${x^(i)| i in NN_0 < n}$ - any element of $cal(P)_n$ can be expressed as a linear combination of these basis vectors.
-
 === Other Linear Spaces
 - $L^2 [a, b] := {f: [a, b] -> RR, integral_a^b abs(f)^2 d t}$- Space of quadratically integrable functions
 - $cal(l) := {a_n "converges"}$- Space of convergent sequences
@@ -501,24 +499,47 @@ Each linear space already has two simple subspaces:
 - The kernel of its matrix
 - The range of it as a transformation
 
-TODO: Continue here, erzeugende system in script
 === Basis
 _Linearly Dependant_ - There exists a real scalar which multiplies a vector to the other:
 $
+  alpha in RR\
   bold(v_1) = alpha bold(v_2)
 $
-Otherwise they are linearly independent.
 
-This check can be restructured as a linear combination of several vectors $bold(v_n)$, where we find the kernel of the matrix $bold(A)$:
+This check can be restructured as a linear combination of several vectors $bold(v_n)$, where we find the kernel of the matrix $bold(A)$, meaning the set of scalars which would express each column of the matrix as a linear combination of the other columns:
 $
+  vec(x_1, x_2, ..., x_n) in RR^n\
   x_1 bold(v_1) + x_2 bold(v_2) +x_3 bold(v_3) +x_4 bold(v_4) + ...= 0\
+  bold(-v_1) = x_2 / x_1 bold(v_2) +x_3 / x_1 bold(v_3) +x_4 / x_1 bold(v_4) + ...\
+  bold(A) = mat(bold(v_1), bold(v_2), ..., bold(v_n))\
   bold(A x = 0)
 $
-If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent. This can be determined using Gaussian Elimination (more on this later).
+If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent.
 
-_Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system). There can be several independent bases in a space, but all bases have the same number of elements.
+_Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system) and stay completely within the linear space (not allowed to span the parent space as well). There can be several independent bases in a space, but all bases have the same number of elements.
 
 _Canonical basis_ - Special basis for each space, for example $e_x, e_y, e_z in RR^3$
+
+#image("images/lu-base.png", width: 60%)
+The basis of an erzeugenden system can be found through LU Zerlegung, where the columns with a pivot are linearly independent of one another and therefore the basis of the range / image (span of the erzeugenden system).
+
+==== Basis of $cal(P)_n$ are the monomes
+Basis of $n in NN, cal(P)_n = {p_(i) = t^(i)| t in RR, i in NN_0 < n}$ - The monomes are linearly independent (proof in script) and span the entire polynomial space.
+
+A trick for proving linear independence of certain items, for example polynomials $q_1, q_2, ...$ is expressing them in terms of another linear space that is known to be linearly independent, for example monomes and rearranging the basis check equation as follows:
+$
+  q_1 &= p_0 + p_2\
+  q_2 &= p_0-p_2\
+  q_n &= ...\
+$
+$
+  x_1 q_1 + x_2 q_2 + ... &= 0\
+  x_1(p_0 + p_2) + x_2 (p_0-p_2) + ... &= 0\
+  (x_1 + x_2)p_0 + (x_1 - x_2)p_2 + ... &= 0\
+  mat(1, 1, ...; 1, -1, ...; ...) vec(x_1, x_2, ...) = 0\
+$
+Since the monomes have already been proved to be linearly independent, we can construct the coefficients containing $x$ as an LGS with right hand side 0 and show that this matrix indeed only has the trivial solution (it is regular).
+
 
 === Dimensions
 The number of elements in a basis of a space.
@@ -531,8 +552,25 @@ Examples:
 
 Sometimes non-finite spaces can be approximated using finite dimensional spaces (Taylor series).
 
+#image("images/dimensions.png")
+
 === Fundamental Satz von Lineare Algebra
-TODO: Diagram from script: where the basis is the set of columns with a pivot and any others are linearly dependent - they do not provide any new dimensions to the space
+The dimensions of the kernel of a $n times k$ matrix $bold(A)$ with rank $r$ are:
+$
+  dim("Kernel"(bold(A))) = k -r
+$
+This is intuitive from the LU Decomposition of an Erzeugendensystem $->$ basis (see above).
+
+Furthermore:
+$
+  dim("Kernel"(bold(A^T))) = n - r\
+  dim("codom"(bold(A))) = r\
+  dim("codom"(bold(A^T))) = r\
+$
+
+LTD: Understand proofs for these in script
+
+TODO: 3rd part of fundamental theorem of linear algebra
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
