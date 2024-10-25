@@ -2,13 +2,17 @@
 
 #outline()
 
-_Kinematiks_ - how a model is currently at motion\
+_Kinematiks_ - How a model is currently at motion without concern for the causes (forces)\
 _Statics_ - Which conditions (forces & moments) are needed to keep a system at
 rest\
 _Dynamics_ - Which conditions are needed to create movement in a system in a
 certain way\
 
+Vector Identities:\
 $arrow(a) times (b + c) = arrow(a) times arrow(b) + arrow(a) times arrow(c)$\
+$a dot (b times c) = b dot (c times a) = c dot (a times b)$ (Pacman Identity)
+
+Notation:\
 $kappa$ - Set of all points in a body\
 _Time derivative_ - $dot(x) = (d y) / (d t)$\
 
@@ -26,11 +30,11 @@ $
   "Cartesian:" bold(r) &= x e_x + y e_y + z e_z\
   "Cylindrical:" bold(r) &= rho e_rho + z e_z
 $
-There is no separate $e_phi$ component in a cylindrical position vector, as it's already accounted for by the $e_rho$ unit vector. The following derivatives are useful for calcutions in the cylindrical co-ordinate system:
+There is no separate $e_phi$ component in a cylindrical position vector, as it's already accounted for by the changing $e_rho$ unit vector. The following relations are useful for calcutions in the cylindrical co-ordinate system:
 $
   "Wegen des Einheitskreises:" e_rho &= cos(phi)e_x + sin(phi)e_y\
   "Intuitiv:" e_phi &= d(e_rho) / (d phi) = -sin(phi)e_x + cos(phi)e_y \
-  d(e_phi) / (d phi) &= -cos(phi)e_x - sin(phi)e_y = -e_rho\
+  d(e_phi) / (d phi) &= -cos(phi)e_x - sin(phi)e_y = -e_rho "(Centripetal acceleration!)"\
   d(e_rho) / (d phi) &= e_phi\
 $
 The time derivatives can be found by deriving the cartesian formulae with respect to time and doing some substitution:
@@ -55,7 +59,7 @@ $
 The velocities of any two points in a rigid body projected on the vector between them is always the same. This means the body is not getting shorter or longer (deforming).\
 Useful for determining the velocities of points on rigid bodies with relation to each other.
 $
-  abs(r_Q-r_P) = "Konst" forall P, Q in RR^3 -> arrow(v_Q) dot e = arrow(v_P) dot e\
+  arrow(v_Q) dot e = arrow(v_P) dot e\
   "wo" e = (r_Q-r_P) / abs(r_Q-r_P)
 $
 
@@ -69,28 +73,35 @@ _Translation_ - for all points $P, arrow(v_P)$ is equal
 - It is either a translation or a rotation at any point in time
 
 === Rotation
-If at least two points in a rigid body do not have the same velocity, it is currently rotating. The momentary, static center of rotation is the intersection of lines perpendicular to the velocities of two points. The points rotate around the center with the *same angular velocity* $omega$.
+If at least two points in a rigid body do not have the same velocity, it is currently rotating. The momentary, static center of rotation is the intersection of lines perpendicular to the velocities of two points. All points rotate around the center with the *same angular velocity* $omega$.
 
 Considering a point with vector $arrow(r_P)$ from the center of rotation, rotating with angular velocity $omega = (d Theta)/(d t)$. Its velocity vector can be determined as:
 $
   arrow(v_P) = (omega e_z) times arrow(r_P)
 $
-The unit vector $e_z$ is simply needed so the resulting direction is perpendicular to $arrow(r_P)$.
+The unit vector $e_z$ is simply needed so the resulting direction is anticlockwise (for a positive $omega$) and perpendicular to $arrow(r_P)$.
 
-_Polbahn_ - The path traced by the momentary center of rotation of a rigid body.
+_Polbahn_ - The path traced by the series of momentary centers of rotation of a rigid body.
 
 == Movement in space
 In 3D space, simultaneous translation & rotation is possible due to the extra dimension.
+
+_Rotation Axis_ - The body rotates around an entire axis instead of a single point. The velocity of all points on this axis are the same and equal to the object's overall translational velocity. $arrow(omega)$ is defined as the unit vector in the direction of the axis times the angular velocity: $arrow(omega) = omega arrow(e_r)$
+
+LTD: Parametric equation of points along the rotational axis
 
 === Starrkörperformel
 The following extremely useful formula can be used to link the unique angular velocity vector to the velocity of any two points in a rotating body:#footnote("Derivation available in the 5th Powerpoint of Dr. P Tiso")
 $
   arrow(v_P) = arrow(v_B) + arrow(omega) times arrow(r_(B P))
 $
+This essentially shows that every point in a rigid body rotates around every other point in the body with the same angular velocity.
 
 The following properties of movement in space are constant and called "Invariants":
-1. $I_1 = arrow(omega)$ - The angular velocity is the same regardless of the reference point
-2. $I_2 =arrow(omega) dot v_P forall P in kappa$ - The component of the velocity of a point in the direction of the rotation axis is the same for all points in the body
+1. $I_1 = arrow(omega) forall P in kappa$ - The angular velocity is the same regardless of the reference point
+2. $I_2 =arrow(omega) dot v_P forall P in kappa$ - The component of the velocity of a point in the direction of the rotation axis is the same for all points in the body. This is the translation velocity of the body.
+
+Therefore the momentary movement of any point in the body can be described with just two values called the *Kinemate*: ${arrow(v_B), arrow(omega)}$
 
 TODO: Test these in a simulation :)
 
@@ -104,7 +115,7 @@ Types of movement in space:
 TODO in lernphase: Understand Rechteck Beispiel in script
 
 == Degrees of freedom
-The minimum number of coordinates to clearly determine the state of a system.
+The minimum number of coordinates (in an arbitrary optimal coordinate system for this specific system) to clearly determine the state of a system. This could for example be the location of a slider and the angle at which a rod is attached to it (much more concise than for example the cartesian coordinates of the slider and the other end of the rod).
 
 Considering a system with several bodies. For a sum of degrees of freedom of $n$, and $b$ restricted degrees of freedom due to connections, the resulting degrees of freedom of the whole system is:
 $
@@ -113,15 +124,66 @@ $
 #image("images/degrees-of-freedom.png")
 #image("images/degrees-of-freedom-joints.png")
 
-TODO:
-- Newton's Laws
-- Inner vs outer forces, sum of inner forces is 0
-- $cal(P) = arrow(F) dot arrow(v)$
-- Accelerating vs breaking force vs perpendicular
-- pacman identity for dot / scalar product
-- moment, the z component describes the angular direction, resultant moment points in the direction of the axis of rotation
+== Forces
+_Force_ - An influence that can cause an object's velocity to change. It is a vector quantity applied at an attack point. The line through the attack point in the direction of the force is called the line of action.
+
+In reality, there are 4 fundamental forces (electromagnetic, gravitational, weak and strong nuclear) but in many practical applications we consider integral values such as contact forces and friction.
+
+=== Newton's Laws of Motion
+Published in his 1687 paper Principia, these laws describe the motion of all objects and continue to serve as the description of forces in the modern day.
+
+1. An object remains at rest or in motion at a constant speed unless acted on by an external force.
+2. The resultant force acting on a body is the rate of change of the momentum of the object:
+$
+  F = (d bold(P)) / (d t) = m bold(a)
+$
+3. Every action results in an equal and opposite reaction. This can also be used to show the conservation of linear momentum.
+
+=== Inner vs outer forces
+Every inner force in a system exists in a pair with its corresponding reaction force. Forces without a corresponding reaction are so called _external forces_.
+$
+  sum "Inner Forces" = 0
+$
+
+== Moments
+A moment is a concept for describing the capacity of a force to rotate an object around an arbitrary center of rotation with units $N m$.
+
+The moment of a force around the center of rotation O in vector form is:
+$
+  M_O = arrow(r_(O P)) times arrow(F)
+$
+The resulting moment lies along the axis of rotation and describes the angular direction of the rotation caused by the moment.
+
+Alternatively, it can be expressed as a scalar with the perpendicular distance from the line of action of F to O: $d$:
+$
+  M_O = d F
+$
+
+=== Transformation of moments
+The moment of a force can be transformed with respect to a different point using the following formula:
+$
+  M_A = M_B + r_(A B) times F
+$
+
+TODO
 - Kinematik & Dynamik - summary of the current movement of a body
+
+== Power
+The rate of transfer of energy.
+
+Due to the work done by a force $integral_c arrow(F) d arrow(s)$, the power exerted by a force at a point in time can be expressed as:
+$
+  cal(P) = arrow(F) dot arrow(v)
+$
+
+- _Accelerating force ($pi/2 < alpha <= pi$)_ - A force with a positive component in the direction of the velocity is contributing kinetic energy to the object and increasing the power
+- _Braking Force ($0 < alpha < pi/2$)_ - Reduces the power of the object and its forces.
+- A force perpendicular to the velocity of an object does not contribute to its power until the object begins moving with a component in the direction of the perpendicular force.
+
+TODO
 - Total power formula
+
+TODO:
 - Force groups
 - Two force groups are statically equivalent when: $cal(P)_"tot"({G_1}) = cal(P)_"tot"({G_2})$ (when considering the same body) , ie equivalent when the resultant force and moment are equal. This works for any reference points, as long as it is used on the body
 - equivalent forces with the same line of action - only for a rigid body
@@ -129,3 +191,7 @@ TODO:
 - torque, moments with same magnitude, only rotation, no resultant force, independent of the center of rotation
 - formula for transforming moment with respect to one point to another
 - invariants of dynamics
+
+LTD:
+- I would love to define all the fundamental building blocks of physics such as energy, velocity, acceleration etc. but I'm worried this will make these notes too verbose with information anyone reading them has already mastered, and I'll spend valuable time going further down the Wikipedia rabbit hole...
+- Rotational momentum / Feynman or University Physics
