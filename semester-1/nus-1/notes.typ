@@ -524,13 +524,20 @@ The voltage across each path *in parallel* is the same but the total current is 
 $
   R_"total" = 1 / (sum_(i=1)^n 1 / R_i)
 $
-It is always smaller than the smallest resistance of a path, which makes intuitive sense as the charge carriers have more possible paths through that section of the circuit.\
+The total resistance of two resistors in parallel is therefore:
+$
+  R_"total" = (R_1 R_2) / (R_1+R_2)
+$
+It is always smaller than the smallest resistance in a path, which makes intuitive sense as the charge carriers have more possible paths through that section of the circuit.\
 Conductivity is the reciprocal of resistance, hence:
 $
   G_"total" = sum_(i=1)^n G_i
 $
 
 === Voltage Divider
+$
+  V_"out" = V_"in" R_2 / (R_1+R_2)
+$
 The ratio of voltages is the same as the ratio of resistances:
 $
   U_1 / U_2 = R_1 / R_2
