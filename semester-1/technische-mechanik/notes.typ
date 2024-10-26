@@ -130,7 +130,7 @@ _Force_ - An influence that can cause an object's velocity to change. It is a ve
 In reality, there are 4 fundamental forces (electromagnetic, gravitational, weak and strong nuclear) but in many practical applications we consider integral values such as contact forces and friction.
 
 === Newton's Laws of Motion
-Published in his 1687 paper Principia, these laws describe the motion of all objects and continue to serve as the description of forces in the modern day.
+Published in his 1687 paper Principia, these laws describe the motion of all objects and continue to serve as the foundations of classical mechanics in the modern day.
 
 1. An object remains at rest or in motion at a constant speed unless acted on by an external force.
 2. The resultant force acting on a body is the rate of change of the momentum of the object:
@@ -144,6 +144,32 @@ Every inner force in a system exists in a pair with its corresponding reaction f
 $
   sum "Inner Forces" = 0
 $
+
+=== Force groups
+The set of forces acting on a body is known as the force group.
+
+Two force groups are statically equivalent when:
+$
+  cal(P)_"tot" (G_1)= cal(P)_"tot" (G_2)
+$
+
+=== Static equivalence in a rigid body
+Due to the total power of a rigid body formula (see power), static equivalence in a rigid body requires:
+$
+  R_1 = R_2\
+  (M_B)_1 = (M_B)_2
+$
+Furthermore, two forces are equivalent if they have the same magnitude and line of action.
+
+Forces with lines of action going through the same point have only a resultant force - no moment:
+#grid(
+  columns: (auto, auto),
+  align: horizon,
+  image("images/zero-moment.png", width: 60%),
+  $
+    M_P = 0, R != 0
+  $,
+)
 
 == Moments
 A moment is a concept for describing the capacity of a force to rotate an object around an arbitrary center of rotation with units $N m$.
@@ -165,8 +191,23 @@ $
   M_A = M_B + r_(A B) times F
 $
 
-TODO
-- Kinematik & Dynamik - summary of the current movement of a body
+=== Torque
+A torque (also known as couple) is a pair of moments with respect to the same point with equal magnitude $F$ and opposite direction. Considering the perpendicular distance between their lines of action $d$, these result in:
+$
+  R = 0\
+  M_P = d F
+$
+
+=== Dynamic
+The dynamic of a force group with respect to a point O describes the entire set of forces on the body:
+$
+  {R, M_O}
+$
+Where $R$ is the resultant force and $M_O$ is the resultant moment around O: $sum arrow(r_(O P_i)) times arrow(F_i)$
+
+The following invariants apply to the dynamic:
+- $I_1 = R forall P in kappa$
+- $I_1 = R dot M_O forall P in kappa$ - the component of the resultant in the direction of the moment with respect to the same point is the same for all points
 
 == Power
 The rate of transfer of energy.
@@ -180,17 +221,16 @@ $
 - _Braking Force ($0 < alpha < pi/2$)_ - Reduces the power of the object and its forces.
 - A force perpendicular to the velocity of an object does not contribute to its power until the object begins moving with a component in the direction of the perpendicular force.
 
-TODO
-- Total power formula
+=== Total power of a rigid body
+The total power of an object is the sum of powers for each force acting on the body:
+$
+  cal(P)_"tot" = sum_(i = 1)^n arrow(F_i) dot arrow(v_i)
+$
+When the kinematic ${v_B, omega}$ and dynamic ${R, M_B}$ with respect to a point B are known, we can calculate the total power thanks to the rigid body formula and the "pacman" identity:
+$
+  cal(P)_"tot" = R dot v_B + M_B dot omega
+$
 
-TODO:
-- Force groups
-- Two force groups are statically equivalent when: $cal(P)_"tot"({G_1}) = cal(P)_"tot"({G_2})$ (when considering the same body) , ie equivalent when the resultant force and moment are equal. This works for any reference points, as long as it is used on the body
-- equivalent forces with the same line of action - only for a rigid body
-- action lines through the same point, resultant force but no moment
-- torque, moments with same magnitude, only rotation, no resultant force, independent of the center of rotation
-- formula for transforming moment with respect to one point to another
-- invariants of dynamics
 
 LTD:
 - I would love to define all the fundamental building blocks of physics such as energy, velocity, acceleration etc. but I'm worried this will make these notes too verbose with information anyone reading them has already mastered, and I'll spend valuable time going further down the Wikipedia rabbit hole...
