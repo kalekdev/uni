@@ -363,8 +363,7 @@ _Series_ - Sequence of partial sums of the terms in a sequence
 
 _Taylor Series_ - A series of derivatives of a function at a point, that converges towards the value of the function at that same point, more on this later...
 
-_Geometric Sequence - $n in NN_0, a_n -> z^n$ - Converges towards 0 when $z <1$\
-_Geometric Series - $n in NN_0, a_n -> sum_(k=0)^n z^k$
+_Geometric Sequence_ - $n in NN_0, a_n -> z^n$ - Converges towards 0 when $z <1$
 
 _Harmonic Sequence_ - $n in NN_0, a_n -> 1/n$ - Converges towards 0
 
@@ -378,12 +377,19 @@ $
   abs(x + y) <= abs(x) + abs(y)\
   abs(x - y) >= abs(x) - abs(y)
 $
+Valid in all dimensions - for example in 2D, the hypotenuse always shorter than the two cathetes.
+
+=== Bernoulli Inequality
+$
+  (1+a)^n >= 1+ n a
+$
+Important: Check which conditions apply when $a, n in$ different sets
 
 === Convergence
 $
   "A sequence converges towards " A <=> exists A in CC forall epsilon in (
     0, oo
-  ) exists n_0 in NN_0 forall n in NN_0: n >= n_0, abs(a_n - A) <= epsilon\
+  ) exists n_0 in NN_0 forall n in NN_0: n >= n_0, abs(a_n - A) < epsilon\
   a_n -> A space ("converges towards A")
 $
 
@@ -391,7 +397,7 @@ We can also express this as a limit:
 $
   lim_(n -> oo) a_n = A
 $
-Note: The index n cannot be set as $oo$, as infinity is not a natural number.
+Note: The index n can never actually be set as $oo$, as infinity is not a natural number.
 
 Divergence can be proved by proving the conjugate of the definition of convergence:
 $
@@ -400,17 +406,13 @@ $
   ) forall n_0 in NN_0 exists n in NN_0: n >= n_0, abs(a_n - A) > epsilon\
 $
 
-=== Convergence Criteria
-_Monotone Increasing_ - $a_0 <= a_1 <= a_2 <= a_3 ...$
+The same definitions extend to $RR^d$ by replacing $abs(a_n - A)$ as the Euclidian norm in that dimension.
 
-The Geometric series can be written as:
-$
-  a_n = (1-x^(n+1)) / (1-x)
-$
-When $x<= 1$, it converges towards:
-$
-  a_oo = 1 / (1-x)
-$
+Furthermore, a sequence in $RR^d$ converges towards $A$ when each of its components $a_n^i$ converge towards $A^i$.
+
+=== Convergence Criteria
+_Monotone increasing_ - $a_0 <= a_1 <= a_2 <= a_3 ...$\
+_Monotonie Criteria_ - Every monotone increasing / decreasing sequence with an upper / lower limit converges at that limit (the supremum / infimum of the set of members).
 
 If a sequence is defined as the sum, product, quotient or inequality of two convergent sequences, the resulting sequence also converges towards the sum, product, etc. of the contained limits.
 
@@ -422,3 +424,65 @@ $
 This converging sequence was discovered by Bernoulli whilst calculating the effect of frequency of payments on compound interest: https://en.wikipedia.org/wiki/E_(mathematical_constant)#Compound_interest
 
 The exponential growth function $e^x$ also displays the unique property that its derivative at any point is $e^x$.
+
+=== Extended Real Numbers
+For practical reasons, we can assume the extended real numbers to be defined as:
+$
+  [-oo, oo] := RR union {-oo, oo}
+$
+
+A sequence diverges towards infinity when:
+$
+  forall C in CC exists n_0 in NN_0 forall n in NN_0 | n > n_0 => a_n > C
+$
+
+=== Limes Superior / Inferior
+#grid(
+  columns: (auto, auto),
+  align: horizon,
+  image("images/lim-inf-sup.png"),
+  $
+    lim sup_(n -> oo) a_n := lim_(n -> oo) sup_(i in NN_0, i >= n) a_i\
+    lim inf_(n -> oo) a_n := lim_(n -> oo) inf_(i in NN_0, i >= n) a_i
+  $,
+)
+
+If a sequence converges, then:
+$
+  lim_(n -> oo) a_n = lim sup_(n -> oo) a_n = lim inf(n -> oo) a_n
+$
+
+=== Cauchy Sequence
+Convergence can also be proved without any clue about which value $A$ the sequence converges to by the converging distance between subsequent members. If a sequence satisfies this criteria, it is known as a Cauchy sequence:
+$
+  forall epsilon in (
+    0, oo
+  ) exists n in NN_0 forall m, n in NN_0 | m, n >= n_0 => abs(a_m - a_n) < epsilon <=> a_n "converges"
+$
+
+=== Convergence Criteria for Series
+The Geometric series can be written as:
+$
+  n in NN_0, a_n -> sum_(k=0)^n z^k = (1-z^(n+1)) / (1-z)
+$
+When $z<= 1$, it converges towards:
+$
+  a_oo = sum_(k=0)^oo z^k =lim_(n -> oo) sum_(k=0)^n z^k = 1 / (1-z)
+$
+
+Since series are essentially just a sequence of partial sums, the cauchy convergence criteria can be represented as:
+$
+  sup_(n>=m) abs(sum_(k=m)^n a_k) -> 0 space (m-> oo)
+$
+
+- If a series converges, then the underlying sequence must converge to 0
+- On the other hand, a sequence converging to 0 does not imply that the series converges, for example the harmonic series: $sum 1/k$ continues to grow infinitely (albeit extremely slowly)
+
+An alternative convergance criteria is:
+$
+  lim_(k-> oo) sup abs(a_(k+1) / a_k)< 1\
+  "Diverges:" lim_(k-> oo) inf abs(a_(k+1) / a_k)> 1
+$
+
+=== Exponential Taylor Series
+TODO
