@@ -5,6 +5,10 @@
 - _Analysis 1 ITET, F Ziltener_ - https://metaphor.ethz.ch/x/2024/hs/401-0231-10L/Ziltener_Notizen_Analysis_1_ITET_RW.pdf
 - _Analysis für Informatik, M Struwe_ - https://people.math.ethz.ch/~struwe/Skripten/InfAnalysis-bbm-8-11-2010.pdf
 
+Definitions:\
+- $NN = {1, 2, ...}, NN_0 = {0, 1, 2, ...}$
+- $x^0 = 1$ - to maintain consistency with $x^m / x^m = x^0 = 1$
+- $0! = 1$ - $x!$ represents the number of permutations of $1, 2, ... x$. Hence there is indeed one possible permutation for nothing.
 #pagebreak()
 
 
@@ -478,11 +482,87 @@ $
 - If a series converges, then the underlying sequence must converge to 0
 - On the other hand, a sequence converging to 0 does not imply that the series converges, for example the harmonic series: $sum 1/k$ continues to grow infinitely (albeit extremely slowly)
 
-An alternative convergance criteria is:
+==== Quotient Criterium
+An alternative convergence criteria is:
 $
-  lim_(k-> oo) sup abs(a_(k+1) / a_k)< 1\
+  forall a_k != 0\
+  "Converges:" lim_(k-> oo) sup abs(a_(k+1) / a_k)< 1\
   "Diverges:" lim_(k-> oo) inf abs(a_(k+1) / a_k)> 1
 $
+If the series oscillates wildly past 1 or contains zero, these criteria cannot say anything definitively.
 
-=== Exponential Taylor Series
-TODO
+==== Root Criterium
+$
+  "Converges:" lim_(k-> oo) sup root(k, abs(a_k)) < 1\
+  "Diverges:" lim_(k-> oo) sup root(k, abs(a_k)) > 1
+$
+
+== Power Series
+This is the basis of the Taylor series, can express any polynomial, and takes the form:
+$
+  sum_(k=0)^n a_k (x -c)^k = a_0 + a_1 x + a_2 x^2 + ...
+$
+Where $a_k$ is a sequence containing the current coefficient. It is also possible to adjust the so called "center" of the series using $c$.
+
+=== Radius of Convergence
+_Convergence area_ - The set of values x can take with which the series converges.
+
+The radius of convergence $rho$ is the upper limit of the convergence area, adjusted for the center of the series:
+$
+  "Converges:" abs(x - c) < rho\
+  "Diverges:" abs(x - c) > rho
+$
+This peculiar name makes sense when considering $x in RR^2$, in which case an _open disc (circle excluding the edge)_ models the convergence area.
+
+=== Taylor Series
+Any function $f(x)$ which is infinitely differentiable at a point $a$ can be approximated around the point $a$ as a so called Taylor series, an infinite power series:
+$
+  f(x) approx sum_(n=0)^oo (f^(n) (a)) / n! (x-a)^n = f(a) + (f'(a)) / 1! (x-a) + (f''(a)) / 2! (x-a)^2 + ...
+$
+where $f^(n) (a)$ denotes the nth derivative of the function evaluated at $a$. Taylor series constructed around the point $a=0$ are called Maclaurin Series.
+
+This is extremely useful to make non-linear functions approximately linear around a point - especially in computing.
+
+Example Maclaurin Series:
+- The Taylor series of any polynomial remains the same - simply a power series resulting in the same polynomial
+- $1 / (1-z) = sum_(n =0)^oo z^n$
+- $e^x = sum_(n =0)^oo x^n / n!$
+
+=== Riemann-Zeta Function
+$
+  zeta(s) = sum_(k=1)^oo 1 / k^s
+$
+This series converges when $s>1$. $s=1$ is the harmonic series, which does indeed diverge.
+
+$zeta(2) = pi^2/6$ was proved by Euler, however $s>2$ has not yet been expressed precisely and is an open problem.
+
+=== Absolute Convergence
+The series of a sequence $a_k$ is said to converge absolutely if:
+$
+  sum_(k=1)^oo abs(a_k) "converges"
+$
+Thus is $a_k$ _absolutely summable_.
+
+== Topology
+This is the branch of mathematics studying structures representing continuous sets.
+
+=== Ball / Disk
+A topological ball with radius $r$ and center $x_0$ in dimension $RR^d$ is defined as the set of points:
+$
+  B_r^d (x_0) = {x in RR^d | abs(x - x_0) < r} - "Open ball"\
+  overline(B_r^d)(x_0) = {x in RR^d | abs(x - x_0) <= r} - "Closed ball"\
+  S_r^(d-1)(x_0) = {x in RR^d | abs(x - x_0) = r} - "Sphere (edge of ball)"
+$
+
+Therefore:
+$
+  B_0(x_0) = emptyset\
+  overline(B_0)(x_0) = {x_0}\
+  B_oo^d (x_0) = overline(B_oo^d)(x_0) = RR^d\
+$
+Man muss immer am $B_r^d$ bleiben!
+
+TODO:
+== Lagrange Polynomial
+== Fourier Series
+
