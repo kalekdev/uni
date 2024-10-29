@@ -122,23 +122,25 @@ A way of expressing a boolean expression that can easily be determined from the 
 Both result in the same output, DNF is more comfortable to use in Karnaugh diagrams.
 
 == Karnaugh Diagrams
-TODO: Used to simplify a DNF / KNF, systematic way instead of boolean algebra, therefore useful for functions with many variables
-Easier to use with DNF (Minterms)
-Simply a graphic way of using the neighbour simplification rule:
+Used to visually and systematically simplify boolean expressions instead of through often complicated boolean algebra manipulation. Furthermore, race conditions (hazards) can be easier identified using this method.
+
+They are analogous to a truth table but represented as a matrix with $2^n$ elements, where $n$ is the number of inputs.
+
+Simply a methodical way of using the neighbour simplification rule:
 $(not A and not B) or (A and not B) = not B$
 
-The packets must contain $2^n$ cells!
-Create packets using the largest possible rectangle with 1s, remove the variable that doesn't change
+=== Method
+- Construct a matrix with $2^n$ elements, where each side of the matrix representsthe two states of a variable. One of each pair of variables facing opposite one another must be "split" so the neighbour rule can still be applied (See examples).
+- Each element contains a 1 for each minterm (DNF) in the truth table based on ANDing the row / column headers
+- Create packets (also known as blocks) using the largest possible rectangle with 1s. The packets must contain $2^n$ cells!
+- Packets may overlap and "pacman" over the border (even diagonally!), but not take non rectangle shapes (for example an L shape).
+- A minterm is then built from ORing packets together and the neighbour rule is applied: ie. only the variable(s) that remains the same in all cells of the packet remain in the resulting minterm of the packet.
 
-packets may overlap and "pacman" over the border (even diagonally!), but not take non rectangle shapes
+#image("images/karnaugh-diagram-5.png", width: 40%)
 
-3+ variable diagrams are split so that moving in any one step from a cell, only one variable changes
-4+ variables needs two+ layers, which need to be simultaneously simplified
+_Don't care_ - Combinations of inputs for which the output doesn't matter, for example additional unneeded numbers in a boolean counting system. Marked with an X in a Karnaugh Diagram. The X's can be treated as 1s when creating packets if it reduces the amount of packets (and therefore OR gates) in the simplified expression.
 
-_Don't care_ - Combinations of inputs for which the output doesn't matter, for example extra numbers in a boolean counting system. Marked with an X in a Karnaugh Diagram. The X's can be treated as 1s when creating packets if it reduces the amount of packets (and therefore AND gates) in the simplified expression.
-
-Static hazards (TODO: Define) can be recognized in Karnaugh diagrams: where two paackets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet two join the place of the hazard.
-Lectures 1-4 (inclusive) in the test next week
+_Static hazards_ - When the same variable is used in a parent logic gate, changes in the variable can lead to delayed "notches" in the parent's output due to time delays. These can be recognized in Karnaugh diagrams: where two packets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet two join the place of the hazard - this results in more gates overall but avoids the hazard.
 
 == Number Systems
 _Base (Radix)_ - b-adischen Reiehen like in analysis, negative indices of the base for defining decimals
