@@ -447,7 +447,7 @@ For example the polynomial $x^2+1$ with degree 2 is a member of $cal(P)_3$ but a
 
 Addition and *scalar* multiplication are indeed valid operations that result in a member of the same set, therefore it is a linear vector space.
 
-Taylor Series in Analysis will demonstrate how any continuous function in $C^0$ can be approximated using $cal(P)_n$.
+The Taylor Series in Analysis demonstrates how any continuous function in $C^0$ can be approximated using $cal(P)_n$.
 
 === Other Linear Spaces
 - $L^2 [a, b] := {f: [a, b] -> RR, integral_a^b abs(f)^2 d t}$- Space of quadratically integrable functions
@@ -479,7 +479,7 @@ _Erzeugendensystem_ - Set of vectors which span a vector space $V$.
 
 The range (codomain) of a transformation can be found by capturing any compatibility conditions in a vector (if there are any), for example of $b_3 - b_1 - b_2 = 0$, the range can be expressed as:
 $
-  {vec(b_1, b_2, b_1 + b_2), b_1, b_2 in RR}
+  {b_1, b_2 in RR, vec(b_1, b_2, b_1 + b_2)}
 $
 
 This can also be expressed as a span by breaking it into a linear combination:
@@ -500,7 +500,7 @@ Each linear space already has two simple subspaces:
 - The range of it as a transformation
 
 === Basis
-_Linearly Dependant_ - There exists a real scalar which multiplies a vector to the other:
+_Linearly Dependant_ - A vector in the set is linearly dependent if other vectors in the set can express it as a linear combination. In the case of two elements:
 $
   alpha in RR\
   bold(v_1) = alpha bold(v_2)
@@ -516,7 +516,7 @@ $
 $
 If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent.
 
-_Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system) and stay completely within the linear space (not allowed to span the parent space as well). There can be several independent bases in a space, but all bases have the same number of elements.
+_Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system) and stay completely within the linear space (not allowed to span a parent space as well). There can be several independent bases in a space, but all bases have the same number of elements.
 
 _Canonical basis_ - Special basis for each space, for example $e_x, e_y, e_z in RR^3$
 
@@ -550,7 +550,7 @@ Examples:
 - Finite dimensional: $RR^n, cal(P)_n$ - Dimension = $n$. (Hence the awkward degree $<= n-1$ notation for $cal(P)_n$)
 - Non-finite dimensional: $cal(P), C^k, L^2$
 
-Sometimes non-finite spaces can be approximated using finite dimensional spaces (Taylor series).
+Sometimes non-finite dimensional spaces can be approximated using finite dimensional spaces (Taylor series).
 
 #image("images/dimensions.png")
 

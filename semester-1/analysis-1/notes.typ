@@ -562,7 +562,9 @@ $
 $
 Man muss immer am $B_r^d$ bleiben!
 
+Mengen sind keine Türe! (Muss nicht entweder offen oder abgeschlossen sein)
 TODO:
 == Lagrange Polynomial
 == Fourier Series
+
 

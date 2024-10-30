@@ -19,6 +19,8 @@ Modern electronics uses 0.8V as high.
 
 _Floating Voltage_ - when a pin / contact is not connected by a "normal" (lower than that of air) resistance to V_DD / circuit ground. Essentially the same as any conductive surface in the room, on which a very weak 50Hz signal is usually seen due to induction from all the EM sources in the room.
 
+Why digital instead of analog? Error correction.
+
 #pagebreak()
 
 == Schaltfunktionen
@@ -173,7 +175,7 @@ Fractional numbers still have $plus.minus 2^0$ as the signing bit, converted in 
 IMPORTANT: Do not forget signing bit for positive numbers
 
 == Binary Arithmetic
-Addition of two binary numbers, with maximum $n$ digits has at most $n+1$ bits in the result
+Addition of two binary numbers, with maximum $n$ digits has at most $n+1$ bits in the result. TODO: Addition of 4x1s = Carry over 1 two places
 
 Binary subtraction can be written as the addition of 2s complement numbers
 
@@ -187,4 +189,39 @@ Additional bit representing if the number of 1s in a word / block is odd / even 
 
 An extra word can be sent with the purpose of checking and also correcting previous words
 
+== Datapath Circuits
+
+=== Multiplexer
+Outputs one selected bit from several inputs using a binary selection signal. Circuit is a selection of minterms $(not S_0 and not S_1 and D_0) or (not S_0 and S_1 and D_1) or (S_0 and not S_1 and D_2) or (S_0 and S_1 and D_3)$
+
+=== Demultiplexer
+Inverse of a multiplexer, selects at which output a signal is outputed. Same Circuit but ORed with Y
+
+=== Code Translator (Umsetzer)
+Converts between number encoding. Create KNF -> Karnaugh diagram for each output and the set of inputs, TODO: Clarify
+
+=== Half Adder
+Outputs the sum of two binary digits and the remainder (Carry Out CO) to be passed to an adjacent full-adder one place value higher. Symbol has $sum$ on it.
+
+=== Full Adder
+3 inputs: A, B and Carry In (CI) for a lower CO bit. Simply a combination of two half adders plus an OR gate taking in CI and CO of the internal half adder.
+#image("images/full-adder.png")
+
+TODO: Series (with multiplexer and clock signal?) vs parallel adder
+=== Parallel Adder
+TODO: Add example and (dis)advantages
+
+=== Ripple Carry
+Advantage: Easy to expand and combine Disadvantage: Carry bits take time to ripple up the place values
+
+=== Carry-Look-Ahead Adder
+Advantages of both combined, TODO: Some kind of recursive equation
+
+=== Subtraction
+XOR Gates handle two's complement signing bits well
+
+=== Multiplication
+Sum of shifted partial products: $(a +b) dot c = a dot c + b dot c$, x2 = shift one to the left, x0.5: shift 1 bit to the right
+
+Booth's Multiplication Algorithm for 2s Complement numbers will not be examined.
 
