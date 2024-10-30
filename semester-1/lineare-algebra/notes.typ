@@ -2,6 +2,8 @@
 
 #outline()
 
+https://students.aiu.edu/submissions/profiles/resources/onlineBook/Y5B7M4_Introduction_to_Linear_Algebra-_Fourth_Edition.pdf
+
 Übungsstunde Notizen:
 - https://n.ethz.ch/~jamatter/
 - https://www.felixgbreuer.com/linalg
@@ -48,13 +50,18 @@ Ideal method for solving a $m times n$ system of equations, easy to implement al
 
 _Pivot_ - element on the diagonal of a matrix that has a non 0 coefficient
 
-_Rang / rank_ - number of non 0 pivots, ie (number of rows - number of Kompatibilitaetsbedingungen) - the number of linearly independent rows / columns - the number of dimensions of the output of a linear transformation
+_Rang / rank_ - number of non 0 pivots, ie (number of rows - number of Kompatibilitaetsbedingungen) - the number of linearly independent rows / columns - the number of dimensions of the output of a linear transformation.
+
+Row Rank = Column Rank:
+$
+  "Rank"(bold(A)) = "Rank"(bold(A^T))
+$
 
 _Kompatibilitaetsbedingungen_ - Empty rows at the bottom of the matrix (0 coefficients in one of the equations). If their result is not 0 then there are no solutions for the system. If their result is 0 and the number of equations $<=$ the number of variables, there are infinite solutions.\
 _Intuition:_ When thinking of the LGS as superposition, each LHS vector has a 0 component in this dimension, meaning that $forall x in RR$ scalar in the Lineare Kombination satisfies the system. Viewing the system with insufficient equations as a system of planes, two planes will intersect along an entire line.
 In 2D, there would just be a single line, which of course has solutions along its entirety.
 
-Any variables not accounted for due to an all 0 row / no pivot in their column are called _free variables_ and can take any real value.
+_Free Variables_ - Any variables not accounted for due to no pivot in their column are called _free variables_. These can be thought of as degrees of freedom, we are free to give them any arbitrary value and the other variables for that specific solution in the linear combination then depend on these.
 
 *"Order is half of the work in maths."* - _Vasile Gradinaru_
 
@@ -477,7 +484,7 @@ $
 
 _Erzeugendensystem_ - Set of vectors which span a vector space $V$.
 
-The range (codomain) of a transformation can be found by capturing any compatibility conditions in a vector (if there are any), for example of $b_3 - b_1 - b_2 = 0$, the range can be expressed as:
+_Image / Column Space / Range / Codomain_ - of a transformation can be found by capturing any compatibility conditions in a vector (if there are any), for example of $b_3 - b_1 - b_2 = 0$, the range can be expressed as:
 $
   {b_1, b_2 in RR, vec(b_1, b_2, b_1 + b_2)}
 $
@@ -518,10 +525,12 @@ If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $b
 
 _Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system) and stay completely within the linear space (not allowed to span a parent space as well). There can be several independent bases in a space, but all bases have the same number of elements.
 
+Any element in the linear space can be determined by a *unique* linear combination of the basis. Proof in script.
+
 _Canonical basis_ - Special basis for each space, for example $e_x, e_y, e_z in RR^3$
 
 #image("images/lu-base.png", width: 60%)
-The basis of an erzeugenden system can be found through LU Zerlegung, where the columns with a pivot are linearly independent of one another and therefore the basis of the range / image (span of the erzeugenden system).
+The basis of an erzeugenden system can be found through LU Zerlegung, where the columns with a pivot are linearly independent of one another and therefore the corresponding columns in A are a basis of the range / image (span of the erzeugenden system). The other columns are so called free variables because they can take
 
 ==== Basis of $cal(P)_n$ are the monomes
 Basis of $n in NN, cal(P)_n = {p_(i) = t^(i)| t in RR, i in NN_0 < n}$ - The monomes are linearly independent (proof in script) and span the entire polynomial space.
@@ -555,22 +564,73 @@ Sometimes non-finite dimensional spaces can be approximated using finite dimensi
 #image("images/dimensions.png")
 
 === Fundamental Satz von Lineare Algebra
-The dimensions of the kernel of a $n times k$ matrix $bold(A)$ with rank $r$ are:
+For a $n times k$ matrix $bold(A)$ with rank $r$:
 $
-  dim("Kernel"(bold(A))) = k -r
+  dim("Im"(bold(A))) = r\
+  dim("Kernel"(bold(A))) = k -r = "Number of free variables"\
 $
-This is intuitive from the LU Decomposition of an Erzeugendensystem $->$ basis (see above).
-
-Furthermore:
+Transposing the matrix leads to ($"Rank"(bold(A)) = "Rank"(bold(A^T)$):
 $
+  dim("Im"(bold(A^T))) = r\
   dim("Kernel"(bold(A^T))) = n - r\
-  dim("codom"(bold(A))) = r\
-  dim("codom"(bold(A^T))) = r\
 $
+For example, considering a 3x3 matrix $P$ with rank 2:
+- The transformation maps any $x$ onto a 2D plane due to only 2 independent vectors in the basis, the image has dimension 2. A solution only exists if the RHS vector is in this plane.
+- The kernel of the matrix $P x=0$ includes an entire line of vectors, meaning that there is 1 free variable (the non-pivot column) that scales along this line.
 
-LTD: Understand proofs for these in script
+LTD: Review these proofs
 
-TODO: 3rd part of fundamental theorem of linear algebra
+_Orthogonal Spaces_ - Two linear spaces are orthogonal $U perp V$ to one another when any two vectors in the spaces are always orthogonal to one another :$bold(<u\, v>) = 0$
+$
+  "Kernel"(A) perp "Im"(A^T)\
+  "Im"(A) perp "Kernel"(A^T)
+$
+This law can be used to easily decompose any linear space into two orthogonal elements.
+
+=== Coordinates
+The coordinates of a specific element $x in RR^n$ formed using the basis $cal(B) = {v_1, v_2, v_3, ...}$ are written as:
+$
+  x = x_1 bold(v_1) + x_2 bold(v_2) + x_3 bold(v_3) + ...\
+  cal(k_B): bold(V) -> RR^3:= vec(x_1, x_2, x_3, ...)
+$
+This mapping transforms a tuple of coordinates into the resulting point in $RR^n$ using an abstract basis $cal(B)$.
+
+Coordinates can of course be transformed to coordinates of another basis in the same linear space as follows:
+- Both coordinates are unique for their underlying basis and both result in an element in the same linear space.
+- Therefore each basis vector in the target basis can be represented as a linear combination of the original basis.
+- We can represent this mapping as a matrix $bold(C)$ where $bold(C tilde(x) = x)$
+
+$bold(C)$ is found by:
++ Represent each vector in the new basis as a coordinate in the old basis.
++ These are now the columns of $cal(C)$.
++ Solve $bold(C tilde(x) = x)$
++ The matrix can then be used to change the basis of any vector, as well as calculating the inverse (in case it is easier than finding a new suitable $cal(C)$)
+#figure(
+  image("images/basis-change.png", width: 80%),
+) <fig-basis-change>
+
+== Linear Transformations
+Useful resource: https://www.3blue1brown.com/lessons/abstract-vector-spaces
+
+Here is the formal definition of a linear transformation:
+$
+  cal(F): X -> Y\
+  cal(F)(x_1 + x_2) = cal(F)(x_1) +cal(F)(x_2) forall x_1, x_2 in X\
+  alpha cal(F)(x) = cal(F)(alpha x) forall x in X, alpha in RR
+$
+This therefore means that the origin stays fixed.
+
+For example, derivation is a linear transformation:
+#figure(
+  image("images/linear-derivation.png", width: 50%),
+) <fig-linear-derivation>
+
+- Every linear transformation in a finite dimensional space can be represented as a matrix.
+- _Isomorphism_ - A structure-preserving mapping, ie a bijective linear transformation is a called an isomorphism. The inverse is clearly also an isomorphism.
+- _Automorphism_ - If the two sets the transformation maps between are the same.
+
+TODO: 107-9
+
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
