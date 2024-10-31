@@ -626,11 +626,14 @@ For example, derivation is a linear transformation:
 ) <fig-linear-derivation>
 
 - Every linear transformation in a finite dimensional space can be represented as a matrix.
-- _Isomorphism_ - A structure-preserving mapping, ie a bijective linear transformation is a called an isomorphism. The inverse is clearly also an isomorphism.
+- _Isomorphism_ - A structure-preserving mapping, ie a bijective linear transformation is a called an isomorphism. The inverse is clearly also an isomorphism. A non-square matrix changes dimensions and thus is not bijective and isomorphic - no inverse.
 - _Automorphism_ - If the two sets the transformation maps between are the same.
+- A linear transformation $cal(F)$ is injective when $"Kernel"(cal(F))={0}$.
+- The same properties regarding dimensions sizes regarding basis apply to linear transformations:
 
-TODO: 107-9
-
+#figure(
+  image("images/linear-transformations.png", width: 80%),
+) <fig-linear-transformations>
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.

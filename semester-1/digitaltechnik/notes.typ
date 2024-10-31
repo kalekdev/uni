@@ -117,11 +117,11 @@ Let us consider we want expressions that output high / low only when $A=0, B=1$:
 - Maxterm: $A or not B$, low only in this case
 
 == Normal Forms
-A way of expressing a boolean expression that can easily be determined from the desired truth table (and later simplified). After constructing either a list of minterms for each 1 in the output, or list of maxterms for each 0:
-- Disjunctive Normal Form - Minterms joined using disjunctions (OR)
-- Conjunctive Normal Form - Maxterms joined using conjunctions (AND)
+A way of expressing a boolean expression that can easily be determined from the desired truth table (and then simplified using boolean algebra / Karnaugh diagrams). After constructing either a list of minterms for each 1 in the output, or list of maxterms for each 0:
+- Disjunctive Normal Form - Minterms (ANDed variables) joined using disjunctions (OR)
+- Conjunctive Normal Form - Maxterms (ORed negations) joined using conjunctions (AND)
 
-Both result in the same output, DNF is more comfortable to use in Karnaugh diagrams.
+Both result in the same output.
 
 == Karnaugh Diagrams
 Used to visually and systematically simplify boolean expressions instead of through often complicated boolean algebra manipulation. Furthermore, race conditions (hazards) can be easier identified using this method.
@@ -131,16 +131,21 @@ They are analogous to a truth table but represented as a matrix with $2^n$ eleme
 Simply a methodical way of using the neighbour simplification rule:
 $(not A and not B) or (A and not B) = not B$
 
+_Don't care_ - Combinations of inputs for which the output doesn't matter, for example additional unneeded numbers in a boolean counting system. Marked with an X in a Karnaugh Diagram. The X's can be treated as 1s or 0s when creating packets if it reduces the amount of packets (and therefore joining gates) in the simplified expression.
+
 === Method
 - Construct a matrix with $2^n$ elements, where each side of the matrix representsthe two states of a variable. One of each pair of variables facing opposite one another must be "split" so the neighbour rule can still be applied (See examples).
-- Each element contains a 1 for each minterm (DNF) in the truth table based on ANDing the row / column headers
-- Create packets (also known as blocks) using the largest possible rectangle with 1s. The packets must contain $2^n$ cells!
-- Packets may overlap and "pacman" over the border (even diagonally!), but not take non rectangle shapes (for example an L shape).
-- A minterm is then built from ORing packets together and the neighbour rule is applied: ie. only the variable(s) that remains the same in all cells of the packet remain in the resulting minterm of the packet.
+- Each element contains a 1 for each minterm (DNF) and the rest 0, or 0 for each maxterm (in this case the element headers are negated when allocating) and the rest as 1. _Don't Care_ conditions can be written as X when the output for a specific combination doesn't matter.
+- Create packets (also known as blocks) using the largest possible rectangle with 1s / 0s (may include Xs as they fit best). The packets must contain $2^n$ cells!
+- Packets may overlap, "pacman" over the border and pass through layers, but not take non rectangle shapes (for example an L shape) or be diagonal. It is better to err on the side of caution and choose less packets, which may be possible to simplify later through linear algebra.
+- They must capture the entire state of the diagram - Either all the 1s or all the 0s. Xs of course don't all need to be included.
+- Each packet represents a minterm (if it contains 1s) or maxterm (contains 0s), which can then be simplified to the variable(s) which remain constant in the packet ADDed / ORed together (depending on if min or maxterm).
+- The result of each packet can then be combined as the DNF / KNF.
+- *IMPORTANT*: When combining results of the packets, they must all represent the same type (min or maxterm). If it's easier to formulate different types of packets, min and maxterms can of course be converted between another.
+
+
 
 #image("images/karnaugh-diagram-5.png", width: 40%)
-
-_Don't care_ - Combinations of inputs for which the output doesn't matter, for example additional unneeded numbers in a boolean counting system. Marked with an X in a Karnaugh Diagram. The X's can be treated as 1s when creating packets if it reduces the amount of packets (and therefore OR gates) in the simplified expression.
 
 _Static hazards_ - When the same variable is used in a parent logic gate, changes in the variable can lead to delayed "notches" in the parent's output due to time delays. These can be recognized in Karnaugh diagrams: where two packets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet two join the place of the hazard - this results in more gates overall but avoids the hazard.
 
