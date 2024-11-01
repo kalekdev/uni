@@ -139,6 +139,8 @@ $
 $
 3. Every action results in an equal and opposite reaction. This can also be used to show the conservation of linear momentum.
 
+LTD: Lagrangian mechanics
+
 === Inner vs outer forces
 Every inner force in a system exists in a pair with its corresponding reaction force. Forces without a corresponding reaction are so called _external forces_.
 $

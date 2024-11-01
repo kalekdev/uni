@@ -465,6 +465,7 @@ Thus:
 $
   tan(alpha_1) / tan(alpha_2) = E_(n 2) / E_(n 1) = J_(t 1) / J_(t 2) = kappa_1 / kappa_2
 $
+The angle of "refraction" can be thought as caused by a "change in speed" intuitively (marching band analogy).
 
 LTD: Confirm after reading Purcell
 The stronger electric field through the material with lower conductivity makes intuitive sense, as it would have a corresponding higher permittivity.
