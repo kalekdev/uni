@@ -1,4 +1,12 @@
-# Electrical Engineering Notes
-Various notes, exercises and derivations made during my BSc in Electrical Engineering and Information Technology (Started September 2024) at ETH Zürich, mainly using [Typst](https://typst.app/), a modern feature-rich replacement for LaTeX.
+# University Notes
+Various notes and exercises made during my BSc in Electrical Engineering and Information Technology (Started September 2024) at ETH Zürich, mainly using [Typst](https://typst.app/), a modern feature-rich replacement for LaTeX.
 
-Lecture scripts / textbooks already explain the general ideas much better than I can, hence the notes consist mainly of points that particularly stood out to me and are not written with the goal of being a useful learning resource, rather for personal use during revision.
+## Structure
+*semester-1* - Notes and exercises for the following courses:
+- Analysis 1
+- Digital Circuits
+- Linear Algebra
+- Networks and Circuits 1 (NUS)
+- Technical Mechanics
+
+*fundamentals* - Topics not directly related to courses I am currently taking, self studied in my free time
