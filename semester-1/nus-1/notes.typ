@@ -627,3 +627,16 @@ A circuit with $z$ branches needs at least $z$ linearly independent equations to
 + For a circuit containing $k$ nodes, $k-1$ linearly independent equations can be found where the current is equal to 0 (Kirchhoff's current law).
 + The remaining $z - k - 1$ equations can be found using the voltage drops around a loop (equal to 0). Linearly independent equations can be ensured by "excluding" a particular branch after an equation for it has been included, forcing a new branch to be included to assemble the next equation.
 + The voltage drop equations can then be expressed in terms of resistance (as coefficients) and current, leading to a square, regular system of equations - ready to be solved!
+
+== Current Carrying Mediums
+Leading from the definition of electrostatic potential, 1 Coulomb of charge accelerated by a voltage drop of 1V through a vacuum (0 resistance) gains 1 Joule of energy. Although this is the standard unit for energy, it is unconvenient when working with individual particles.
+
+_Electronvolt_ - A unit of energy useful for systems at the atomic scale. 1 $e V$ is the kinetic energy gained by an electron accelerated by a potential difference of $1V$ through a vacuum. It is equal to $e dot 1J = 1.602... times 10^(-19) "Joules"$.
+
+=== Vacuum
+
+=== Gases
+
+=== Liquids
+
+=== Semiconductors
