@@ -129,18 +129,6 @@ _Force_ - An influence that can cause an object's velocity to change. It is a ve
 
 In reality, there are 4 fundamental forces (electromagnetic, gravitational, weak and strong nuclear) but in many practical applications we consider integral values such as contact forces and friction.
 
-=== Newton's Laws of Motion
-Published in his 1687 paper Principia, these laws describe the motion of all objects and continue to serve as the foundations of classical mechanics in the modern day.
-
-1. An object remains at rest or in motion at a constant speed unless acted on by an external force.
-2. The resultant force acting on a body is the rate of change of the momentum of the object:
-$
-  F = (d bold(P)) / (d t) = m bold(a)
-$
-3. Every action results in an equal and opposite reaction. This can also be used to show the conservation of linear momentum.
-
-LTD: Lagrangian mechanics
-
 === Inner vs outer forces
 Every inner force in a system exists in a pair with its corresponding reaction force. Forces without a corresponding reaction are so called _external forces_.
 $
@@ -232,8 +220,3 @@ When the kinematic ${v_B, omega}$ and dynamic ${R, M_B}$ with respect to a point
 $
   cal(P)_"tot" = R dot v_B + M_B dot omega
 $
-
-
-LTD:
-- I would love to define all the fundamental building blocks of physics such as energy, velocity, acceleration etc. but I'm worried this will make these notes too verbose with information anyone reading them has already mastered, and I'll spend valuable time going further down the Wikipedia rabbit hole...
-- Rotational momentum / Feynman or University Physics
