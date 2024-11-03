@@ -1,5 +1,9 @@
 = Physics
 
+#figure(
+  image("images/modern-physics.png", width: 60%),
+) <fig-modern-physics>
+
 == Classical Mechanics
 
 === Newton's Laws of Motion
@@ -23,19 +27,28 @@ _Non-Inertial Reference Frame_ - It is accelerating in some way; objects defined
 
 TODO: Rotating frame of reference
 
-== Special Relativity
+=== Galilean Transformation
+The coordinates of two inertial frames of reference can be transformed between one another using the following equations:
+$
+  x' &= x - v t\
+  y' &= y\
+  z' &= z\
+  t' &= t\
+$
+This approximation is accurate when considering systems with velocities significantly slower than the speed of light (non-relativistic).
 
-_Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage.
+Transformations between reference frames can also be represented as a matrix allowing easier vector calculations.
+
+== Special Relativity
+_Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage. However relativistic effects mean that time passes at different rates in different frames of reference, hence a 4th dimension is introduced.
 
 TODO: Minkowski space
 
-TODO: Michelson-Morsley experiment and the aether
+TODO: Michelson-Morsley experiment, Lorentzian electrodynamics and the aether
 
-TODO: FitzGerald Lorentz
+After the failed Michelson-Morsley experiment, a new theory was needed to explain the speed of light. Special relativity is a theory published in 1905 (On the Electrodynamics of Moving Bodies) by Albert Einstein, accurately modelling motion through spacetime when gravitational and quantum effects are negligible.
 
-Special relativity is a theory published in 1905 (On the Electrodynamics of Moving Bodies) by Albert Einstein, modelling motion through spacetime when gravitational and quantum effects are negligible.
-
-In special relativity, time becomes relative to the velocity of particles
+In special relativity, time and distances become relative to the velocity of particles.
 
 _Postulate_ - Something assumed as true in a theory.
 
@@ -43,8 +56,30 @@ It is based on 2 postulates:
 + The laws of physics are invariant in all inertial frames of reference. This is known as the principle of relativity.
 + The speed of light is the same for all observers, regardless of all motion.
 
-TODO: Lorentz transformation and factor
+=== Lorentz Transformation
+Two inertial spacetimes can be transformed between one another with the following relationships:#footnote([The derivation is mathematically very simple and a great exercise in thought. Consider a pulse of light being emitted from a torch in a frame of reference moving at velocity $v$, the distance travelled by the light and the time taken with respect to each frame of reference can be expressed using the Pythagorean theorem. Due to the 2nd postulate, time and distance are different in both frames so that the speed of light remains constant.])
+$
+  t' &= gamma (t- (v x) / c^2)\
+  x' &= gamma (x- v t)\
+  y' &= y\
+  z' &= z
+$
+Where $gamma$ represents the Lorentz factor, which appears in many equations from Classical mechanics adjusted for relativistic effects:
+$
+  gamma =1 / sqrt(1- v^2/c^2)
+$
+
+=== Implications
+The second postulate leads to many extremely important implications in spacetime:
+- Time dilation - Time passes at a different rate in different frames of reference; slower the closer to the speed of light an inertial frame is translating with respect to another. The intuition for this is that time must be slower to accountfor the added velocity of an inertial frame itself to the speed of light (which much remain constant across all frames).
+- Length contraction - Lengths in a relativistic frame of reference are shorter with comparison to another frame at rest.
+
+Conservation of momentum and energy also lead to the following implication:
+- Relativistic mass - Observed mass increases when an object's speed approaches the speed of light: $m = gamma m_0$ where $m_0$ is the object's rest mass.
+- The same can be applied to kinetic energy and momentum.
 
 TODO:
+- Field & thermionic emission / photoelectric effect
 - Feynman or University Physics
 - Lagrangian & Hamiltonian mechanics
+- Nuclear mass defect

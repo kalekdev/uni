@@ -633,10 +633,107 @@ Leading from the definition of electrostatic potential, 1 Coulomb of charge acce
 
 _Electronvolt_ - A unit of energy useful for systems at the atomic scale. 1 $e V$ is the kinetic energy gained by an electron accelerated by a potential difference of $1V$ through a vacuum. It is equal to $e dot 1J = 1.602... times 10^(-19) "Joules"$.
 
+_Anion_ - Negatively charged particle\
+_Cation_ - Positively charged particle
+
+_Anode_ - Attracts anions; positively charged\
+_Cathode_ - Attracts cations; negatively charged\
+
 === Vacuum
+Charges can be accelerated through a vacuum by applying an electric field. Considering two oppositely charged plates connected to a voltage source $U$ at distance $d$ between each other with a vacuum as the dielectric (simple capacitor), the electric field between the plates is homogenous:
+$
+  arrow(E) = U / d
+$
+
+Of course, electrons cannot simply leave the negatively charged plate unless field, thermionic or photoelectric emission occurs (see fundamentals/physics). However, assuming a freed electron starts at the negative plate, the constant acceleration in the direction of the positive plate it experiences is:
+is:
+$
+  a = (e U) / (m_0 d)
+$
+Its velocity at any point in time is simply $v = a t$, the displacement is:
+$
+  s = integral_0^t v d t = (e U t^2) / (2 m_0 d)
+$
+The velocity at any displacement $s$ is:
+$
+  v(s) = sqrt(2 U e/m_0 s/d)
+$
+Small potential differences can already lead to huge velocities so the increase in relativistic mass must be accounted for:
+$
+  m &= gamma m_0\
+  &=m_0 / (sqrt(1-v^2/c^2))
+$
+
+When considering the flow of a continuous current through a vacuum, many electrons slowly start to be accelerated near the surface of the cathode. This "cloud" of electrons slightly reduces the resulting electric field at the surface from which they left, slowing down the emission of more electrons and thus the current. This can however be overcome by a high enough voltage, which accelerates the cloud away allowing more current to flow. This non linear relationship can be expressed as:
+$
+  I = 4 / 9 (epsilon_0 A) / d sqrt((2e)/m_0) U^(3 / 2)
+$
+TODO: Derivation
+
+Unless extremely high voltages are applied, field emission doesn't take place. Other emission mechanisms, such as thermionic emissions, lead to a relatively constant rate of emission and therefore "maximum" current called the saturation current.
+
+#figure(
+  image("images/saturation-current.png", width: 60%),
+) <fig-saturation-current>
+
+If the voltage is applied in the opposite polarity (and the emission mechanism stays the same), no current can flow (unless the voltage is high enough for field emission to take place). This is the working principle of a vacuum tube as a diode (Fleming valve).
 
 === Gases
+A gas between electrodes can act as a resistance and / or additional charge carriers (ionised gas molecules).
+
+_Electrical Breakdown_ - When a material, which is usually non-conductive, becomes conductive under the influence of an electrical field or an intense electromagnetic wave.
+
+In the case of gases, an electric field itself can cause already existing ions in the gas to further ionise other atoms through collisions cascading to create plasma (a fundamental state of matter, containing a large portion of ions), which is extremely conductive. This is called electrical arcing. In air this occurs around a voltage of $3k V m m^(-1)$.
+
+Usually we want to avoid arcing, as it causes damage to electrodes and wastes energy. However, this phenomenon is useful in welding and electrical discharge machining.
+
+_Selbständigen Leitung_ - Electrical breakdown occurs and a gas becomes conductive, only caused by the electrical field itself.\
+_Unselbständigen Leitung_ - Electrical breakdown caused by external light / heat or ions are introduced by a radioactive source. This can often lead to a maximal saturation current.
+
+Whilst the electrical field and current are directly proportional, this is known as Ohmic conductance. This is however often not the case in gases, for example when a current leads to an increase in heat and subsequently collisions = resistance. Alternatively this can lead to more ionising collisions and increased conductivity.
 
 === Liquids
+Pure water contains no ions and is therefore a perfect insulator, sometimes used directly on top of electronics for cooling purposes.
+
+_Electrolytic Dissocation_ - Adding ions such as salt (NaCl) to water to make it more conductive, creating a good electrolyte.
+
+The unit Ampere was defined in terms of the amount of silver transported during a period of electrolysis with specific chemicals in the past.
+
+==== Faraday's Law of Electrolysis
+_Mole_ - The base unit for amount. 1 mole is defined as the number of atoms in 12 grams of Carbon 12 - the most stable and abundant isotope; this amounts to $6.022 times 10^(23)$ atoms, also known as Avogadro's constant $N_A$.
+
+_Molar Mass_ - The relative mass per mole of a substance which can be found in the periodic table. This value can be summed for finding the molar mass of molecules, for example $16 + 2 times 1 approx 18 M$ is the molar mass of water. The mass can then be found by multiplying by the molar mass constant $M_u approx 1 times 10^(-3) "kg" "mol"^(-1)$. Therefore water has the mass $18 times M_u approx 18 "grams" "mol"^(-1)$.
+
+Faraday expressed the mass of ions with relative charge $z$ and molar mass $M_r$ deposited / liberated at a cathode / anode during electrolysis as the following equation:
+$
+  m prop Q\
+  m = (M_r M_u) / (z e) Q = (M_r M_u) / (z e) I t\
+  A_r u = M_r M_u "if question given in these units"
+$
+
+Where the constant of proportionality is called the _electrochemical equivalent_ and is characteristic for a given substance.
+
+This can be rearranged to compare the mass of ions exchanged when their charges are equal (often the case in electrolysis):
+$
+  (m_1 z_1) / (M_(r 1))= (m_2 z_2) / (M_(r 2))
+$
+
+Electrolytes are usually ohmic in nature and the current for an electrolyte with cation / anion volume density $eta$ can be expressed as:
+$
+  I = eta z e A (abs(v_+) + abs(v_-))
+$
+This can be used to derive the resistance and conductivity as well.
+
+Temperature usually has a negative coefficient to resistance, unlike in metals.
 
 === Semiconductors
+_Valence Electrons_ - These are electrons in the outer shell of an atom and determine its compatibility to form bonds with other atoms.
+
+Semiconductors like silicon are arranged in a crystaline structure, due to their even number of valence electrons:
+#figure(
+  image("images/silicon.png", width: 40%),
+) <fig-silicon>
+
+Due to this structure, valence electrons in semiconductors are effectively surrounding two atoms at once and therefore their total energy varies in a specific range called the _valence band_.
+
+TODO: conduction band, band gap
