@@ -78,8 +78,23 @@ Conservation of momentum and energy also lead to the following implication:
 - Relativistic mass - Observed mass increases when an object's speed approaches the speed of light: $m = gamma m_0$ where $m_0$ is the object's rest mass.
 - The same can be applied to kinetic energy and momentum.
 
+== Bohr's Atomic Model
+The model was introduced in 1911 by Niels Bohr to explain the Rydberg formula, Photoelectric effect and the stability of the atom. It does not explain other quantum phenomena such as wave particle duality. Nonetheless, it's much more accessible than Schrodinger's wave function and still remains a useful tool.
+
+TODO: Rydberg Formula
+
+It is based on the following postulates:
++ Electrons orbit the nucleus at shells fixed distances away called energy levels, where each shell contains a fixed number of electrons called the electron configuration.
++ The energy levels are integer multiples of Planck's constant and the possible energies are therefore quantized. Electrons further from the nucleus have more energy (less negative). At this stable energy levels, the acceleration of electrons (as they exhibit circular motion) does not lead to radiation / energy loss. The lowest energy level is called the _ground state_ and the highest is called the _valence band_.
++ Electrons may lose / gain energy by jumping between energy levels when emitting / absorbing light, who's frequency is determined by the Planck relation.
+
+TODO: PEP and why electrons stay in their energy levels
+
+TODO: Electron configurations
+
 TODO:
 - Field & thermionic emission / photoelectric effect
-- Feynman or University Physics
+- De Broglie equation
+- Feynman or University Physics, angular momentum
 - Lagrangian & Hamiltonian mechanics
 - Nuclear mass defect

@@ -727,13 +727,35 @@ This can be used to derive the resistance and conductivity as well.
 Temperature usually has a negative coefficient to resistance, unlike in metals.
 
 === Semiconductors
-_Valence Electrons_ - These are electrons in the outer shell of an atom and determine its compatibility to form bonds with other atoms.
-
-Semiconductors like silicon are arranged in a crystaline structure, due to their even number of valence electrons:
+Semiconductors like silicon are arranged in a crystaline structure, due to their even number of valence electrons (usually 4):
 #figure(
   image("images/silicon.png", width: 40%),
 ) <fig-silicon>
+Due to this structure, valence electrons in semiconductors effectively belong to two atoms at once.
 
-Due to this structure, valence electrons in semiconductors are effectively surrounding two atoms at once and therefore their total energy varies in a specific range called the _valence band_.
+_Conduction Band_ - Electrons can be excited to a higher conduction band where they are free to move throughout the material and conduct electricity.
 
-TODO: conduction band, band gap
+_Band Gap_ - The range of energy between the valence band and conduction band in different materials. This varies and determines a materials conductivity. In electrical conductors this gap does not exist and the valence electrons are always in the conduction band, in conductors it is relatively small and they can be influenced to become better conductors / insulators, for example through temperature.
+
+_Rekombination_ - When a hole is filled by an electron. This occurs at a relatively constant rate in semiconductors which can be controlled by temperature.
+
+_Donators_ - Atoms with 5 valence electrons, used to n-dope a semiconductor and increase the number of negative conductors. Examples: Arsenic, Antimony, Phosphor
+
+_Acceptors_ - Atoms with 3 valence electrons, used to p-dope a semiconductor and increase the number of holes. Examples: Gallium, Indium, Aluminium
+
+_Majority Conductor_ - Either holes or electrons, which is mainly responsible for carrying electric current in a doped semiconductor.
+
+=== p-n Junction
+When these two doped regions are connected, excess electrons cross the border to fill holes, resulting in a steady state called the depletion region. This however also leads to two opposite charge distributions at the border due to the remaining donators / acceptors, which in most semicondctors has a voltage of 0.8V between them (threshold voltage).
+
+When a voltage source greater than the threshold voltage is connected to the diode with the positive terminal to the p-type end, the depletion region is overcome and current flows.
+#figure(
+  image("images/forward-bias.png", width: 60%),
+) <fig-forward-bias>
+
+The opposite of this is known as reverse bias and leads to no current flow:
+#figure(
+  image("images/reverse-bias.png", width: 60%),
+) <fig-reverse-bias>
+
+This is the working principle of diodes. High enough voltages can lead to electrical breakdown and destruction of the diode.

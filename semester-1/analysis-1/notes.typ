@@ -465,6 +465,8 @@ $
 $
 
 === Convergence Criteria for Series
+LTD: Read https://en.wikipedia.org/wiki/Convergence_tests
+
 The Geometric series can be written as:
 $
   n in NN_0, a_n -> sum_(k=0)^n z^k = (1-z^(n+1)) / (1-z)
@@ -482,13 +484,15 @@ $
 - If a series converges, then the underlying sequence must converge to 0
 - On the other hand, a sequence converging to 0 does not imply that the series converges, for example the harmonic series: $sum 1/k$ continues to grow infinitely (albeit extremely slowly)
 
-==== Quotient Criterium
+==== Quotient Criterium (aka Ratio test)
 An alternative convergence criteria is:
 $
   forall a_k != 0\
   "Converges:" lim_(k-> oo) sup abs(a_(k+1) / a_k)< 1\
   "Diverges:" lim_(k-> oo) inf abs(a_(k+1) / a_k)> 1
 $
+Intuition: Each following member of the sequence is smaller than the previous member. Polarity is accounted for, as the absolute function is applied before taking the limes superior.
+
 If the series oscillates wildly past 1 or contains zero, these criteria cannot say anything definitively.
 
 ==== Root Criterium
@@ -536,12 +540,16 @@ This series converges when $s>1$. $s=1$ is the harmonic series, which does indee
 
 $zeta(2) = pi^2/6$ was proved by Euler, however $s>2$ has not yet been expressed precisely and is an open problem.
 
+LTD: It is weird that this converges but the harmonic series does...
+
 === Absolute Convergence
 The series of a sequence $a_k$ is said to converge absolutely if:
 $
-  sum_(k=1)^oo abs(a_k) "converges"
+  sum_(k=1)^oo abs(a_k) "converges absolutely"
 $
 Thus is $a_k$ _absolutely summable_.
+
+The bijective function $phi: NN_0 -> NN_0$ simply represents the reordering of the natural numbers.
 
 == Topology
 This is the branch of mathematics studying structures representing continuous sets.
@@ -563,8 +571,9 @@ $
 Man muss immer am $B_r^d$ bleiben!
 
 Mengen sind keine Türe! (Muss nicht entweder offen oder abgeschlossen sein)
+
+
 TODO:
 == Lagrange Polynomial
 == Fourier Series
-
 
