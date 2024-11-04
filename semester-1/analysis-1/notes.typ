@@ -542,14 +542,25 @@ $zeta(2) = pi^2/6$ was proved by Euler, however $s>2$ has not yet been expressed
 
 LTD: It is weird that this converges but the harmonic series does...
 
+=== Conditional Convergence
+Finite sums are always associative and commutative. However, this is not always the case for infinite sums, for example the alternating harmonic series, which can be rearranged so it converges to half of the usual limit: https://en.wikipedia.org/wiki/Absolute_convergence
+
+Such series are called conditionally convergent.
 === Absolute Convergence
 The series of a sequence $a_k$ is said to converge absolutely if:
 $
-  sum_(k=1)^oo abs(a_k) "converges absolutely"
+  sum_(k=1)^oo abs(a_k) "converges"
 $
 Thus is $a_k$ _absolutely summable_.
 
 The bijective function $phi: NN_0 -> NN_0$ simply represents the reordering of the natural numbers.
+$
+  sum_(k=1)^oo a_phi(k) = sum_(k=1)^oo abs(a_k)
+$
+The infinite sum of an absolutely convergent series is associative and commutative. LTD: double check: Furthermore, if a series converges absolutely, it also converges normally.
+
+=== Cauchy Product
+TODO
 
 == Topology
 This is the branch of mathematics studying structures representing continuous sets.
