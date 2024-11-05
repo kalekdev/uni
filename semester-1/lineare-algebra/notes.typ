@@ -602,12 +602,14 @@ Coordinates can of course be transformed to coordinates of another basis in the 
 
 $bold(C)$ is found by:
 + Represent each vector in the new basis as a coordinate in the old basis.
-+ These are now the columns of $cal(C)$.
++ These are now the columns of $bold(C)$.
 + Solve $bold(C tilde(x) = x)$
-+ The matrix can then be used to change the basis of any vector, as well as calculating the inverse (in case it is easier than finding a new suitable $cal(C)$)
++ The matrix can then be used to change the basis of any vector, as well as calculating the inverse (in case it is easier than finding a new suitable $bold(C)$)
 #figure(
   image("images/basis-change.png", width: 80%),
 ) <fig-basis-change>
+
+LTD: is $tilde(x)$ the point we want to transform in terms of the new basis?
 
 == Linear Transformations
 Useful resource: https://www.3blue1brown.com/lessons/abstract-vector-spaces
@@ -634,6 +636,117 @@ For example, derivation is a linear transformation:
 #figure(
   image("images/linear-transformations.png", width: 80%),
 ) <fig-linear-transformations>
+
+A linear transformation is independent of the basis / coordinates used and can be represented with respect to many different bases in the same space. The following diagram highlights these relationships well:
+#figure(
+  image("images/transformation-diagram.png", width: 80%),
+) <fig-transformation-diagram>
+
+== Norms
+A norm is a function that transforms any element in a linear space to a positive real number. It must respect the following properties:
+#figure(
+  image("images/norm-properties.png", width: 60%),
+) <fig-norm-properties>
+#figure(
+  image("images/norm-equivalence.png", width: 60%),
+) <fig-norm-equivalence>
+
+A basic example of a norm in $RR$ is the absolute function:
+$
+  x in RR\
+  abs(x)
+$
+This is the only universal norm in one dimensional spaces.
+TODO: How is this an isomorphism? https://en.wikipedia.org/wiki/Norm_(mathematics)
+
+=== Taxicab Norm ($L^1$)
+The name comes from the fastest zig zag path a taxi has to drive through in Manhattan's grid based street layout:
+$
+  norm(x)_1 := sum_(i=1) abs(x_i)
+$
+=== Euclidean Norm ($L^2$)
+This ubiquitous norm represents the length of a vector and can alternatively be written in vector notation:
+$
+  x in RR^d\
+  norm(x)_2 := sqrt(x^T x)\
+  x in CC^d\
+  norm(x)_2 := sqrt(x^H x)
+$
+
+=== p-Norm
+$
+  p in RR | p >= 1\
+  norm(x)_p := (sum_(k=1) abs(x_k)^p)^(1 / p)
+$
+All $L^n$ norms can be generalized as the p-norm.
+
+==== Maximum Norm ($L^oo$)
+A special case of the p-Norm as p approaches $oo$:
+$
+  norm(bold(x))_oo := max(bold(abs(x_1)\, abs(x_2)\, ...))
+$
+The intuition behind this is that the largest element in the vector dominates the sum and therefore this norm effectively zooms in on the largest element.
+
+Here is the unit circle as defined by various p-norms:
+#figure(
+  image("images/p-norm-unit-circle.png", width: 60%),
+) <fig-p-norm-unit-circle>
+
+=== Cauchy-Bunjakovski-Schwarz Inequality
+This is often regarded as the most important inequality in mathematics, it can be written in many different forms, the 3rd one is very intuitive:
+$
+  bold(v^T w) &<= bold(norm(v) norm(w))\
+  bold(< v\, w > space &<= space <v\, v> dot <w\, w>)\
+  bold(norm(v) norm(w)) cos(theta) &<= bold(norm(v) norm(w))
+$
+Where $norm(dot)$ is the Euclidean norm. This can be proven by induction.
+
+Both sides are equal $<=>$ $v, w$ are linearly dependent. Due to this, the angle definition of the dot product is actually an application of the inequality used throughout mathematics:
+$
+  cos(theta) = (<v, w>) / (norm(v) norm(w))
+$
+
+=== Matrix Norms
+Every norm in $RR^n$ defines a corresponding matrix norm, which is a measure of how much that norm is affected after the matrix is applied as a linear transformation:
+$
+  bold(A): m times n\
+  bold(x) in RR^n | norm(bold(x))_p = 1\
+  norm(bold(A))_p := max(norm(bold(A x))_p)
+$
+
+Here are some examples:
+
+==== Maximum Column Sum ($norm(dot)_1$)
+In this case $x = vec(0, 0, ..., 1, ...)$ so that $norm(x)_1 = 1$.
+
+$A x$ results in each column at a time. When the 1 norm is applied to each column, the sum of the column's elements is returned.
+
+Therefore this simply returns the maximum column sum:
+#figure(
+  image("images/max-column-sum.png", width: 60%),
+) <fig-max-column-sum>
+
+==== Maximum Row Sum ($norm(dot)_oo$)
+The maximum transformation allowed is when $x = vec(1, 1, 1, ...)$.
+
+$A x$ results in the sum of each row:
+#figure(
+  image("images/max-row-sum.png", width: 60%),
+) <fig-max-row-sum>
+
+LTD: Spectral norm after learning eigenvalues
+
+#pagebreak()
+=== Dot Products
+#figure(
+  image("images/dot-products.png", width: 80%),
+) <fig-dot-products>
+#figure(
+  image("images/norm-of-dot-product.png", width: 80%),
+) <fig-norm-of-dot-product>
+#figure(
+  image("images/orthogonal-dot-product.png", width: 80%),
+) <fig-orthogonal-dot-product>
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
