@@ -230,3 +230,20 @@ Sum of shifted partial products: $(a +b) dot c = a dot c + b dot c$, x2 = shift 
 
 Booth's Multiplication Algorithm for 2s Complement numbers will not be examined.
 
+
+== Sequential Circuits
+Sequential circuits depend not only on the inputs but also the previous state.
+TODO: formal definition
+TODO: Mention how logic tables are used with previous states -> state n+1
+
+=== SR-Latch
+TODO: Diagrams of both variants
+TODO: Draw / find state diagram, describe pin functionality
+Q2 is simply $not Q 1$
+
+=== Clock-controlled Latch
+Just like SR but the S and R pins only take effect when the clock is high.
+TODO: Symbol, Circuit and state diagrams
+TODO: is this called edge triggered?
+
+=== D-Latch

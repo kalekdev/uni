@@ -741,12 +741,40 @@ LTD: Spectral norm after learning eigenvalues
 #figure(
   image("images/dot-products.png", width: 80%),
 ) <fig-dot-products>
+A _positiv semi-definit_ operation is not a dot product.
+
+Any operation that satisfies these properties can be called a dot product and leads to its corresponding norm being defined as:
 #figure(
   image("images/norm-of-dot-product.png", width: 80%),
 ) <fig-norm-of-dot-product>
 #figure(
   image("images/orthogonal-dot-product.png", width: 80%),
 ) <fig-orthogonal-dot-product>
+
+==== Orthogonal Projection
+The orthogonal projection of a vector $bold(x)$ onto $bold(y)$ looks like this:
+#figure(
+  image("images/orthogonal-projection.png", width: 40%),
+) <fig-orthogonal-projection>
+Since $bold(x-u) perp bold(y)$, we can derive the scalar $alpha$ as:
+$
+  alpha = bold((<y, x>) / (<y, y>))
+$
+Thus, we can express the orthogonal projection of a vector onto $bold(y)$ as the following function:
+$
+  P_y: VV -> VV\
+  P_y(x) := bold((<y, x>) / (<y, y>) y)
+$
+This can also be calculated as a reflection using the householder matrix:
+$
+  P_y(x) &= bold(y / norm(y) y^H / norm(y) x)\
+  &= bold(P_y x)
+$
+Where $"Im"(bold(P_y)) = "Span"{bold(y)}$.
+
+TODO: Projection onto unit vector (unless it comes up)
+
+TODO: Schwartz inequality and angles
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
