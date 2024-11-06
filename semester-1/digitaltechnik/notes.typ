@@ -149,6 +149,8 @@ _Don't care_ - Combinations of inputs for which the output doesn't matter, for e
 
 _Static hazards_ - When the same variable is used in a parent logic gate, changes in the variable can lead to delayed "notches" in the parent's output due to time delays. These can be recognized in Karnaugh diagrams: where two packets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet two join the place of the hazard - this results in more gates overall but avoids the hazard.
 
+TODO: Finish exercise series
+
 == Number Systems
 _Base (Radix)_ - b-adischen Reiehen like in analysis, negative indices of the base for defining decimals
 
@@ -160,50 +162,74 @@ _Octal_ - Radix 8, can be converted from binary using groups of 3 binary digits.
 + Perform whole number division of the decimal $D$ by the Radix $R$: $D/R = Q_0 + r_0$, the remainder is the first digit in the target radix
 + Divide the result of the previous whole-number division $Q_0$ by the radix R again, this remainder is now the second digit in the target radix and so on
 + Continue until $Q_i$ reaches 0
+#figure(
+  image("images/integer-conversion.png", width: 60%),
+) <fig-integer-conversion>
 
 === Converting $0 <= D_(10) < 1$ to Radix R
-This is the same process but the decimal is multiplied by the radix R and the resulting product is used in the next multipliciation. The current digit is the floor of TODO: Coefficients?, starting with the most significant bit.
-
-Only possible for a finite number of decimal digits.
+This is a similar process but the decimal is multiplied by the radix R and the floor of the resulting product is the current digit's value. The remainder after subtracting the floor from the current result is the next calculation's input.
+#figure(
+  image("images/float-conversion.png", width: 60%),
+) <fig-float-conversion>
 
 == Signed Binary Numbers
+There are several possible ways to represent signed binary numbers:
 - Signing bit
 - 1s complement
-- 2s complement: Advantageous for performing arithmetic with signed numbers as the sign remains accurate
+- 2s complement: Advantageous because addition works using it, making it viable for subtraction too
 
 === 2s Complement
-TODO: Screenshot from script (Konstruktion von 2er-Komplementen)
-How it can be converted back into decimal, either convert to positive then calculate or use first bit (sign) as $-(2)^n$ and the others as positive binary digits
+A 2s complement binary number can be converted back and forth using the following method:
++ Set apart the leading signing bit
++ Perform bitwise inversion on the other bits and add 1
++ Append the inverted leading signing bit
 
-Fractional numbers still have $plus.minus 2^0$ as the signing bit, converted in the same way. In the case of a whole + fractional number only the first bit is a signing bit
+Converting 2s complement to decimal is also straightforward. Either the corresponding positive binary number can be converted or:
++ Treat the leading bit as -1 \* its place value
++ Add the following binary number as positive to the negative number (ex. -256 + 16 + 2 + 1)
+
+Fractional numbers still have $plus.minus 2^0$ as the signing bit, they can be converted in the same way. In the case of a whole + fractional number only the first bit is the signing bit.
 
 IMPORTANT: Do not forget signing bit for positive numbers
 
-== Binary Arithmetic
-Addition of two binary numbers, with maximum $n$ digits has at most $n+1$ bits in the result. TODO: Addition of 4x1s = Carry over 1 two places
+The $m Q n$ notation simply tells us how many bits before ($m$) and after the decimal place ($n$) represent the amount.
 
-Binary subtraction can be written as the addition of 2s complement numbers
+== Binary Arithmetic
+Addition of two binary numbers, with maximum $n$ digits has at most $n+1$ bits in the result.
+
+Addition of 4x1s = Carry over 1 two places. This applies in general to all carry bits, because the entire addition result is simply being "overlayed" on the existing sum
+
+Binary subtraction can be written as the addition of 2s complement numbers. IMPORTANT: Do not forget +'ve number signing bit!
 
 == Encoding
 Tetraden / Nibble - groups of 4 bits
 
-Many different ways to encode 10 numbers, each has their advantages / disadvantages. Gray / O'Brien useful for counting TODO: Why?
+Many different ways to encode 10 numbers, each has their advantages / disadvantages. For example, Gray / O'Brien encoding is useful for counting, because they are assigned in such a way that only 1 bit changes per increment.
 
 === Parity Bit
-Additional bit representing if the number of 1s in a word / block is odd / even TODO: Double check
+Additional bit representing if the number of 1s in a word / block is odd / even
 
-An extra word can be sent with the purpose of checking and also correcting previous words
+An extra word containg parity bits of the columns when the previous words are arranged as a matrix can be sent with the purpose of error checking, and when used in combination with word parity bits it can be used to pinpoint and correct errors.
+#figure(
+  image("images/error-correction.png", width: 60%),
+) <fig-error-correction>
 
 == Datapath Circuits
 
 === Multiplexer
-Outputs one selected bit from several inputs using a binary selection signal. Circuit is a selection of minterms $(not S_0 and not S_1 and D_0) or (not S_0 and S_1 and D_1) or (S_0 and not S_1 and D_2) or (S_0 and S_1 and D_3)$
+Outputs one selected bit from several inputs using a (in this case 2 digit) binary selection signal. Circuit is simply a set of minterms $(not S_0 and not S_1 and D_0) or (not S_0 and S_1 and D_1) or (S_0 and not S_1 and D_2) or (S_0 and S_1 and D_3)$
+#figure(
+  image("images/multiplexer.png", width: 60%),
+) <fig-multiplexer>
 
 === Demultiplexer
-Inverse of a multiplexer, selects at which output a signal is outputed. Same Circuit but ORed with Y
+Inverse of a multiplexer, selects at which output a signal is outputed:
+#figure(
+  image("images/demultiplexer.png", width: 60%),
+) <fig-demultiplexer>
 
 === Code Translator (Umsetzer)
-Converts between number encoding. Create KNF -> Karnaugh diagram for each output and the set of inputs, TODO: Clarify
+Converts between number encoding. Create KNF -> Karnaugh diagram for each output and the set of inputs, regular circuit synthesis procedure.
 
 === Half Adder
 Outputs the sum of two binary digits and the remainder (Carry Out CO) to be passed to an adjacent full-adder one place value higher. Symbol has $sum$ on it.
@@ -212,15 +238,22 @@ Outputs the sum of two binary digits and the remainder (Carry Out CO) to be pass
 3 inputs: A, B and Carry In (CI) for a lower CO bit. Simply a combination of two half adders plus an OR gate taking in CI and CO of the internal half adder.
 #image("images/full-adder.png")
 
-TODO: Series (with multiplexer and clock signal?) vs parallel adder
 === Parallel Adder
-TODO: Add example and (dis)advantages
+Addition of 2 multiple digit binary numbers can be synthesised as usual. This is the most efficient multi digit adder but is very application specific and needs a lot of work to extend.
 
 === Ripple Carry
-Advantage: Easy to expand and combine Disadvantage: Carry bits take time to ripple up the place values
+#figure(
+  image("images/ripple-carry-adder.png", width: 60%),
+) <fig-ripple-carry-adder>
+Advantage: Easy to expand and combine
+
+Disadvantage: Carry bits take time to ripple up the place values, the time needed to get a correct output increases linearly
 
 === Carry-Look-Ahead Adder
-Advantages of both combined, TODO: Some kind of recursive equation
+Advantages of both combined, TODO: Understand
+#figure(
+  image("images/carry-look-ahead-formula.png", width: 60%),
+) <fig-carry-look-ahead-formula>
 
 === Subtraction
 XOR Gates handle two's complement signing bits well
