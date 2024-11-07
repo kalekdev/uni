@@ -94,6 +94,7 @@ TODO: Electron configurations
 
 TODO:
 - Field & thermionic emission / photoelectric effect
+- Wave equation
 - De Broglie equation
 - Feynman or University Physics, angular momentum
 - Lagrangian & Hamiltonian mechanics

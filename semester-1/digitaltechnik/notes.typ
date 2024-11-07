@@ -154,7 +154,9 @@ TODO: Finish exercise series
 == Number Systems
 _Base (Radix)_ - b-adischen Reiehen like in analysis, negative indices of the base for defining decimals
 
-_Hexadecimal_ - Uses digits $0-9$ and $A-F$ for 16 possible digits in total. Used to represent binary numbers in a more compact format by splitting a binary number into groups of 4 digits
+_Decimal_ - Base 10, sometimes written with a \$ at the start.
+
+_Hexadecimal_ - Uses digits $0-9$ and $A-F$ for 16 possible digits in total. Often written with 0x at start. Used to represent binary numbers in a more compact format by splitting a binary number into groups of 4 digits
 
 _Octal_ - Radix 8, can be converted from binary using groups of 3 binary digits.
 
@@ -182,7 +184,7 @@ There are several possible ways to represent signed binary numbers:
 A 2s complement binary number can be converted back and forth using the following method:
 + Set apart the leading signing bit
 + Perform bitwise inversion on the other bits and add 1
-+ Append the inverted leading signing bit
++ Append the inverted leading signing bit (Do not cut off leading 0s that arose from inversion!)
 
 Converting 2s complement to decimal is also straightforward. Either the corresponding positive binary number can be converted or:
 + Treat the leading bit as -1 \* its place value
@@ -199,7 +201,7 @@ Addition of two binary numbers, with maximum $n$ digits has at most $n+1$ bits i
 
 Addition of 4x1s = Carry over 1 two places. This applies in general to all carry bits, because the entire addition result is simply being "overlayed" on the existing sum
 
-Binary subtraction can be written as the addition of 2s complement numbers. IMPORTANT: Do not forget +'ve number signing bit!
+Binary subtraction can be written as the addition of 2s complement numbers. It will simply work and the MSB will be an accurate signing bit. IMPORTANT: Do not forget +'ve number signing bit!
 
 == Encoding
 Tetraden / Nibble - groups of 4 bits
@@ -239,30 +241,45 @@ Outputs the sum of two binary digits and the remainder (Carry Out CO) to be pass
 #image("images/full-adder.png")
 
 === Parallel Adder
-Addition of 2 multiple digit binary numbers can be synthesised as usual. This is the most efficient multi digit adder but is very application specific and needs a lot of work to extend.
+Addition of 2 multiple digit binary numbers can be synthesised as usual using Karnaugh diagrams. This is the most efficient multi digit adder but is very application specific and needs a lot of work to extend.
 
 === Ripple Carry
 #figure(
   image("images/ripple-carry-adder.png", width: 60%),
 ) <fig-ripple-carry-adder>
-Advantage: Easy to expand and combine
+Advantage: Easy to extend and combine
 
 Disadvantage: Carry bits take time to ripple up the place values, the time needed to get a correct output increases linearly
 
 === Carry-Look-Ahead Adder
-Advantages of both combined, TODO: Understand
+Due to the fact that adders are so central to more complex electronic circuits, it is very useful to combine the delay and extendability advantages of both the parallel and ripple carry adder into one.
+
+This is based on propagating carry bits as soon as possible, as these do not depend on an accurate sum. A full adder will output high on CO if:
+- Both of the inputs are high
+- One of the inputs is high and CI is high
+
+Although this leads to slightly more complex hardware, the sums can therefore also be calculated in parallel and the circuit remains extendable.
+
+The carry logic can be calculated using this recursive formula:
 #figure(
   image("images/carry-look-ahead-formula.png", width: 60%),
 ) <fig-carry-look-ahead-formula>
 
 === Subtraction
-XOR Gates handle two's complement signing bits well
+As mentioned before, this is straightforward using addition of 2s complement signed numbers.
+
+Conversion to 2s complement can alternatively be done using XOR Gates instead of NOT for the inversion step, allowing us to control if the current amount should be subtracted (inverted) or added:
+#figure(
+  image("images/subtraction-xor.png", width: 60%),
+) <fig-subtraction-xor>
 
 === Multiplication
-Sum of shifted partial products: $(a +b) dot c = a dot c + b dot c$, x2 = shift one to the left, x0.5: shift 1 bit to the right
+Multiplication occurs in the same way for any radix, through shifting and addition:
+#figure(
+  image("images/binary-multiplication.png", width: 60%),
+) <fig-binary-multiplication>
 
-Booth's Multiplication Algorithm for 2s Complement numbers will not be examined.
-
+The shifting logic can be built by simply wiring several adders (Basiszellen) together or using a single adder and multiplexer + counter (Booth's Algorithm).
 
 == Sequential Circuits
 Sequential circuits depend not only on the inputs but also the previous state.

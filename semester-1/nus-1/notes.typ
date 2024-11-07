@@ -330,7 +330,12 @@ $
 == Resistance
 As electrons in a conductor are accelerated in the same direction by an external electric field, they bump into stationary nuclei in the lattice, causing them to decelerate and scatter. The resulting average velocity of electrons (hence the negative sign) at a point is called the *drift velocity* and is directly proportional to the electric field. The constant of proportionality $mu$ is called *electron mobility (Beweglichkeit)*:
 $
-  arrow(v_e) = -mu_e arrow(E)
+  arrow(v_e) &= -mu_e arrow(E)\
+$
+Assuming a homogenous, parallel E field (for example between a capacitor's plates):
+$
+  V &= integral_0^l arrow(E) d s\
+  therefore arrow(v_e)&= -mu_e V / l
 $
 
 === Specific Resistivity ($rho_R$) & Conductivity ($kappa$)
@@ -664,7 +669,10 @@ $
   &=m_0 / (sqrt(1-v^2/c^2))
 $
 
-When considering the flow of a continuous current through a vacuum, many electrons slowly start to be accelerated near the surface of the cathode. This "cloud" of electrons slightly reduces the resulting electric field at the surface from which they left, slowing down the emission of more electrons and thus the current. This can however be overcome by a high enough voltage, which accelerates the cloud away allowing more current to flow. This non linear relationship can be expressed as:
+==== Space Charge
+When considering the flow of a continuous current through a vacuum (or other dielectrics where this effect is most noticable), many electrons slowly start to be accelerated near the surface of the cathode. This "cloud" of electrons slightly reduces the resulting electric field at the surface from which they left, slowing down the emission of more electrons and thus the current, making this a significant issue for vacuum tubes and particle accelerators.
+
+This can however be overcome by a high enough voltage, which accelerates the cloud away allowing more current to flow. This non linear relationship can be expressed as (Child's Law):
 $
   I = 4 / 9 (epsilon_0 A) / d sqrt((2e)/m_0) U^(3 / 2)
 $

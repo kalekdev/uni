@@ -645,10 +645,10 @@ A linear transformation is independent of the basis / coordinates used and can b
 == Norms
 A norm is a function that transforms any element in a linear space to a positive real number. It must respect the following properties:
 #figure(
-  image("images/norm-properties.png", width: 60%),
+  image("images/norm-properties.png", width: 80%),
 ) <fig-norm-properties>
 #figure(
-  image("images/norm-equivalence.png", width: 60%),
+  image("images/norm-equivalence.png", width: 80%),
 ) <fig-norm-equivalence>
 
 A basic example of a norm in $RR$ is the absolute function:
@@ -736,8 +736,7 @@ $A x$ results in the sum of each row:
 
 LTD: Spectral norm after learning eigenvalues
 
-#pagebreak()
-=== Dot Products
+== Dot Products
 #figure(
   image("images/dot-products.png", width: 80%),
 ) <fig-dot-products>
@@ -756,7 +755,7 @@ The orthogonal projection of a vector $bold(x)$ onto $bold(y)$ looks like this:
 #figure(
   image("images/orthogonal-projection.png", width: 40%),
 ) <fig-orthogonal-projection>
-Since $bold(x-u) perp bold(y)$, we can derive the scalar $alpha$ as:
+Since $(bold(x-u)) perp bold(y)$, we can derive the scalar $alpha$ as:
 $
   alpha = bold((<y, x>) / (<y, y>))
 $
@@ -772,9 +771,25 @@ $
 $
 Where $"Im"(bold(P_y)) = "Span"{bold(y)}$.
 
-TODO: Projection onto unit vector (unless it comes up)
+=== Unit Vectors
+#figure(
+  image("images/unit-vector.png", width: 80%),
+) <fig-unit-vector>
+In a linear space with dimensions $n$, $n$ orthogonal unit vectors therefore form a basis in this space, because they are all linearly independent.
 
-TODO: Schwartz inequality and angles
+The dot product of any vector $bold(x)$ with a unit vector is simply the component of $bold(x)$ in the direction of the unit vector, which is very useful throughout physics when dealing with components that are not along a predefined axis:
+$
+  bold(x) &in RR^n\
+  bold(<e\, x>) &= bold(norm(x) norm(e))cos(theta) = bold(norm(x)) cos(theta)\
+$
+
+Furthermore, this implies that any point can be represented as the sum of its projections onto a basis. This is essentially what the coordinate function defined earlier does.
+$
+  "Basis" &= {e_1, e_2, ...}\
+  P_e bold(x) &= bold(<e\, x>) / 1 bold(e) = norm(bold(x)) cos(theta) arrow(bold(e))\
+  bold(x) &= sum_(i=1) P_(e_i) x
+$
+This can also be used to project a vector into a subspace.
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
