@@ -97,5 +97,6 @@ TODO:
 - Wave equation
 - De Broglie equation
 - Feynman or University Physics, angular momentum
+- Spin
 - Lagrangian & Hamiltonian mechanics
 - Nuclear mass defect

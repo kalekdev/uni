@@ -2,6 +2,11 @@
 
 #outline()
 
+Charge polarity is completely arbitrary; it is only important to stay consistent. The same applies to magnetic poles, which were so defined based on the Earth's magnetic field (however this flips occaisonally too...).
+#figure(
+  image("images/conventional-current.png", width: 60%),
+) <fig-conventional-current>
+
 *Fundamental Laws of Electromagnetism:*\
 Maxwell's Equations and the Lorentz Force law are the only fundamental laws of electromagnetism, which work for all materials and at quantum scale. Coulomb's law was discovered through experiment and can be derived from Gauss's law, and Ohm's law does not hold true for all materials.
 
@@ -171,20 +176,24 @@ When a dielectric is placed between two plates, there is still a (macroscopic) e
 
 == Dipoles
 
-_Dipole_ - A phenonmenon when electric charges / magnetic poles are separated. Examples of electric dipoles are ions under the influence of an external electric field or certain molecules, such as $H_2O$ which are permanent dipoles due to their asymmetric structure.
+_Dipole_ - A phenonmenon when opposite electric charges / magnetic poles are separated. Examples of electric dipoles are ions under the influence of an external electric field or certain molecules, such as $H_2O$ which are permanent dipoles due to their asymmetric structure.
 
 _Electric Dipole Moment_ - for a dipole with charge $Q$ on the positive end and vector $arrow(d)$ from the main negative point to the main positive point, the electric dipole moment is:
 $
   arrow(p) = Q arrow(d)
 $
-It can be thought of as a measure of a systems polarity.
+It can be thought of as a measure of a systems polarity. A higher dipole moment means the system experiences a greater torque when an external homogenous electric field is applied.
 
 When a material containing dipoles is in an external electric field, the dipoles align in the same direction, resulting in an overall polarization of the material (essentially a larger dipole). Temperature has a large effect on this, as the random movements of particles disrupt the perfect alignment encouraged by the electric field.
+#figure(
+  image("images/polarization.png", width: 20%),
+) <fig-polarization>
 
 The overall polarization of a dielectric with volume $V$ is:
 $
   arrow(P) = (sum_(i=1)^n arrow(p_n)) / V
 $
+This the $arrow(E)$ field arising in the opposite direction due to polarization, thus weakening the net electrical field.
 
 A polarized conductor / dielectric with a net 0 charge in a non-homogeonous field, such as near a point charge will usually have a resultant force, for example a dipole near a point charge (regardless of polarity) will experience a stronger attractive force and the dipole will have a resultant force towards the point charge.
 
@@ -205,11 +214,13 @@ $
 
 The higher the permittivity of a medium, the more it's electric field is reduced due to polarisation. Electric field strength is inversely linearly proportional to the permittivity, as seen in Coulomb's law (but not for all materials, for example ferroelectric crystals).
 
-*LTD: The following thinking is not completely correct, I am still wrapping my head around what exactly the displacement field and permittivity is. Revisit later after reading Purcell*\
+LTD: Revisit after Purcell
+
 Taking place in a medium with permittivity $epsilon$:\
-The difference in the displacement field before and after polarisation:
+The difference in the E field before and after polarisation:
 $
-  arrow(P) &= epsilon arrow(E) - epsilon_0 arrow(E)
+  arrow(P) &= arrow(D) - arrow(E)\
+  &= epsilon arrow(E) - arrow(E)
 $
 
 Therefore the resulting electric displacement field (field only due to charges, polarization) is equal to the permittivity of the space x (electric field after polarization + the change in electric field due to polarization):
@@ -218,10 +229,10 @@ $
     arrow(E) -(epsilon arrow(E) - epsilon_0 arrow(E))
   )\
   &= epsilon(arrow(E)(1-epsilon)+epsilon_0 arrow(E))\
+  "LTD: This is flawed"\
   &= epsilon(1-epsilon)arrow(E) + epsilon epsilon_0 arrow(E)
 $
 Where $E$ is the net electric field after polarisation\
-*END OF IDEA*
 
 == Dielectric Boundary Conditions
 The electric field strength changes as it passes through the border of two different dielectric materials. However, it can be broken down into the normal and tangential components in order to calculate the resulting field:
@@ -767,3 +778,57 @@ The opposite of this is known as reverse bias and leads to no current flow:
 ) <fig-reverse-bias>
 
 This is the working principle of diodes. High enough voltages can lead to electrical breakdown and destruction of the diode.
+
+== Magnetism
+The magnetic properties of certain iron ores (permanent magnets) were already noticed long before the electrostatic force. Historically magnets have been used for:
+- Compasses for navigation purposes due to the Earth's magnetic field
+- Extracting shards of metal in medical treatments
+
+_Ferromagnetism_ - Certain metals are affected by magnetic fields and have the capability to become magnetised. TODO: Why, magnetic dipoles arising from electron spin?
+LTD: Mention other types of magnetism
+
+=== Magnetic Dipoles
+Every permanent magnet must have a north and south pole - if it is cut a new set of poles simply forms. Like poles repel and opposite poles attract, just like charges.
+
+However unlike charge, a monopole has never been observed and the possibility of its existence is uncertain (theoretical physics).
+
+Magnetic fields can be observed using ferromagnetic shavings or a compass, which are also magnetic dipoles and therefore align themselves tangentially along field lines. This also implies that they slightly affect the magnetic field itself, meaning smaller shavings are more accurate for visualizing the field. Ferrofluid is a good alternative.
+
+By convention, magnetic field lines point from north to south:
+#figure(
+  image("images/magnetic-fields.png", width: 40%),
+) <fig-magnetic-fields>
+
+=== Ørsted's Law
+In 1820 Hans Christian Ørsted discovered that a wire carrying an electric current induces a magnetic field around it. The direction of this field can be remembered using the right hand curl rule, where the fingertips represent the arrow heads:
+#figure(
+  image("images/right-hand-curl-rule.png", width: 60%),
+) <fig-right-hand-curl-rule>
+
+TODO: Express it initially as beautiful closed line integral with total current form on page 208, which can be used to calculate the magnetic fields around various coil shapes with helpful symmetries (include cool diagrams), then derive other forms (eg. single wire) after introducing basic concepts such as permittivity, H field, B field etc similarity to Gauss's law
+
+TODO: What is the english equivalent of durchflutung (page 208)?
+
+TODO: Why does the circular field get pushed up in a homogenous field?
+
+TODO: F= BIl, vector + integral form, also in terms of drift velocity and charge density / volume, Fleming's left hand rule fbi, diagram with clear sketch of alpha
+Where does this law come from, whos it named after? lorentz force?
+this force only affects moving charges - this law links electric field and magnetic for moving charges
+this is the principle of how analog ammeters work
+magnetic field affects moving charges ie it interacts with their magnetic field, when the field lines are perpendicular?
+the force seems to occur in the direction that the wire would be "rolling" towards... hmm
+A current loop feels no resultant force, show cylindrical coordinates integral example cancelling out to 0
+What exactly is magnetic flux?
+
+TODO: How current carrying wires next to each other behave, include diagram, force per lenght equation
+magnetic permeability of vacuum
+
+magnetic field strength and flux density, similarities / differences to electric, their constant proporitionality is reversed, hence the name choice.
+
+Solenoids can be used to create poles and behave as bar magnets!
+
+TODO: Causes for magnetism: special relativity + electrostatic force / magnetic dipole momements
+
+TODO: How do electric and magnetic fields propogate through space? how are $mu_0 epsilon_0$ linked?
+
+The rest of Maxwell's equations are coming soon :D
