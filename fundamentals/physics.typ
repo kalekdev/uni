@@ -93,6 +93,7 @@ TODO: PEP and why electrons stay in their energy levels
 TODO: Electron configurations
 
 TODO:
+- Zeeman Effect
 - Field & thermionic emission / photoelectric effect
 - Wave equation
 - De Broglie equation

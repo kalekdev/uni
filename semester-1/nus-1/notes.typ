@@ -7,6 +7,8 @@ Charge polarity is completely arbitrary; it is only important to stay consistent
   image("images/conventional-current.png", width: 60%),
 ) <fig-conventional-current>
 
+Conventional current is assumed unless stated otherwise.
+
 *Fundamental Laws of Electromagnetism:*\
 Maxwell's Equations and the Lorentz Force law are the only fundamental laws of electromagnetism, which work for all materials and at quantum scale. Coulomb's law was discovered through experiment and can be derived from Gauss's law, and Ohm's law does not hold true for all materials.
 
@@ -389,7 +391,7 @@ $
   arrow(J) = kappa arrow(E)
 $
 
-Considering a cylinder with length $l$, homogenous conductivity $kappa$ and cross sectional area $A$ laying orthogonal to a homogenous electric field caused by electrodes with constant potentials $phi_1$ and $phi_2$ which continuously provides charges / holes. By integrating the fields in this equation we can derive the most fundamental equation in electronics.
+Considering a cylinder with length $l$, homogenous conductivity $kappa$ and cross sectional area $A$ lying orthogonal to a homogenous electric field caused by electrodes with constant potentials $phi_1$ and $phi_2$ which continuously provides charges / holes. By integrating the fields in this equation we can derive the most fundamental equation in electronics.
 
 The current through any cross-section in the cylinder is:
 $
@@ -788,47 +790,154 @@ _Ferromagnetism_ - Certain metals are affected by magnetic fields and have the c
 LTD: Mention other types of magnetism
 
 === Magnetic Dipoles
-Every permanent magnet must have a north and south pole - if it is cut a new set of poles simply forms. Like poles repel and opposite poles attract, just like charges.
+Every permanent magnet must have a north and south pole - if it is cut a new pair of poles simply forms. Like poles repel and opposite poles attract, just like charges.
 
 However unlike charge, a monopole has never been observed and the possibility of its existence is uncertain (theoretical physics).
 
 Magnetic fields can be observed using ferromagnetic shavings or a compass, which are also magnetic dipoles and therefore align themselves tangentially along field lines. This also implies that they slightly affect the magnetic field itself, meaning smaller shavings are more accurate for visualizing the field. Ferrofluid is a good alternative.
 
-By convention, magnetic field lines point from north to south:
+By convention, magnetic field lines around dipoles point from north to south:
 #figure(
   image("images/magnetic-fields.png", width: 40%),
 ) <fig-magnetic-fields>
 
-=== Ørsted's Law
+=== Magnetic Fields
+Just like the $arrow(E)$ and $arrow(D)$ field in electrostatics, there are two magnetic vector fields used in calculations:
+#align(
+  center,
+  table(
+    columns: 3,
+    inset: 10pt,
+    table.header([], [Magnetic Field Strength], [Magnetic Flux Density]),
+    [Symbol], $arrow(H)$, $arrow(B)$,
+    [Units], [$A / m$], [Tesla, $N/(A m)$],
+    [Intuition],
+    [],
+    [Used in the Lorentz Force Law to calculate the force arising on charges moving through the space in which the field is present.],
+  ),
+)
+The two fields are related between another through:
+$
+  arrow(B) = mu_0 arrow(H)
+$
+
+TODO:
+- Gauss's magnetism law
+- Magnetic flux, weber
+- magnetic permeability of vacuum
+- How do electric and magnetic fields propogate through space? how are $mu_0 epsilon_0$ linked?
+
+=== Ørsted's / Ampere's Circuital Law
 In 1820 Hans Christian Ørsted discovered that a wire carrying an electric current induces a magnetic field around it. The direction of this field can be remembered using the right hand curl rule, where the fingertips represent the arrow heads:
 #figure(
-  image("images/right-hand-curl-rule.png", width: 60%),
+  image("images/right-hand-curl-rule.png", width: 25%),
 ) <fig-right-hand-curl-rule>
+This magnetic field:
+- Lies in a plane perpendicular to the direction of the current
+- Its strength is directly proportional to the magnitude of the current
+- It's inversely proportional to the distance from the current
 
-TODO: Express it initially as beautiful closed line integral with total current form on page 208, which can be used to calculate the magnetic fields around various coil shapes with helpful symmetries (include cool diagrams), then derive other forms (eg. single wire) after introducing basic concepts such as permittivity, H field, B field etc similarity to Gauss's law
+This phenomenon sparked a great deal of interest; Andre-Marie Ampere formulated the following fundamental law mathematically describing the magnetic field around the net enclosed current, known as his circuital law:
+$
+  integral.cont_C arrow(B) dot d arrow(s) &= mu_0 integral.double_S arrow(J) d arrow(S)\
+  &= mu_0 I
+$
+- This applies to any closed curve, not just a circle
+- The surface in question is the one binded by the closed curve
+- The direction of the curve integral is determined by the above mentioned right hand rule.
 
-TODO: What is the english equivalent of durchflutung (page 208)?
+TODO: can be used to calculate the magnetic fields around various coil shapes with helpful symmetries (include cool diagrams) Solenoids can be used to create poles and behave as bar magnets!
+TODO: Maxwell-Ampere law, what problems does it solve?
 
-TODO: Why does the circular field get pushed up in a homogenous field?
+_Durchflutung ($Theta$)_ - Name for the sum of current flowing through a surface in Albach's book
 
-TODO: F= BIl, vector + integral form, also in terms of drift velocity and charge density / volume, Fleming's left hand rule fbi, diagram with clear sketch of alpha
-Where does this law come from, whos it named after? lorentz force?
-this force only affects moving charges - this law links electric field and magnetic for moving charges
-this is the principle of how analog ammeters work
-magnetic field affects moving charges ie it interacts with their magnetic field, when the field lines are perpendicular?
-the force seems to occur in the direction that the wire would be "rolling" towards... hmm
-A current loop feels no resultant force, show cylindrical coordinates integral example cancelling out to 0
-What exactly is magnetic flux?
+=== Biot-Savart Law
+TODO: Potentially combine as part of the fields around various coil types
 
-TODO: How current carrying wires next to each other behave, include diagram, force per lenght equation
-magnetic permeability of vacuum
+Although Ampere's Circuital Law provides us with a fundamental law, it is not very useful in practice. Biot and Savart determined the following formula for calculating the magnetic flux density at any arbitrary position vector $arrow(r)$ next to a current carrying wire ($I$ A):
+$
+  arrow(B)(arrow(r)) = mu_0 / (4 pi) integral_C (I d arrow(cal(l)) times r') / abs(arrow(r'))^3
+$
+Where $d arrow(l)$ is a displacement vector along the wire and $arrow(r')$ is the vector from the current point in the wire to the point where flux density is being calculated.
+#figure(
+  image("images/biot-savart-law.png", width: 40%),
+) <fig-biot-savart-law>
+LTD: Is it possible to go directly from Ampere's Law to this? with the assumption that the curve is a perfect circle?
 
-magnetic field strength and flux density, similarities / differences to electric, their constant proporitionality is reversed, hence the name choice.
+For an infinitely long wire, this becomes the following field strength in cylindrical coordinates with the z axis lying along the wire:
+$
+  arrow(B)(rho) = (arrow(e_phi)mu_0 I) / (2 pi rho)
+$
+Where $rho$ is the distance from the center of the wire.
 
-Solenoids can be used to create poles and behave as bar magnets!
+This relationship of course satisfies Ampere's circuital law (proof is a good exercise).
 
+LTD: Derive Biot-Savart law for infinitely long wire - example in university physics 2
+
+=== Lorentz Force Law
+The total force acting on a particle with charge $q$ moving with velocity $v$ through a magnetic / electric field is:
+$
+  arrow(F) = q(arrow(E) + arrow(v) times arrow(B))
+$
+This was first implied by Maxwell, then expanded by Oliver Heaviside and Lorentz. This is considered to be of equal importance to Maxwell's equations, as it links the electrostatic and magnetic fields.
+
+Now I will consider the force due to the magnetic field alone $arrow(F) = q arrow(v) times arrow(B)$(electrostatics already covered earlier) which only affects moving charges (because they themselves also generate a surrounding magnetic field). The resulting direction can be calculated using Fleming's left hand rule (mnemonic FBI):
+#figure(
+  image("images/left-hand-rule.png", width: 30%),
+) <fig-left-hand-rule>
+
+The law can be expressed in terms of current in a wire of length $l$:
+$
+  arrow(F) &= q arrow(v) times arrow(B)\
+  &= arrow(I) l times arrow(B)
+$
+The net force on a curved wire / varying current can be calculated by using an integral:
+$
+  arrow(F) &= integral_C I d arrow(l) times arrow(B)\
+$
+
+By using the $sin$ cross product identity, the scalar form of the law is:
+$
+  F = B I l sin(theta)
+$
+Where $theta$ is the angle between the magnetic field lines and the the direction of the current.
+
+
+TODO:
+- principle of how analog ammeters work
+- A current loop feels no resultant force, show cylindrical coordinates integral example cancelling out to 0
+
+TODO: Why does the circular field get pushed up in a homogenous field? Explain bivector field and pseudovectors, why the magnetic lines make sense
+Reference answer:
+"
+The real reason is that the magnetic field is not a vector quantity. It’s better thought of as a ‘bivector’: an oriented plane instead of an oriented line. From this perspective, the magnetic field does not point along a line, but rather curls around in planes, which makes the resulting force make much more sense.
+
+However, people are more used to dealing with vectors, and in 3 dimensions there’s only one vector perpendicular to a given plane, so you can always replace bivectors with ‘pseudovectors’ like what is done with the angular momentum and the magnetic field in 3d.
+
+Once you want to consider more general situations, or have a less clunky mathematical picture though, then you can’t just talk about vectors and the way the magnetic field is treated must change. Relativistic physics often forces people into this, but you don't need to invoke relativity to want to use a better mathematical formalism.
+
+When one moves to relativistic physics, then one discovers that both the electric field and the magnetic field are bivectors, but the electric field spans a plane with one spatial and one temporal direction, whereas the magnetic field spans two spatial directions. The fact that space and time can be 'rotated' into eachother in relativistic physics typically leads us to abandon treating these as separate objects and instead talking about the Faraday tensor F which contains both the electric and magnetic fields in one object.
+"
+
+TODO: How current carrying wires next to each other behave, include diagram, Ampere's force law
+
+=== Magnetic Torque
+TODO: Torque on dipoles
+
+=== Magnetisation
+
+=== Relativistic Magnetism
 TODO: Causes for magnetism: special relativity + electrostatic force / magnetic dipole momements
 
-TODO: How do electric and magnetic fields propogate through space? how are $mu_0 epsilon_0$ linked?
+LTD: Faraday Tensor
+LTD: Derive Biot-Savart Law from Lorentz Transformation, Lorentz Force and Coulomb's Law
 
-The rest of Maxwell's equations are coming soon :D
+
+== Maxwell's Equations
+Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
+
+https://www.youtube.com/watch?v=rB83DpBJQsE
+
+Link to EM waves
+
+Faraday's Law of Induction is coming soon :D
