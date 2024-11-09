@@ -821,9 +821,22 @@ $
   arrow(B) = mu_0 arrow(H)
 $
 
+==== Magnetic Flux
+This is the total magnetic flux density through a surface:
+$
+  Phi = integral.double_A arrow(B) dot d arrow(A)
+$
+Its unit is Weber (Wb) and it will be useful later in Faraday's Law of Induction.
+
+==== Gauss's Magnetism Law
+The magnetic flux through a closed (Gaussian) surface is 0:
+$
+  integral.surf_A arrow(B)dot d arrow(A) = 0
+$
+
+Intuitively, it says that magnetic monopoles do not exist. This is one of Maxwell's Equations.
+
 TODO:
-- Gauss's magnetism law
-- Magnetic flux, weber
 - magnetic permeability of vacuum
 - How do electric and magnetic fields propogate through space? how are $mu_0 epsilon_0$ linked?
 
@@ -846,15 +859,12 @@ $
 - The surface in question is the one binded by the closed curve
 - The direction of the curve integral is determined by the above mentioned right hand rule.
 
-TODO: can be used to calculate the magnetic fields around various coil shapes with helpful symmetries (include cool diagrams) Solenoids can be used to create poles and behave as bar magnets!
 TODO: Maxwell-Ampere law, what problems does it solve?
 
 _Durchflutung ($Theta$)_ - Name for the sum of current flowing through a surface in Albach's book
 
-=== Biot-Savart Law
-TODO: Potentially combine as part of the fields around various coil types
-
-Although Ampere's Circuital Law provides us with a fundamental law, it is not very useful in practice. Biot and Savart determined the following formula for calculating the magnetic flux density at any arbitrary position vector $arrow(r)$ next to a current carrying wire ($I$ A):
+==== Biot-Savart Law
+Although Ampere's Circuital Law provides us with a fundamental law, it is not very useful in practice unless certain symmetries arise. Biot and Savart determined the following formula for calculating the magnetic flux density at any arbitrary position vector $arrow(r)$ around a current carrying wire:
 $
   arrow(B)(arrow(r)) = mu_0 / (4 pi) integral_C (I d arrow(cal(l)) times r') / abs(arrow(r'))^3
 $
@@ -864,15 +874,49 @@ Where $d arrow(l)$ is a displacement vector along the wire and $arrow(r')$ is th
 ) <fig-biot-savart-law>
 LTD: Is it possible to go directly from Ampere's Law to this? with the assumption that the curve is a perfect circle?
 
+==== Infinitely Long Wire
 For an infinitely long wire, this becomes the following field strength in cylindrical coordinates with the z axis lying along the wire:
 $
   arrow(B)(rho) = (arrow(e_phi)mu_0 I) / (2 pi rho)
 $
 Where $rho$ is the distance from the center of the wire.
 
+In case the magnetic field inside the wire (with radius $a$) is needed the following can be used:
+$
+  arrow(B)(rho) = (arrow(e_phi)mu_0 I rho) / (2 pi a^2)
+$
+#figure(
+  image("images/magnetic-field-in-wire.png", width: 40%),
+) <fig-magnetic-field-in-wire>
+
+Note: The derivation of this is a good exercise, it can either be derived from symmetry and Ampere's law or directly from Biot-Savart's Law - do not forget the cylindrical coordinate "nudge" factor!
+
 This relationship of course satisfies Ampere's circuital law (proof is a good exercise).
 
-LTD: Derive Biot-Savart law for infinitely long wire - example in university physics 2
+==== Toroid
+#figure(
+  image("images/toroid.png", width: 60%),
+) <fig-toroid>
+
+Considering a loop inside the toroid, the total current flowing through the surface enclosed by this curve for $N$ windings is $N I$, therefore:
+$
+  integral_0^(2 pi) arrow(e_phi) arrow(H)(rho) dot rho d arrow(phi) &= N I\
+  2 pi rho arrow(H)(rho) &= N I\
+  arrow(H)(rho) &= (arrow(e_rho)N I) / (2 pi rho)
+$
+
+Outside of the toroid (either inside or outside the loop) the total current through a surface $Theta = 0$, therefore the magnetic field is mostly 0. The small height of the toroid leads to a negligible magnetic stray field.
+
+==== Solenoid
+A solenoid behaves like a dipole, making it useful for creating magnetic dipoles on demand:
+#figure(
+  image("images/solenoid.png", width: 50%),
+) <fig-solenoid>
+
+The homogenous magnetic field inside a solenoid is with length $l$ is:
+$
+  arrow(H) &= arrow(e_x)(N I) / (l)
+$
 
 === Lorentz Force Law
 The total force acting on a particle with charge $q$ moving with velocity $v$ through a magnetic / electric field is:
@@ -893,8 +937,9 @@ $
 $
 The net force on a curved wire / varying current can be calculated by using an integral:
 $
-  arrow(F) &= integral_C I d arrow(l) times arrow(B)\
+  arrow(F) &= integral_C I d arrow(l) times arrow(B)(arrow(r))\
 $
+This can be used to for example calculate that the net force on a current loop perpendicular to a magnetic field is 0, it's "stretched outwards" equally at every point.
 
 By using the $sin$ cross product identity, the scalar form of the law is:
 $
@@ -905,7 +950,6 @@ Where $theta$ is the angle between the magnetic field lines and the the directio
 
 TODO:
 - principle of how analog ammeters work
-- A current loop feels no resultant force, show cylindrical coordinates integral example cancelling out to 0
 
 TODO: Why does the circular field get pushed up in a homogenous field? Explain bivector field and pseudovectors, why the magnetic lines make sense
 Reference answer:
@@ -921,6 +965,14 @@ When one moves to relativistic physics, then one discovers that both the electri
 
 TODO: How current carrying wires next to each other behave, include diagram, Ampere's force law
 
+=== Magnetomotive Force
+Just like electric potential difference, the force and work done on a hypothetical test North monopole by a magnetic field can be defined as:
+$
+  cal(F) = integral_(P 1)^(P 2) arrow(H) d arrow(s)
+$
+
+Magnetic potential is defined analogous to absolute electric potential with some point as a zero reference.
+
 === Magnetic Torque
 TODO: Torque on dipoles
 
@@ -931,7 +983,6 @@ TODO: Causes for magnetism: special relativity + electrostatic force / magnetic 
 
 LTD: Faraday Tensor
 LTD: Derive Biot-Savart Law from Lorentz Transformation, Lorentz Force and Coulomb's Law
-
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
