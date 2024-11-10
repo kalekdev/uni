@@ -178,7 +178,7 @@ $
 === Transformation of moments
 The moment of a force can be transformed with respect to a different point using the following formula:
 $
-  M_A = M_B + r_(A B) times F
+  M_A = M_B + r_(A B) times R
 $
 
 === Torque
@@ -187,6 +187,8 @@ $
   R = 0\
   M_P = d F
 $
+
+Whenever the resultant force is 0, the moment around all points in the body is the same.
 
 === Dynamic
 The dynamic of a force group with respect to a point O describes the entire set of forces on the body:
@@ -208,7 +210,7 @@ $
 $
 
 - _Accelerating force ($pi/2 < alpha <= pi$)_ - A force with a positive component in the direction of the velocity is contributing kinetic energy to the object and increasing the power
-- _Braking Force ($0 < alpha < pi/2$)_ - Reduces the power of the object and its forces.
+- _Braking Force ($0 < alpha < pi/2$)_ - Reduces the kinetic energy of the object
 - A force perpendicular to the velocity of an object does not contribute to its power until the object begins moving with a component in the direction of the perpendicular force.
 
 === Total power of a rigid body
@@ -220,3 +222,92 @@ When the kinematic ${v_B, omega}$ and dynamic ${R, M_B}$ with respect to a point
 $
   cal(P)_"tot" = R dot v_B + M_B dot omega
 $
+
+== Parallel Forces
+When all forces acting on a body point point in the same direction, they can be written as:
+$
+  arrow(F_i) = F_i arrow(e)
+$
+Where $arrow(e)$ is the unit vector of their common direction.
+
+The dynamic with reference to a point O is:
+$
+  R &= sum arrow(F_i) = arrow(e) sum F_i \
+  M &= sum arrow(r_i) times arrow(F_i) = sum arrow(r_i) F_i times arrow(e)
+$
+The sum $sum arrow(r_i) F_i$ is called the dipole moment (sometimes written as $N$) of a set of parallel forces. It is independent of the point O, as long as it's consistent for each force included.
+
+=== Center of Forces
+This is the point on which a pivot can be placed and no resultant moment would act on the body. In other words, an equal and opposite resultant force can act on this point resulting in a net 0 dynamic.
+
+It is unique to a dipole moment, the direction of $arrow(e)$ is irrelevant (although gravity always acts in the same direction, so in practice this fact isn't too important).
+
+The position vector of the center of forces from the point O can be calculated using a dipole moment with *the same point O* as its origin:
+$
+  r_(O C) = (sum arrow(r_i) F_i) / (sum F_i)
+$
+
+=== Center of Mass
+This is the average location of all the weight of an object. It can be calculated using a volume integral over the density of the body:
+#figure(
+  image("images/centre-of-mass.png", width: 80%),
+) <fig-centre-of-mass>
+#figure(
+  image("images/com-examples.png", width: 60%),
+) <fig-com-examples>
+
+Integration is a linear transformation - a center of mass can be calculated as the sum of separate integrals (which of course can also be negative):
+$
+  arrow(r_(O C)) = (sum integral.vol arrow(r) d m) / (sum m_i)
+$
+
+== Rest
+A system is at rest when all of its velocities are 0.
+- Instantaneous rest - $arrow(v_p) = 0 forall p in kappa | t = t_0$
+- State of rest - $arrow(v_p) = 0 forall p in kappa, forall t$
+
+=== Fundamental Theorem of Statics
+This also means that the resultant force and moment around any point (the moment is always the same if $R=0$) is 0:
+$
+  arrow(R) = 0\
+  arrow(M) = 0
+$
+
+Constraints exert equal and opposite forces to prevent an object moving through them.
+
+Forces in a system at rest with multipled bodies can be solved by including forces at constraints:
+#figure(
+  image("images/multiple-bodies-rest.png", width: 80%),
+) <fig-multiple-bodies-rest>
+These systems of equations can be solved through Gaussian elimination.
+
+=== Virtual Power
+A system can be modelled as in virtual motion when virtual velocities are modelled at each point, such that the total power of constraint forces is 0:
+#figure(
+  image("images/virtual-motion.png", width: 80%),
+) <fig-virtual-motion>
+- For example, velocity at the slider is perpendicular to its constraint force, and equal and opposite constraint forces at joints cancel each other's accelerating and braking power out.
+- There can be no virtual velocity at a pivot, as it exerts constraint forces in both the x and y component - they are orthogonal and the power of this force would never be 0.
+- There can however exist a rotational velocity around a pivot.
+
+These virtual velocities, denoted as $tilde(v)$ can be found using techniques in the kinematics of rigid bodies.
+
+==== Theorem of Virtual Power
+A system is at rest when the virtual total power is 0 for every virtual state of motion:
+$
+  cal(P)_"tot" = sum_(i = 1)^n arrow(F_i) dot tilde(v_i) = 0
+$
+
+This is useful to calculate a single / few constraint forces, by strategically allowing virtual motion which involves that force. If many forces in a system are needed, then a full analysis using the theorem of statics is more appropriate.
+
+==== Framework
+The constraints in a framework can be calculated by removing one of the rods, whose compression (or tension, this becomes apparent if a negative value is calculated) is acting as a constraint force.
+
+LTD: Force cut
+
+==== Power of Torque
+It is useful to solve statics problems with pulleys using the virtual power of a torque (the cable around a pulley has the same tension throughout):
+$
+  cal(P) = arrow(omega) dot arrow(M)
+$
+As usual in a torque, the origin of the moment is irrelevant.
