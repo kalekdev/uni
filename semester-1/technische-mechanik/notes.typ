@@ -124,6 +124,7 @@ $
 #image("images/degrees-of-freedom.png")
 IMPORTANT: The joint at a roller / pivot must be accounted for too! (using the n-Gelenk formula)
 #image("images/degrees-of-freedom-joints.png")
+TODO: b-value for slider
 
 == Forces
 _Force_ - An influence that can cause an object's velocity to change. It is a vector quantity applied at an attack point. The line through the attack point in the direction of the force is called the line of action.
@@ -267,6 +268,10 @@ Integration is a linear transformation - a center of mass can be calculated as t
 $
   arrow(r_(O C)) = (sum integral.vol arrow(r) d m) / (sum m_i)
 $
+#figure(
+  image("images/combine-com.png", width: 80%),
+) <fig-combine-com>
+LTD: General formula
 
 == Rest
 A system is at rest when all of its velocities are 0.
