@@ -122,6 +122,7 @@ $
   f = n -b
 $
 #image("images/degrees-of-freedom.png")
+IMPORTANT: The joint at a roller / pivot must be accounted for too! (using the n-Gelenk formula)
 #image("images/degrees-of-freedom-joints.png")
 
 == Forces
@@ -247,11 +248,17 @@ $
   r_(O C) = (sum arrow(r_i) F_i) / (sum F_i)
 $
 
+For a dipole moment with the specific direction of the forces $arrow(e)$, an entire line can serve as a center of forces:
+$
+  arrow(r_(O C))(lambda) = arrow(r_(O C)) + lambda arrow(e)
+$
+
 === Center of Mass
 This is the average location of all the weight of an object. It can be calculated using a volume integral over the density of the body:
 #figure(
   image("images/centre-of-mass.png", width: 80%),
 ) <fig-centre-of-mass>
+Where $d m$ is effectively the density at the point of each differential.
 #figure(
   image("images/com-examples.png", width: 60%),
 ) <fig-com-examples>
@@ -281,7 +288,7 @@ Forces in a system at rest with multipled bodies can be solved by including forc
 ) <fig-multiple-bodies-rest>
 These systems of equations can be solved through Gaussian elimination.
 
-=== Virtual Power
+=== Virtual Motion
 A system can be modelled as in virtual motion when virtual velocities are modelled at each point, such that the total power of constraint forces is 0:
 #figure(
   image("images/virtual-motion.png", width: 80%),
@@ -311,3 +318,5 @@ $
   cal(P) = arrow(omega) dot arrow(M)
 $
 As usual in a torque, the origin of the moment is irrelevant.
+
+TODO: Add useful trig identities, special triangles
