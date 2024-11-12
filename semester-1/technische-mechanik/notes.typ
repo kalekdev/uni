@@ -12,6 +12,17 @@ Vector Identities:\
 $arrow(a) times (b + c) = arrow(a) times arrow(b) + arrow(a) times arrow(c)$\
 $a dot (b times c) = b dot (c times a) = c dot (a times b)$ (Pacman Identity)
 
+Trig Identities:\
+$cos(pi/2-theta) = sin(theta)$\
+$sin(pi/2-theta) = cos(theta)$\
+$sin(-theta) = -sin(theta)$\
+$cos(-theta) = cos(theta)$\
+$tan(-theta) = -tan(theta)$\
+
+Calculus Rules:\
+$(d y) / (d x) = (d y) / (d u) (d u) / (d x)$\
+$(d (u v)) / (d x) = u (d v) / (d x) v (d u) / (d x)$\
+
 Notation:\
 $kappa$ - Set of all points in a body\
 _Time derivative_ - $dot(x) = (d y) / (d t)$\
@@ -44,7 +55,8 @@ $
 $
 Thus the velocity formula in the cylindrical co-ordinate system:
 $
-  arrow(v) &= dot(rho) e_rho + rho dot(phi) e_phi + dot(z) e_z
+  arrow(v) &= d(arrow(r)) / (d t)\
+  &= dot(rho) e_rho + rho dot(phi) e_phi + dot(z) e_z
 $
 
 == Rigid bodies
@@ -103,7 +115,7 @@ The following properties of movement in space are constant and called "Invariant
 
 Therefore the momentary movement of any point in the body can be described with just two values called the *Kinemate*: ${arrow(v_B), arrow(omega)}$
 
-TODO: Test these in a simulation :)
+LTD: Test these in a simulation :)
 
 _Schraubung_ - The combination of a rotation with a translation in the direction of the rotation axis
 
@@ -112,7 +124,7 @@ Types of movement in space:
 + Rotation: $arrow(omega) eq.not 0 and I_2 = 0$
 + Schraubung: $I_2 eq.not 0$
 
-TODO in lernphase: Understand Rechteck Beispiel in script
+LTD: Understand Rechteck Beispiel in script
 
 == Degrees of freedom
 The minimum number of coordinates (in an arbitrary optimal coordinate system for this specific system) to clearly determine the state of a system. This could for example be the location of a slider and the angle at which a rod is attached to it (much more concise than for example the cartesian coordinates of the slider and the other end of the rod).
@@ -124,7 +136,7 @@ $
 #image("images/degrees-of-freedom.png")
 IMPORTANT: The joint at a roller / pivot must be accounted for too! (using the n-Gelenk formula)
 #image("images/degrees-of-freedom-joints.png")
-TODO: b-value for slider
+TODO: b-value for slider? 1
 
 == Forces
 _Force_ - An influence that can cause an object's velocity to change. It is a vector quantity applied at an attack point. The line through the attack point in the direction of the force is called the line of action.
@@ -272,6 +284,9 @@ $
   image("images/combine-com.png", width: 80%),
 ) <fig-combine-com>
 LTD: General formula
+$
+  arrow(r_C) = (sum m_i arrow(r_(C i))) / (sum m_i)
+$
 
 == Rest
 A system is at rest when all of its velocities are 0.
@@ -310,7 +325,9 @@ $
   cal(P)_"tot" = sum_(i = 1)^n arrow(F_i) dot tilde(v_i) = 0
 $
 
-This is useful to calculate a single / few constraint forces, by strategically allowing virtual motion which involves that force. If many forces in a system are needed, then a full analysis using the theorem of statics is more appropriate.
+This is useful to calculate a few external / constraint forces, by strategically allowing virtual motion which involves that force. Other forces with and equal and opposite reaction can be ignored as the resultant at that point is 0.
+
+If many forces in a system are needed, then a full analysis using the theorem of statics is more appropriate.
 
 ==== Framework
 The constraints in a framework can be calculated by removing one of the rods, whose compression (or tension, this becomes apparent if a negative value is calculated) is acting as a constraint force.
@@ -324,4 +341,27 @@ $
 $
 As usual in a torque, the origin of the moment is irrelevant.
 
+LTD: Do not assume all tensions are equal in pulleys exam!
+
 TODO: Add useful trig identities, special triangles
+
+==== Static Determinacy
+If the number of constraint forces and moments is equal to the number of equilibrium conditions.
+TODO: What does this imply? A static can always be determined? Clean up
+
+This essentially means that the system of equations doesn't have full rank and has infinite / no solutions.
+
+$f > 0$ - the system is statically undetermined, movement means the forces can take on infinite values
+$f = 0$ - statically determined
+$f < 0$ - constraint forces cannot be determined, overconstrained intuition? is it because either one of the constraints can be high enough to stop movement (we can't say for sure which one), multiple constraints per possible movement?
+
+_Kinematic Certainty_
+
+== Stability
+Surface integral of friction forces on contact area. TODO: Maths
+
+System is stable if the average point on which the normal force acts is within the contact surface
+
+ie weight is acting through or before the tipping point
+
+This is tipping point from A levels :D
