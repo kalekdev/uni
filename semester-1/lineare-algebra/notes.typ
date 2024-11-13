@@ -757,6 +757,8 @@ $
 $
 
 ==== Orthogonal Projection
+TODO: Formal definitions
+
 The orthogonal projection of a vector $bold(x)$ onto $bold(y)$ looks like this:
 #figure(
   image("images/orthogonal-projection.png", width: 40%),
@@ -860,7 +862,30 @@ There are many other such sets of polynomials with special names, for example He
 === QR Decomposition
 TODO: Consider moving to QR section, linear vector spaces, norms, dot products, orthogonal, gram-schmidt, qr,
 
-https://en.wikipedia.org/wiki/QR_decomposition#Using_the_Gram%E2%80%93Schmidt_process
+The matrix $bold(A)$ with columns ${v_1, v_2, ..., v_n}$ can be decomposed into matrices $bold(Q R)$ because the Gram-Schmidt is an orthogonalization process just like rotation / reflection:
+1. Calculate the corresponding orthonormal vectors ${e_1, e_2, ..., e_n}$ using the Gram-Schmidt process
+2. Each column in $bold(A)$ can now be expressed as a linear combination of the new orthonormal basis as projections onto the unit vectors:
+$
+  v_k = sum_(i=1)^k P_(e_i) (v_k) = sum_(i=1)^k <e_i, v_k>e_i
+$
+3. Therefore this set of linear combinations can be represented as matrix multiplication $bold(Q R)$ where:
+$
+  bold(A &= Q R)\
+  &=
+  mat(e_1, e_2, ..., e_n)
+  mat(
+  <e_1\, v_1>, <e_1\, v_2>, ..., <e_1\, v_n>;
+  0, <e_2\, v_2>, ..., <e_2\, v_n>;
+  0, 0, ..., <e_3\, v_n>;
+  dots.v, dots.v, dots.down, dots.v;
+  0, 0, ..., <e_n\, v_n>;
+)
+$
+
+Advantages:
+- Straightforward implementation and slightly more computationally efficient
+Disadvantages:
+- Very numerically unstable compared to other orthogonalization methods
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
