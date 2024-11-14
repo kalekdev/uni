@@ -151,7 +151,9 @@ $
 $
 This can be thought of as pinning the first elements of each row and letting the rest of the row swing down vertically.
 
-_Hermitian matrix_ - $bold(A) in CC^(m times n), bold(A^H)$ - The same procedure however each element becomes its complex conjugate $overline(a)$.
+_Hermitian matrix_ - $bold(A) in CC^(m times n), bold(A^H)$ - The same procedure however each element becomes its complex conjugate $overline(a)$, written as $bold(A^dagger)$ in physics.
+
+LTD: Investigate thoroughly https://en.wikipedia.org/wiki/Hermitian_adjoint
 
 Vectors may be treated like $RR^(n times 1), CC^(n times 1)$ matrices and transposed in the same manner.
 
@@ -300,22 +302,31 @@ LTD: Other decomposition methods (Cholesky etc)
 == Orthogonale Matrizen
 _Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space.
 
+In other words, the columns are rows of an orthogonal matrix are orthonormal to each other (see Gram-Schmidt).
+TODO: Learn how to link to reference typst
+
 The inverse of a rotation / reflection of space is logically its transposition (consider the rotation of base vectors to different axis):
 $
   bold(Q^T Q = I) : "Q is Orthogonal"\
-  bold(Q^H Q = I) : "Q is Unitär"\
+  bold(Q^H Q = I) : "Q is Unitary"\
   "Sei P Orthogonal"\
   bold(Q P) "und" bold(P Q) "sind auch Orthogonal"
 $
+An alternative intuition for this is considering matrix multiplication with the Hermetian as dot products between columns / rows, showing orthonormality (1 dot product pair with length 1, the others 0 $=>$ orthogonal).
+
 Orthogonal matrix multiplication is still generally not commutative.
 
+LTD: Investigate unitary vs orthogonal applications
+
 === Properties of orthogonal matrices
-Let $bold(A)$ be an orthogonal matrix:
+Let $bold(Q)$ be an orthogonal matrix:
+
+- Preserves lengths: $
+<bold(Q x\, Q y)> = <bold(x\, y)>\ abs(bold(Q x)) = abs(bold(x))
 $
-  <bold(A x\, A y)> = <bold(x\, y)>\
-  abs(bold(A x)) = abs(bold(x))\
-  hat(bold(A x\, A y)) = hat(bold(x\, y))
-$
+- Preserves angles $hat(bold(Q x\, Q y)) = hat(bold(x\, y))$
+- Are always regular $<=>$ columns are linearly independent
+
 === Rotation Matrix
 Matrix that rotates space by $alpha$ degrees anticlockwise:#footnote("Derivation through trigonometry in script by Dr. V Gradinaru")
 $
@@ -415,6 +426,8 @@ When targeting inner columns, the reflection matrix should only be in the bottom
 
 == Linear Vector Spaces
 *"Es macht Spaß"* - _Vasile Gradinaru_
+
+LTD: Hilbert Space
 
 _Linear_ - Lines are mapped to lines after the transformation
 
@@ -756,10 +769,19 @@ $
   u perp v <=> <u, v> = 0
 $
 
-==== Orthogonal Projection
-TODO: Formal definitions
+=== Projections
+_Projection_ - A linear transformation such that repeated application has no effect:
+$
+  bold(P_y P_y ... )&= bold(P_y)
+$
+Thus, projection is idempotent (can be applied arbitrarily many times without changing after the first application).
 
-The orthogonal projection of a vector $bold(x)$ onto $bold(y)$ looks like this:
+==== Orthogonal Projection
+#figure(
+  image("images/orthogonal-projection-definition.png", width: 80%),
+) <fig-orthogonal-projection-definition>
+
+Grahically, the projection of $bold(x)$ onto $bold(y)$ looks like this:
 #figure(
   image("images/orthogonal-projection.png", width: 40%),
 ) <fig-orthogonal-projection>
@@ -772,17 +794,21 @@ $
   P_y: VV -> VV\
   P_y (x) := bold((<y, x>) / (<y, y>) y)
 $
-This can also be calculated as a reflection using the householder matrix:
+
+==== Projectors
+_Projector_ - Projection represented in matrix form, for example the orthogonal projection in the previous example can also be calculated as a reflection using the householder matrix:
 $
   P_y (x) &= bold(y / norm(y) y^H / norm(y) x)\
   &= bold(P_y x)
 $
-Where $"Im"(bold(P_y)) = "Span"{bold(y)}$.
 
-Repeated projections obviously have no effect:
-$
-  bold(P_y P_y ... )&= bold(P_y)
-$
+Projectors have the following properties:
+- Every "successful" projection lies along the target $"Im"(bold(P_y)) = "Span"{bold(y)}$.
+- The kernel of a projector is the span of orthogonal vectors $"Kern"(bold(P_y)) = "Span"{bold(x) | bold(x) perp bold(y)}$
+
+#figure(
+  image("images/orthogonal-hermetian.png", width: 80%),
+) <fig-orthogonal-hermetian>
 
 === Unit Vectors
 #figure(
@@ -805,7 +831,9 @@ If the basis $B$ uses unit vectors (normal), this simplifies to:
 $
   &= sum_(e in BB) bold(<e\, x>) / 1 bold(e) = norm(bold(x)) cos(theta) arrow(bold(e))\
 $
-This can also be used to project a vector into a subspace.
+This can also be used to project a vector into a subspace through a smaller dimensional identity matrix looking ahh:
+
+TODO: Lecture 14 & 15 Gilbert Strang, unsure what script means here
 
 == Gram-Schmidt
 _Orthonormal_ - Normalised orthogonal vectors; ie. a set of vectors that are orthogonal between one another and have length (norm) 1.
