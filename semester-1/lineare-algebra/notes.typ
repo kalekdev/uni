@@ -643,7 +643,7 @@ For example, derivation is a linear transformation:
   image("images/linear-derivation.png", width: 50%),
 ) <fig-linear-derivation>
 
-- Every linear transformation in a finite dimensional space can be represented as a matrix.
+- Every linear transformation in a finite dimensional space can be represented as matrix multiplication.
 - _Isomorphism_ - A structure-preserving mapping, ie a bijective linear transformation is a called an isomorphism. The inverse is clearly also an isomorphism. A non-square matrix changes dimensions and thus is not bijective and isomorphic - no inverse.
 - _Automorphism_ - If the two sets the transformation maps between are the same.
 - A linear transformation $cal(F)$ is injective when $"Kernel"(cal(F))={0}$.
@@ -657,6 +657,47 @@ A linear transformation is independent of the basis / coordinates used and can b
 #figure(
   image("images/transformation-diagram.png", width: 80%),
 ) <fig-transformation-diagram>
+
+==== Anti-linear (Conjugate-Linear) Transformation
+$
+  cal(A): X -> Y\
+  cal(A)(x_1 + x_2) = cal(A)(x_1) +cal(A)(x_2) forall x_1, x_2 in X\
+  alpha cal(A)(x) = cal(A)(overline(alpha) x) forall x in X, alpha in CC
+$
+
+==== Linear Form (Linear Functional)
+Simply any *linear* transformation that maps a linear space $V -> RR^1 or CC^1$.
+
+LTD: Quaternions
+
+This can be something as simple as $phi(x) -> 0$ or the dot product.
+
+===== Riesz Representation Theorem
+Let $VV$ be a linear space with a dot product and linear form $phi$. There exists a unique vector $w in VV$ (called the Riesz representation) such that:
+$
+  phi(v) = space <w, v> forall v in VV
+$
+which can be represented in terms of any orthonormal basis ${b_1, b_2, ..., b_n} in VV$:
+$
+  w = overline(phi(b_1))b_1 + overline(phi(b_2))b_2 + ... + overline(phi(b_n))b_n
+$
+whereby the conjugation can be ignored if dealing with real linear forms.
+
+This is a cool way of representing any linear form, essentially a regular linear transformation mapping to 1 dimension, as a single vector; because any linear transformation can be represented as a matrix. LTD: Chicken vs the egg?
+
+===== Dual Space
+The linear vector space $V'$ of all linear forms of a linear vector space $V$, such that:
+$
+  phi, psi in V'\
+  x in V, alpha in RR \/ CC\
+  (phi + psi)(x) = phi(x) + psi(x)\
+  alpha phi(x) = phi(alpha x)\
+  alpha psi(x) = psi(alpha x)\
+$
+
+Each element of $V'$ can be represented as a vector thanks to the Riesz representation theorem.
+
+TODO: Adjungierte Abbildung
 
 == Norms
 A norm is a function that transforms any element in a linear space to a positive real number. It must respect the following properties:
@@ -769,8 +810,8 @@ $
   u perp v <=> <u, v> = 0
 $
 
-=== Projections
-_Projection_ - A linear transformation such that repeated application has no effect:
+=== Projectors
+_Projector_ - A linear transformation such that repeated application has no effect:
 $
   bold(P_y P_y ... )&= bold(P_y)
 $
@@ -796,9 +837,9 @@ $
 $
 
 ==== Projectors
-_Projector_ - Projection represented in matrix form, for example the orthogonal projection in the previous example can also be calculated as a reflection using the householder matrix:
+_Projector_ - Projection represented in matrix form, for example the orthogonal projection in the previous example can also be calculated using a matrix:
 $
-  P_y (x) &= bold(y / norm(y) y^H / norm(y) x)\
+  P_y (x) &= bold((y y^H) / norm(y)^2 x)\
   &= bold(P_y x)
 $
 
