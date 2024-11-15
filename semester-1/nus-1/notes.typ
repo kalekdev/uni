@@ -21,7 +21,7 @@ _Cylindrical coordinate system:_ $r$\
 _Spherical coordinate system:_ $r^2sin(theta.alt)$ (where $theta.alt$ is the
 angle from the z axis)
 
-== Das Coulomb'sche Gesetz
+== Coulomb's Law
 $
   arrow(F_2) = (Q_1Q_2 arrow(e_12)) / (4pi epsilon abs(arrow(r_12))^2)
 $
@@ -875,7 +875,7 @@ Where $d arrow(l)$ is a displacement vector along the wire and $arrow(r')$ is th
 LTD: Is it possible to go directly from Ampere's Law to this? with the assumption that the curve is a perfect circle?
 
 ==== Infinitely Long Wire
-For an infinitely long wire, this becomes the following field strength in cylindrical coordinates with the z axis lying along the wire:
+For a straight, infinitely long wire, this becomes the following field strength in cylindrical coordinates with the z axis lying along the wire:
 $
   arrow(B)(rho) = (arrow(e_phi)mu_0 I) / (2 pi rho)
 $
@@ -923,7 +923,7 @@ The total force acting on a particle with charge $q$ moving with velocity $v$ th
 $
   arrow(F) = q(arrow(E) + arrow(v) times arrow(B))
 $
-This was first implied by Maxwell, then expanded by Oliver Heaviside and Lorentz. This is considered to be of equal importance to Maxwell's equations, as it links the electrostatic and magnetic fields.
+This was first implied by Maxwell, then expanded by Oliver Heaviside and Lorentz. This is considered to be of equal importance as Maxwell's equations, as it links the electrostatic and magnetic fields.
 
 Now I will consider the force due to the magnetic field alone $arrow(F) = q arrow(v) times arrow(B)$(electrostatics already covered earlier) which only affects moving charges (because they themselves also generate a surrounding magnetic field). The resulting direction can be calculated using Fleming's left hand rule (mnemonic FBI):
 #figure(
