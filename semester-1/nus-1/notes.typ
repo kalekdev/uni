@@ -21,6 +21,8 @@ _Cylindrical coordinate system:_ $r$\
 _Spherical coordinate system:_ $r^2sin(theta.alt)$ (where $theta.alt$ is the
 angle from the z axis)
 
+TODO: Define everything in terms of $D$ and $H$ fields for consistency + brevity
+
 == Coulomb's Law
 $
   arrow(F_2) = (Q_1Q_2 arrow(e_12)) / (4pi epsilon abs(arrow(r_12))^2)
@@ -796,6 +798,8 @@ However unlike charge, a monopole has never been observed and the possibility of
 
 Magnetic fields can be observed using ferromagnetic shavings or a compass, which are also magnetic dipoles and therefore align themselves tangentially along field lines. This also implies that they slightly affect the magnetic field itself, meaning smaller shavings are more accurate for visualizing the field. Ferrofluid is a good alternative.
 
+Magnetic dipoles can also be created by a current loops. This is seen at the atomic level, as the spin of elementary particles / electrons in orbitals lead to dipoles, meaning single atoms can be influenced by magnetic fields. Do not forget to use conventional current when applying this model to electron orbits!
+
 By convention, magnetic field lines around dipoles point from north to south:
 #figure(
   image("images/magnetic-fields.png", width: 40%),
@@ -812,13 +816,13 @@ Just like the $arrow(E)$ and $arrow(D)$ field in electrostatics, there are two m
     [Symbol], $arrow(H)$, $arrow(B)$,
     [Units], [$A / m$], [Tesla, $N/(A m)$],
     [Intuition],
-    [],
+    [TODO: Pre-polarization intuition],
     [Used in the Lorentz Force Law to calculate the force arising on charges moving through the space in which the field is present.],
   ),
 )
 The two fields are related between another through:
 $
-  arrow(B) = mu_0 arrow(H)
+  arrow(B) = mu arrow(H)
 $
 
 ==== Magnetic Flux
@@ -836,10 +840,6 @@ $
 
 Intuitively, it says that magnetic monopoles do not exist. This is one of Maxwell's Equations.
 
-TODO:
-- magnetic permeability of vacuum
-- How do electric and magnetic fields propogate through space? how are $mu_0 epsilon_0$ linked?
-
 === Ørsted's / Ampere's Circuital Law
 In 1820 Hans Christian Ørsted discovered that a wire carrying an electric current induces a magnetic field around it. The direction of this field can be remembered using the right hand curl rule, where the fingertips represent the arrow heads:
 #figure(
@@ -852,8 +852,8 @@ This magnetic field:
 
 This phenomenon sparked a great deal of interest; Andre-Marie Ampere formulated the following fundamental law mathematically describing the magnetic field around the net enclosed current, known as his circuital law:
 $
-  integral.cont_C arrow(B) dot d arrow(s) &= mu_0 integral.double_S arrow(J) d arrow(S)\
-  &= mu_0 I
+  integral.cont_C arrow(B) dot d arrow(s) &= mu integral.double_S arrow(J) d arrow(S)\
+  &= mu I
 $
 - This applies to any closed curve, not just a circle
 - The surface in question is the one binded by the closed curve
@@ -866,7 +866,7 @@ _Durchflutung ($Theta$)_ - Name for the sum of current flowing through a surface
 ==== Biot-Savart Law
 Although Ampere's Circuital Law provides us with a fundamental law, it is not very useful in practice unless certain symmetries arise. Biot and Savart determined the following formula for calculating the magnetic flux density at any arbitrary position vector $arrow(r)$ around a current carrying wire:
 $
-  arrow(B)(arrow(r)) = mu_0 / (4 pi) integral_C (I d arrow(cal(l)) times r') / abs(arrow(r'))^3
+  arrow(B)(arrow(r)) = mu / (4 pi) integral_C (I d arrow(cal(l)) times r') / abs(arrow(r'))^3
 $
 Where $d arrow(l)$ is a displacement vector along the wire and $arrow(r')$ is the vector from the current point in the wire to the point where flux density is being calculated.
 #figure(
@@ -877,13 +877,13 @@ LTD: Is it possible to go directly from Ampere's Law to this? with the assumptio
 ==== Infinitely Long Wire
 For a straight, infinitely long wire, this becomes the following field strength in cylindrical coordinates with the z axis lying along the wire:
 $
-  arrow(B)(rho) = (arrow(e_phi)mu_0 I) / (2 pi rho)
+  arrow(B)(rho) = (arrow(e_phi)mu I) / (2 pi rho)
 $
 Where $rho$ is the distance from the center of the wire.
 
 In case the magnetic field inside the wire (with radius $a$) is needed the following can be used:
 $
-  arrow(B)(rho) = (arrow(e_phi)mu_0 I rho) / (2 pi a^2)
+  arrow(B)(rho) = (arrow(e_phi)mu I rho) / (2 pi a^2)
 $
 #figure(
   image("images/magnetic-field-in-wire.png", width: 40%),
@@ -971,10 +971,78 @@ $
 
 Magnetic potential is defined analogous to absolute electric potential with some point as a zero reference.
 
-=== Magnetic Torque
-TODO: Torque on dipoles
-
 === Magnetisation
+The torque acting on a dipole in an external magnetic field depends on its area, orientation and magnitude of the magnetic fields it generates. When considering current loop dipoles, *magnetic moment* is:
+$
+  arrow(m) = arrow(n) I A = I arrow(A)
+$
+Where $arrow(n)$ is the unit vector perpendicular to the surface enclosed by the current loop, pointing in the direction of the "north pole" - the end at which field lines start.
+
+The resulting *magnetic torque* acting on the dipole is calculated as (Lorentz force law):
+$
+  tau = arrow(m) times arrow(B)
+$
+
+The density of dipoles in an object is called *magnetisation* (similar to polarisation - how much an object responds to an external electrical field) and expressed as:
+$
+  arrow(M) = arrow(d m) / (d V) = (sum arrow(m)) / V
+$
+This is independent of the medium, reminiscent of the $arrow(H)$ field.
+
+Alternatively, the medium is taken into account as the *magnetic dipole moment*:
+$
+  arrow(j) = mu arrow(m)
+$
+and the *magnetic polarisation*:
+$
+  arrow(J) = mu arrow(M)
+$
+Not to be confused with current density! Sometimes the symbol $I$ is used.
+
+=== Permeability
+The macroscopic effect of polarization within a material is represented as a relative permeability number.
+
+TODO: B field in terms of H field and magnetization / magnetic polarisation
+
+=== Types of Magnetization
+Materials behave in certain ways when under the influence of an external magnetic field.
+
+==== Diamagnetism
+This phenomenon occurs in all materials (although it is outweighed by para / ferromagnetic effects in certain ones). $mu_r < 1$, meaning that the magnetic flux density in the material is weaker than in a vacuum. The spin and current loop magnetic dipoles cancel each other out when no external field is present and these materials are not magnetised by themselves.
+
+Examples include organic compounds, water and some metals such as copper. Their permeability is unaffected by temperature.
+
+The magnetic field induces an opposing magnetic field within the material, meaning that the magnetic polarisation is in the opposite direction to the field lines, like poles are next to each other and the material is slightly repelled.
+
+Strong diamagnetic materials, such as superconductors, can be levitated by strong magnetic fields.
+#figure(
+  image("images/levitating-frog.png", width: 30%),
+) <fig-levitating-frog>
+
+Like with many things in magnetism, an accurate explanation can only be given by Quantum Mechanics and Bohr-Van Leeuwen theorem, however this heuristic from Wikipedia is an interesting thought exercise:
+
+"When a material is put in a magnetic field, the electrons circling the nucleus will experience, in addition to their Coulomb attraction to the nucleus, a Lorentz force from the magnetic field. Depending on which direction the electron is orbiting, this force may increase the centripetal force on the electrons, pulling them in towards the nucleus, or it may decrease the force, pulling them away from the nucleus. This effect systematically increases the orbital magnetic moments that were aligned opposite the field and decreases the ones aligned parallel to the field (in accordance with Lenz's law). This results in a small bulk magnetic moment, with an opposite direction to the applied field." ie the current rings opposing the magnetic field get stretched out and therefore contribute more to the net dipole moment.
+
+==== Paramagnetism
+In these materials (usually with an odd number of valence electrons) the magnetic polarisation of individual atoms is not 0 and each atom is a dipole without any external field needed. However, the average magnetisation of the whole object is 0.
+
+Once an external field is aligned or the material is cooled to a low enough temperature, the majority of the atoms align in the direction of the field, increasing the magnetic flux density throughout the material and overcoming diamagnetic effects. $mu_r > 1$
+
+They do not retain magnetism, as the random motion due to temperature dissolves alignment of dipoles.
+
+Examples are Aluminium, oxygen and titanium.
+
+==== Ferromagnetism
+Similarly to paramagnets, atoms of these materials are already polarised and are already in groups of parallel magnetic moments called *domains* or Weiss areas.
+#figure(
+  image("images/magnetic-domains.png", width: 60%),
+) <fig-magnetic-domains>
+
+While $mu_r approx 1$ for dia- / paramagnets, ferromagnets... TODO
+
+The *Curie-Temperature* of a ferromagnetic material is the temperature at which it loses its magnetic properties due to overwhelming kinetic energy.
+
+Common ferromagnets are iron, nickel, cobalt and their alloys.
 
 === Relativistic Magnetism
 TODO: Causes for magnetism: special relativity + electrostatic force / magnetic dipole momements
@@ -989,4 +1057,4 @@ https://www.youtube.com/watch?v=rB83DpBJQsE
 
 Link to EM waves
 
-Faraday's Law of Induction is coming soon :D
+Faraday's Law of Induction, Lenz's Law are coming soon :D
