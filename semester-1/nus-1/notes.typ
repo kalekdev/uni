@@ -891,8 +891,6 @@ $
 
 Note: The derivation of this is a good exercise, it can either be derived from symmetry and Ampere's law or directly from Biot-Savart's Law - do not forget the cylindrical coordinate "nudge" factor!
 
-This relationship of course satisfies Ampere's circuital law (proof is a good exercise).
-
 ==== Toroid
 #figure(
   image("images/toroid.png", width: 60%),

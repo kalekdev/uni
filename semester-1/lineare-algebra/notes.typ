@@ -793,13 +793,14 @@ $A x$ results in the sum of each row:
 
 LTD: Spectral norm after learning eigenvalues
 
-== Dot Products
+== Inner Products
+In Euclidean space, the dot product is an inner product.
 #figure(
   image("images/dot-products.png", width: 80%),
 ) <fig-dot-products>
-A _positiv semi-definit_ operation is not a dot product.
+A _positiv semi-definit_ operation is not an inner product.
 
-Any operation that satisfies these properties can be called a dot product and leads to its corresponding norm being defined as:
+Any operation that satisfies these properties leads to its corresponding norm being defined as:
 #figure(
   image("images/norm-of-dot-product.png", width: 80%),
 ) <fig-norm-of-dot-product>
@@ -955,6 +956,36 @@ Advantages:
 - Straightforward implementation and slightly more computationally efficient
 Disadvantages:
 - Very numerically unstable compared to other orthogonalization methods
+
+== Eigenwerte und Eigenvektoren
+_Eigenvectors_ - Vectors which a linear transformation scales onto the original line it spans.\
+_Eigenvalues_ - The corresponding scalar by which a set of eigenvectors is multiplied by.
+
+These are very important when analyzing the effects of linear transformations without a standard basis. For example one can find the axis of a rotation of an arbitrary 3D rotation (vectors with eigenvalue 1).
+LTD: Possible applications
+
+Some transformations, for example rotations in 2D, have no non-zero eigenvalues.
+
+=== Finding Eigenvalues / Vectors
+The eigenvalues $lambda$ and eigenvectors $bold(v)$ of a matrix $bold(A)$ relate as follows:
+$
+  bold(A v) = lambda bold(v)\
+  bold(A v) = lambda bold(I v)\
+  (bold(A) - lambda bold(I))bold(v) = 0
+$
+The infinite non-zero solutions (eigenvectors) for $bold(v)$ are only possible when $det(bold(A) - lambda bold(I)) = 0$ (most of space is projected onto a single line / plane; down a dimension). This results in a polynomial of degree $n$ TODO: Order/ trace of the matrix? which can be solved by factorising.
+
+Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding each set of eigenvectors simply becomes the task of finding the different nullspaces:
+$
+  bold(A_(lambda_1) v) = 0\
+  bold(A_(lambda_2) v) = 0\
+  ...
+$
+
+LTD: Implications of complex eigenvalues?
+
+
+TODO: Diagonalising matrices, diagonal entries are the eigenvalues, eigenbasis
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
