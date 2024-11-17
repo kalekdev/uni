@@ -23,14 +23,16 @@ angle from the z axis)
 
 TODO: Define everything in terms of $D$ and $H$ fields for consistency + brevity
 
-== Coulomb's Law
+== Electrostatics
+
+=== Coulomb's Law
 $
   arrow(F_2) = (Q_1Q_2 arrow(e_12)) / (4pi epsilon abs(arrow(r_12))^2)
 $
 
 $epsilon$ is often replaced with $epsilon_0$ as calculations are assumed to take place in a vacuum.
 
-== Das elektrostatische Feld
+=== Electrostatic Field
 - Distance is from centre of point charge
 - A positive test charge of 1C is used to plot electric fields - this means a
   positive charge has arrows away from it
@@ -53,7 +55,7 @@ _Qualitative_ - Interpretation based
 
 A cluster of like charges behaves like a point charge with the sum of their charges on the macroscopic scale. Opposite charge clusters (ex. Dipole) lead to no field around them on a large scale.
 
-== Das elektrostastische Potential
+=== Electrostatic Potential
 Electrostatic potential energy of a particle as it moves from $P_0 -> P_1$:
 $
   arrow(F)=arrow(E)Q\
@@ -96,7 +98,7 @@ $
 
 A multimeter can only measure voltage between conductors (and not with for example the air as a reference point) as it relies on a small current to make the measurement. LTD: Revisit capacitive coupling
 
-== Elektrische Fluss (Flux)
+=== Elektrische Fluss (Flux)
 
 _Electric Displacement Field (aka Flux Density)_: An imaginary field that describes the effect of a charge on space, independent of if it's through a vacuum, dielectric or conductor.
 $
@@ -117,7 +119,7 @@ $
   &= (Q) / (4pi) ((4pi) - (0)) = (4 pi Q) / (4pi) = Q
 $
 
-== Gauss'sche Gesetz
+=== Gauss's Law of Electrostatics
 The above derived relationship is known as Gauss's law:
 $
   Psi_E &:= integral.surf arrow(E) dot d arrow(A)=Q / epsilon_0\
@@ -127,7 +129,7 @@ The total electric flux density through an arbitrary closed surface (electric fl
 
 This law is one of Maxwell's equations and can be used in reverse with infinitely small symmetric Gaussian surfaces to calculate the electric field around certain charge distributions, for example, the electric field at the surface of any point on a charged plane. #footnote([See _Electricity and Magnetism | Purcell_ for some great derivations of electric fields by various charge distributions.])
 
-== Line Charge
+==== Line Charge
 
 The electric field at distance $r$ from a line charge with uniform charge distribution $lambda$ can be calculated using either the integral of contributions to the field by small sections of the line, or far simpler using a cylinder and Gauss's law:
 $
@@ -135,7 +137,7 @@ $
 $
 
 
-== Infinite Charged Plane
+=== Infinite Charged Plane
 As derived using Gauss's law, the electric field around an infinitely large charged plane with surface charge density $sigma$ is:
 $
   arrow(E) &= sigma / (2 epsilon)
@@ -157,7 +159,7 @@ $
 
 If an isolated, conductive plate is brought in between them, the total distance between the plates throughout which a test charge is under the influence of an electric field decreases by the thickness of the conductive plate. This results in a lower potential difference between the plates.
 
-== Leitenden Koerper (Macroscopic Level)
+=== Conductors(Macroscopic Level)
 The electric lines are always perpendicular to the surface of a conductor, as any tangential component of the field redistributes charges to prevent this.
 
 The electric field inside a conductor is always 0, as the free charges repel each other and arrange themselves on the surface, of which the superposed electric fields at any point in the conductor are 0. The same applies if the conductor is brought into an external electric field.
@@ -178,7 +180,7 @@ Although dielectrics do not contain free charges, they still experience a small 
 
 When a dielectric is placed between two plates, there is still a (macroscopic) electric field throughout the dielectric (albeit lower than through a perfect insulator, as the dipoles generate fields in the opposite direction). This results in a lower potential difference between the plates, although still higher than if it were a conductor.
 
-== Dipoles
+=== Dipoles
 
 _Dipole_ - A phenonmenon when opposite electric charges / magnetic poles are separated. Examples of electric dipoles are ions under the influence of an external electric field or certain molecules, such as $H_2O$ which are permanent dipoles due to their asymmetric structure.
 
@@ -201,7 +203,7 @@ This the $arrow(E)$ field arising in the opposite direction due to polarization,
 
 A polarized conductor / dielectric with a net 0 charge in a non-homogeonous field, such as near a point charge will usually have a resultant force, for example a dipole near a point charge (regardless of polarity) will experience a stronger attractive force and the dipole will have a resultant force towards the point charge.
 
-== Permittivity
+=== Electric Permittivity
 
 _Absolute Permittivity /Dielectric Constant_ -
 A measure of the electric polarizability of a material, ie. the capacity of it to oppose / how well it stores energy from an external electric field through polarisation. Higher for conductors / dielectrics than insulators.
@@ -238,7 +240,7 @@ $
 $
 Where $E$ is the net electric field after polarisation\
 
-== Dielectric Boundary Conditions
+=== Dielectric Boundary Conditions
 The electric field strength changes as it passes through the border of two different dielectric materials. However, it can be broken down into the normal and tangential components in order to calculate the resulting field:
 
 As an external electric field pases through the boundary of dielectrics with absolute permittivity $epsilon_1$ and $epsilon_2$:
@@ -278,7 +280,7 @@ $
   &= (4 pi epsilon a b) / (b-a)
 $
 
-== Capacitor Networks
+=== Capacitor Networks
 Large capacitor networks can be broken down into a single capacitor using the following rules:
 #align(
   center,
@@ -293,7 +295,7 @@ Large capacitor networks can be broken down into a single capacitor using the fo
   ),
 )
 
-== Real-world capacitors
+=== Real-world capacitors
 A capacitor consisting of two plates would need to be extremely large to be of any practical use. In real life, various forms of layered capacitors are used.#footnote([See chapter 1.19 of Elektrotechnik, Albach])
 
 In general, their capacitance can be calculated by identifying the number of individual plate capacitors they form between layers and summing their capacitance (they are essentially connected in parallel). The capacitance around the edges of layers is negligible.
@@ -303,7 +305,7 @@ _Variable capacitor_ - A layered capacitor, who's overlapping area can be adjust
 _Film capacitor_ - This is essentially a plate capacitor wrapped into a cylinder. Its capacitance can be calculated in the same fashion as a plate capacitor, but *multiplied by 2*, as both sides of the conductor contribute to the capacitance.
 
 #pagebreak()
-== Energy stored by capacitor
+=== Energy stored by capacitor
 The energy stored by a capacitance C with voltage U across it's terminals is:
 $
   W_e = 1 / 2 C U^2
@@ -330,7 +332,7 @@ $
 _Convection current_ - Current caused by the transport of charges.
 
 
-== Current Density
+=== Current Density
 A field containing current that is flowing per unit area at a point in space. It can be expressed in terms of volume charge density $rho$ and velocity of the charges $arrow(v)$:
 $
   arrow(J) = rho arrow(v)
@@ -342,7 +344,7 @@ $
   I = integral.double_A arrow(J) dot d arrow(A)
 $
 
-== Resistance
+=== Resistance
 As electrons in a conductor are accelerated in the same direction by an external electric field, they bump into stationary nuclei in the lattice, causing them to decelerate and scatter. The resulting average velocity of electrons (hence the negative sign) at a point is called the *drift velocity* and is directly proportional to the electric field. The constant of proportionality $mu$ is called *electron mobility (Beweglichkeit)*:
 $
   arrow(v_e) &= -mu_e arrow(E)\
@@ -438,7 +440,7 @@ $
   R = (rho_R (b - a)) / (4pi a b)
 $
 
-== Real-world Resistors
+=== Real-world Resistors
 Manufacturers usually produce series of resistors with certain tolerances, so that there are no gaps between the maximum / minimum allowed resistance in their catalogue. This ensures that no resistors are wasted and each can be sorted into a value, then marked with the corresponding key (coloured rings for through-hole, number codes on SMD resistors).
 
 _Thin Film_ - A thin film of carbon / metal is applied onto a ceramic or glass base, then coated with plastic to prevent damage. This is the typical through-hole resistor that comes to mind and is the most common technology for SMD resistors, however it is not the most precise / power tolerant. Sometimes parts of the film are etched away to reduce cross-sectional area of the conductor and increase resistance.
@@ -455,10 +457,10 @@ _VDR (Voltage dependent resistor)_ - These are used to protect against voltage s
 
 _LDR_ - Light dependent resistor.
 
-== Conductor Boundary Conditions
+=== Conductor Boundary Conditions
 As a constant current passes through the boundary of two different conductors with specific conductivity $kappa_1$ and $kappa_2$, we can analyse the change in normal and tangential components of the current density and electrical (caused by the voltage source) fields. Let us once again consider an infinitely small cylinder at the boundary.
 
-=== Normal:
+==== Normal:
 The normal current density must of course stay constant, otherwise charges are being generated / dissapearing:
 $
   arrow(J_(n 1)) = arrow(J_(n 2))
@@ -469,7 +471,7 @@ $
   kappa_1 arrow(E_(n 1)) = kappa_2 arrow(E_(n 2))
 $
 
-=== Tangential:
+==== Tangential:
 The tangential electric field must be the same to obey the conservation of energy as a test charge is moved through a closed loop over the boundary:
 $
   arrow(E_(t 1)) = arrow(E_(t 2))
@@ -497,7 +499,7 @@ LTD: Interesting paper to revisit https://www.ifi.unicamp.br/~assis/Found-Phys-V
 
 TODO: Surface charges in a wire, where is the electric field actually coming from?
 
-== Power
+=== Power
 The work done on a set of charges $Q$ as they traveled through a potential difference $U$ is:
 $
   W_e = U Q
@@ -788,9 +790,6 @@ The magnetic properties of certain iron ores (permanent magnets) were already no
 - Compasses for navigation purposes due to the Earth's magnetic field
 - Extracting shards of metal in medical treatments
 
-_Ferromagnetism_ - Certain metals are affected by magnetic fields and have the capability to become magnetised. TODO: Why, magnetic dipoles arising from electron spin?
-LTD: Mention other types of magnetism
-
 === Magnetic Dipoles
 Every permanent magnet must have a north and south pole - if it is cut a new pair of poles simply forms. Like poles repel and opposite poles attract, just like charges.
 
@@ -798,7 +797,7 @@ However unlike charge, a monopole has never been observed and the possibility of
 
 Magnetic fields can be observed using ferromagnetic shavings or a compass, which are also magnetic dipoles and therefore align themselves tangentially along field lines. This also implies that they slightly affect the magnetic field itself, meaning smaller shavings are more accurate for visualizing the field. Ferrofluid is a good alternative.
 
-Magnetic dipoles can also be created by a current loops. This is seen at the atomic level, as the spin of elementary particles / electrons in orbitals lead to dipoles, meaning single atoms can be influenced by magnetic fields. Do not forget to use conventional current when applying this model to electron orbits!
+Magnetic dipoles can also be created by a current loops. This is seen at the atomic level, as the spin of elementary particles / electrons in orbitals lead to dipoles, meaning single atoms create and can be influenced by magnetic fields. Do not forget to use conventional current when applying this model to electron orbits!
 
 By convention, magnetic field lines around dipoles point from north to south:
 #figure(
@@ -816,21 +815,26 @@ Just like the $arrow(E)$ and $arrow(D)$ field in electrostatics, there are two m
     [Symbol], $arrow(H)$, $arrow(B)$,
     [Units], [$A / m$], [Tesla, $N/(A m)$],
     [Intuition],
-    [TODO: Pre-polarization intuition],
+    [The field arising from a magnet, independent of the matter in which it exists.],
     [Used in the Lorentz Force Law to calculate the force arising on charges moving through the space in which the field is present.],
   ),
 )
-The two fields are related between another through:
+The two fields are related to each other through:
 $
   arrow(B) = mu arrow(H)
 $
+Where $mu$ is the magnetic permeability of the material, a measure of how much the magnetic field creates opposing / like magnetisation within the material:
+$
+  mu = mu_r mu_0
+$
+Where $mu_0$ is the magnetic permeability of a vacuum.
 
 ==== Magnetic Flux
 This is the total magnetic flux density through a surface:
 $
   Phi = integral.double_A arrow(B) dot d arrow(A)
 $
-Its unit is Weber (Wb) and it will be useful later in Faraday's Law of Induction.
+Its unit is Weber (Wb) and it will be useful later for inductance.
 
 ==== Gauss's Magnetism Law
 The magnetic flux through a closed (Gaussian) surface is 0:
@@ -923,7 +927,7 @@ $
 $
 This was first implied by Maxwell, then expanded by Oliver Heaviside and Lorentz. This is considered to be of equal importance as Maxwell's equations, as it links the electrostatic and magnetic fields.
 
-Now I will consider the force due to the magnetic field alone $arrow(F) = q arrow(v) times arrow(B)$(electrostatics already covered earlier) which only affects moving charges (because they themselves also generate a surrounding magnetic field). The resulting direction can be calculated using Fleming's left hand rule (mnemonic FBI):
+Now I will consider the force due to the magnetic field alone $arrow(F) = q arrow(v) times arrow(B)$ (electrostatics already covered earlier) which only affects moving charges (because they themselves also generate a surrounding magnetic field). The resulting direction can be calculated using Fleming's left hand rule (mnemonic FBI):
 #figure(
   image("images/left-hand-rule.png", width: 30%),
 ) <fig-left-hand-rule>
@@ -945,6 +949,8 @@ $
 $
 Where $theta$ is the angle between the magnetic field lines and the the direction of the current.
 
+Two straight, parallel, current-carrying wires *attract* each other if their currents are in *the same* direction, and *repel* if their currents are in *opposite* directions. This force can be calculated using Ampere's Force Law, a combination of the Biot-Savart Law and Lorentz Force Law.
+
 
 TODO:
 - principle of how analog ammeters work
@@ -960,16 +966,6 @@ Once you want to consider more general situations, or have a less clunky mathema
 
 When one moves to relativistic physics, then one discovers that both the electric field and the magnetic field are bivectors, but the electric field spans a plane with one spatial and one temporal direction, whereas the magnetic field spans two spatial directions. The fact that space and time can be 'rotated' into eachother in relativistic physics typically leads us to abandon treating these as separate objects and instead talking about the Faraday tensor F which contains both the electric and magnetic fields in one object.
 "
-
-TODO: How current carrying wires next to each other behave, include diagram, Ampere's force law
-
-=== Magnetomotive Force
-Just like electric potential difference, the force and work done on a hypothetical test North monopole by a magnetic field can be defined as:
-$
-  cal(F) = integral_(P 1)^(P 2) arrow(H) d arrow(s)
-$
-
-Magnetic potential is defined analogous to absolute electric potential with some point as a zero reference.
 
 === Magnetisation
 The torque acting on a dipole in an external magnetic field depends on its area, orientation and magnitude of the magnetic fields it generates. When considering current loop dipoles, *magnetic moment* is:
@@ -997,12 +993,13 @@ and the *magnetic polarisation*:
 $
   arrow(J) = mu arrow(M)
 $
-Not to be confused with current density! Sometimes the symbol $I$ is used.
+Although the underlying idea is quite similar to current density (lots of elementary currents) these are not the same thing. Sometimes the symbol $I$ is used instead.
 
-=== Permeability
-The macroscopic effect of polarization within a material is represented as a relative permeability number.
-
-TODO: B field in terms of H field and magnetization / magnetic polarisation
+LTD: Still somewhat confused about these relationships
+$
+  arrow(B) = mu arrow(H) &= mu_0 arrow(H) + arrow(J)\
+  &= mu_0 (arrow(H) + arrow(M))
+$
 
 === Types of Magnetization
 Materials behave in certain ways when under the influence of an external magnetic field.
@@ -1026,29 +1023,209 @@ Like with many things in magnetism, an accurate explanation can only be given by
 ==== Paramagnetism
 In these materials (usually with an odd number of valence electrons) the magnetic polarisation of individual atoms is not 0 and each atom is a dipole without any external field needed. However, the average magnetisation of the whole object is 0.
 
-Once an external field is aligned or the material is cooled to a low enough temperature, the majority of the atoms align in the direction of the field, increasing the magnetic flux density throughout the material and overcoming diamagnetic effects. $mu_r > 1$
+Once an external field is aligned or the material is cooled to a low enough temperature, the majority of the atoms align in the direction of the field, increasing the magnetic flux density throughout the material and overcoming diamagnetic effects. $mu_r > 1$ and they are slightly attracted to the external magnet.
 
 They do not retain magnetism, as the random motion due to temperature dissolves alignment of dipoles.
 
 Examples are Aluminium, oxygen and titanium.
 
 ==== Ferromagnetism
+While $mu_r approx 1$ for dia- / paramagnets, ferromagnets have very variable values in the order of $10^2$ - $10^4$. They are noticably attracted to external magnets. Common ferromagnets are iron, nickel, cobalt and their alloys.
+
 Similarly to paramagnets, atoms of these materials are already polarised and are already in groups of parallel magnetic moments called *domains* or Weiss areas.
+
+As an external magnetic field is applied, the domains are brought into alignment with one another and merge to form larger sets of parallel moments.
 #figure(
-  image("images/magnetic-domains.png", width: 60%),
+  image("images/magnetic-domains.png", width: 40%),
 ) <fig-magnetic-domains>
 
-While $mu_r approx 1$ for dia- / paramagnets, ferromagnets... TODO
+This of course leads to increased magnetic flux density within the material, as seen in the graph below. Unlike the other types of magnetisation covered, the effects in ferromagnetism are usually lasting. If the initial magnetisation (Neukurve) is strong enough to saturate the material (reaches $B_s$), its domains remain aligned and the magnetic flux $B_r$ is present with no external $arrow(H)$ field.
 
-The *Curie-Temperature* of a ferromagnetic material is the temperature at which it loses its magnetic properties due to overwhelming kinetic energy.
+The same applies in the opposite direction, demagnetization occurs when an external magnetic field in the opposite direction is applied, after the point of *coercivity* $H_c$ (maximum opposing magnetic field before the material is demagnetized) is reached. This forms the characteristic hysteresis curve.
+#figure(
+  image("images/ferromagnetisation.png", width: 60%),
+) <fig-ferromagnetisation>
 
-Common ferromagnets are iron, nickel, cobalt and their alloys.
+Ferromagnet flux density depends heavily on temperature and its previous state, hence the relationship between $arrow(B)$ and $arrow(H)$ is not linear and their relative permeability is only a rough approximation.
+
+Materials with a high $H_c$ value are labeled as magnetically hard.
+
+The *Curie-Temperature* of a ferromagnetic material is the temperature at which it loses its magnetic properties due to overwhelming kinetic energy - around 770 $degree C$ for iron.
+
+
+==== Permanent Magnets
+Good permanent magnets have a very high coercivity value and high initial magnetisation (*Remenanz*).
+
+=== Magnetic Field Boundary Conditions
+As a magnetic field passes through the boundary of two materials, we can once again analyse the $arrow(H)$ and $arrow(B)$ fields using an infinitely small cylinder over the border and the normal $n$ and tangential $t$ components.
+
+Gauss's magnetism law states $integral.surf_A arrow(B)dot d arrow(A) = 0$, hence:
+$
+  arrow(B_(n 1)) &= arrow(B_(n 2))\
+  mu_1 arrow(H_(n 1)) &= mu_2 arrow(H_(n 2))\
+$
+Strange Typst bold arrow bug btw ^
+
+Considering an infinitely thin loop at the boundary of the two materials (so only the tangential component plays a role), Ampere's circuital law states: $integral.cont arrow(H) d arrow(s) = 0$, so:
+$
+  arrow(H_(t 1)) &= arrow(H_(t 2))\
+  arrow(B_(t 1)) / mu_1 &= arrow(B_(t 2)) / mu_2\
+  mu_1 / mu_2 &= arrow(B_(t 1)) / arrow(B_(t 2))
+$
+
+These can be applied to calculate the angles from the normal $alpha$:
+$
+  (tan alpha_1) / (tan alpha_2) = arrow(H_(n 2)) / arrow(H_(n 1)) = arrow(B_(t 1)) / arrow(B_(t 2)) = mu_1 / mu_2
+$
+
+We can therefore make conclusions about the behaviour of fields at the boundary with a ferromagnet ($mu >> 1$):
+- The tangential components $arrow(H_(t 2))$ and $arrow(B_(t 2))$ tend towards 0 at the surface of a ferromagnet
+- To ensure $arrow(B)$ remains finite, $arrow(H) -> 0$ within a a ferromagnet.
+
+=== Magnetic Circuits
+Magnetic fields are confined within ferromagnetic loops and "conducted". This seems to be a result of the domains aligning in such a way so that the superposition of the magnetisation field + external field cause it to follow the loop and navigate around curves. However, I'm still not fully convinced why this would happen, as the boundary conditions imply that the normal component would be much higher than the tangential component at the surface with air. TODO: Investigate
+
+"Innerhalb des hochpermeablen Materials ist die tangential zur Oberfläche
+gerichtete Flussdichtekomponente entsprechend der Randbedingung (5.43) um den
+Faktor μr größer als in dem umgebenden Raum, d.h., der Fluss wird in dem hoch-
+permeablen Material geführt und darf im umgebenden Raum vernachlässigt werden."
+
+#figure(
+  image("images/magnetic-circuit.png", width: 40%),
+) <fig-magnetic-circuit>
+
+Magnetic flux $Phi$ is analog to current in this model. In the above diagram, the magnetic flux must be the same at all cross-sections of the ferromagnet.
+
+==== Magnetomotive Force
+Just like electric potential difference, the work done on a hypothetical test North monopole by a magnetic field (it's not a force or causing any actual movement) can be defined as:
+$
+  cal(F) = integral_(P 1)^(P 2) arrow(H) d arrow(s)
+$
+
+For a closed path through the diagram above, conforming to Ampere's law:
+$
+  integral.cont arrow(H) d arrow(s) = Theta = N I
+$
+
+Magnetic potential is defined analogous to absolute electric potential with some point as a zero reference.
+
+==== Hopkinson's Law & Reluctance
+In this model, a counterpart to Ohm's law can be defined:
+$
+  cal(F) = Phi cal(R)
+$
+Where $cal(R)$, the magnetic resistance / reluctance is defined in terms of the length, cross sectional area and magnetic permeability of a section of material:
+$
+  cal(R) = l / (mu A)
+$
+
+Magnetic conductivity is then defined as:
+$
+  Lambda = (mu A) / l
+$
+
+==== Magnetic Circuit Laws
+Kirchhoff's laws can now be applied to analyse flux and magnetomotive force throughout a ferromagnetic circuit:
+$
+  sum_"Node" Phi &= 0\
+  sum_"Loop" cal(F) &= integral.cont arrow(H) d arrow(s) = Theta
+$
+
+Here's a nice table summarising the analogies in this model:
+#figure(
+  image("images/magnetic-circuit-summary.png", width: 80%),
+) <fig-magnetic-circuit-summary>
 
 === Relativistic Magnetism
 TODO: Causes for magnetism: special relativity + electrostatic force / magnetic dipole momements
 
 LTD: Faraday Tensor
 LTD: Derive Biot-Savart Law from Lorentz Transformation, Lorentz Force and Coulomb's Law
+
+== Inductance
+Just like capacitance, inductance is a measure of an object's capability to store magnetic fields with unit *Henry*:
+$
+  L = Phi / I
+$
+Where $Phi$ is the total magnetic flux of linked with a coil.
+
+TODO: What exactly is "linked" flux? Coming in 6.4 apparently
+TODO: Intuition in terms of alternating current
+
+=== Inductance of Common Coils
+It can be tricky to determine what set of surfaces exactly are "linked to a coil". As a rule of thumb, the total flux can be calculated using the number of turns $N$ and the flux of the surface enclosed by the loop if the coil were a single wire, for example a toroid in the diagram below:
+$
+  Phi_"Total" approx N Phi_"Loop"
+$
+#figure(
+  image("images/flux-toroid.png", width: 40%),
+) <fig-flux-toroid>
+
+The following formulas assume the coils are wrapped around high permeability ferromagnetic cores, so the magnetic flux in the air is negligible and not accounted for.
+
+Furthermore they do not take temperature or any previous magnetisation into account.
+
+==== Toroid
+The inductance of a toroid with radius $a$ to the inner wire, $b$ to the outer wire and height $h$ is:
+$
+  L approx (N Phi_"Loop") / I approx N^2 (mu h) / (2 pi) ln b / a
+$
+A simpler approximation for when the width of the ring is significantly smaller than the radius of the loop is:
+$
+  L = N^2 (mu h) / (pi) (b-a) / (b+a)
+$
+
+==== Parallel Wires
+Two wires carrying the same current in opposite directions (can be thought of the same one in a stretched out loop with diameter b) can also store a significant magnetic field.
+
+The linked flux is calculated in two parts for one wire with the help of the Biot-Savart law, then multiplied by 2 (their magnetic fields are symmetrical): the external and internal (within the wire itself) flux:
+#figure(
+  image("images/parallel-wire-inductance.png", width: 50%),
+) <fig-parallel-wire-inductance>
+
+The external flux of a single wire is:
+$
+  L_a = (mu_0 l) / (2 pi) ln b / a
+$
+And the inner flux:
+$
+  L_i = (mu l) / (8 pi)
+$
+
+Therefore the total inductance of the wires per unit length is:
+$
+  L / l = mu_0 / pi (1 / 4 + ln b / a)
+$
+
+For practical use:
+$
+  L / l = 1 (mu H) / m
+$
+
+=== Air Gap
+Due to the hysteresis curve of ferromagnetic materials, if a coil has enough current applied / windings the core reaches the point of saturation and becomes magnetised, reducing its subsequent permeability (gradient of the hysteresis graph), inductance and therefore ability to store *new* energy from the inducing current.
+
+This can be solved with a small air gap, which increases the total reluctance and avoids saturation problems.
+
+Using Hopkinson's Law:
+$
+  Phi &= Theta / ((l / (mu_r mu_0 A) + d / (mu_0 A)))\
+  L &= (N Phi) / I = N^2 (mu_r mu_0 A) / (l +d mu_r)
+$
+Where $l$ is the length of the ferromagnetic core excluding the air gap. The gap $d$ should be as small as possible to prevent stray magnetic field at the junction (wasted energy).
+
+Another advantage of the air gap is that it allows precise adjustments to the inductance value during the manufacturing process.
+
+However, it does significantly reduce the inductance and more windings are needed to compensate for this loss. A balance between maximum induced flux and amount of wire needed must be considered.
+
+==== A-value
+Ferromagnetic cores are sometimes assigned a value by manufacturers, so customers can wrap as many turns of wire as needed and for a target inductance:
+$
+  L = N^2 Lambda = N^2 A_L
+$
+
+=== Real-world Coils
+TODO: 5.15.1
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
