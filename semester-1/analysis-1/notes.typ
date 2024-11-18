@@ -108,8 +108,8 @@ $
 $
 Vollstaendige Induktion gibt, dass $forall n in N_0, P(n)$ wahr ist. $qed$
 
-== Mengenlehre
-Eine ungeordnete Zusammenfassung von Elemente.
+== Sets
+An ordered collection of elements.
 
 $emptyset$ - Leere Menge, hat keine Elemente\
 ${emptyset}$ hat genau ein Element
@@ -121,8 +121,8 @@ ${x | x in NN_0, x "ist gerade"}$
 _Russelsche Antonomie_ - ${x | x in X, x in.not x}$ ist ein Paradox\
 Loesung: Es muss immer so definiert werden ${x in X | P(x)}$, wo X eine andere Menge ist.
 
-$A sect B - {x | x in A and x in B}$ - Intersection\
-$A union B - {x | x in A or x in B}$ - Union\
+$A sect B - {x | x in A and x in B}$ - Intersection (Durchschnitt)\
+$A union B - {x | x in A or x in B}$ - Union (Vereinigung, think Vereinigte Königreich!)\
 $A without B - {x in A | x in.not B}$ - Without\
 $A subset.eq B$ - Jedes Element von A liegt in B (between two sets, unlike $x in A$ which describes a single element $x$ being inside the set $A$)\
 $A subset B$ - Jedes Element von A liegt in B und A enthaelt weniger Elemente als B\
@@ -181,6 +181,16 @@ $
   (A union B)^complement = A^complement sect B^complement\
 $
 
+=== Characteristic / Indicator Function
+The characteristic function of a set $A subset.eq RR$ is defined as:
+$
+  chi_A: RR -> {1, 0}\
+  chi_A (x) := cases(
+  1 "if" x in A,
+  0 "otherwise"
+)
+$
+
 == Quantoren
 They cannot simply be swapped! See the largest natural number problem in script.
 
@@ -193,7 +203,7 @@ $not (exists x in X| P(x)) = forall x in X | not P(x)$
 
 _Goethe Prinzip_ - When a variable is renamed correctly, a statement is still logically equivalent
 
-== Funktionen
+== Functions
 Eine Funktion ist ein Tripel $f=(X, Y, G)$, wobei $X$ und $Y$ Mengen sind und $G subset.eq X times Y$, sodass $forall x in X exists y in Y$, sodass $(x, y) in G$
 
 _Domain_ - Set of possible inputs for a function\
@@ -204,9 +214,9 @@ Both are Quadratic funktions but are not equal:\
 $X := Y := RR, G = {(x, x^2) | x in RR^2}$\
 $X := RR, Y := ]0, infinity[, G = {(x, x^2) | x in RR^2}$
 
-$X -> X, id(x) := x$ - _Identitaets Funktion_\
+$X -> X, id(x) := x$ - _Identitäts Funktion_\
 
-*Bild und Urbild* - Muss nicht bijektiv sein\
+=== Bild und Urbild - Muss nicht bijektiv sein\
 $im(X) := f(X)$ - _Bild von f_\
 $f:X -> alpha, f^(-1)(Y) := {x in X | f(x) in Y}$ - _Urbild von y unter f_
 
@@ -214,7 +224,7 @@ _Surjektiv_ - $forall y in Y exists x in X: f(x) = y$ - Es gibt fuer jeder Ausga
 _Injektiv_ - $forall x, x' in X : x != x' => f(x) != f(x')$ - Es gibt genau eine Ausgang fuer jeder Eingang in dem Definitionsbereich\
 _Bijektiv_ - Es ist Surjektiv und Injektiv, weshalb es eine Inverse hat\
 
-*Umkehrfunktion*\
+=== Umkehrfunktion
 Sei $ f: X -> Y "eine Bijektive funktion", f^(< -1>) := Y -> X$ - _Umkehr Funktion_\
 The inverse can ONLY be defined when the function is Bijektiv, unlike the Urbild. When $X = Y = RR$ it is the reflection of the original function over the line $y=x$. It is sometimes notated as $f^(-1)$ when the context is clear.
 
@@ -234,7 +244,14 @@ $
 
 $g circle.small f := g(f(x))$ - Only possible if the $"codom"(f) = "dom"(g)$
 
-== Zahlen und Vektoren
+=== Restriction
+A new function can be defined with a smaller domain.
+$
+  f: X -> Y, A subset.eq X\
+  f |_A: A -> Y
+$
+
+== Numbers and Vectors
 $NN_0 := {0,1,2,...}$\
 $NN := {1,2,3,...}$\
 $ZZ := {..., -1, 0, 1, ...}$\
@@ -243,7 +260,7 @@ $NN_0 subset.eq ZZ subset.eq QQ$\
 
 There are infinite gaps in the number line of rational numbers. These can be filled with $RR \\ QQ$ - Irrational numbers, for example $sqrt(2), pi, e$. For example: $exists.not s in QQ | s^2 = 2$.
 
-=== Reelen Zahlen
+=== Real Numbers
 *Dedekind Cut*\
 A Dedekind cut is a way of representing the real numbers using the rational numbers by cutting the number line into two sections around a "gap" represented by an irrational number.
 Let $x subset QQ$ (x contains less elements than $QQ$), the following properties describe the cut:
@@ -523,14 +540,28 @@ Any function $f(x)$ which is infinitely differentiable at a point $a$ can be app
 $
   f(x) approx sum_(n=0)^oo (f^(n) (a)) / n! (x-a)^n = f(a) + (f'(a)) / 1! (x-a) + (f''(a)) / 2! (x-a)^2 + ...
 $
-where $f^(n) (a)$ denotes the nth derivative of the function evaluated at $a$. Taylor series constructed around the point $a=0$ are called Maclaurin Series.
+where $f^(n) (a)$ denotes the nth derivative of the function evaluated at $a$.
 
-This is extremely useful to make non-linear functions approximately linear around a point - especially in computing.
+Taylor series constructed around the point $a=0$ are called Maclaurin Series. The further away from the point $a$ / the less terms are included in the series, the less accurate the series becomes (play around with desmos graphs). The exact error can be calculated.
+
+These are extremely useful to make non-linear functions approximately linear around a point (we can then enjoy linear algebra).
+
+Furthermore they are useful in many proofs, for example Euler's $e^(i phi) = "cis"(theta)$.
 
 Example Maclaurin Series:
 - The Taylor series of any polynomial remains the same - simply a power series resulting in the same polynomial
-- $1 / (1-z) = sum_(n =0)^oo z^n$
-- $e^x = sum_(n =0)^oo x^n / n!$
+- $
+    1 / (1-z) = sum_(n =0)^oo z^n
+  $
+- $
+    e^x = sum_(n =0)^oo x^n / n!
+  $
+- $
+    sin(x) = sum_(n =0)^oo (-1)^n / ((2n+1)!) x^(2n+1)
+  $
+- $
+    cos(x) =sum_(n =0)^oo (-1)^n / ((2n)!) x^(2n)
+  $
 
 === Riemann-Zeta Function
 $
@@ -540,7 +571,7 @@ This series converges when $s>1$. $s=1$ is the harmonic series, which does indee
 
 $zeta(2) = pi^2/6$ was proved by Euler, however $s>2$ has not yet been expressed precisely and is an open problem.
 
-LTD: It is weird that this converges but the harmonic series does...
+LTD: It is weird that this converges but the harmonic series doesn't...
 
 === Conditional Convergence
 Finite sums are always associative and commutative. However, this is not always the case for infinite sums, for example the alternating harmonic series, which can be rearranged so it converges to half of the usual limit: https://en.wikipedia.org/wiki/Absolute_convergence
@@ -560,10 +591,65 @@ $
 The infinite sum of an absolutely convergent series is associative and commutative. LTD: double check: Furthermore, if a series converges absolutely, it also converges normally.
 
 === Cauchy Product
-TODO
+Also known as the "Faltungs-Produkt" or convolution of two series, it is defined as:
+$
+  a * b: NN_0 -> CC\
+  a * b(n) := sum_(k=0)^n a_k b_(n-k)
+$
+It converges towards the product of the limit of both series' *only* if $a$ and $b$ converge absolutely:
+$
+  lim_(n -> oo) a * b (n) = lim_(n-> oo) a_n dot lim_(n-> oo) b_n
+$
+
+== Function Continuity & Convergence
+TODO: Is this the right order of chapters?
+
+This concerns defining many of the intuitive ideas learnt in school using $epsilon delta$ notation. It should however be noted, that there are many ways to formally define these terms.
+
+These definitions extend to $n$ dimensions unless stated otherwise.
+
+=== Continuity (Stetigkeit)
+Intuitively, a function is continuous between an interval if we can draw it without lifting the pencil.
+
+The function $f: X -> Y$ is continuous *at the point* $x_0$ if:
+$
+  forall epsilon in (0, oo) exists delta in (
+    0, oo
+  ) forall x in X | norm(x - x_0) < delta => norm(f(x) - f(x_0)) < epsilon
+$
+This is criteria is named after Karl Weierstraß.
+
+This means that for every range error interval $epsilon$, there exists a maximum distance from $x_0$, $delta$, so that every other point within this maximum "radius" satisfies the $epsilon$ error interval. The closer $epsilon -> 0$, the smaller $delta$ will be to accomodate even the most "uncontinuous" point of the function.
+
+If there is a jump in the function at the point $x_0$, then there exists a small enough $epsilon$, so that no matter how close the other points are to $x_0$, the error interval $epsilon$ will never be satisfied. The formal criteria for a function that isn't continuous at $x_0$:
+$
+  exists epsilon in (0, oo) forall delta in (
+    0, oo
+  ) exists x in X | norm(x - x_0) < delta and norm(f(x) - f(x_0)) > epsilon
+$
+
+These definitions can of course be extended to an entire range by prepending $forall x_0 in (a, b) ...$.
+
+The *Dirichlet Function* based on the characteristic function defined earlier is non-continuous at every point:
+$
+  1_QQ := chi_QQ
+$
+
+- Addition and multiplication ($therefore$ subtraction and division too) of functions, which are continuous at a point, guarantees continuity at that point too.
+- A multivariable function is continuous at a point if every component is also continuous at that point.
+- All real (including multivariable) polynomials are continuous. This is a useful fact in proofs, where arguments of nested functions are polynomials.
+
+LTD: Investigate other continuity definitions
+
+==== Uniform Continuity
+This is a stricter extension of normal continuity, where the same $delta$ can be chosen at all points in the considered interval.
+
+Examples of continuous but not uniformly continuous functions are $1/x$ and $e^x$.
+
+LTD: Formulate formal definition
 
 == Topology
-This is the branch of mathematics studying structures representing continuous sets.
+This is the branch of mathematics studying shapes, allowing us to make useful conconclusions about continuous sets.
 
 === Ball / Disk
 A topological ball with radius $r$ and center $x_0$ in dimension $RR^d$ is defined as the set of points:
@@ -572,6 +658,7 @@ $
   overline(B_r^d)(x_0) = {x in RR^d | abs(x - x_0) <= r} - "Closed ball"\
   S_r^(d-1)(x_0) = {x in RR^d | abs(x - x_0) = r} - "Sphere (edge of ball)"
 $
+Where $abs(x - x_0)$ is the length of the vector from $x_0 -> x$ ie the radius.
 
 Therefore:
 $
@@ -581,10 +668,55 @@ $
 $
 Man muss immer am $B_r^d$ bleiben!
 
-Mengen sind keine Türe! (Muss nicht entweder offen oder abgeschlossen sein)
+Mengen sind keine Türe! (Muss nicht entweder offen oder abgeschlossen sein). For example, the half open interval $[a, b)$
 
+=== Open Sets
+The set of all points "inside" a topological set.
+
+_Inner Point_ - A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$
+
+$"Int" S := {"inner points of S"}$ - The interior of a set is the set of all inner points. $"Int" S subset S$ is always true.
+
+_Open set_ - A set which is equal to its interior: $S = "Int" S$
+
+Every point of an open ball is an inner point, hence making the ball "open". This can be proven with the triangle inequality.
+$
+  "Int" overline(B_r^d)(x_0) = B_r^d (x_0)\
+  x in RR, {x} "is not open"
+$
+
+These definitions can be overwhelmingly nested, but in the end they all boil down to the set notation definitions of balls.
+
+=== Arbitrary Unions and Intersections
+Let $SS$ be a set of sets:
+$
+  union.big SS := {x | exists S in SS | x in S}\
+  sect.big SS := {x | forall S in SS | x in S}\
+  union.big {A, B} = A union B\
+  sect.big {A, B} = A sect B\
+$
+
+Cool sets can be defined using this notation, for example an open 2D half moon:
+$
+  B_1^2 (0) sect ((0, oo) times RR)
+$
+
+- The union of arbitrarily many open sets is open (the outer edges will remain open no matter what)
+- The intersection of finitely many open sets is open
+
+=== Closed Sets
+Let $A subset.eq RR^n$:
+$
+  A "is closed" <=> RR^n \\ A "is open"
+$
+
+For example, $[a, b] | a< b$ can instead be expressed as $(-oo, a) union (b, oo)$, which is open.
+
+- $emptyset, RR^n$ are both open and closed!
+
+=== Compactness
 
 TODO:
-== Lagrange Polynomial
-== Fourier Series
-
+- Formal definition of multivariable polynomial (Ziltener 4.6)
+- Lagrange Polynomial
+- Fourier Series

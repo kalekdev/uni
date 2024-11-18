@@ -860,7 +860,7 @@ $
   &= mu I
 $
 - This applies to any closed curve, not just a circle
-- The surface in question is the one binded by the closed curve
+- The surface in question is one bounded by the closed curve, its exact shape does not matter and will always give the same total current value
 - The direction of the curve integral is determined by the above mentioned right hand rule.
 
 TODO: Maxwell-Ampere law, what problems does it solve?
@@ -974,6 +974,8 @@ $
 $
 Where $arrow(n)$ is the unit vector perpendicular to the surface enclosed by the current loop, pointing in the direction of the "north pole" - the end at which field lines start.
 
+The magnetic moment of permanent magnets can be determined through testing and is usually provided by the manufacturer.
+
 The resulting *magnetic torque* acting on the dipole is calculated as (Lorentz force law):
 $
   tau = arrow(m) times arrow(B)
@@ -1016,7 +1018,7 @@ Strong diamagnetic materials, such as superconductors, can be levitated by stron
   image("images/levitating-frog.png", width: 30%),
 ) <fig-levitating-frog>
 
-Like with many things in magnetism, an accurate explanation can only be given by Quantum Mechanics and Bohr-Van Leeuwen theorem, however this heuristic from Wikipedia is an interesting thought exercise:
+Like with many things in magnetism, an accurate explanation can only be given by Quantum Mechanics and the Bohr-Van Leeuwen theorem, however this heuristic from Wikipedia is an interesting thought exercise:
 
 "When a material is put in a magnetic field, the electrons circling the nucleus will experience, in addition to their Coulomb attraction to the nucleus, a Lorentz force from the magnetic field. Depending on which direction the electron is orbiting, this force may increase the centripetal force on the electrons, pulling them in towards the nucleus, or it may decrease the force, pulling them away from the nucleus. This effect systematically increases the orbital magnetic moments that were aligned opposite the field and decreases the ones aligned parallel to the field (in accordance with Lenz's law). This results in a small bulk magnetic moment, with an opposite direction to the applied field." ie the current rings opposing the magnetic field get stretched out and therefore contribute more to the net dipole moment.
 
@@ -1039,9 +1041,9 @@ As an external magnetic field is applied, the domains are brought into alignment
   image("images/magnetic-domains.png", width: 40%),
 ) <fig-magnetic-domains>
 
-This of course leads to increased magnetic flux density within the material, as seen in the graph below. Unlike the other types of magnetisation covered, the effects in ferromagnetism are usually lasting. If the initial magnetisation (Neukurve) is strong enough to saturate the material (reaches $B_s$), its domains remain aligned and the magnetic flux $B_r$ is present with no external $arrow(H)$ field.
+This of course leads to increased magnetic flux density within the material, as seen in the graph below. Unlike the other types of magnetisation covered, the effects in ferromagnetism are usually lasting. If the initial magnetisation (Neukurve) is strong enough to saturate the material (reaches $B_s$), its domains remain aligned and the magnetic flux $B_r$ (called *remanence* or *residual magnetism*) is present with no external $arrow(H)$ field - the material has been magnetized.
 
-The same applies in the opposite direction, demagnetization occurs when an external magnetic field in the opposite direction is applied, after the point of *coercivity* $H_c$ (maximum opposing magnetic field before the material is demagnetized) is reached. This forms the characteristic hysteresis curve.
+The same applies in the opposite direction, demagnetization occurs when an external magnetic field in the opposite direction is applied, after the point of *coercivity* $H_c$ (maximum opposing magnetic field before the material is demagnetized) is reached #footnote([The process of demagnetization is known as "Degaussing", some interesting applications are explained on Wikipedia.]). This forms the characteristic hysteresis curve.
 #figure(
   image("images/ferromagnetisation.png", width: 60%),
 ) <fig-ferromagnetisation>
@@ -1052,9 +1054,8 @@ Materials with a high $H_c$ value are labeled as magnetically hard.
 
 The *Curie-Temperature* of a ferromagnetic material is the temperature at which it loses its magnetic properties due to overwhelming kinetic energy - around 770 $degree C$ for iron.
 
-
 ==== Permanent Magnets
-Good permanent magnets have a very high coercivity value and high initial magnetisation (*Remenanz*).
+Good permanent magnets have a very high coercivity value and high initial magnetisation (remanence).
 
 === Magnetic Field Boundary Conditions
 As a magnetic field passes through the boundary of two materials, we can once again analyse the $arrow(H)$ and $arrow(B)$ fields using an infinitely small cylinder over the border and the normal $n$ and tangential $t$ components.
@@ -1064,7 +1065,6 @@ $
   arrow(B_(n 1)) &= arrow(B_(n 2))\
   mu_1 arrow(H_(n 1)) &= mu_2 arrow(H_(n 2))\
 $
-Strange Typst bold arrow bug btw ^
 
 Considering an infinitely thin loop at the boundary of the two materials (so only the tangential component plays a role), Ampere's circuital law states: $integral.cont arrow(H) d arrow(s) = 0$, so:
 $
@@ -1083,12 +1083,7 @@ We can therefore make conclusions about the behaviour of fields at the boundary 
 - To ensure $arrow(B)$ remains finite, $arrow(H) -> 0$ within a a ferromagnet.
 
 === Magnetic Circuits
-Magnetic fields are confined within ferromagnetic loops and "conducted". This seems to be a result of the domains aligning in such a way so that the superposition of the magnetisation field + external field cause it to follow the loop and navigate around curves. However, I'm still not fully convinced why this would happen, as the boundary conditions imply that the normal component would be much higher than the tangential component at the surface with air. TODO: Investigate
-
-"Innerhalb des hochpermeablen Materials ist die tangential zur Oberfläche
-gerichtete Flussdichtekomponente entsprechend der Randbedingung (5.43) um den
-Faktor μr größer als in dem umgebenden Raum, d.h., der Fluss wird in dem hoch-
-permeablen Material geführt und darf im umgebenden Raum vernachlässigt werden."
+Magnetic fields are confined within ferromagnetic loops and "conducted". This seems to be a result of the superposition of the magnetisation field + external field causing the domains to align in such a way that the field navigate around curves. Although the boundary conditions imply that the normal component would be much higher than the tangential component as the lines exit into the air, the magnetic field lines already begin to curve earlier and they are effectively completely tangent to the outer boundary of the ferromagnet. LTD: These effects are best investigated in a simulation, not very clear in the diagram below
 
 #figure(
   image("images/magnetic-circuit.png", width: 40%),
@@ -1149,7 +1144,7 @@ $
 $
 Where $Phi$ is the total magnetic flux of linked with a coil.
 
-TODO: What exactly is "linked" flux? Coming in 6.4 apparently
+TODO: What exactly is "linked" flux? Coming in 6.4 apparently. Linked flux is the area enclosed by spiralling coils?
 TODO: Intuition in terms of alternating current
 
 === Inductance of Common Coils
@@ -1203,9 +1198,9 @@ $
 $
 
 === Air Gap
-Due to the hysteresis curve of ferromagnetic materials, if a coil has enough current applied / windings the core reaches the point of saturation and becomes magnetised, reducing its subsequent permeability (gradient of the hysteresis graph), inductance and therefore ability to store *new* energy from the inducing current.
+Due to the hysteresis curve of ferromagnetic materials, if a coil reaches the point of saturation and becomes magnetised this reduces its subsequent permeability (gradient of the hysteresis graph), inductance and therefore ability to store *new* energy from the inducing current. Furthermore, it no longer behaves in a linear fashion.
 
-This can be solved with a small air gap, which increases the total reluctance and avoids saturation problems.
+This can be solved with a small air gap which avoids early saturation and therefore keeps the inductor linear and predictable for longer.
 
 Using Hopkinson's Law:
 $
@@ -1216,7 +1211,7 @@ Where $l$ is the length of the ferromagnetic core excluding the air gap. The gap
 
 Another advantage of the air gap is that it allows precise adjustments to the inductance value during the manufacturing process.
 
-However, it does significantly reduce the inductance and more windings are needed to compensate for this loss. A balance between maximum induced flux and amount of wire needed must be considered.
+However, it does significantly increase the reluctance and therefore reduce the inductance - more windings are needed to compensate for this loss.
 
 ==== A-value
 Ferromagnetic cores are sometimes assigned a value by manufacturers, so customers can wrap as many turns of wire as needed and for a target inductance:
