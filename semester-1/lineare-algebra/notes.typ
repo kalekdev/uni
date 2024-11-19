@@ -4,6 +4,8 @@
 
 https://students.aiu.edu/submissions/profiles/resources/onlineBook/Y5B7M4_Introduction_to_Linear_Algebra-_Fourth_Edition.pdf
 
+We live in a discrete, digital age.
+
 Übungsstunde Notizen:
 - https://n.ethz.ch/~jamatter/
 - https://www.felixgbreuer.com/linalg
@@ -427,8 +429,6 @@ When targeting inner columns, the reflection matrix should only be in the bottom
 == Linear Vector Spaces
 *"Es macht Spaß"* - _Vasile Gradinaru_
 
-LTD: Hilbert Space
-
 _Linear_ - Lines are mapped to lines after the transformation
 
 $RR^n$ and $CC^n$ are only two examples of many possible vector spaces. Considering the vector space $V$, the following operations / axioms are defined:
@@ -697,8 +697,6 @@ $
 
 Each element of $V'$ can be represented as a vector thanks to the Riesz representation theorem.
 
-TODO: Adjungierte Abbildung
-
 == Norms
 A norm is a function that transforms any element in a linear space to a positive real number. It must respect the following properties:
 #figure(
@@ -877,6 +875,13 @@ This can also be used to project a vector into a subspace through a smaller dime
 
 TODO: Lecture 14 & 15 Gilbert Strang, unsure what script means here
 
+== Hilbert Space
+_Metric Space (aka Pre-Hilbert space)_ - A space with an inner product that satisfies the previously defined criteria
+
+TODO: Define cauchy completeness, may still come up in analysis though
+
+_Hilbert Space_ - A complete metric space, limits are defined, which may be infinite dimensional
+
 == Gram-Schmidt
 _Orthonormal_ - Normalised orthogonal vectors; ie. a set of vectors that are orthogonal between one another and have length (norm) 1.
 
@@ -884,7 +889,7 @@ Orthonormality can be tested with dot products:
 - $< u, v > = 0$ - Orthogonal
 - $< u, u > = 1$ - Normal
 
-LTD: Does it matter which dot product you use, do they all work in the same way?
+LTD: Inner product or dot products?
 
 === Theorem
 The span of any set of linearly independent vectors can be spanned by a set of orthonormal vectors.
@@ -925,7 +930,7 @@ This can be alleviated by instead projecting the "orthogonaler" $u_k$ at each st
 This of course results in more computation but significantly reduces rounding errors. Other orthogonalisation algorithms seen in chapter *QR decomposition* using Householder matrices / rotations can have reduced error rates.
 
 === Legendre Polynomials
-The most straight-forward bases for $cal(P_n)$ are the monomes, but they are not orthonormal. Using the Gram-Schmidt method, the *Legendre Polynomials* can be derived from them, allowing us to represent any polynomial through an orthonormal basis (see `./exercises/legendre-polynomials.pdf`)
+The most straight-forward bases for $cal(P_n)$ are the monomes, but they are not orthonormal. Using the Gram-Schmidt method, the *Legendre Polynomials* can be derived from them, allowing us to represent any polynomial through an orthonormal basis (for proof see `./exercises/legendre-polynomials.pdf`)
 
 There are many other such sets of polynomials with special names, for example Hermite and Laguerre polynomials.
 
@@ -987,8 +992,98 @@ LTD: Implications of complex eigenvalues?
 
 TODO: Diagonalising matrices, diagonal entries are the eigenvalues, eigenbasis
 
+== Applications
+Finally, we can enjoy the wide variety of real world uses for linear algebra!
+
+=== Linear Regression
+This is one the fundamental algorithms in machine learning used for finding the best (this can have different interpretations) linear relationship between $n$ independent variables and a dependent variable(s). In other words, the dependent variable(s) is / are assumed to be a linear combination of the inputs and we are trying to determine the best linear combination for a set of sample points.
+
+Most real-world applications are expected to depend on not only one but several quantifiable inputs, for example the likelihood of getting cancer depending on several lifestyle choices.
+
+This most often uses the *least squares* approach for reducing error, which is carried out using techniques in linear algebra
+
+==== Linear Least Squares
+This can also be used to solve non-linear relationships by finding the multivariable minima through means of calculus, maybe a good LTD topic...
+
+LTD: Generalise for multiple dependent variables (https://en.wikipedia.org/wiki/General_linear_model) essentially performing multiple linear regressions simultaneously
+
+We suspect that there is a linear relationship between $n$ independent variables $bold(x) in RR^n$ and the dependent scalar $y in RR$ such that:
+$
+  bold(m) in RR^n, c in RR\
+  bold(m^T x) + c = y\
+$
+This linear combination + constant can be written in an easily extendible matrix form as the proposed answer vector $bold(a) in RR^(n + 1)$ and input matrix $bold(X) in RR^(1 times (n+1))$:
+$
+  bold(a) = vec(c, bold(m))\
+  bold(X) = mat(1, bold(x))
+$
+Such that:
+$
+  bold(X a) = c dot 1 + bold(<m\, x>) = y
+$
+
+To create a measure of error for an answer vector $a$, we can represent the *residual* for a proposed answer vector $bold(a)$ and an actual input (inside $bold(X)$) and output $y_1$:
+$
+  bold(X a) - y_1 = r\
+$
+Let us consider we have $s$ samples available to optimise our answer vector against. We can extend $bold(X)$ with each sample ${bold(x_1), bold(x_2), ..., bold(x_s)}$ and subtract the corresponding sample outputs $bold(y) = vec(y_1, y_2, ..., y_s)$ to calculate the set of residuals $bold(r) in RR^s$:
+$
+  bold(X) &= mat(
+  1, bold(x_1);
+  1, bold(x_2);
+...;
+  1, bold(x_s);
+)\
+  bold(X a - y &= r)
+$
+We can now convert this set of residuals into an unsigned scalar representing how "bad" the current answer vector $bold(a)$ is using a norm, usually the Euclidean $L_2$ norm:
+$
+  r &= norm(bold(r))
+$
+Our goal is to find the answer vector $bold(a)$ to minimise:
+$
+  norm(bold(X a - y))
+$
+for a given sample set encoded as $bold(X)$ and $bold(y)$.
+
+Of course in the vast majority of cases there is no perfect solution such that:
+$
+  r &=norm(bold(X a - y)) = 0\
+  bold(X a &= y)
+$
+In other words, $bold(y)$ is probably not in $"Im"bold(X)$. However, we are able to find the closest answer vector $bold(a) in "Im"bold(X)$ thanks to orthogonal projections!
+
+===== Finding the Projected Solution
+The current goal is to find the best answer $bold(a)$ such that $bold(X a &= y)$. We can express $arrow(y)$ as the sum of the closest vector in the image $bold(p) in "Im"bold(X)$ and another vector $bold(c) in "Kern" bold(A^T)$ which we know are orthogonal to one another thanks to the Fundamental Theorem of Linear Algebra:
+$
+  bold(X a &= y = p + c)\
+  bold(p &perp c)\
+$
+Their orthogonality means that $bold(c)$ is the shortest possible error from the real $arrow(y)$ possible. We can find $bold(p)$ by simply projecting $bold(y)$ onto the image of $bold(X)$.
+
+Thus we can now find a solution for answer vector $bold(a)$, because $bold(p)$ is guaranteed to be in the image of the matrix $bold(X)$:
+$
+  bold(X a &= p)\
+$
+This is the optimal solution to our regression problem :)
+
+To summarise the entire process, we can find the optimal solution for $bold(a)$ using the following formula (derived based on the discussed method), $bold(X)$ and the corresponding $bold(y)$ samples are given:
+$
+  bold(X^T X a = X^T y)
+$
+LTD: When would $X^T X$ not have full rank?
+
+TODO: Important identity somewhere: https://math.stackexchange.com/questions/1026624/can-product-of-two-singular-matrices-be-invertible
+
+Question 4: Any regression is better than none, so why wouldn't it be sinnvol? Theres a lot of sample $X$s without full rank out there with perfectly reasonable regressions...
+
+
+The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
+
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
+
+Calculating determinants using adjugate matrix
 
 _Non-Zero determinant_ - No information is lost, there is precisely one transformation which reverses the effects on space (inverse matrix)
 

@@ -2,11 +2,11 @@
 
 #outline()
 
+LTD read https://engineeringstatics.org
+
 _Kinematiks_ - How a model is currently at motion without concern for the causes (forces)\
-_Statics_ - Which conditions (forces & moments) are needed to keep a system at
-rest\
-_Dynamics_ - Which conditions are needed to create movement in a system in a
-certain way\
+_Statics_ - Which conditions (forces & moments) are needed to keep a system at rest\
+_Dynamics_ - Which conditions are needed to create movement in a system in a certain way\
 
 Vector Identities:\
 $arrow(a) times (b + c) = arrow(a) times arrow(b) + arrow(a) times arrow(c)$\
@@ -343,25 +343,68 @@ As usual in a torque, the origin of the moment is irrelevant.
 
 LTD: Do not assume all tensions are equal in pulleys exam!
 
-TODO: Add useful trig identities, special triangles
+=== Static Determinacy
+_Statically Determinate_ - A system where the constraint forces can be determined through the statics conditions when an external dynamic (effect of a force) is applied (for example the weight of a rod etc). The linear system of constraints (reaction forces + moments) has a single solution.
 
-==== Static Determinacy
-If the number of constraint forces and moments is equal to the number of equilibrium conditions.
-TODO: What does this imply? A static can always be determined? Clean up
+This essentially means that the system of equations doesn't have full rank and has infinite / no solutions when a resultant force + moment needs to be found to counteract a new external force.
 
-This essentially means that the system of equations doesn't have full rank and has infinite / no solutions.
+Each degree of a freedom in the system delivers one independent constraint, this can be used to easily check if the system is statically determinate:
+- $f = 0$ - Statically determinate; an equilibrium is always possible
+- $f < 0$ - Statically underdetermined; not enough conditions to determine unique, suitable constraints. The constraint forces can take on infinite values (described by the free variables) to maintain rest as an external dynamic is introduced.
+- $f > 0$ - The system is statically overdetermined. A solution is only possible for very specific loads.
 
-$f > 0$ - the system is statically undetermined, movement means the forces can take on infinite values
-$f = 0$ - statically determined
-$f < 0$ - constraint forces cannot be determined, overconstrained intuition? is it because either one of the constraints can be high enough to stop movement (we can't say for sure which one), multiple constraints per possible movement?
+LTD: Double check above intuition, might be erroneous
 
-_Kinematic Certainty_
+=== Stability
+_Contact area_ - the smallest convex area that encloses all of a bodies contact points with the floor.
+#figure(
+  image("images/contact-area.png", width: 20%),
+) <fig-contact-area>
 
-== Stability
-Surface integral of friction forces on contact area. TODO: Maths
+Stability problems can be solved using the *average* reaction force and its corresponding moment as the individual molecular forces and contact points are obviously unknown. However, the mechanically accurate resultant and moment would look like:
+$
+  N_R &= integral.double d arrow(N)\
+  N_M &= integral.double arrow(r) times d arrow(N)\
+$
 
-System is stable if the average point on which the normal force acts is within the contact surface
+_Stability_ - A system is stable if the average normal force and its corresponding moment acts within the contact area.
 
-ie weight is acting through or before the tipping point
+Another way to think of this is if the "average" weight (from the center of mass in simple systems) acts within the contact area (before the tipping point of a block for instance), as the normal reacts at that point too.
 
-This is tipping point from A levels :D
+We can then formulate constraints under which stability remains satisfied which are useful when choosing the dimensions of an object.
+
+Alternatively individual contact forces can be analysed, for example each leg of a table, however this is often more cumbersome.
+
+== Friction
+Friction is the phenomenon of irregularities in the surfaces of materials resisting their relative motion. It is completely a braking force, acting in the opposite direction of the velocity and converting energy away from the system into heat. Friction is responsible for 20% of our energy expenditure!
+
+However it is more often than not a useful force, which is for example needed to exert lift in airplane wings and to keep vehicles from crashing as they take a turn.
+
+=== Dry Friction
+Of course, calculating the exact fricitonal force of each irregularity in a surface is not a good idea. Experiments show that the force needed to accelerate and then maintain an object on a frictional surface at a certain velocity (ie it becomes equal to the current friction) is initially higher than after it is in motion, where it becomes linearly proportional to the current normal force (and therefore the weight of the object).
+#figure(
+  image("images/dry-friction.png", width: 80%),
+) <fig-dry-friction>
+In practice we can ignore the changing constant of proportionality and simply define two constants:
+- $mu_0$ - Dry static friction (Haftreibung):
+$
+  abs(F) <= mu_0 abs(N)
+$
+The force is $<=$ because it would only be at full effect if the object is on the verge of sliding. Considering for example a box on a ramp, when the angle of the ramp is 0, no friction is acting on it yet. $abs(F) = mu_0 abs(N)$ when the so called *critical angle* of the ramp is reached. This also helps us define a range for an external, tangential force within which the object remains at rest.
+- $mu_1$ - Dry kinetic friction (Gleitreibung):
+$
+  abs(F) = mu_1 abs(N)
+$
+This is called Coulomb's Frictional Law. As a vector:
+$
+  F = -mu_1 abs(N) arrow(v) / abs(arrow(v))
+$
+
+Here are some typical coefficient values:
+#figure(
+  image("images/friction-coefficients.png", width: 80%),
+) <fig-friction-coefficients>
+
+TODO:
+- Add useful conversions to formula sheet (km/h - m/s etc.)
+- Frictional moment (https://en.wikipedia.org/wiki/Rolling_resistance)
