@@ -1071,12 +1071,19 @@ To summarise the entire process, we can find the optimal solution for $bold(a)$ 
 $
   bold(X^T X a = X^T y)
 $
-However, this is still not guaranteed to have a solution, namely when $bold(X)$ doesn't have full rank (can happen quite often for perfectly reasonable samples), quite wasteful data cleaning may need to happen to ensure this method is fit for use, hence why it is rarely used in practice.
+However, this is still not guaranteed to have a solution, namely when $bold(X)$ doesn't have full rank (can happen quite often for perfectly reasonable samples). Furthermore, it is very sensitive to rounding errors.
 
 TODO Question 4: Any regression is better than none, so why wouldn't it be sinnvol? Theres a lot of sample $X$s without full rank out there with perfectly reasonable regressions...
 
 ===== QR-Decomposition Method
+This method solves the rounding error issue, although it still only works if $bold(X)$ has full rank. Quite wasteful data cleaning can be done to ensure this method is fit for use, hence why singular value decomposition is used much more commonly in practice.
 
+We can rewrite $bold(X a &= y)$ using the QR decomposition of $bold(X)$:
+$
+  bold(X &= Q R)\
+  bold(Q R a &= y)\
+  bold(R a &= Q^H y)
+$
 
 LTD: The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
 
