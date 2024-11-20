@@ -1053,13 +1053,13 @@ $
 $
 In other words, $bold(y)$ is probably not in $"Im"bold(X)$. However, we are able to find the closest answer vector $bold(a) in "Im"bold(X)$ thanks to orthogonal projections!
 
-===== Finding the Projected Solution
+===== Orthogonal Projection Method
 The current goal is to find the best answer $bold(a)$ such that $bold(X a &= y)$. We can express $arrow(y)$ as the sum of the closest vector in the image $bold(p) in "Im"bold(X)$ and another vector $bold(c) in "Kern" bold(A^T)$ which we know are orthogonal to one another thanks to the Fundamental Theorem of Linear Algebra:
 $
   bold(X a &= y = p + c)\
   bold(p &perp c)\
 $
-Their orthogonality means that $bold(c)$ is the shortest possible error from the real $arrow(y)$ possible. We can find $bold(p)$ by simply projecting $bold(y)$ onto the image of $bold(X)$.
+Their orthogonality means that $bold(c)$ is the shortest possible error from the real $arrow(y)$ possible. We can find $bold(p)$ by simply projecting $bold(y)$ onto the image subspace of $bold(X)$.
 
 Thus we can now find a solution for answer vector $bold(a)$, because $bold(p)$ is guaranteed to be in the image of the matrix $bold(X)$:
 $
@@ -1071,17 +1071,19 @@ To summarise the entire process, we can find the optimal solution for $bold(a)$ 
 $
   bold(X^T X a = X^T y)
 $
-LTD: When would $X^T X$ not have full rank?
+However, this is still not guaranteed to have a solution, namely when $bold(X)$ doesn't have full rank (can happen quite often for perfectly reasonable samples), quite wasteful data cleaning may need to happen to ensure this method is fit for use, hence why it is rarely used in practice.
 
-TODO: Important identity somewhere: https://math.stackexchange.com/questions/1026624/can-product-of-two-singular-matrices-be-invertible
+TODO Question 4: Any regression is better than none, so why wouldn't it be sinnvol? Theres a lot of sample $X$s without full rank out there with perfectly reasonable regressions...
 
-Question 4: Any regression is better than none, so why wouldn't it be sinnvol? Theres a lot of sample $X$s without full rank out there with perfectly reasonable regressions...
+===== QR-Decomposition Method
 
 
-The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
+LTD: The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
 
 == Upcoming
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
+
+TODO: Important identity somewhere after determinant identities: https://math.stackexchange.com/questions/1026624/can-product-of-two-singular-matrices-be-invertible
 
 Calculating determinants using adjugate matrix
 
