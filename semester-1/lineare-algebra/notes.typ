@@ -962,6 +962,16 @@ Advantages:
 Disadvantages:
 - Very numerically unstable compared to other orthogonalization methods
 
+== Determinants
+_Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
+
+TODO: Important identity somewhere after determinant identities: https://math.stackexchange.com/questions/1026624/can-product-of-two-singular-matrices-be-invertible
+
+Calculating determinants using adjugate matrix
+
+_Non-Zero determinant_ - No information is lost, there is precisely one transformation which reverses the effects on space (inverse matrix)
+
+
 == Eigenwerte und Eigenvektoren
 _Eigenvectors_ - Vectors which a linear transformation scales onto the original line it spans.\
 _Eigenvalues_ - The corresponding scalar by which a set of eigenvectors is multiplied by.
@@ -1076,7 +1086,7 @@ However, this is still not guaranteed to have a solution, namely when $bold(X)$ 
 TODO Question 4: Any regression is better than none, so why wouldn't it be sinnvol? Theres a lot of sample $X$s without full rank out there with perfectly reasonable regressions...
 
 ===== QR-Decomposition Method
-This method solves the rounding error issue, although it still only works if $bold(X)$ has full rank. Quite wasteful data cleaning can be done to ensure this method is fit for use, hence why singular value decomposition is used much more commonly in practice.
+This method solves the rounding error issues, although it still only works if $bold(X)$ has full rank (the upper $bold(R)$ matrix has the same rank as the input). Quite wasteful data cleaning can be done to ensure these methods are fit for use, hence why singular value decomposition is used much more commonly in practice.
 
 We can rewrite $bold(X a &= y)$ using the QR decomposition of $bold(X)$:
 $
@@ -1084,18 +1094,17 @@ $
   bold(Q R a &= y)\
   bold(R a &= Q^H y)
 $
+Assuming the matrix $bold(X)$ has rank $n$, only the first $n$ rows contain are non-0 in the $bold(R)$ matrix, and therefore only the first $n$ rows of the RHS matter when solving for $bold(a)$. In block form this looks something like this:
+$
+  vec(bold(R |_n), 0) bold(a) = vec(bold((Q^H y)) |_n, r_(n+1), ..., r_s)
+$
+Where $dot |_n$ represents the first $n$ rows of a matrix / vector.
+
+We can now solve $bold(R|_n a = (Q^H y)|_n)$ The rest of the elements of $bold(Q^H y)$, named $r_(n+1), ..., r_s$, represent the residuals of the optimal solution - their norm shows exactly what the lowest possible error is for the sample.
 
 LTD: The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
 
 == Upcoming
-_Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
-
-TODO: Important identity somewhere after determinant identities: https://math.stackexchange.com/questions/1026624/can-product-of-two-singular-matrices-be-invertible
-
-Calculating determinants using adjugate matrix
-
-_Non-Zero determinant_ - No information is lost, there is precisely one transformation which reverses the effects on space (inverse matrix)
-
 Next 3B1B Video - Dot products and duality
 
 LTD:
