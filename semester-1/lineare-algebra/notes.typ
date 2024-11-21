@@ -65,6 +65,8 @@ $
 
 == Fundamentals
 === Vectors
+LTD: Review what linear algebra is all about: https://en.wikipedia.org/wiki/Linear_map
+
 _Lineare kombination_ - Summe von skalierten Vektoren\
 _Linearly dependent_ - When two vectors can be expressed as a linear combination of the other and thus doesn't add any information to a LGS.
 _Basis_ - the set of linearly independent vectors $e_1 ... e_n$ that span all of space $R^n$
@@ -196,15 +198,17 @@ $"Rank"(bold(A X)) = min("Rank"(bold(A)), "Rank"(bold(X)))$
 Matrix multiplication is usually not commutative, however always associative and distributive.
 
 === Inverse
-The inverse of a matrix $bold(A)$ is denoted as $bold(A^(-1))$, which reverses the transformation of space represented by matrix $bold(A)$. Therefore $bold(A A^(-1) = I)$.
+The inverse of a square matrix $bold(A)$ is denoted as $bold(A^(-1))$, which reverses the transformation of space represented by matrix $bold(A)$. Therefore $bold(A A^(-1) = I)$.
 
-The inverse can be used to solve a LGS for arbitrary RHS vectors.
+The inverse can be used to solve a LGS for arbitrary RHS vectors and only exists for square matrices by definition.
 
-_Regulaer, invertierbar und voller Rang_ sind synonyme dafuer, dass eine Matrix einen Inverse hat. Therefore here are some equivalent conditions which show that a matrix $bold(A)$ is regular:
+*Regular, invertable and full rank* are synonyms meaning that a matrix has an inverse. Here are some equivalent conditions which show that a matrix $bold(A)$ is regular:
 - $bold(A)$ is invertierbar
 - Rang($bold(A)) = n$
 - $bold(A x = b)$ is solvable for any $bold(b)$
 - $bold(A x = 0)$ only has the trivial solution $x=0$
+
+*IMPORTANT*: Just because a matrix is not invertible, does not mean that an LGS it appears in has no solutions! It just cannot be guaranteed to have a single solution for arbitrary RHSs, for example an underdefined system of equations $m < n$ may have infinite solutions and an overdefined system $n < m$ only has a solution for very specific RHSs.
 
 Identities:
 $
@@ -261,8 +265,6 @@ mat(
   0, 0, 1;
 ) vec(b_1, b_2, b_3) = vec(b_1, 2b_1 + b_2, b_3)
 $
-
-*Cool Fact*: Just before each row was multiplied to make the pivots 1, the pivots of the LHS multiplied together is equal to the determinant, which is how computers calculate it for very large matrices. This can also be related to the fact, that a matrix is only invertable if its determinant is non 0 (therefore there are no empty rows / pivots).
 
 == LU Lower Upper (LR Left Right) Zerlegung
 A matrix can be decomposed into an upper and lower matrix, such that:
@@ -963,14 +965,63 @@ Disadvantages:
 - Very numerically unstable compared to other orthogonalization methods
 
 == Determinants
+#figure(
+  image("images/multilinear-function.png", width: 70%),
+) <fig-multilinear-function>
+The determinant is multilinear transformation only defined for square matrices:
+$
+  det: CC^(n times n) -> CC
+$
+#figure(
+  image("images/determinant.png", width: 70%),
+) <fig-determinant>
+There is no other function that fulfils these properties.
+
+=== Properties
+- Adding a linear combination of other rows does not affect the matrix's determinant:$
+  bold(A = L U) => det bold(A) = det bold(U)\
+  bold(P A = L U) => det bold(A) = det bold(P) dot det bold(U)
+$
+- A zero column or row means the matrix must have $det dot = 0$, it doesn't have full rank.
+- The determinant of any *upper* square matrix is the product of its diagonals
+- $
+    det bold(A B) = det bold(A) dot det bold(B)
+  $
+- $
+    det bold(A^T) = det bold(A)\
+    det bold(A^H) = overline(det bold(A))
+  $
+- $
+    det bold(A^(-1)) = 1 / (det bold(A))
+  $
+- TODO: Mention orthogonal transformation determinant, affect on other matrix, QR decomposition
+- It is the factor by which the n-dimensional volumes (the volume spanned by vectors) are scaled after the matrix's transformation is applied (LTD: relate to bivectors)
+- TODO: Relate cross product's area to determinant
+
+TODO: It can also be used to find the inverse and solve LGS: Cramer's Rule (can also conver adj matrix here https://en.wikipedia.org/wiki/Determinant#Adjugate_matrix), although this isn't the most computationally efficient.
+
+The determinant can be calculated using a variety of methods, however it is most commonly done alongside Gaussian elimination.
+
+=== Gaussian Elimination
+After the matrix has been eliminated to row-echelon form (upper matrix, pivots haven't been multiplied to 1), the determinant is equal to the product of all the diagonal elements.
+
+This makes intuitive sense - if the matrix doesn't have full rank (more columns than pivots) there will be a 0 on the diagonal and hence the diagonal product & determinant are also equal to 0; the matrix is not invertible.
+
+The following formulae for $2 times 2$ and $3 times 3$ matrices can be derived from this method:
+The 3x3 formula can be useful if the matrix has a lot of 0s we can exploit when calculating by hand instead of elimination
+
+Mention P matrix determinant -> rule that sign of total determinant x-1 each time
+
+=== Leibnitz Formula
+Write algorithmish explanation, columns / rows allowed to traverse thru
+
+=== Laplace
+
 _Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
 
 TODO: Important identity somewhere after determinant identities: https://math.stackexchange.com/questions/1026624/can-product-of-two-singular-matrices-be-invertible
 
-Calculating determinants using adjugate matrix
-
 _Non-Zero determinant_ - No information is lost, there is precisely one transformation which reverses the effects on space (inverse matrix)
-
 
 == Eigenwerte und Eigenvektoren
 _Eigenvectors_ - Vectors which a linear transformation scales onto the original line it spans.\
@@ -1022,14 +1073,14 @@ $
   bold(m) in RR^n, c in RR\
   bold(m^T x) + c = y\
 $
-This linear combination + constant can be written in an easily extendible matrix form as the proposed answer vector $bold(a) in RR^(n + 1)$ and input matrix $bold(X) in RR^(1 times (n+1))$:
+This linear combination + constant can be written in an easily-extendible matrix form as the proposed answer vector $bold(a) in RR^(n + 1)$ and input matrix $bold(X) in RR^(1 times (n+1))$:
 $
-  bold(a) = vec(c, bold(m))\
-  bold(X) = mat(1, bold(x))
+  bold(a) = vec(c, bold(m), ...)\
+  bold(X) = mat(1, bold(x), ...)
 $
 Such that:
 $
-  bold(X a) = c dot 1 + bold(<m\, x>) = y
+  bold(X a) = c dot 1 + bold(<x\, m>) = y
 $
 
 To create a measure of error for an answer vector $a$, we can represent the *residual* for a proposed answer vector $bold(a)$ and an actual input (inside $bold(X)$) and output $y_1$:
@@ -1039,10 +1090,10 @@ $
 Let us consider we have $s$ samples available to optimise our answer vector against. We can extend $bold(X)$ with each sample ${bold(x_1), bold(x_2), ..., bold(x_s)}$ and subtract the corresponding sample outputs $bold(y) = vec(y_1, y_2, ..., y_s)$ to calculate the set of residuals $bold(r) in RR^s$:
 $
   bold(X) &= mat(
-  1, bold(x_1);
-  1, bold(x_2);
-...;
-  1, bold(x_s);
+  1, bold(x_1), ...;
+  1, bold(x_2), ...;
+..., ..., ...;
+  1, bold(x_s), ...;
 )\
   bold(X a - y &= r)
 $
@@ -1109,3 +1160,4 @@ Next 3B1B Video - Dot products and duality
 
 LTD:
 - 4D, Flatland trick, hyperplane, cube etc
+- Jacobian
