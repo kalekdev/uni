@@ -65,10 +65,20 @@ A CMOS gate can be split into two networks / Pfads:
 )
 These can be converted between one another by breaking the circuit into parallel / series blocks until each block contains one transistor, then switching the type of transistor and connecting them again in the opposite manner (parallel $<=>$ series). V_DD becomes the output and the output becomes ground.
 
+LTD: Add some diagrams of CMOS circuits
+
 === Switching Delays
 - $t_(p H L), t_(p L H)$ - Propogation delay - Time taken between a 50% change in the input voltage leading to a 50% change in the output
 - $t_(t H L) (t_"fall"), t_(t L H) (t_"rise")$ - Time between the output rising / falling between 10% and 90% voltage
 $t_d = (t_(p H L) +t_(p L H)) / 2$ - Average switching time, easier to work with in practice
+
+=== Transmission Gate
+These extremely simple gates are the CMOS equivalent of physical switches / relays, transmitting a signal if the T pin is high.
+#figure(
+  image("images/trans-gate.png", width: 80%),
+) <fig-trans-gate>
+
+LTD: Understand why it works like that, the GS voltage doesn't always make sense...
 
 == Boolean Algebra
 The following properties apply to an expresion only containing AND / OR gates:
@@ -147,7 +157,7 @@ _Don't care_ - Combinations of inputs for which the output doesn't matter, for e
 
 #image("images/karnaugh-diagram-5.png", width: 40%)
 
-_Static hazards_ - When the same variable is used in a parent logic gate, changes in the variable can lead to delayed "notches" in the parent's output due to time delays. These can be recognized in Karnaugh diagrams: where two packets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet two join the place of the hazard - this results in more gates overall but avoids the hazard.
+_Static hazards_ - When the same variable is used in a parent logic gate, changes in the variable can lead to delayed "notches" in the parent's output due to time delays. These can be recognized in Karnaugh diagrams: where two packets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet to join the place of the hazard - this results in more gates overall but avoids the hazard.
 
 TODO: Finish exercise series
 
@@ -204,7 +214,7 @@ Addition of 4x1s = Carry over 1 two places. This applies in general to all carry
 Binary subtraction can be written as the addition of 2s complement numbers. It will simply work and the MSB will be an accurate signing bit. IMPORTANT: Do not forget +'ve number signing bit!
 
 == Encoding
-Tetraden / Nibble - groups of 4 bits
+Tetrad / Nibble - groups of 4 bits
 
 Many different ways to encode 10 numbers, each has their advantages / disadvantages. For example, Gray / O'Brien encoding is useful for counting, because they are assigned in such a way that only 1 bit changes per increment.
 
@@ -216,7 +226,8 @@ An extra word containg parity bits of the columns when the previous words are ar
   image("images/error-correction.png", width: 60%),
 ) <fig-error-correction>
 
-== Datapath Circuits
+== Combinatronic Circuits
+_Combinatronic (aka Datenpfad)_ circuits create a pure output that solely depends on the current inputs.
 
 === Multiplexer
 Outputs one selected bit from several inputs using a (in this case 2 digit) binary selection signal. Circuit is simply a set of minterms $(not S_0 and not S_1 and D_0) or (not S_0 and S_1 and D_1) or (S_0 and not S_1 and D_2) or (S_0 and S_1 and D_3)$
@@ -234,7 +245,10 @@ Inverse of a multiplexer, selects at which output a signal is outputed:
 Converts between number encoding. Create KNF -> Karnaugh diagram for each output and the set of inputs, regular circuit synthesis procedure.
 
 === Half Adder
-Outputs the sum of two binary digits and the remainder (Carry Out CO) to be passed to an adjacent full-adder one place value higher. Symbol has $sum$ on it.
+Outputs the sum of two binary digits and the remainder (Carry Out CO) to be passed to an adjacent full-adder one place value higher.
+#figure(
+  image("images/half-adder.png", width: 60%),
+) <fig-half-adder>
 
 === Full Adder
 3 inputs: A, B and Carry In (CI) for a lower CO bit. Simply a combination of two half adders plus an OR gate taking in CI and CO of the internal half adder.
@@ -282,18 +296,130 @@ Multiplication occurs in the same way for any radix, through shifting and additi
 The shifting logic can be built by simply wiring several adders (Basiszellen) together or using a single adder and multiplexer + counter (Booth's Algorithm).
 
 == Sequential Circuits
-Sequential circuits depend not only on the inputs but also the previous state.
-TODO: formal definition
-TODO: Mention how logic tables are used with previous states -> state n+1
+Sequential circuits depend not only on the current inputs but also the previous state ie a function with two sets of inputs. They incorporate memory through back connections (Rückkopplungen).
 
-=== SR-Latch
+Truth tables / Karnaugh diagrams for such circuits can be found by including previous states $Q_n$ as an input variable and calculating resulting output states $Q_(n+1)$. The back connection has effectively been cut and replaced with an additional input.
+
+=== Latches
+These are components that store a single bit based on signal levels (Zustandsgesteuert) instead of signal transitions.
+
+==== SR-Latch
+This is the most basic latch, storing a single bit which can be controlled using the Set and Reset inputs.
+#figure(
+  image("images/sr-latch.png", width: 60%),
+) <fig-sr-latch>
 TODO: Diagrams of both variants
-TODO: Draw / find state diagram, describe pin functionality
-Q2 is simply $not Q 1$
 
-=== Clock-controlled Latch
-Just like SR but the S and R pins only take effect when the clock is high.
-TODO: Symbol, Circuit and state diagrams
-TODO: is this called edge triggered?
+When set is high, the output Q instantly becomes high. When reset goes high, Q instantly becomes low (the memory is reset). If they are both low, the current saved state is output. S and R high is an invalid input (can be written as a Don't Care state) and results in unstable behaviour.
+#figure(
+  image("images/sr-latch-states.png", width: 40%),
+) <fig-sr-latch-states>
 
-=== D-Latch
+Alternatively, it can be built using NAND gates, using inverted inputs instead. This is useful when the inputs are off by default, for example a switch.
+#figure(
+  image("images/inverted-sr-latch.png", width: 60%),
+) <fig-inverted-sr-latch>
+
+==== Clock-controlled Latch
+This has the same behaviour as a regular SR-Latch, but the S and R pins only take effect when T is high (also known as a gate controlled latch), simply by introducing two AND gates between S+T and R+T. This is useful to only allow changes during a high clock pulse and it is the basic building block of flip flops later (however unlike flip-flops, its memory can be changed anytime whilst T is high).
+#figure(
+  image("images/clock-sr-latch.png", width: 60%),
+) <fig-clock-sr-latch>
+
+==== D-Latch
+Co-ordinating two separate set / reset signals can be tricky, so this latch allows us to control the new desired state using a single Data pin. Of course, if the clock signal were always 1, this simply mirrors the state of D, therefore it is designed for storing during the off clock period.
+#figure(
+  image("images/d-latch.png", width: 60%),
+) <fig-d-latch>
+
+=== Flip-Flops
+These are similar to latches but they only store the value during a rising / falling edge of a clock signal (Taktflankengesteuert), protecting against undesired signal errors during the storing state of the cycle.
+#figure(
+  image("images/edge-symbols.png", width: 60%),
+) <fig-edge-symbols>
+
+Sometimes a reset pin is also built in, allowing us to interrupt the signal and instantly reset regardless of the current clock state.
+
+==== D-Flipflop
+This can be achieved using a leader-follower structure of two internal latches operating on an inverted clock, whether the leader or follower recieves the inversion chooses if its a rising or falling edge operated flipflop.
+
+In the example below, the first latch is set whilst the clock is low, then the second latch accepts this saved value as the clock rises. This is a safer design as the connection between the 1st and 2nd latch is safe from external hazards.
+#figure(
+  image("images/d-flipflop.png", width: 60%),
+) <fig-d-flipflop>
+
+They are most commonly used in practice as they can be constructed using very few transistors in CMOS technology, where the transmission gates control if the data can progress through each step:
+#figure(
+  image("images/d-flipflop-cmos.png", width: 60%),
+) <fig-d-flipflop-cmos>
+#figure(
+  image("images/d-flipflop-cmos-raw.png", width: 60%),
+) <fig-d-flipflop-cmos-raw>
+LTD: The double NOT gates are needed for some kind of stability rather than a short circuit, understand exactly why
+
+==== SR-Flipflop
+These are rarely used in practice but are the same concept - the current state of S and R only takes effect during a rising / falling clock.
+#figure(
+  image("images/sr-flipflop.png", width: 50%),
+) <fig-sr-flipflop>
+
+==== JK-Flipflop
+The Jump and Kill pins function as the S and R pins, however both are allowed to be high, which simply toggles the output.
+#figure(
+  image("images/jk-flipflop.png", width: 60%),
+) <fig-jk-flipflop>
+#figure(
+  image("images/jk-from-d-fliplop.png", width: 60%),
+) <fig-jk-from-d-fliplop>
+
+==== T-Flipflop
+This simply toggles the output at every rising edge.
+#figure(
+  image("images/t-flipflop.png", width: 60%),
+) <fig-t-flipflop>
+
+Alternatively the toggling functionality can be turned on or off using a JK-flipflop.
+#figure(
+  image("images/jk-t-flipflop.png", width: 60%),
+) <fig-jk-t-flipflop>
+
+==== Delayed-Flipflop
+This consists of 2 combined flipflops, a change taken in during a rising signal is only outputed after the corresponding falling signal and vice versa.
+#figure(
+  image("images/delayed-flipflop.png", width: 60%),
+) <fig-delayed-flipflop>
+
+==== Timing
+The delays for a given flipflop must be respected to ensure correct operation:
+- $t_(p d)$ - Propagation delay - time until a succesful save appears at the output, starts at 50% of the clock edge, ends when 50% of the new output is reached (if a change occurs).
+- $t_s$ - Setup time - How long the input signal must stay constant before the edge, so that it's guaranteed to have been taken in by the leader latch.
+- $t_h$ - Hold time - How long the input must stay constant after the edge to ensure the follower latch accepts it.
+#figure(
+  image("images/flip-flop-timing.png", width: 80%),
+) <fig-flip-flop-timing>
+
+These delays can be combined to analyse the minimum clock period (and therefore maximum clock frequency; the fastest rate at which we are allowed to operate a computer) of a complex circuit involving several flip flops and combinatronic circuits.
+
+For instance in the circuit below, the minimal clock period must be $t_(p d f f 1) + t_(p d k s) + t_(p d f f 2)$ to ensure a signal can make it through the circuit before the clock signal changes:
+#figure(
+  image("images/min-clock-period.png", width: 60%),
+) <fig-min-clock-period>
+
+Of course if a circuit contains several branches, the branch with the longest delay represents hte minimum clock period.
+
+==== Applications
+Apart from stable 1-bit storage, flipflops can be useful building blocks for a variety of functional components.
+
+===== Frequency Divider
+Chained T-flipflops are useful to reduce the clock frequency, each flipflop reduces it by a factor of two, hence:
+$
+  f_"Target" &= f_"Clock" / 2^n\
+  n &= log_2 (f_"Clock" / f_"Target")
+$
+
+===== Counter
+The intermittent and final output state can also be used as a 2-digit binary counter:
+#figure(
+  image("images/flipflop-counter.png", width: 60%),
+) <fig-flipflop-counter>]
+LTD: Can this extended to more than 2 digits?
