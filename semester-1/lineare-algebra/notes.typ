@@ -155,10 +155,12 @@ $
 $
 This can be thought of as pinning the first elements of each row and letting the rest of the row swing down vertically.
 
-_Hermitian matrix_ - $bold(A) in CC^(m times n), bold(A^H)$ - The same procedure however each element becomes its complex conjugate $overline(a)$, written as $bold(A^dagger)$ in physics.
+==== Hermitian matrix
+$bold(A) in CC^(m times n), bold(A^H)$ - The same as a transposed matrix however each element becomes its complex conjugate $overline(a)$, written as $bold(A^dagger)$ in physics.
 
 LTD: Investigate thoroughly https://en.wikipedia.org/wiki/Hermitian_adjoint
 
+==== Properties
 Vectors may be treated like $RR^(n times 1), CC^(n times 1)$ matrices and transposed in the same manner.
 
 Matrix addition / scalar multiplication is carried out in the same way as vectors.
@@ -173,6 +175,33 @@ The rank of a matrix is the same as its tranpose:
 $
   "Rank"(bold(A)) = "Rank"(bold(A^T))
 $
+
+=== Minor Matrix
+This is the matrix formed by removing a certain row and column, useful for computing the determinant in Laplace Expansion.
+
+Consider the following matrix:
+$
+  bold(M) = mat(
+  1, 2, 3;
+  4, 5, 6;
+  7, 8, 9
+)
+$
+A certain minor can be written as $bold(M_(i, j))$ where $i$ and $j$ respectively are the row and column number (1-indexed) to remove from the matrix:
+$
+  bold(M_(1, 1)) = mat(
+  square, square,square;
+  square, 5, 6;
+  square, 8, 9
+) = mat(5, 6; 8, 9)\
+  bold(M_(3, 2)) = mat(
+  1, 3;
+  4, 6
+)
+$
+
+=== Adjugate Matrix
+TODO: cover adj matrix here https://en.wikipedia.org/wiki/Determinant#Adjugate_matrix
 
 === Matrix Symmetry
 _Symmetrical_ - $bold(A^T) = bold(A)$\
@@ -216,7 +245,7 @@ $
   bold((A^T)^(-1) = (A^(-1))^T)
 $
 
-=== Eliminationsmatrix (aka Protokolmatrix)
+=== Elimination Matrix
 Matrix used for tracking the process of Gaussian elimination. The LHS / RHS multiplied by the elimination matrix results in the current state of the elimination!
 
 It starts as the identity matrix, then the scalar by which another row was multiplied by before adding is written in the position of the currently eliminated variable of the row it was added to.
@@ -266,7 +295,7 @@ mat(
 ) vec(b_1, b_2, b_3) = vec(b_1, 2b_1 + b_2, b_3)
 $
 
-== LU Lower Upper (LR Left Right) Zerlegung
+== LU Lower Upper (LR Left Right) Decomposition
 A matrix can be decomposed into an upper and lower matrix, such that:
 $
   bold(A = L U)\
@@ -303,7 +332,7 @@ The decomposed system can then be used to solve for $bold(x)$ in the following w
 
 LTD: Other decomposition methods (Cholesky etc)
 
-== Orthogonale Matrizen
+== Orthogonal Matrices
 _Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space.
 
 In other words, the columns are rows of an orthogonal matrix are orthonormal to each other (see Gram-Schmidt).
@@ -994,34 +1023,43 @@ $
 - $
     det bold(A^(-1)) = 1 / (det bold(A))
   $
-- TODO: Mention orthogonal transformation determinant, affect on other matrix, QR decomposition
-- It is the factor by which the n-dimensional volumes (the volume spanned by vectors) are scaled after the matrix's transformation is applied (LTD: relate to bivectors)
+- $
+    det bold(Q) = 1 or -1
+  $ Orthogonal matrices either rotate or reflect space and are unitary. However, this is no guarantee of orthogonality.
+- It is the factor by which the n-dimensional volumes (the volume spanned by $n$ vectors) are scaled after the matrix's transformation is applied (LTD: relate to bivectors).
+- A 0 determinant geometrically implies that it transforms the volume to 0 $->$ down a dimension. Information is lost and the transformation cannot be inverted.
 - TODO: Relate cross product's area to determinant
 
-TODO: It can also be used to find the inverse and solve LGS: Cramer's Rule (can also conver adj matrix here https://en.wikipedia.org/wiki/Determinant#Adjugate_matrix), although this isn't the most computationally efficient.
+These properties are useful for making statements about the singularity of various matrix products.
 
 The determinant can be calculated using a variety of methods, however it is most commonly done alongside Gaussian elimination.
 
+LTD: It can also be used to find the inverse and solve LGS: Cramer's Rule, although this isn't computationally efficient.
+
 === Gaussian Elimination
-After the matrix has been eliminated to row-echelon form (upper matrix, pivots haven't been multiplied to 1), the determinant is equal to the product of all the diagonal elements.
+After the matrix has been eliminated to row-echelon form (upper matrix, pivots haven't been reduced to 1), the determinant is equal to the product of all the diagonal elements.
 
 This makes intuitive sense - if the matrix doesn't have full rank (more columns than pivots) there will be a 0 on the diagonal and hence the diagonal product & determinant are also equal to 0; the matrix is not invertible.
 
-The following formulae for $2 times 2$ and $3 times 3$ matrices can be derived from this method:
-The 3x3 formula can be useful if the matrix has a lot of 0s we can exploit when calculating by hand instead of elimination
+It is perfectly fine to swap rows using a permutation matrix, the resulting determinant is simply $det bold(P) dot det bold(A)$. To avoid the need to calculate the permutation matrix's determinant: each time two rows are swapped the sign flips (multiply the determinant by $times -1$).
 
-Mention P matrix determinant -> rule that sign of total determinant x-1 each time
+The following formulae for $2 times 2$ matrices can be derived from this method:
+$
+  abs(mat(a, b; c, d)) = a d - b c
+$
+Which is a useful result when performing Laplace Expansion.
 
-=== Leibnitz Formula
-Write algorithmish explanation, columns / rows allowed to traverse thru
+=== Laplace Expansion
+This method uses the determinant of minor matrices multiplied by signed elements of a row or column, making it useful for calculating low dimensional determinants where certain rows / columns already have many 0s.
 
-=== Laplace
++ Choose a row or column with as many 0 elements as possible to minimise the amount of minor determinants we need to calculate.
++ Traverse through the row, multiplying the element of the row by its minor. The signs alternate, starting with positive, and sum all of the individual results
 
-_Determinant_ - The factor by which a linear transformation (usually represented as a matrix) changes any area / volume in space. Can only be computed for square matrices.
-
-TODO: Important identity somewhere after determinant identities: https://math.stackexchange.com/questions/1026624/can-product-of-two-singular-matrices-be-invertible
-
-_Non-Zero determinant_ - No information is lost, there is precisely one transformation which reverses the effects on space (inverse matrix)
+For example when calculating the determinant of a $m times n$ matrix by traversing the first row:
+$
+  bold(M) = "Minors of A"\
+  det bold(A) = sum_(j = 1)^n (-1)^(j+1) dot bold(A_(1,j)) dot det bold(M_(1, j))
+$
 
 == Eigenwerte und Eigenvektoren
 _Eigenvectors_ - Vectors which a linear transformation scales onto the original line it spans.\
@@ -1133,8 +1171,6 @@ $
   bold(X^T X a = X^T y)
 $
 However, this is still not guaranteed to have a solution, namely when $bold(X)$ doesn't have full rank (can happen quite often for perfectly reasonable samples). Furthermore, it is very sensitive to rounding errors.
-
-TODO Question 4: Any regression is better than none, so why wouldn't it be sinnvol? Theres a lot of sample $X$s without full rank out there with perfectly reasonable regressions...
 
 ===== QR-Decomposition Method
 This method solves the rounding error issues, although it still only works if $bold(X)$ has full rank (the upper $bold(R)$ matrix has the same rank as the input). Quite wasteful data cleaning can be done to ensure these methods are fit for use, hence why singular value decomposition is used much more commonly in practice.
