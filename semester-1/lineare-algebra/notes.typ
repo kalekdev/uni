@@ -1028,7 +1028,6 @@ $
   $ Orthogonal matrices either rotate or reflect space and are unitary. However, this is no guarantee of orthogonality.
 - It is the factor by which the n-dimensional volumes (the volume spanned by $n$ vectors) are scaled after the matrix's transformation is applied (LTD: relate to bivectors).
 - A 0 determinant geometrically implies that it transforms the volume to 0 $->$ down a dimension. Information is lost and the transformation cannot be inverted.
-- TODO: Relate cross product's area to determinant
 
 These properties are useful for making statements about the singularity of various matrix products.
 

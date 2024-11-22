@@ -791,13 +791,13 @@ The magnetic properties of certain iron ores (permanent magnets) were already no
 - Extracting shards of metal in medical treatments
 
 === Magnetic Dipoles
-Every permanent magnet must have a north and south pole - if it is cut a new pair of poles simply forms. Like poles repel and opposite poles attract, just like charges.
+Every permanent magnet must have a north and south pole - if it is cut a new pair of poles simply exists, because a pole is simply a macroscopic collection of dipole moments. Like poles repel and opposite poles attract, just like charges.
 
 However unlike charge, a monopole has never been observed and the possibility of its existence is uncertain (theoretical physics).
 
 Magnetic fields can be observed using ferromagnetic shavings or a compass, which are also magnetic dipoles and therefore align themselves tangentially along field lines. This also implies that they slightly affect the magnetic field itself, meaning smaller shavings are more accurate for visualizing the field. Ferrofluid is a good alternative.
 
-Magnetic dipoles can also be created by a current loops. This is seen at the atomic level, as the spin of elementary particles / electrons in orbitals lead to dipoles, meaning single atoms create and can be influenced by magnetic fields. Do not forget to use conventional current when applying this model to electron orbits!
+Magnetic dipoles can also be created by a current loops. This is seen at the atomic level, as the spin of certain elementary particles / electrons in orbitals lead to dipoles, meaning single atoms create and can be influenced by magnetic fields. Do not forget to use conventional current when applying this model to electron orbits!
 
 By convention, magnetic field lines around dipoles point from north to south:
 #figure(
@@ -842,19 +842,22 @@ $
   integral.surf_A arrow(B)dot d arrow(A) = 0
 $
 
-Intuitively, it says that magnetic monopoles do not exist. This is one of Maxwell's Equations.
+Intuitively, it says that magnetic monopoles do not exist and all magnetic field lines return to the opposite pole as loops. This is one of Maxwell's Equations.
+#figure(
+  image("images/gauss-magnetism-law.png", width: 40%),
+) <fig-gauss-magnetism-law>
 
 === Ørsted's / Ampere's Circuital Law
 In 1820 Hans Christian Ørsted discovered that a wire carrying an electric current induces a magnetic field around it. The direction of this field can be remembered using the right hand curl rule, where the fingertips represent the arrow heads:
 #figure(
-  image("images/right-hand-curl-rule.png", width: 25%),
+  image("images/right-hand-curl-rule.png", width: 40%),
 ) <fig-right-hand-curl-rule>
 This magnetic field:
 - Lies in a plane perpendicular to the direction of the current
 - Its strength is directly proportional to the magnitude of the current
 - It's inversely proportional to the distance from the current
 
-This phenomenon sparked a great deal of interest; Andre-Marie Ampere formulated the following fundamental law mathematically describing the magnetic field around the net enclosed current, known as his circuital law:
+This phenomenon sparked a great deal of interest; Andre-Marie Ampere formulated the following fundamental law mathematically describing the magnetic field around an enclosed net current flowing perpendicular through a surface, known as his circuital law:
 $
   integral.cont_C arrow(B) dot d arrow(s) &= mu integral.double_S arrow(J) d arrow(S)\
   &= mu I
@@ -865,7 +868,7 @@ $
 
 TODO: Maxwell-Ampere law, what problems does it solve?
 
-_Durchflutung ($Theta$)_ - Name for the sum of current flowing through a surface in Albach's book
+_Durchflutung ($Theta$)_ - The sum of current flowing through a surface
 
 ==== Biot-Savart Law
 Although Ampere's Circuital Law provides us with a fundamental law, it is not very useful in practice unless certain symmetries arise. Biot and Savart determined the following formula for calculating the magnetic flux density at any arbitrary position vector $arrow(r)$ around a current carrying wire:
@@ -955,8 +958,9 @@ Two straight, parallel, current-carrying wires *attract* each other if their cur
 TODO:
 - principle of how analog ammeters work
 
-TODO: Why does the circular field get pushed up in a homogenous field? Explain bivector field and pseudovectors, why the magnetic lines make sense
-Reference answer:
+TODO: Why does the circular field get pushed up in a homogenous field?
+
+Reference answer:\
 "
 The real reason is that the magnetic field is not a vector quantity. It’s better thought of as a ‘bivector’: an oriented plane instead of an oriented line. From this perspective, the magnetic field does not point along a line, but rather curls around in planes, which makes the resulting force make much more sense.
 
@@ -966,6 +970,14 @@ Once you want to consider more general situations, or have a less clunky mathema
 
 When one moves to relativistic physics, then one discovers that both the electric field and the magnetic field are bivectors, but the electric field spans a plane with one spatial and one temporal direction, whereas the magnetic field spans two spatial directions. The fact that space and time can be 'rotated' into eachother in relativistic physics typically leads us to abandon treating these as separate objects and instead talking about the Faraday tensor F which contains both the electric and magnetic fields in one object.
 "
+
+==== Hall Effect
+A potential difference arises over a conducting plane placed inside a transverse magnetic field as the charge carriers experience a magnetic force, creating a charge imbalance:
+#figure(
+  image("images/hall-effect.png", width: 60%),
+) <fig-hall-effect>
+
+This phenomenon can be carefully calibrated to build hall sensors and detect magnetic fields in space.
 
 === Magnetisation
 The torque acting on a dipole in an external magnetic field depends on its area, orientation and magnitude of the magnetic fields it generates. When considering current loop dipoles, *magnetic moment* is:
@@ -1007,18 +1019,18 @@ $
 Materials behave in certain ways when under the influence of an external magnetic field.
 
 ==== Diamagnetism
-This phenomenon occurs in all materials (although it is outweighed by para / ferromagnetic effects in certain ones). $mu_r < 1$, meaning that the magnetic flux density in the material is weaker than in a vacuum. The spin and current loop magnetic dipoles cancel each other out when no external field is present and these materials are not magnetised by themselves.
+Materials experience a slight repulsive force when in a magnetic field. This phenomenon occurs in all materials (although it is outweighed by para / ferromagnetic effects in certain ones). $mu_r < 1$, meaning that the magnetic flux density in the material is weaker than in a vacuum. The spin and current loop magnetic dipoles cancel each other out when no external field is present and these materials are not magnetised by themselves.
 
 Examples include organic compounds, water and some metals such as copper. Their permeability is unaffected by temperature.
 
 The magnetic field induces an opposing magnetic field within the material, meaning that the magnetic polarisation is in the opposite direction to the field lines, like poles are next to each other and the material is slightly repelled.
 
-Strong diamagnetic materials, such as superconductors, can be levitated by strong magnetic fields.
+Strong diamagnetic materials, such as superconductors, or even water can be levitated by strong magnetic fields.
 #figure(
   image("images/levitating-frog.png", width: 30%),
 ) <fig-levitating-frog>
 
-Like with many things in magnetism, an accurate explanation can only be given by Quantum Mechanics and the Bohr-Van Leeuwen theorem, however this heuristic from Wikipedia is an interesting thought exercise:
+Like with many things in magnetism, an accurate explanation for this repulsion can only be given by Quantum Mechanics and the Bohr-Van Leeuwen theorem, however this heuristic from Wikipedia is an interesting thought exercise:
 
 "When a material is put in a magnetic field, the electrons circling the nucleus will experience, in addition to their Coulomb attraction to the nucleus, a Lorentz force from the magnetic field. Depending on which direction the electron is orbiting, this force may increase the centripetal force on the electrons, pulling them in towards the nucleus, or it may decrease the force, pulling them away from the nucleus. This effect systematically increases the orbital magnetic moments that were aligned opposite the field and decreases the ones aligned parallel to the field (in accordance with Lenz's law). This results in a small bulk magnetic moment, with an opposite direction to the applied field." ie the current rings opposing the magnetic field get stretched out and therefore contribute more to the net dipole moment.
 
@@ -1045,7 +1057,7 @@ This of course leads to increased magnetic flux density within the material, as 
 
 The same applies in the opposite direction, demagnetization occurs when an external magnetic field in the opposite direction is applied, after the point of *coercivity* $H_c$ (maximum opposing magnetic field before the material is demagnetized) is reached #footnote([The process of demagnetization is known as "Degaussing", some interesting applications are explained on Wikipedia.]). This forms the characteristic hysteresis curve.
 #figure(
-  image("images/ferromagnetisation.png", width: 60%),
+  image("images/ferromagnetisation.png", width: 40%),
 ) <fig-ferromagnetisation>
 
 Ferromagnet flux density depends heavily on temperature and its previous state, hence the relationship between $arrow(B)$ and $arrow(H)$ is not linear and their relative permeability is only a rough approximation.
@@ -1083,16 +1095,16 @@ We can therefore make conclusions about the behaviour of fields at the boundary 
 - To ensure $arrow(B)$ remains finite, $arrow(H) -> 0$ within a a ferromagnet.
 
 === Magnetic Circuits
-Magnetic fields are confined within ferromagnetic loops and "conducted". This seems to be a result of the superposition of the magnetisation field + external field causing the domains to align in such a way that the field navigate around curves. Although the boundary conditions imply that the normal component would be much higher than the tangential component as the lines exit into the air, the magnetic field lines already begin to curve earlier and they are effectively completely tangent to the outer boundary of the ferromagnet. LTD: These effects are best investigated in a simulation, not very clear in the diagram below
+Magnetic fields are confined within ferromagnetic loops and "conducted". This seems to be a result of the superposition of the magnetisation field + external field causing the domains to align in such a way that the field navigates around curves. Although the boundary conditions imply that the normal component would be much higher than the tangential component as the lines exit into the air, the magnetic field lines already begin to curve earlier and they are effectively completely tangent to the outer boundary of the ferromagnet. LTD: These effects are best investigated in a simulation, not very clear in the diagram below
 
 #figure(
   image("images/magnetic-circuit.png", width: 40%),
 ) <fig-magnetic-circuit>
 
-Magnetic flux $Phi$ is analog to current in this model. In the above diagram, the magnetic flux must be the same at all cross-sections of the ferromagnet.
+Cross-sectional magnetic flux $Phi$ is analog to current in this model. In the above diagram, the magnetic flux must be the same at all cross-sections of the ferromagnet.
 
 ==== Magnetomotive Force
-Just like electric potential difference, the work done on a hypothetical test North monopole by a magnetic field (it's not a force or causing any actual movement) can be defined as:
+Just like electric potential difference, the work done on a hypothetical test North monopole by a magnetic field (although it's a hypothetical scenario and doesn't cause any actual movement) can be defined as:
 $
   cal(F) = integral_(P 1)^(P 2) arrow(H) d arrow(s)
 $
@@ -1120,11 +1132,9 @@ $
 $
 
 ==== Magnetic Circuit Laws
-Kirchhoff's laws can now be applied to analyse flux and magnetomotive force throughout a ferromagnetic circuit:
-$
-  sum_"Node" Phi &= 0\
-  sum_"Loop" cal(F) &= integral.cont arrow(H) d arrow(s) = Theta
-$
+Kirchhoff's laws hold true in this model, making it useful to analyse flux and magnetomotive force throughout a ferromagnetic circuit:
+- Gauss's Law - $sum_"Node" Phi &= 0$
+- Ampere's Law - $sum_"Loop" cal(F) &= integral.cont arrow(H) d arrow(s) = Theta$
 
 Here's a nice table summarising the analogies in this model:
 #figure(
@@ -1138,23 +1148,24 @@ LTD: Faraday Tensor
 LTD: Derive Biot-Savart Law from Lorentz Transformation, Lorentz Force and Coulomb's Law
 
 == Inductance
-Just like capacitance, inductance is a measure of an object's capability to store magnetic fields with unit *Henry*:
+Just like capacitance, inductance is a measure of conductor's capability to store energy in magnetic fields with unit *Henry*:
 $
   L = Phi / I
 $
 Where $Phi$ is the total magnetic flux of linked with a coil.
 
 TODO: What exactly is "linked" flux? Coming in 6.4 apparently. Linked flux is the area enclosed by spiralling coils?
-TODO: Intuition in terms of alternating current
+TODO: Define in terms of back EMF
 
 === Inductance of Common Coils
-It can be tricky to determine what set of surfaces exactly are "linked to a coil". As a rule of thumb, the total flux can be calculated using the number of turns $N$ and the flux of the surface enclosed by the loop if the coil were a single wire, for example a toroid in the diagram below:
+It can be tricky to determine what set of surfaces exactly are "linked to a coil". As a rule of thumb, the total flux can be calculated using the flux of the surface enclosed by the loop if the coil were a single wire multiplied by the number of turns $N$, for example a toroid in the diagram below:
 $
   Phi_"Total" approx N Phi_"Loop"
 $
 #figure(
   image("images/flux-toroid.png", width: 40%),
 ) <fig-flux-toroid>
+Look into Riemann surfaces for a rigorous definition of the linked flux.
 
 The following formulas assume the coils are wrapped around high permeability ferromagnetic cores, so the magnetic flux in the air is negligible and not accounted for.
 
@@ -1220,7 +1231,40 @@ $
 $
 
 === Real-world Coils
-TODO: 5.15.1
+Inductors appear in a variety of form factors optimised for their purpose:
+#figure(
+  image("images/real-inductors.png", width: 60%),
+) <fig-real-inductors>
+They can even be etched into PCBs with spiral traces; these are called planar coils.
+
+The inductance of a single layer wrapped solenoid can be calculated using:
+$
+  L = N^2 (mu A) / l
+$
+
+The turn / inductance relationships for solenoids with different amounts of layers $w$ can be compared in this diagram:
+#figure(
+  image("images/multilayer-solenoid.png", width: 60%),
+) <fig-multilayer-solenoid>
+This shows that it's theoretically more efficient to use shorter solenoid coils achieve a higher inductance using roughly the same amount of wire (of course the radius increase slightly each time) layered over itself.
+
+==== Parasitic Capacitance
+Unfortunately this layering technique is not so effective in reality as it gives rise to parasitic capacitance.
+
+Each turn of the coil drops a small potential difference and therefore there is a measurable capacitance between it and the next parallel turn. These capacitances are in parallel and can be modelled as a single capacitor for a given coil:
+#figure(
+  image("images/parasitic-capacitance.png", width: 60%),
+) <fig-parasitic-capacitance>
+This is especially noticable when winding in multiple layers, as turns with the highest potential differences lay directly on top of each other.
+
+To reach a good middle-ground between inductance / wire used and minimising parasitic capacitance, inductors are often wound in chambers, where each section is fully wound before moving on to the next one:
+#figure(
+  image("images/chamber-winding.png", width: 10%),
+) <fig-chamber-winding>
+
+TODO:
+- Effects in AC circuits
+- Eddy currents, layered core, review 5.15.3
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
@@ -1230,3 +1274,5 @@ https://www.youtube.com/watch?v=rB83DpBJQsE
 Link to EM waves
 
 Faraday's Law of Induction, Lenz's Law are coming soon :D
+TODO:
+- EM Duality concept https://en.wikipedia.org/wiki/Duality_(electricity_and_magnetism)
