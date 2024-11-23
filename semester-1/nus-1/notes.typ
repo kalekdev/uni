@@ -2,17 +2,19 @@
 
 #outline()
 
+#pagebreak()
+
+*Electromagnetism:*\
+A linear theory of how charges interact governed by Maxwell's Equations and the Lorentz Force law, which are the only fundamental laws of electromagnetism. Coulomb's law was discovered through experiment and can be derived from Gauss's law, and Ohm's law does not hold true for all materials.
+
+Nonetheless they are very useful in practice and certainly worth studying.
+
 Charge polarity is completely arbitrary; it is only important to stay consistent. The same applies to magnetic poles, which were so defined based on the Earth's magnetic field (however this flips occaisonally too...).
 #figure(
-  image("images/conventional-current.png", width: 60%),
+  image("images/conventional-current.png", width: 50%),
 ) <fig-conventional-current>
 
 Conventional current is assumed unless stated otherwise.
-
-*Fundamental Laws of Electromagnetism:*\
-Maxwell's Equations and the Lorentz Force law are the only fundamental laws of electromagnetism, which work for all materials and at quantum scale. Coulomb's law was discovered through experiment and can be derived from Gauss's law, and Ohm's law does not hold true for all materials.
-
-Nonetheless they are very useful in practice and certainly worth studying.
 
 #pagebreak()
 
@@ -21,7 +23,7 @@ _Cylindrical coordinate system:_ $r$\
 _Spherical coordinate system:_ $r^2sin(theta.alt)$ (where $theta.alt$ is the
 angle from the z axis)
 
-TODO: Define everything in terms of $D$ and $H$ fields for consistency + brevity
+TODO: Perhaps define everything in terms of $D$ and $H$ fields for consistency + brevity?
 
 == Electrostatics
 
@@ -518,7 +520,7 @@ $
 == Network Analysis
 When designing real world circuits, analysing them in terms of fields is usually cumbersome. Hence we rely on manufacturers providing accurate values for components and with the help of some abstractions, most circuits are designed with the integral values of Voltage, Resistance, Current, Capacitance etc.
 
-Potential Difference and Current are scalar values represented by arrows in circuit diagrams, which point in the direction of the electric field (hence conventional current).
+Potential Difference and Current are scalar values represented by arrows in circuit diagrams, which point in the direction of the electric field, hence conventional current. A voltage drop across a battery points from the positive to the negative terminal.
 
 _Ideal Voltage Source_ - Maintains a constant voltage between its terminals, current depends on the connected load. Vertical straight line in circuit symbol\
 _Ideal Current Source_ - Maintains a constant current through the circuit, terminal voltage depends on the connected load. Horizontal straight line in circuit symbol
@@ -955,9 +957,6 @@ Where $theta$ is the angle between the magnetic field lines and the the directio
 Two straight, parallel, current-carrying wires *attract* each other if their currents are in *the same* direction, and *repel* if their currents are in *opposite* directions. This force can be calculated using Ampere's Force Law, a combination of the Biot-Savart Law and Lorentz Force Law.
 
 
-TODO:
-- principle of how analog ammeters work
-
 TODO: Why does the circular field get pushed up in a homogenous field?
 
 Reference answer:\
@@ -970,6 +969,14 @@ Once you want to consider more general situations, or have a less clunky mathema
 
 When one moves to relativistic physics, then one discovers that both the electric field and the magnetic field are bivectors, but the electric field spans a plane with one spatial and one temporal direction, whereas the magnetic field spans two spatial directions. The fact that space and time can be 'rotated' into eachother in relativistic physics typically leads us to abandon treating these as separate objects and instead talking about the Faraday tensor F which contains both the electric and magnetic fields in one object.
 "
+
+==== Galvanometer
+These analogue versions of ammeters cause a needle to rotate depending on the current flowing between its terminals:
+#figure(
+  image("images/galvanometer.png", width: 60%),
+) <fig-galvanometer>
+
+Modern day ammeters are instead built using an ADC and a shunt resistor.
 
 ==== Hall Effect
 A potential difference arises over a conducting plane placed inside a transverse magnetic field as the charge carriers experience a magnetic force, creating a charge imbalance:
@@ -1266,6 +1273,38 @@ TODO:
 - Effects in AC circuits
 - Eddy currents, layered core, review 5.15.3
 
+== Induction
+Charges moving relative to a magnetic field experience a force, as detailed in Lorentz's force law, which can result in a potential difference across a conductor (see the Hall effect). When modelling this in terms of magnetic flux, we arrive at the following relationship, named *Faraday's Law of Induction*:
+$
+  U = -(d arrow(Phi)) / (d t)
+$
+The voltage induced across a conductor is equal to the rate of change of magnetic flux through its surface or the linked flux of the surface enclosed by a loop(s) of wire.
+
+In integral form:
+$
+  integral.cont arrow(E) dot d arrow(s) = -(d (integral.double_A arrow(B) dot d arrow(A))) / (d t)
+$
+
+The charges inside a conductor undergoing *moving induction* feel no resultant force; the Lorentz force due their relative velocity is equal to their electrostatic attractive force once a stable potential difference has been reached. This means that the net electric field through the conductor becomes 0 (as any new test charge would feel no force), and it does not contribute to the total voltage path integral.
+
+Caution must be exercised when measuring voltages between points in an induced loop. Depending on if the voltmeter's leads enclose the changing flux, different measurements can occur between the same two points of the loop.
+#figure(
+  image("images/induction-voltmeters.png", width: 60%),
+) <fig-induction-voltmeters>
+
+=== Lenz's Law
+Consider a homogenous magnetic field in space and a conductor connected to some load at a constant velocity such that the magnetic flux is at its maximum. With no air resistance or friction, the law of conservation of energy would be violated.
+
+Hence Lenz's Law states:
+"The current induced in a circuit due to a change in a magnetic field is directed to oppose the change in flux and to exert a mechanical force which opposes the motion."
+
+The direction of the induced current (and therefore also the direction of the voltage) can be determined using the Left Hand Rule.
+
+Therefore a constant external force is required to maintain a velocity / change in magnetic flux and work continues being done - mechanical energy is transformed into electrical.
+
+=== Self-induction
+TODO: Reread 6.2
+
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
 
@@ -1273,6 +1312,5 @@ https://www.youtube.com/watch?v=rB83DpBJQsE
 
 Link to EM waves
 
-Faraday's Law of Induction, Lenz's Law are coming soon :D
 TODO:
 - EM Duality concept https://en.wikipedia.org/wiki/Duality_(electricity_and_magnetism)
