@@ -325,7 +325,7 @@ $
   cal(P)_"tot" = sum_(i = 1)^n arrow(F_i) dot tilde(v_i) = 0
 $
 
-This is useful to calculate a few external / constraint forces, by strategically allowing virtual motion which involves that force. Other forces with and equal and opposite reaction can be ignored as the resultant at that point is 0.
+This is useful to calculate a few external / constraint forces, by strategically allowing virtual motion which involves that force. Other forces with an equal and opposite reaction can be ignored as the resultant at that point is 0.
 
 If many forces in a system are needed, then a full analysis using the theorem of statics is more appropriate.
 
