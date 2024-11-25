@@ -306,7 +306,6 @@ _Variable capacitor_ - A layered capacitor, who's overlapping area can be adjust
 
 _Film capacitor_ - This is essentially a plate capacitor wrapped into a cylinder. Its capacitance can be calculated in the same fashion as a plate capacitor, but *multiplied by 2*, as both sides of the conductor contribute to the capacitance.
 
-#pagebreak()
 === Energy stored by capacitor
 The energy stored by a capacitance C with voltage U across it's terminals is:
 $
@@ -1154,6 +1153,15 @@ TODO: Causes for magnetism: special relativity + electrostatic force / magnetic 
 LTD: Faraday Tensor
 LTD: Derive Biot-Savart Law from Lorentz Transformation, Lorentz Force and Coulomb's Law
 
+=== Magnetic Shielding
+A closed high magnetic permeability cage can be used to redirect magnetic field trhough itself.
+
+For very sensitive applications, active shielding can be used with a hall sensor and solenoid feedback loop that actively generates opposing magnetic fields.
+
+LTD:
+- Meissner Effect
+- Skin Effect
+
 == Inductance
 Just like capacitance, inductance is a measure of conductor's capability to store energy in magnetic fields with unit *Henry*:
 $
@@ -1161,8 +1169,9 @@ $
 $
 Where $Phi$ is the total magnetic flux of linked with a coil.
 
+Inductors can be thought of as the magnetic equivalent of capacitance, however in practice they are less convenient for energy storage (current must be maintained in the "disconnected" state, wasteful unless in a superconductor) and are mainly used for filtering purposes.
+
 TODO: What exactly is "linked" flux? Coming in 6.4 apparently. Linked flux is the area enclosed by spiralling coils?
-TODO: Define in terms of back EMF
 
 === Inductance of Common Coils
 It can be tricky to determine what set of surfaces exactly are "linked to a coil". As a rule of thumb, the total flux can be calculated using the flux of the surface enclosed by the loop if the coil were a single wire multiplied by the number of turns $N$, for example a toroid in the diagram below:
@@ -1273,6 +1282,26 @@ TODO:
 - Effects in AC circuits
 - Eddy currents, layered core, review 5.15.3
 
+=== Inductor Networks
+Inductor networks behave in the same way as resistors.
+
+Inductors in series conduct the same current, therefore:
+$
+  L_"Total" &= Phi_"Total" / I = (I sum_(k=1) L_k) / I\
+  &= sum_(k=1) L
+$
+
+The total inductance of inductors in parallel is:
+$
+  L_"Total" &= sum_(k=1) 1 / L_k
+$
+Intuitively, less current is going through each inductor hence they each store less energy as flux. The total inductance is smaller than the smallest inductor.
+
+For two inductors in parallel:
+$
+  L_"Total" = (L_1 L_2) / (L_1 + L_2)
+$
+
 == Induction
 Charges moving relative to a magnetic field experience a force, as detailed in Lorentz's force law, which can result in a potential difference across a conductor (see the Hall effect). When modelling this in terms of magnetic flux, we arrive at the following relationship, named *Faraday's Law of Induction*:
 $
@@ -1296,14 +1325,60 @@ Caution must be exercised when measuring voltages between points in an induced l
 Consider a homogenous magnetic field in space and a conductor connected to some load at a constant velocity such that the magnetic flux is at its maximum. With no air resistance or friction, the law of conservation of energy would be violated.
 
 Hence Lenz's Law states:
-"The current induced in a circuit due to a change in a magnetic field is directed to oppose the change in flux and to exert a mechanical force which opposes the motion."
+"The current induced in a circuit due to a change in a magnetic field is directed to *oppose the change in flux*, for example by exerting a mechanical force which opposes the motion."
 
 The direction of the induced current (and therefore also the direction of the voltage) can be determined using the Left Hand Rule.
 
 Therefore a constant external force is required to maintain a velocity / change in magnetic flux and work continues being done - mechanical energy is transformed into electrical.
 
-=== Self-induction
-TODO: Reread 6.2
+=== Self-induction and Back-EMF
+Consider a loop connected to an alternating power supply. As current changes through the wire, the magnetic field of the wire itself gives rise to changing linked flux (through the area of the loop). Applying Faraday's law:
+$
+  (d Phi) / (d t) &= V_L
+$
+The voltage induced is in such a direction that a change in flux is opposed (Lenz's law) and is therefore called *back-EMF*.#footnote[It can be used to synchronize the phases of brushless motors.]
+
+For example:
+- Increasing current - $(d (I(t))) / (d t) > 0$ - The back EMF is in the same direction as that of a resistor, such that current ceases to increase and flux remains constant.
+- Decreasing current - $(d (I(t))) / (d t) < 0$ - Back EMF in the same direction as voltage source, attempting to maintain current and flux, the energy stored in its magnetic field is released.
+
+#figure(
+  image("images/self-inductance.png", width: 60%),
+) <fig-self-inductance>
+
+Therefore the voltage between the terminals at time $t$ is:
+$
+  V &= R I(t) + V_L\
+  &= R I(t) + (d Phi) / (d t)\
+  &= R I(t) + (d (L I(t))) / (d t)\
+  &= R I(t) + L (d (I(t))) / (d t)\
+$
+Inductance can therefore also be defined as the *coefficient of self-induction*:
+$
+  V_L = L (d (I(t))) / (d t)\
+$
+
+Intuitively, the inductance can also be considered as a measure of how much the geometry of a coil resists a change in current.
+
+=== Inductive Coupling
+When two coils induce a voltage upon one another they are said to be inductively coupled (Gegeninduktion) - the self-inductance of each coil + the induced voltage of the other coil's flux both play a role in the resulting back EMF, which can be calculated using the total rate of change of flux in each coil.
+
+For example, we can determine the current in any of the loops for given voltage functions, inductances and resistances using the following differential equations:
+#figure(
+  image("images/inductive-coupling.png", width: 70%),
+) <fig-inductive-coupling>
+#figure(
+  image("images/inductive-coupling-formula.png", width: 60%),
+) <fig-inductive-coupling-formula>
+In the above example, the self-induced flux and flux from the coupled loop are taken to be in the same direction - this is of course not always true but that will be solved by the polarity of the derivatives at a given time.
+
+The inductance of certain coils onto another can be broken down into two parts, for example when calculating the inductive coupling of to sets of wires we can calculate the flux arising from one wire followed by the other.
+
+==== Mutual Inductance
+TODO: https://en.wikipedia.org/wiki/Inductance#Mutual_inductance
+Merke $L_(i k) = L_(k i)$
+
+Can be summarised with kopplungsfaktoren
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
