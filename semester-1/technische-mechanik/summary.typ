@@ -54,6 +54,8 @@
   $omega$, $(d Theta) / (d t)$
 )
 
+TODO: Add acceleration formulae!
+
 #table(
   theader[Cartesian Coordinates], columns: 2,
   $arrow(r)$, $x e_x + y e_y + z e_z$,
@@ -144,9 +146,9 @@ Minimum number of coordinates to clearly determine the state of a system.
 $
   f = n -b
 $
-#image("../images/degrees-of-freedom.png")
+#image("images/degrees-of-freedom.png")
 IMPORTANT: The joint at a roller / pivot must be accounted for too! (using the n-Gelenk formula)
-#image("../images/degrees-of-freedom-joints.png")
+#image("images/degrees-of-freedom-joints.png")
 b-value for slider depends on how it's connected, usually 1
 
 == Forces
@@ -170,7 +172,7 @@ Forces with lines of action going through the same point have only a resultant f
 #grid(
   columns: (auto, auto),
   align: horizon,
-  image("../images/zero-moment.png", width: 60%),
+  image("images/zero-moment.png", width: 60%),
   $
     M_P = 0, R != 0
   $,
@@ -270,11 +272,11 @@ $
 === Center of Mass
 This is the average location of all the weight of an object. It can be calculated using a volume integral over the density of the body:
 #figure(
-  image("../images/centre-of-mass.png", width: 80%),
+  image("images/centre-of-mass.png", width: 80%),
 ) <fig-centre-of-mass>
 Where $d m$ is effectively the density at the point of each differential.
 #figure(
-  image("../images/com-examples.png", width: 60%),
+  image("images/com-examples.png", width: 60%),
 ) <fig-com-examples>
 
 Integration is a linear transformation - a center of mass can be calculated as the sum of separate integrals (which of course can also be negative):
@@ -282,7 +284,7 @@ $
   arrow(r_(O C)) = (sum integral.vol arrow(r) d m) / (sum m_i)
 $
 #figure(
-  image("../images/combine-com.png", width: 80%),
+  image("images/combine-com.png", width: 80%),
 ) <fig-combine-com>
 LTD: Check general formula
 $
@@ -305,14 +307,14 @@ Constraints exert equal and opposite forces to prevent an object moving through 
 
 Forces in a system at rest with multipled bodies can be solved by including forces at constraints:
 #figure(
-  image("../images/multiple-bodies-rest.png", width: 80%),
+  image("images/multiple-bodies-rest.png", width: 80%),
 ) <fig-multiple-bodies-rest>
 These systems of equations can be solved through Gaussian elimination.
 
 === Virtual Motion
 A system can be modelled as in virtual motion when virtual velocities are modelled at each point, such that the total power of constraint forces is 0:
 #figure(
-  image("../images/virtual-motion.png", width: 80%),
+  image("images/virtual-motion.png", width: 80%),
 ) <fig-virtual-motion>
 - For example, velocity at the slider is perpendicular to its constraint force, and equal and opposite constraint forces at joints cancel each other's accelerating and braking power out.
 - There can be no virtual velocity at a pivot, as it exerts constraint forces in both the x and y component - they are orthogonal and the power of this force would never be 0.

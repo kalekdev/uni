@@ -1372,11 +1372,14 @@ For example, we can determine the current in any of the loops for given voltage 
 ) <fig-inductive-coupling-formula>
 In the above example, the self-induced flux and flux from the coupled loop are taken to be in the same direction - this is of course not always true but that will be solved by the polarity of the derivatives at a given time.
 
-The inductance of certain coils onto another can be broken down into two parts, for example when calculating the inductive coupling of to sets of wires we can calculate the flux arising from one wire followed by the other.
-
 ==== Mutual Inductance
-TODO: https://en.wikipedia.org/wiki/Inductance#Mutual_inductance
-Merke $L_(i k) = L_(k i)$
+In most cases, the mutual inductance depends purely on the geometry and materials of a system; the inductance of one inductor onto another is identical to the reverse relationship:
+$
+  L_(i k) = L_(k i) = M
+$
+where $i$ is the loop through which the flux is linked and $k$ is the loop who's current induces that flux (sometimes this is written using $M$).
+
+The mutual inductance can of course be calculated in parts, for example for parallel wires.
 
 Can be summarised with kopplungsfaktoren
 

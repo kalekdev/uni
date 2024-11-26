@@ -404,7 +404,54 @@ Here are some typical coefficient values:
 #figure(
   image("images/friction-coefficients.png", width: 80%),
 ) <fig-friction-coefficients>
+They depend on both materials as seen above.
+
+=== Frictional Moment
+The front of a tire slightly compresses as it rolls, which is especially evident in elastic materials like rubber. Due to their hysteresis curve, less elastic potential energy is released as they decompress by exerting a normal force.
+#grid(
+  columns: (auto, auto),
+  align: horizon,
+  image("images/rubber-hysteresis.png", width: 60%), image("images/rolling-moment.png", width: 60%),
+)
+This lost energy can be modelled as a braking moment in the opposite direction to the current angular velocity, which is proportional to the net normal force:
+$
+  abs(M_r) <= mu_2 abs(N)\
+  M_r = -mu_2 abs(N) omega / abs(omega)\
+$
+
+== Dynamics
+=== Acceleration Formulae
+Acceleration is the rate of change of velocity, can be found by taking the derivative of velocity:
+$
+  arrow(a) = dot(v) = d(
+    dot(x)e_x + dot(y)e_y +dot(z)e_z
+  ) / (d t) &= dot.double(x)e_x + dot.double(y)e_y +dot.double(z)e_z
+$
+In cylindrical coordinates:
+$
+  v = dot(rho) e_rho + rho dot(phi) e_phi + dot(z) e_z\
+  a = (dot.double(rho) - rho dot(phi)^2)e_rho + (2dot(rho)dot(phi) + rho dot.double(phi))e_phi + dot.double(z) e_z
+$
+
+This can of course be integrated to determine the velocity and position functions. IMPORTANT: Do not forget to account for the initial velocity / position! Integration only returns the total velocity gained / lost or the displacement.
+
+=== Momentum
+Momentum is a conserved quantity (within a system) of how much force is needed to change the velocity of an object with units $"kg" m s^(-1)$:
+$
+  arrow(p) = m arrow(v)
+$
+
+Newton's Second Law of motion states:
+"The resultant force acting on a point mass is the rate of change of the momentum of the object."
+$
+  F = (d arrow(P)) / (d t) = m arrow(a)
+$
+
+TODO
+=== Circular Motion
+
+=== Projectile Motion
 
 TODO:
+- Coefficient of restitution
 - Add useful conversions to formula sheet (km/h - m/s etc.)
-- Frictional moment (https://en.wikipedia.org/wiki/Rolling_resistance)
