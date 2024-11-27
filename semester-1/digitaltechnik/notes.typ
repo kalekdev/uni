@@ -423,3 +423,16 @@ The intermittent and final output state can also be used as a 2-digit binary cou
   image("images/flipflop-counter.png", width: 60%),
 ) <fig-flipflop-counter>]
 LTD: Can this extended to more than 2 digits?
+
+== Automata
+Mealy vs moore
+mealy can be used to reduce number of states needed - previous n + latest input considered for example binary pattern recognizer
+binary encoding to reduce number of flip flops needed
+
+Moore automata more stable, outputs are accurate regarding inputs, synchronisation between clock and inputs needed, use flipflops.
+
+sequence detecter can be made with only 3 flip flops and binary encoding, or simply a series of 7 flipflops and a series of (notted) inputs to an and gate
+
+automata can be connected with each other to abstract separate functions
+
+cpus are infinite state machines, opcodes have arbitray operands and modern memory holds a huge amount of states.

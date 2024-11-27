@@ -766,6 +766,12 @@ $
 $
 All $L^n$ norms can be generalised as the p-norm.
 
+Any vector can be normed to a unit vector with respect to any p norm:
+$
+  x &in RR^d\
+  e &= x / norm(x)_p\
+  norm(e)_p &= 1
+$
 ==== Maximum Norm ($L^oo$)
 A special case of the p-Norm as p approaches $oo$:
 $
@@ -777,6 +783,8 @@ Here is the unit circle as defined by various p-norms:
 #figure(
   image("images/p-norm-unit-circle.png", width: 60%),
 ) <fig-p-norm-unit-circle>
+
+Norming a vector with respect to this norm can be useful in proofs (for example the Gershgorin disks, we can prove an inequality for the largest element and ensure every other smaller element satisfies it too).
 
 === Cauchy-Bunjakovski-Schwarz Inequality
 This is often regarded as the most important inequality in mathematics, it can be written in many different forms, the 3rd one is very intuitive:
@@ -1062,21 +1070,42 @@ $
 
 == Eigenwerte und Eigenvektoren
 _Eigenvectors_ - Vectors which a linear transformation scales onto the original line it spans.\
-_Eigenvalues_ - The corresponding scalar by which a set of eigenvectors is multiplied by.
+_Eigenvalues_ - The corresponding scalar by which a set of eigenvectors is multiplied by.\
+_Eigenspace_ - The space containing all eigenvectors for a given eigenvalue - $"Span"{x | A x = lambda x}$
 
 These are very important when analyzing the effects of linear transformations without a standard basis. For example one can find the axis of a rotation of an arbitrary 3D rotation (vectors with eigenvalue 1).
 LTD: Possible applications
 
-Some transformations, for example rotations in 2D, have no non-zero eigenvalues.
+Some transformations, for example rotations in 2D, have no real, non-zero eigenvalues.
+
+=== Properties
+- There can be several "lines" of eigenvectors with the same eigenvalue. Hence, a single eigenvalue may have an $n >= 1$ dimensional eigenspace.
+- If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space.
+- $"det" bold(A) = product lambda_i$ - The determinant is equal to the product of eigenvalues.
+- _Trace_ - Sum of diagonal elements of a matrix. This is equal to the sum of eigenvalues.
+
 
 === Finding Eigenvalues / Vectors
 The eigenvalues $lambda$ and eigenvectors $bold(v)$ of a matrix $bold(A)$ relate as follows:
 $
   bold(A v) = lambda bold(v)\
+$
+Which can be rearranged, allowing us to find the eigenvectors for a given eigenvalue:
+$
   bold(A v) = lambda bold(I v)\
   (bold(A) - lambda bold(I))bold(v) = 0
 $
-The infinite non-zero solutions (eigenvectors) for $bold(v)$ are only possible when $det(bold(A) - lambda bold(I)) = 0$ (most of space is projected onto a single line / plane; down a dimension). This results in a polynomial of degree $n$ TODO: Order/ trace of the matrix? which can be solved by factorising.
+The infinite non-zero solutions (eigenvectors) for $bold(v)$ are only possible when $det(bold(A) - lambda bold(I)) = 0$. Computing this determinant results in a polynomial in terms of $lambda$ with degree $n$ which can be solved to find all possible eigenvalues. This is called the *characteristic polynomial*.
+
+- Polynomials can also have complex solutions, hence real matrices can have $lambda in CC \\ RR$, which come in pairs with their conjugates.
+- Multiplication by $times -1$ whilst swapping rows during elimination to find the characteristic polynomial can be ignored, because it is $=0$ anyway.
+- An $n times n$ matrix has $[1, n]$ real eigenvalues due to the fundamental theorem of algebra.
+- _Algebraic Multiplicity_ - This tells us how many times a root is repeated. For example the characteristic equation $(lambda - 1)^2 (lambda-4)=0$ has AM 2 for $lambda = 1$, therefore the eigenspace for $lambda = 1$ is spanned by two vectors.
+- _Geometric Multiplicity_ - Dimensions of an eigenspace.
+$
+  1 <= "GM"(lambda) <= "AM"(lambda) <= n
+$
+LTD: Still don't quite understand the reason for this inequality
 
 Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding each set of eigenvectors simply becomes the task of finding the different nullspaces:
 $
@@ -1087,8 +1116,84 @@ $
 
 LTD: Implications of complex eigenvalues?
 
+=== Gershgorin Disk Theorem
+Polynomials of degree $n >= 5$ have no definite formula for solutions, eigenvalues of matrices with more than 4 columns must be found using numerical methods, expensive and numerically unstable operations.
 
-TODO: Diagonalising matrices, diagonal entries are the eigenvalues, eigenbasis
+A matrix norm (measure of how much a transformation affects space) is by definition the maximum scalar by which vector lengths are multiplied. Therefore:
+$
+  abs(lambda) <= norm(bold(A))
+$
+
+The Gershgorin Disk Theorem defines an easy-to-compute area in which all eigenvalues can be found:
+#figure(
+  image("images/gershgorin-theorem.png", width: 80%),
+) <fig-gershgorin-theorem>
+In simple terms, all eigenvalues of a matrix can be found in the circles with centers at the diagonal value, such that the radius is less than the absolute sum of all other terms on the row.
+
+#figure(
+  image("images/diagonal-dominant.png", width: 80%),
+) <fig-diagonal-dominant>
+Each Gershgorin circle of the matrix has a radius smaller than its center position, hence 0 is never an eigenvalue and it must be regular.
+
+== Diagonal Matrices
+_Diagonal Matrix_ - A matrix with 0 entries everywhere except the diagonal.
+
+They are very useful in applications as multiplying by a diagonal matrix targets a specific row:
+$
+  mat(
+  a_1, 0, 0;
+  0, a_2, 0;
+  0, 0, a_3;
+) vec(bold(x_1), bold(x_2), bold(x_3)) = vec(a_1 bold(x_1), a_2 bold(x_2), a_2 bold(x_3))
+$
+which is for example useful when solving linear differential equations.
+
+They are square most of a time, but a non-square diagonal matrix simply takes the form:
+$
+  mat(
+  a_1, 0, 0;
+  0, a_2, 0;
+  0, 0, a_3;
+  0, 0, 0
+)
+$
+
+$"diag"(a_1, a_2, ...)$ notation can be used to specify a diagonal matrix with diagonal entries in that order.
+
+_Scalar Matrix_ - Diagonal matrix with the same diagonal entries, multiplying by it has the same effect as scalar multiplication.
+
+=== Similar Matrices
+Two $n times n$ matrices $bold(A)$ and $bold(B)$ are similar if there exists an invertible matrix $bold(P)$ such that:
+$
+  bold(A = P^(-1) B P)
+$
+Intuitively the matrices $bold(A)$ and $bold(B)$ represent the same transformation in different bases, hence the name *similar*.
+
+Furthermore, similar matrices have *the same eigenvalues* which all have *the same algebraic multiplicity*.
+
+Transformations in this form are ubiquitous, for example a transformation which is awkward to calculate in the canonical basis can be written using a change of basis matrix $bold(P)$, the easier to compute equivalent transformation $bold(B)$ in the new basis, followed by a return to the original basis $bold(P^(-1))$.
+
+
+=== Diagonalization
+A matrix which is similar to a diagonal matrix $bold(D)$ can be called *diagonalizable*:
+$
+  bold(A = P^(-1) D P)
+$
+
+
+TODO: Diagonalising matrices, diagonal entries are the eigenvalues, columns are corresponding (maybe) eigenbasis (does this mean eigenvectors which are all 0 apart from the eigenvalue)?
+
+=== Diagonalisation
+A matrix $bold(A)$ with $n$ linearly independent eigenvectors can be diagonalised by setting the eigenvectors ${bold(s_1), bold(s_2), ..., bold(s_n)}$ as columns of a matrix $bold(S)$:
+$
+  bold(S) &= mat(bold(s_1), bold(s_2), ..., bold(s_n))\
+  bold(S^(-1) A S = D) &= mat(
+  lambda_1, 0, ..., 0;
+0, lambda_2, ..., 0;
+dots.v, dots.down, dots.v, dots.v;
+0, 0, ..., lambda_n)
+$
+
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
@@ -1189,6 +1294,16 @@ Where $dot |_n$ represents the first $n$ rows of a matrix / vector.
 We can now solve $bold(R|_n a = (Q^H y)|_n)$ The rest of the elements of $bold(Q^H y)$, named $r_(n+1), ..., r_s$, represent the residuals of the optimal solution - their norm shows exactly what the lowest possible error is for the sample.
 
 LTD: The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
+
+== Linear Differential Equations
+Extremely useful in physics! I will just cover the ways linear algebra can be used to solve them, see analysis notes for more background.
+
+=== First-order
+TODO: https://tutorial.math.lamar.edu/Classes/DE/Linear.aspx , 7.1
+The solution satisfies an equation in the form:
+$
+  dot(y)(t) + a() y(t) =
+$
 
 == Upcoming
 Next 3B1B Video - Dot products and duality
