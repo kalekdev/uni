@@ -132,7 +132,7 @@ _Tridiagonal Matrix_ - Matrix with 3 diagonals, and otherwise 0s everywhere
 _Homogene LGS_ - $bold(A x) = 0$ hat eine triviale Loesung $bold(x) = 0$, unless it has free variables.\
 
 === Square Matrices ($m times n$):
-*This only applies to square matrices*
+*The following only applies to square matrices*
 
 _Regular Matrix_, Rank = n, has exactly one solution for arbitrary RHS and only the trivial solution when homogenous\
 _Singular Matrix (Single / peculiar)_, Rank < n, has infinite / no solutions and has infinite non trivial solutions when homogenous
@@ -1079,8 +1079,8 @@ LTD: Possible applications
 Some transformations, for example rotations in 2D, have no real, non-zero eigenvalues.
 
 === Properties
-- There can be several "lines" of eigenvectors with the same eigenvalue. Hence, a single eigenvalue may have an $n >= 1$ dimensional eigenspace.
-- If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space.
+- There can be several "lines" of eigenvectors with the same eigenvalue. Hence, a single eigenvalue may have an $n >= 1$ dimensional eigenspace - any vector in the span of eigenvectors with the same eigenvalue must also have the same eigenvalue.
+- If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space of the original matrix.
 - $"det" bold(A) = product lambda_i$ - The determinant is equal to the product of eigenvalues.
 - _Trace_ - Sum of diagonal elements of a matrix. This is equal to the sum of eigenvalues.
 
@@ -1090,7 +1090,7 @@ The eigenvalues $lambda$ and eigenvectors $bold(v)$ of a matrix $bold(A)$ relate
 $
   bold(A v) = lambda bold(v)\
 $
-Which can be rearranged, allowing us to find the eigenvectors for a given eigenvalue:
+Which can be rearranged using a scalar matrix, allowing us to find the eigenvectors for a given eigenvalue:
 $
   bold(A v) = lambda bold(I v)\
   (bold(A) - lambda bold(I))bold(v) = 0
@@ -1107,12 +1107,13 @@ $
 $
 LTD: Still don't quite understand the reason for this inequality
 
-Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding each set of eigenvectors simply becomes the task of finding the different nullspaces:
+Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding each set of eigenvectors simply becomes the task of finding the different nullspaces, for which we have already calculated the reduced form of $bold(A)$ whilst finding the characteristic equation:
 $
   bold(A_(lambda_1) v) = 0\
   bold(A_(lambda_2) v) = 0\
   ...
 $
+If eigenvectors are needed as well as the eigenvalues, it is best to compute $det(bold(A) - lambda bold(I))$ using Gaussian elimination, so that the reduced form can be reused in the above eigenvector LGSs. However, handling the $lambda$s in elimination can be tricky when all other elements in that column are either 0 or in terms of $lambda$. Sometimes a row can be divided so a certain element becomes 1, which can then accordingly be multiplied by a term involving $lambda$ (for example $(lambda+2)$) allowing another row to eliminate that element.
 
 LTD: Implications of complex eigenvalues?
 
@@ -1180,9 +1181,6 @@ $
   bold(A = P^(-1) D P)
 $
 
-
-TODO: Diagonalising matrices, diagonal entries are the eigenvalues, columns are corresponding (maybe) eigenbasis (does this mean eigenvectors which are all 0 apart from the eigenvalue)?
-
 === Diagonalisation
 A matrix $bold(A)$ with $n$ linearly independent eigenvectors can be diagonalised by setting the eigenvectors ${bold(s_1), bold(s_2), ..., bold(s_n)}$ as columns of a matrix $bold(S)$:
 $
@@ -1194,6 +1192,10 @@ dots.v, dots.down, dots.v, dots.v;
 0, 0, ..., lambda_n)
 $
 
+#figure(
+  image("images/diagonalisability.png", width: 90%),
+) <fig-diagonalisability>
+This can be derived from the fact that $n = sum "AM"_i$ due to the fundamental theorem of algebra.
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
