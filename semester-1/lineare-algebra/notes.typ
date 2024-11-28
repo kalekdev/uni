@@ -1079,10 +1079,14 @@ LTD: Possible applications
 Some transformations, for example rotations in 2D, have no real, non-zero eigenvalues.
 
 === Properties
-- There can be several "lines" of eigenvectors with the same eigenvalue. Hence, a single eigenvalue may have an $n >= 1$ dimensional eigenspace - any vector in the span of eigenvectors with the same eigenvalue must also have the same eigenvalue.
-- If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space of the original matrix.
 - $"det" bold(A) = product lambda_i$ - The determinant is equal to the product of eigenvalues.
 - _Trace_ - Sum of diagonal elements of a matrix. This is equal to the sum of eigenvalues.
+- There can be several "lines" of eigenvectors with the same eigenvalue. Hence, a single eigenvalue may have an $n >= 1$ dimensional eigenspace - any vector in the span of eigenvectors with the same eigenvalue must also have the same eigenvalue.
+- If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space of the original matrix.
+- The inverse of a matrix has the same eigenvectors, and eigenvalues $1/(lambda_n)$ (because it brings scaled eigenvectors back to their original length).
+- The eigenvalues of repeated transformations $A^k$ are simply powered: $(lambda_n)^k$ because the same eigenvectors are simply repeatedly scaled.
+- Scalar multiplication of a matrix leads to eigenvalues multiplied by the same scalar.
+- Addition of matrices does not necessarily mean the eigenvalues can be added, algebraic rearrangement can be used to find eigenvalues of a polynomial of a matrix.
 
 
 === Finding Eigenvalues / Vectors
@@ -1105,7 +1109,7 @@ The infinite non-zero solutions (eigenvectors) for $bold(v)$ are only possible w
 $
   1 <= "GM"(lambda) <= "AM"(lambda) <= n
 $
-LTD: Still don't quite understand the reason for this inequality
+LTD: Still don't quite understand the proof for this inequality
 
 Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding each set of eigenvectors simply becomes the task of finding the different nullspaces, for which we have already calculated the reduced form of $bold(A)$ whilst finding the characteristic equation:
 $

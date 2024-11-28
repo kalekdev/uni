@@ -28,6 +28,10 @@ _Schaltfunktion_ - $Y = f(X_0, X_1, X_2, ..., X_(N-1))$ - Nimmt mehrere Bits als
 
 Alle Schaltfunktionen lassen sich als einer Wahrheitstabelle darstellen mit mindestens $N+1$ Spalten und $2^N$ Zeilen, wo N ist der Nummer von Inputs.
 
+#figure(
+  image("images/logic-gates.png", width: 80%),
+) <fig-logic-gates>
+
 NOT'ing a gate usually means the resistor just needs to be moved before the transistors (essentially appending a NOT gate).
 
 *OR* - Disjunction
@@ -157,7 +161,7 @@ _Don't care_ - Combinations of inputs for which the output doesn't matter, for e
 
 #image("images/karnaugh-diagram-5.png", width: 40%)
 
-_Static hazards_ - When the same variable is used in a parent logic gate, changes in the variable can lead to delayed "notches" in the parent's output due to time delays. These can be recognized in Karnaugh diagrams: where two packets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet to join the place of the hazard - this results in more gates overall but avoids the hazard.
+_Static hazards_ - When the same variable is used in a parent logic gate, changes in the variable can lead to delayed "notches" in the parent's output due to time delays. These can be recognized in Karnaugh diagrams: where two packets are orthogonally next to each other but do not overlap. They can be directly fixed by introducing an extra packet to join the place of the hazard - this results in more gates overall but avoids the hazard. IMPORTANT: This packet should also be as large as possible.
 
 TODO: Finish exercise series
 
