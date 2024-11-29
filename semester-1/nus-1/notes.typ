@@ -869,7 +869,7 @@ $
 
 TODO: Maxwell-Ampere law, what problems does it solve?
 
-_Durchflutung ($Theta$)_ - The sum of current flowing through a surface
+_Durchflutung ($Theta$)_ - The sum of current flowing through a surface (opposite direction subtracts)
 
 ==== Biot-Savart Law
 Although Ampere's Circuital Law provides us with a fundamental law, it is not very useful in practice unless certain symmetries arise. Biot and Savart determined the following formula for calculating the magnetic flux density at any arbitrary position vector $arrow(r)$ around a current carrying wire:
@@ -904,7 +904,7 @@ Note: The derivation of this is a good exercise, it can either be derived from s
   image("images/toroid.png", width: 60%),
 ) <fig-toroid>
 
-Considering a loop inside the toroid, the total current flowing through the surface enclosed by this curve for $N$ windings is $N I$, therefore:
+Considering a loop inside the toroid, the total current flowing through the surface linked to this curve for $N$ windings is $N I$, therefore:
 $
   integral_0^(2 pi) arrow(e_phi) arrow(H)(rho) dot rho d arrow(phi) &= N I\
   2 pi rho arrow(H)(rho) &= N I\
@@ -1015,7 +1015,7 @@ $
 $
 Although the underlying idea is quite similar to current density (lots of elementary currents) these are not the same thing. Sometimes the symbol $I$ is used instead.
 
-LTD: Still somewhat confused about these relationships
+LTD: Still somewhat confused about these relationships:
 $
   arrow(B) = mu arrow(H) &= mu_0 arrow(H) + arrow(J)\
   &= mu_0 (arrow(H) + arrow(M))
@@ -1101,7 +1101,7 @@ We can therefore make conclusions about the behaviour of fields at the boundary 
 - To ensure $arrow(B)$ remains finite, $arrow(H) -> 0$ within a a ferromagnet.
 
 === Magnetic Circuits
-Magnetic fields are confined within ferromagnetic loops and "conducted". This seems to be a result of the superposition of the magnetisation field + external field causing the domains to align in such a way that the field navigates around curves. Although the boundary conditions imply that the normal component would be much higher than the tangential component as the lines exit into the air, the magnetic field lines already begin to curve earlier and they are effectively completely tangent to the outer boundary of the ferromagnet. LTD: These effects are best investigated in a simulation, not very clear in the diagram below
+Magnetic fields are confined within ferromagnetic loops and "conducted". This seems to be a result of the superposition of the resulting magnetisation field + applied magnetic field causing the domains to align in such a way that the superposed field navigates around curves. Although the boundary conditions imply that the normal component would be much higher than the tangential component as the lines exit into the air, the magnetic field lines already begin to curve earlier and they are effectively completely tangent to the outer boundary of the ferromagnet. LTD: These effects are best investigated in a simulation, not very clear in the diagram below
 
 #figure(
   image("images/magnetic-circuit.png", width: 40%),
@@ -1154,7 +1154,7 @@ LTD: Faraday Tensor
 LTD: Derive Biot-Savart Law from Lorentz Transformation, Lorentz Force and Coulomb's Law
 
 === Magnetic Shielding
-A closed high magnetic permeability cage can be used to redirect magnetic field trhough itself.
+A closed high magnetic permeability cage can be used to redirect magnetic fields through itself.
 
 For very sensitive applications, active shielding can be used with a hall sensor and solenoid feedback loop that actively generates opposing magnetic fields.
 
@@ -1171,17 +1171,15 @@ Where $Phi$ is the total magnetic flux of linked with a coil.
 
 Inductors can be thought of as the magnetic equivalent of capacitance, however in practice they are less convenient for energy storage (current must be maintained in the "disconnected" state, wasteful unless in a superconductor) and are mainly used for filtering purposes.
 
-TODO: What exactly is "linked" flux? Coming in 6.4 apparently. Linked flux is the area enclosed by spiralling coils?
-
 === Inductance of Common Coils
-It can be tricky to determine what set of surfaces exactly are "linked to a coil". As a rule of thumb, the total flux can be calculated using the flux of the surface enclosed by the loop if the coil were a single wire multiplied by the number of turns $N$, for example a toroid in the diagram below:
+It can be tricky to determine which surface exactly is "linked to a coil". As a rule of thumb, the total flux can be calculated using the flux of the surface enclosed by the loop if the coil were a single wire multiplied by the number of turns $N$, for example a toroid in the diagram below:
 $
   Phi_"Total" approx N Phi_"Loop"
 $
 #figure(
   image("images/flux-toroid.png", width: 40%),
 ) <fig-flux-toroid>
-Look into Riemann surfaces for a rigorous definition of the linked flux.
+It is often unclear whether linked flux or simply the flux through the surface is meant, therefore some texts represent linked flux using $Psi$ or $lambda$. Linked flux is rigorously defined using Riemann surfaces (spiral surface enclosed by a coiled wire) and Stoke's Theorem in vector calculus (the line integral of a vector field over a loop is equal to the surface integral of its curl over the enclosed surface, ie sum of curl around the normals of the surface is a measure of how much the vector field promotes circulation - movement around the edge of the loop).
 
 The following formulas assume the coils are wrapped around high permeability ferromagnetic cores, so the magnetic flux in the air is negligible and not accounted for.
 
@@ -1381,7 +1379,17 @@ where $i$ is the loop through which the flux is linked and $k$ is the loop who's
 
 The mutual inductance can of course be calculated in parts, for example for parallel wires.
 
-Can be summarised with kopplungsfaktoren
+===== Coupling Coefficients
+This is a measure of how "coupled" a coil $i$ is with other coils in the system between 0 and 1, irrespective of how high the coil's induction actually is:
+$
+  k_i = Phi_(k i) / Phi_(i i)= M / L_(i i)
+$
+- Its maximum value, 1, occurs when the other coil is essentially in the same position with the same dimensions of coil $i$, meaning its entire self-induced flux also flows through the other coil's linked surface.
+
+A mutal-inductive system of two coils can in turn be described by a single coupling coefficient:
+$
+  k = plus.minus sqrt(k_1 k_2) = M / sqrt(L_11 L_22)
+$
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
