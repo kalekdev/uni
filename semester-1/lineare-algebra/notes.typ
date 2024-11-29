@@ -156,7 +156,7 @@ $
 This can be thought of as pinning the first elements of each row and letting the rest of the row swing down vertically.
 
 ==== Hermitian matrix
-$bold(A) in CC^(m times n), bold(A^H)$ - The same as a transposed matrix however each element becomes its complex conjugate $overline(a)$, written as $bold(A^dagger)$ in physics.
+$bold(A) in CC^(m times n), bold(A^H)$ - The same as a transposed matrix however each element becomes its complex conjugate $overline(a)$.
 
 LTD: Investigate thoroughly https://en.wikipedia.org/wiki/Hermitian_adjoint
 

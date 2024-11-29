@@ -1171,11 +1171,19 @@ Where $Phi$ is the total magnetic flux of linked with a coil.
 
 Inductors can be thought of as the magnetic equivalent of capacitance, however in practice they are less convenient for energy storage (current must be maintained in the "disconnected" state, wasteful unless in a superconductor) and are mainly used for filtering purposes.
 
+=== Energy Stored by Inductors
+Consider a superconducting coil with a current flowing through it. All energy initially dropped across the coil goes towards its magnetic field and thanks to its non-existing resistance, it maintains the current without any problems (as well as the arising flux $L I = Phi$). This current and therefore the energy stored may be initially induced by, for example, moving the superconductor within a magnetic field (work done against Lenz's law) or shortly connecting it to a power source.
+
+This can be observed in superconductor levitation experiments, through which a current is induced as they are moved towards the permanent magnet, causing the repulsive force of the superconductor and permanent magnet below to be equal to its weight at some specific distance forever (well, until the superconductor leaves its critical temperature :P).
+
+Using $V = L (d i)/(d t)$, $P = V I$ and integrating work done as the current reaches the target $I$, and assuming that the magnetic permeability of the inductors core remains constant as the current increases, we can derive the following formula for energy stored by an inductor:
+$
+  W = 1 / 2 L I^2 = 1 / 2 Phi I
+$
+where $Phi$ is the linked flux. This also includes the energy lost to the magnetisation of a ferromagnetic core.
+
 === Inductance of Common Coils
-It can be tricky to determine which surface exactly is "linked to a coil". As a rule of thumb, the total flux can be calculated using the flux of the surface enclosed by the loop if the coil were a single wire multiplied by the number of turns $N$, for example a toroid in the diagram below:
-$
-  Phi_"Total" approx N Phi_"Loop"
-$
+It can be tricky to determine which surface exactly is "linked to a coil". In the case of a single loop of wire, the total flux can be calculated using the flux through the circular surface enclosed by the loop - similarly to Ampere's circuital law. For a toroidal coil with a ferromagnetic core, the vast majority of the flux flows through the core. Hence we can calculate the flux through a vertical cross section of the core $Phi_A$, multiplied by the number of turns $N$ (spiral-like surface).
 #figure(
   image("images/flux-toroid.png", width: 40%),
 ) <fig-flux-toroid>
@@ -1303,13 +1311,13 @@ $
 == Induction
 Charges moving relative to a magnetic field experience a force, as detailed in Lorentz's force law, which can result in a potential difference across a conductor (see the Hall effect). When modelling this in terms of magnetic flux, we arrive at the following relationship, named *Faraday's Law of Induction*:
 $
-  U = -(d arrow(Phi)) / (d t)
+  U = -(d Phi) / (d t)
 $
-The voltage induced across a conductor is equal to the rate of change of magnetic flux through its surface or the linked flux of the surface enclosed by a loop(s) of wire.
+The voltage induced across a conductor is equal to the rate of change of linked magnetic flux.
 
-In integral form:
+In integral form for a wire looping around the surface $A$ N times (the same perpedicular flux goes through each loop once):
 $
-  integral.cont arrow(E) dot d arrow(s) = -(d (integral.double_A arrow(B) dot d arrow(A))) / (d t)
+  integral.cont arrow(E) dot d arrow(s) = -(N d (integral.double_A arrow(B) dot d arrow(A))) / (d t)
 $
 
 The charges inside a conductor undergoing *moving induction* feel no resultant force; the Lorentz force due their relative velocity is equal to their electrostatic attractive force once a stable potential difference has been reached. This means that the net electric field through the conductor becomes 0 (as any new test charge would feel no force), and it does not contribute to the total voltage path integral.
@@ -1389,6 +1397,18 @@ $
 A mutal-inductive system of two coils can in turn be described by a single coupling coefficient:
 $
   k = plus.minus sqrt(k_1 k_2) = M / sqrt(L_11 L_22)
+$
+
+==== Energy Stored in Coupled System
+Using a similar derivation as when calculating the energy stored by a single inductor, integrating one current increasing at a time and setting each total energy as eqaul, we arrive at the following formula for the energy stored in an inductively coupled system:
+$
+  W = 1 / 2 L_11 I_1^2 + M I_1 I_2 + 1 / 2 L_22 I_2^2
+$
+The energy stored by the mutual inductance flux alone only appears once which makes intuitive sense, it is "the same" magnetic field after all...
+
+This can be generalised for a system of $n$ coils:
+$
+  W = 1 / 2 sum_(i = 1)^n sum_(k = 1)^n L_(i k) I_i I_k
 $
 
 == Maxwell's Equations
