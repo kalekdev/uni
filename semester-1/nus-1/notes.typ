@@ -1182,6 +1182,36 @@ $
 $
 where $Phi$ is the linked flux. This also includes the energy lost to the magnetisation of a ferromagnetic core.
 
+Furthermore, we can determine the energy in integral form. By considering the self inductance of a toroid, we arrive at:
+$
+  W / V = integral_0^B arrow(H) d arrow(B)
+$
+The so-called *magnetic energy density*.
+
+Using a volume integral, we can calculate the entire magnetic energy stored in a specific volume, for example the entire core of a toroidal inductor:
+$
+  W = integral.triple_V (integral_0^B arrow(H) d arrow(B)) d arrow(V)
+$
+If the magnetic permeability in the material remains constant (non-ferromagnetic core for example), we can simplify the energy density integral:
+$
+  integral_0^B arrow(H) d arrow(B) &= 1 / mu integral_0^B arrow(B) d arrow(B)\
+  &= 1 / (2 mu) arrow(B)^2 = 1 / 2 arrow(H) dot arrow(B)
+$
+Therefore:
+$
+  W = 1 / 2 integral.triple_V arrow(H) dot arrow(B)space d arrow(V)
+$
+
+When considering the hysteresis curve of a ferromagnetic core, we can calculate the total energy stored / released as the inductor is attached to an alternating current source. This can be calculated by integrating over the energy density during storage release of energy:
+$
+  integral_0^B arrow(H) d arrow(B) = integral_0^B x d y
+$
+#figure(
+  image("images/magnetic-energy-hysteresis.png", width: 60%),
+) <fig-magnetic-energy-hysteresis>
+The difference between these two areas results in the energy lost to heat whilst magnetising / demagnetising the core. Visually, this is equal to the area enclosed by the hysteresis curve.
+
+
 === Inductance of Common Coils
 It can be tricky to determine which surface exactly is "linked to a coil". In the case of a single loop of wire, the total flux can be calculated using the flux through the circular surface enclosed by the loop - similarly to Ampere's circuital law. For a toroidal coil with a ferromagnetic core, the vast majority of the flux flows through the core. Hence we can calculate the flux through a vertical cross section of the core $Phi_A$, multiplied by the number of turns $N$ (spiral-like surface).
 #figure(
@@ -1410,6 +1440,84 @@ This can be generalised for a system of $n$ coils:
 $
   W = 1 / 2 sum_(i = 1)^n sum_(k = 1)^n L_(i k) I_i I_k
 $
+
+=== Generators / Motors
+These can be used to convert between mechanical and electrical energy.
+
+Consider a coil with N loops in an external, homogenous magnetic field, starting such that the normal of its enclosed area and magnetic field are pointing in the same direction, then rotating with angular velocity $omega$:
+#figure(
+  image("images/generator-diagram.png", width: 60%),
+) <fig-generator-diagram>
+
+The linked magnetic flux at any point in time can be represented as:
+$
+  Phi(t) = N integral.double_A arrow(e_x) B dot d arrow(A) = N B A cos(phi) = hat(Phi) cos(omega t)
+$
+Where $hat(Phi)$ is the amplitude (peak linked flux when $phi = 0$). These relationships must of course be adjusted carefully for a different starting angle / direction of magnetic field.
+
+Using Faraday's Law of Induction:
+$
+  V(t) = - (d Phi(t)) / (d t) = omega hat(Phi) sin(omega t)
+$
+Such that the peak induced voltage is:
+$
+  hat(V) = omega hat(Phi) = N B A omega
+$
+#figure(
+  image("images/generator-phase-difference.png", width: 60%),
+) <fig-generator-phase-difference>
+The phase difference between linked flux and voltage is $pi/2$.
+
+_Rotor_ - The moving part of the generator / motor\
+_Stator_ - Stationary part
+
+More complex arrangements of the rotor and stator can reduce friction and improve efficiency + reliability, but they all work on the same principle. Serious industrial generators usually have 1000s of windings to reach the high voltages required for power transmission and electromagnets are used instead of permanent, allowing control over when the magnetic field is at its highest in synchronisation with the windings.
+
+TODO: Calculate resistive moment and input energy in terms of moment
+
+==== 3-Phase Induction
+In practice, 3 coils at $(360 degree)/3=120 degree = (2 pi) / 3$ angles to each other are often used in generators / motors:
+#figure(
+  image("images/three-phase.png", width: 60%),
+) <fig-three-phase>
+Their voltages can be described in terms of the same angular frequency as:
+$
+  V_1(t) = hat(V) sin(omega t)\
+  V_2(t) = hat(V) sin(omega t - (2pi)/3)\
+  V_3(t) = hat(V) sin(omega t - (4pi)/3)\
+$
+Often magnetic dipole(s) are used as the rotor and the 3 coils remain stationary around the stator instead, for example in brushless AC motors.
+#figure(
+  image("images/brushless-motor.png", width: 40%),
+) <fig-brushless-motor>
+In this case, the coordinated 3 phase currents ($prop V$) create a circulating magnetic field and thus a moment on the dipole causing it to turn.
+
+===== Advantages
+3-Phase power circuits are drawn as below:
+#figure(
+  image("images/three-phase-star.png", width: 60%),
+) <fig-three-phase-star>
+The coils are often connected to a common reference point using the same returning Neutral wire, which saves half of the wire needed if each coil was connected to its load separately.
+
+Furthermore, if they each have the same load, the total current returning on the Neutral wire is 0 (unless something broke) meaning we can completely remove it and save even more wire (and potential power losses considering how power grid wires are):
+$
+  i_1 + i_2 + i_3 &= (v_1 + v_2 + v_3) / R= hat(i)[sin(omega t) + sin(omega t - (2pi)/3) + sin(omega t - (4pi)/3)]\
+  &= 0
+$
+
+Another interesting property is the potential difference between the ends of any two 3-phase coils with a common ground. Using the $sin$ sum identity, we can calculate $u_12$:
+$
+  u_12 = sqrt(3) hat(V)sin(omega t + pi/6)
+$
+The maximum voltage is $sqrt(3) times$ higher!
+
+Alternatively, coils can be connected as below:
+#figure(
+  image("images/three-phase-triangle.png", width: 60%),
+) <fig-three-phase-triangle>
+In this case, the voltages across each load is the same and the maximum currents $i_k$ are $sqrt(3) times$ higher (if the loads are identical).
+
+=== Transformers
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
