@@ -167,6 +167,7 @@ Matrix addition / scalar multiplication is carried out in the same way as vector
 
 $
   bold((A B)^T = B^T A^T)\
+  bold((A B)^H = B^H A^H)\
   bold((A + B)^T = A^T + B^T)\
   bold((A + B)^H = A^H + B^H)\
 $
@@ -202,11 +203,6 @@ $
 
 === Adjugate Matrix
 TODO: cover adj matrix here https://en.wikipedia.org/wiki/Determinant#Adjugate_matrix
-
-=== Matrix Symmetry
-_Symmetrical_ - $bold(A^T) = bold(A)$\
-_Antisymmetrical_ - $bold(A^T) = -bold(A)$\
-_Hermetian Symmetry_ - $bold(A^H) = bold(A)$\
 
 === Matrix Multiplication\
 Can be thought as the combination of transformations of space.
@@ -359,6 +355,7 @@ Let $bold(Q)$ be an orthogonal matrix:
 $
 - Preserves angles $hat(bold(Q x\, Q y)) = hat(bold(x\, y))$
 - Are always regular $<=>$ columns are linearly independent
+- Their eigenspaces are orthogonal to each other and $lambda = abs(1)$
 
 === Rotation Matrix
 Matrix that rotates space by $alpha$ degrees anticlockwise:#footnote("Derivation through trigonometry in script by Dr. V Gradinaru")
@@ -1085,7 +1082,7 @@ Some transformations, for example rotations in 2D, have no real, non-zero eigenv
 - If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space of the original matrix.
 - The inverse of a matrix has the same eigenvectors, and eigenvalues $1/(lambda_n)$ (because it brings scaled eigenvectors back to their original length).
 - The eigenvalues of repeated transformations $A^k$ are simply powered: $(lambda_n)^k$ because the same eigenvectors are simply repeatedly scaled.
-- Scalar multiplication of a matrix leads to eigenvalues multiplied by the same scalar.
+- Scalar multiplication of a matrix leads to eigenvalues multiplied by the same scalar - matrices represent linear transformations hence $alpha bold(A(x)) = bold(A)(alpha bold(x)) = alpha lambda bold(x)$.
 - Addition of matrices does not necessarily mean the eigenvalues can be added, algebraic rearrangement can be used to find eigenvalues of a polynomial of a matrix.
 
 
@@ -1143,7 +1140,7 @@ Each Gershgorin circle of the matrix has a radius smaller than its center positi
 == Diagonal Matrices
 _Diagonal Matrix_ - A matrix with 0 entries everywhere except the diagonal.
 
-They are very useful in applications as multiplying by a diagonal matrix targets a specific row:
+They are very useful in applications as multiplying by a diagonal matrix only affects the same row:
 $
   mat(
   a_1, 0, 0;
@@ -1172,12 +1169,12 @@ Two $n times n$ matrices $bold(A)$ and $bold(B)$ are similar if there exists an 
 $
   bold(A = P^(-1) B P)
 $
-Intuitively the matrices $bold(A)$ and $bold(B)$ represent the same transformation in different bases, hence the name *similar*.
-
-Furthermore, similar matrices have *the same eigenvalues* which all have *the same algebraic multiplicity*.
 
 Transformations in this form are ubiquitous, for example a transformation which is awkward to calculate in the canonical basis can be written using a change of basis matrix $bold(P)$, the easier to compute equivalent transformation $bold(B)$ in the new basis, followed by a return to the original basis $bold(P^(-1))$.
 
+Intuitively the matrices $bold(A)$ and $bold(B)$ represent the same transformation in different bases, hence the name *similar*.
+
+As a result of this, similar matrices have *the same eigenvalues* which all have *the same algebraic multiplicity*.
 
 === Diagonalization
 A matrix which is similar to a diagonal matrix $bold(D)$ can be called *diagonalizable*:
@@ -1186,7 +1183,7 @@ $
 $
 
 === Diagonalisation
-A matrix $bold(A)$ with $n$ linearly independent eigenvectors can be diagonalised by setting the eigenvectors ${bold(s_1), bold(s_2), ..., bold(s_n)}$ as columns of a matrix $bold(S)$:
+An $n times n$ matrix $bold(A)$ with $n$ linearly independent eigenvectors can be diagonalised by setting the eigenvectors ${bold(s_1), bold(s_2), ..., bold(s_n)}$ as columns of a matrix $bold(S)$:
 $
   bold(S) &= mat(bold(s_1), bold(s_2), ..., bold(s_n))\
   bold(S^(-1) A S = D) &= mat(
@@ -1195,11 +1192,42 @@ $
 dots.v, dots.down, dots.v, dots.v;
 0, 0, ..., lambda_n)
 $
+Therefore a similar diagonal matrix can simply be formed using its eigenvalues in any order (as long as $bold(S)$ is consistent with this order):
+$
+  bold(D) = "diag"(lambda_1, lambda_2, ...)
+$
 
 #figure(
   image("images/diagonalisability.png", width: 90%),
 ) <fig-diagonalisability>
 This can be derived from the fact that $n = sum "AM"_i$ due to the fundamental theorem of algebra.
+
+== Normal Matrices
+An identity in terms of the Hermetian $bold(A^H)$ of a matrix will also be assumed to be valid for the tranpose unless stated otherwise.
+
+$
+  bold(A) "is normal" <=> bold(A^H A = A A^H)
+$
+
+TODO: Overarching statement about their eigenvalues
+
+=== Symmetric Matrices
+A square matrix may be symmetric across its diagonal:
+- _Symmetric_ - $bold(A^T) = bold(A)$
+- _Antisymmetric_ - $bold(A^T) = -bold(A)$
+- _Hermetian Symmetric_ - $bold(A^H) = bold(A)$
+
+Hence every (Hermetian) symmetric matrix is also normal.
+
+=== Properties
+- The sum of two symmetric matrices is also symmetric
+- $A^n$ is also symmetric
+- $A "is symmetric" <=> A^(-1) "is symmetric"$
+- $<x, A y> = x^H A y = x^H A^H y = <A x, y>$ is valid for a symmetric matrix $A in RR^(n times n) union CC^(n times n)$
+- All eigenvalues of a (hermetian) symmetric matrix are real and different eigenspaces are orthogonal to one another.
+- All eigenvalues of an antisymmetric matrix are purely imaginary $lambda = b i | b in RR$, despite this their eigenspaces are still orthogonal.
+
+=== Spectral Theorem
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
