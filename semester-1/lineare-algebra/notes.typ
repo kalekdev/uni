@@ -155,8 +155,10 @@ $
 $
 This can be thought of as pinning the first elements of each row and letting the rest of the row swing down vertically.
 
-==== Hermitian matrix
-$bold(A) in CC^(m times n), bold(A^H)$ - The same as a transposed matrix however each element becomes its complex conjugate $overline(a)$.
+==== Conjugate Tranpose
+$bold(A) in CC^(m times n), bold(A^H)$ - The same as a transposed matrix however each element becomes its complex conjugate $overline(a)$. In physics, this is often written as $bold(A^dagger)$
+
+A matrix which satisfies $bold(A) = bold(A^H)$ is called a Hermitian matrix ie. a complex symmetric matrix.
 
 LTD: Investigate thoroughly https://en.wikipedia.org/wiki/Hermitian_adjoint
 
@@ -328,8 +330,18 @@ The decomposed system can then be used to solve for $bold(x)$ in the following w
 
 LTD: Other decomposition methods (Cholesky etc)
 
-== Orthogonal Matrices
-_Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space.
+== Unitary Matrices
+Unitary matrices preserve norms, hence they have $det = 1$.
+$
+  bold(Q^H Q = I) <=> "Q is Unitary"\
+$
+
+Furthermore, their eigenspaces are orthogonal to each other and $lambda = abs(1)$ - they are a subset of the normal matrices.
+
+LTD: Investigate unitary matrix applications
+
+=== Orthogonal Matrices
+_Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space. Thus, orthogonal matrices are the real subset of unitary matrices.
 
 In other words, the columns are rows of an orthogonal matrix are orthonormal to each other (see Gram-Schmidt).
 TODO: Learn how to link to reference typst
@@ -337,7 +349,6 @@ TODO: Learn how to link to reference typst
 The inverse of a rotation / reflection of space is logically its transposition (consider the rotation of base vectors to different axis):
 $
   bold(Q^T Q = I) : "Q is Orthogonal"\
-  bold(Q^H Q = I) : "Q is Unitary"\
   "Sei P Orthogonal"\
   bold(Q P) "und" bold(P Q) "sind auch Orthogonal"
 $
@@ -345,9 +356,7 @@ An alternative intuition for this is considering matrix multiplication with the 
 
 Orthogonal matrix multiplication is still generally not commutative.
 
-LTD: Investigate unitary vs orthogonal applications
-
-=== Properties of orthogonal matrices
+==== Properties of orthogonal matrices
 Let $bold(Q)$ be an orthogonal matrix:
 
 - Preserves lengths: $
@@ -355,9 +364,8 @@ Let $bold(Q)$ be an orthogonal matrix:
 $
 - Preserves angles $hat(bold(Q x\, Q y)) = hat(bold(x\, y))$
 - Are always regular $<=>$ columns are linearly independent
-- Their eigenspaces are orthogonal to each other and $lambda = abs(1)$
 
-=== Rotation Matrix
+==== Rotation Matrix
 Matrix that rotates space by $alpha$ degrees anticlockwise:#footnote("Derivation through trigonometry in script by Dr. V Gradinaru")
 $
   R(alpha) = mat(
@@ -395,7 +403,7 @@ _Givens Rotation_ $G(phi) = R(-phi)$ - Simply a rotation by the angle $phi$ in t
 
 Rotations which are not confined to a plane can be achieved through a series of plane rotations multiplied together, still resulting in an orthogonal matrix.
 
-=== Reflection (Householder) Matrix
+==== Reflection (Householder) Matrix
 The orthogonal Householder matrix $Q$ represents the reflection of space (a vector $bold(x)$ which does not lie on the plane) over an arbitrary plane with normal *unit* vector $bold(u)$:
 
 $
@@ -800,7 +808,7 @@ $
 === Matrix Norms
 Every norm in $RR^n$ defines a corresponding matrix norm, which is a measure of how much that norm is affected after the matrix is applied as a linear transformation:
 $
-  bold(A): m times n\
+  bold(A) in RR^(m times n)\
   bold(x) in RR^n | norm(bold(x))_p = 1\
   norm(bold(A))_p := max(norm(bold(A x))_p)
 $
@@ -825,14 +833,30 @@ $A x$ results in the sum of each row:
   image("images/max-row-sum.png", width: 60%),
 ) <fig-max-row-sum>
 
-LTD: Spectral norm after learning eigenvalues
+==== Spectral Norm ($norm(dot)_2$)
+This is a measure of the maximum a matrix increases the Euclidean norm (lengths) of vectors in space - an extremely useful result.
+
+It can be calculated as follows:
+$
+  norm(bold(A))_2 = sqrt(lambda_"max" (bold(A^H A)))
+$
+If $bold(A)$ is symmetrical:
+$
+  norm(bold(A))_2 = abs(lambda_"max" (bold(A)))
+$
+
+In the singular case, real eigenvalues are ensured, meaning the maximum eigenvalue is the correct equivalent of the spectral norm (each eigenvalue has two unit vectors in its eigenspace which increase in length by $lambda_"max"$).
+
+$bold(A^H A)$ ensures the eigenvalues become real ($CC dot CC = RR$), which is then accounted for by the square root.
+
+LTD: Worth revisiting after SVD, they seem to be heavily related.
 
 == Inner Products
 In Euclidean space, the dot product is an inner product.
 #figure(
   image("images/dot-products.png", width: 80%),
 ) <fig-dot-products>
-A _positiv semi-definit_ operation is not an inner product.
+A _positiv semi-definite_ operation is not an inner product.
 
 Any operation that satisfies these properties leads to its corresponding norm being defined as:
 #figure(
@@ -1069,6 +1093,7 @@ $
 _Eigenvectors_ - Vectors which a linear transformation scales onto the original line it spans.\
 _Eigenvalues_ - The corresponding scalar by which a set of eigenvectors is multiplied by.\
 _Eigenspace_ - The space containing all eigenvectors for a given eigenvalue - $"Span"{x | A x = lambda x}$
+_Spectrum_ - The set of eigenvalues of a matrix.
 
 These are very important when analyzing the effects of linear transformations without a standard basis. For example one can find the axis of a rotation of an arbitrary 3D rotation (vectors with eigenvalue 1).
 LTD: Possible applications
@@ -1132,6 +1157,8 @@ The Gershgorin Disk Theorem defines an easy-to-compute area in which all eigenva
 ) <fig-gershgorin-theorem>
 In simple terms, all eigenvalues of a matrix can be found in the circles with centers at the diagonal value, such that the radius is less than the absolute sum of all other terms on the row.
 
+This allows us to narrow down the range of values checked in numerical methods, vastly reducing computation.
+
 #figure(
   image("images/diagonal-dominant.png", width: 80%),
 ) <fig-diagonal-dominant>
@@ -1182,11 +1209,10 @@ $
   bold(A = P^(-1) D P)
 $
 
-=== Diagonalisation
-An $n times n$ matrix $bold(A)$ with $n$ linearly independent eigenvectors can be diagonalised by setting the eigenvectors ${bold(s_1), bold(s_2), ..., bold(s_n)}$ as columns of a matrix $bold(S)$:
+*An $n times n$ matrix $bold(A)$ with $n$ linearly independent eigenvectors can be diagonalized* by setting those eigenvectors ${bold(s_1), bold(s_2), ..., bold(s_n)}$ as columns of a matrix $bold(S)$:
 $
   bold(S) &= mat(bold(s_1), bold(s_2), ..., bold(s_n))\
-  bold(S^(-1) A S = D) &= mat(
+  bold(S^(-1) A S = Lambda) &= mat(
   lambda_1, 0, ..., 0;
 0, lambda_2, ..., 0;
 dots.v, dots.down, dots.v, dots.v;
@@ -1196,6 +1222,7 @@ Therefore a similar diagonal matrix can simply be formed using its eigenvalues i
 $
   bold(D) = "diag"(lambda_1, lambda_2, ...)
 $
+Those eigenvalues do not need to unique - some may have geometric multiplicity $>1$.
 
 #figure(
   image("images/diagonalisability.png", width: 90%),
@@ -1203,13 +1230,34 @@ $
 This can be derived from the fact that $n = sum "AM"_i$ due to the fundamental theorem of algebra.
 
 == Normal Matrices
-An identity in terms of the Hermetian $bold(A^H)$ of a matrix will also be assumed to be valid for the tranpose unless stated otherwise.
+Identities in terms of the Hermetian $bold(A^H)$ of a matrix will also be assumed to be valid for the real tranpose unless stated otherwise.
 
 $
   bold(A) "is normal" <=> bold(A^H A = A A^H)
 $
 
-TODO: Overarching statement about their eigenvalues
+A useful property of normal matrices in general is that $n$ eigenvectors *can always be chosen to be orthogonal* to each other:
+- If there are $n$ distinct eigenvalues, these eigenspaces are orthogonal to one another
+- If there are eigenvalues with geometric multiplicity $> 1$ this is not an issue. For example, all vectors are eigenvectors of the identity matrix's only eigenvalue $lambda = 1$, and we can choose any $n$ dimensional orthogonal basis without issues to satisfy this statement.
+$
+  bold(A) "is normal" => bold(A) "has n orthogonal eigenvalues" => bold(A) "is diagonalizable!"
+$
+
+Therefore, they are diagonalisable through an ortho(normal) change of basis matrix - the eigenvalues are not just linearly independent:
+$
+  bold(A = Q Lambda Q^(-1)= Q Lambda Q^T)\
+$
+Dividing each column by its norm can make the orthogonal matrices orthonormal.
+
+This is an incredibly useful statement for computation - we love orthonormal and diagonal matrices!
+
+This is be generalised with unitary matrices as the so called *Spectral Theorem*:
+$
+  bold(A) "is normal" => bold(A = U Lambda U^H)
+$
+The inverse does *not* always apply.
+
+LTD: Reason for name, investigate optics applications
 
 === Symmetric Matrices
 A square matrix may be symmetric across its diagonal:
@@ -1217,17 +1265,29 @@ A square matrix may be symmetric across its diagonal:
 - _Antisymmetric_ - $bold(A^T) = -bold(A)$
 - _Hermetian Symmetric_ - $bold(A^H) = bold(A)$
 
-Hence every (Hermetian) symmetric matrix is also normal.
+Hence, symmetric matrices are a subset of the orthonormal matrices:
+$
+  bold(A^H A = A A = A A^H)
+$
 
 === Properties
 - The sum of two symmetric matrices is also symmetric
 - $A^n$ is also symmetric
 - $A "is symmetric" <=> A^(-1) "is symmetric"$
+- Since they are normal, eigenvectors can always be chosen to be orthogonal.
+- Additionally, *eigenvalues* of a symmetric (including Hermetian symmetric!) matrix are *guaranteed to be real*!
+- The number of positive pivots is equal to the number of positive eigenvalues (and vice versa for negatives). This is of similar use as Gershgorin's Circle theorem for estimating eigenvalues of matrices with high order characteristic polynomials.
+- All eigenvalues of an antisymmetric matrix are purely imaginary $lambda = b i | b in RR$, despite this their eigenvectors can still be chosen as orthogonal.
 - $<x, A y> = x^H A y = x^H A^H y = <A x, y>$ is valid for a symmetric matrix $A in RR^(n times n) union CC^(n times n)$
-- All eigenvalues of a (hermetian) symmetric matrix are real and different eigenspaces are orthogonal to one another.
-- All eigenvalues of an antisymmetric matrix are purely imaginary $lambda = b i | b in RR$, despite this their eigenspaces are still orthogonal.
 
-=== Spectral Theorem
+=== Positive-Definite Matrices
+These are symmetric matrices which have *only positive* eigenvalues and therefore only positive pivots.
+
+Therefore the total determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only check the total determinant, may have two negative eigenvalues).
+
+== Schur Decomposition
+All square matrices (not only normal) are similar to a unitary matrix, with orthogonal change of base matrices! So cool :D, computers are gonna be so happy when they hear about this
+
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
