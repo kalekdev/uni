@@ -845,11 +845,34 @@ $
   norm(bold(A))_2 = abs(lambda_"max" (bold(A)))
 $
 
-In the singular case, real eigenvalues are ensured, meaning the maximum eigenvalue is the correct equivalent of the spectral norm (each eigenvalue has two unit vectors in its eigenspace which increase in length by $lambda_"max"$).
+In the singular case, real eigenvalues are ensured, which we have $n$ of, meaning the a linear combination of eigenvectors can cover the entire space and the maximum eigenvalue is the largest resulting norm of any unit vector (each eigenvalue has two unit vectors in its eigenspace which increase in length by $lambda_"max"$).
 
-$bold(A^H A)$ ensures the eigenvalues become real ($CC dot CC = RR$), which is then accounted for by the square root.
+$bold(A^H A)$ ensures the eigenvalues become real ($CC dot CC = RR$), which is then accounted for by the square root - this can be proven due to $bold(A^H A)$ being Hermetian symmetric and thus diagonalizable using unitary matrixes accoring to the spectral theorem.
 
-LTD: Worth revisiting after SVD, they seem to be heavily related.
+Furthermore, the spectral norm a matrix's inverse can be intuitively calculated as:
+$
+  norm(bold(A)^(-1))_2 = 1 / sqrt(lambda_"min" (bold(A^H A)))
+$
+TODO: Wait for reply to email
+
+TODO: The intuition for what $bold(A^H A)$ is has something to do with the singulars of a matrix, revisit.
+
+==== Condition Number
+This is a measure of how accurately the inverse of a matrix can be computed:
+$
+  k(bold(A)) = norm(bold(A))_2 norm(bold(A^(-1)))_2
+$
+- $k=1$ - The matrix is said to be well-conditioned
+- $k >> 1$ - Such a matrix is almost singular and is very prone to errors
+
+For a symmetric matrix $bold(A)$:
+$
+  k(bold(A)) = sqrt(abs(lambda_"max" (bold(A)))/abs(lambda_"min" (bold(A))))
+$
+
+It is purely a property of the matrix based on how much bigger the maximum eigenvalue is than the minimum eigenvalue - ie how much more the matrix stretches vectors in a specific direction than the others - which makes it more susceptible to computational errors.
+
+LTD: Benchmark condition numbers of different types of matrices.
 
 == Inner Products
 In Euclidean space, the dot product is an inner product.
@@ -1280,10 +1303,17 @@ $
 - All eigenvalues of an antisymmetric matrix are purely imaginary $lambda = b i | b in RR$, despite this their eigenvectors can still be chosen as orthogonal.
 - $<x, A y> = x^H A y = x^H A^H y = <A x, y>$ is valid for a symmetric matrix $A in RR^(n times n) union CC^(n times n)$
 
-=== Positive-Definite Matrices
+=== Symmetric Positive-Definite Matrices
 These are symmetric matrices which have *only positive* eigenvalues and therefore only positive pivots.
 
 Therefore the total determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only check the total determinant, may have two negative eigenvalues).
+
+Another way of checking this is ensuring the dot product of all vectors before and after the transformation is $>= 0$ - space continues pointing in the same directions:
+$
+  forall bold(x) in RR^n | <bold(x), bold(A x)> = bold(x^T A x) >= 0\
+  <bold(x), bold(A x)> = 0 => bold(x) = 0\
+$
+If the zero vector checking condition is not satisfied, the matrix is called *semi positive-definite* - in other words some non-zero vectors are either sent to the zero vector or become orthogonal.
 
 == Schur Decomposition
 All square matrices (not only normal) are similar to a unitary matrix, with orthogonal change of base matrices! So cool :D, computers are gonna be so happy when they hear about this
