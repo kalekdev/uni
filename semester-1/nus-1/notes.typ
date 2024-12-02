@@ -345,7 +345,7 @@ $
   I = integral.double_A arrow(J) dot d arrow(A)
 $
 
-=== Resistance
+== Resistance
 As electrons in a conductor are accelerated in the same direction by an external electric field, they bump into stationary nuclei in the lattice, causing them to decelerate and scatter. The resulting average velocity of electrons (hence the negative sign) at a point is called the *drift velocity* and is directly proportional to the electric field. The constant of proportionality $mu$ is called *electron mobility (Beweglichkeit)*:
 $
   arrow(v_e) &= -mu_e arrow(E)\
@@ -390,7 +390,25 @@ $
 
 Alloys usually have worse conductivity than pure metals due to their irregular atomic structure.
 
-=== Ohm's Law
+=== Real-world Resistors
+Manufacturers usually produce series of resistors with certain tolerances, so that there are no gaps between the maximum / minimum allowed resistance in their catalogue. This ensures that no resistors are wasted and each can be sorted into a value, then marked with the corresponding key (coloured rings for through-hole, number codes on SMD resistors).
+
+_Thin Film_ - A thin film of carbon / metal is applied onto a ceramic or glass base, then coated with plastic to prevent damage. This is the typical through-hole resistor that comes to mind and is the most common technology for SMD resistors, however it is not the most precise / power tolerant. Sometimes parts of the film are etched away to reduce cross-sectional area of the conductor and increase resistance. They genuinely have the lowest parasitic inductance and are suitable for high-frequency applications (less resistance to changing current).
+
+_Wirewound_ - A thin wire is wound around a ceramic core, usually in a zig-zag manner to reduce parastic inductance. These are very precise and suitable for high-power applications, but are typically not available in SMD form. However, they have a relatively high parasitic inductance.
+
+_Metal Strip_ - This is simply a strip of metal / alloy (depending on desired resistance), usually resulting in a very low ohmic value. They are often used as shunts for measuring current.
+
+_Potentiometer_ - Variable resistor adjusted by moving a physical contact.
+
+_Thermistor_ - These are used in all kinds of temperature measurement circuits. They are made from semiconductors and are usually NTC (negative temperature coefficient), meaning their resistance decreases by a reliable amount as temperature increases, although PTC thermistors are also available.
+
+_VDR (Voltage dependent resistor)_ - These are used to protect against voltage surges.
+
+_LDR_ - Light dependent resistor.
+
+
+== Ohm's Law
 In differential form:
 $
   arrow(J) = kappa arrow(E)
@@ -440,23 +458,6 @@ The resistance of a hollow sphere with radius $a$ for the first shell and $b$ at
 $
   R = (rho_R (b - a)) / (4pi a b)
 $
-
-=== Real-world Resistors
-Manufacturers usually produce series of resistors with certain tolerances, so that there are no gaps between the maximum / minimum allowed resistance in their catalogue. This ensures that no resistors are wasted and each can be sorted into a value, then marked with the corresponding key (coloured rings for through-hole, number codes on SMD resistors).
-
-_Thin Film_ - A thin film of carbon / metal is applied onto a ceramic or glass base, then coated with plastic to prevent damage. This is the typical through-hole resistor that comes to mind and is the most common technology for SMD resistors, however it is not the most precise / power tolerant. Sometimes parts of the film are etched away to reduce cross-sectional area of the conductor and increase resistance.
-
-_Wirewound_ - A thin wire is wound around a ceramic core, usually in a zig-zag manner to reduce parastic inductance. These are very precise and suitable for high-power applications, but are typically not available in SMD form.
-
-_Metal Strip_ - This is simply a strip of metal / alloy (depending on desired resistance), usually resulting in a very low ohmic value. They are often used as shunts for measuring current.
-
-_Potentiometer_ - Variable resistor adjusted by moving a physical contact.
-
-_Thermistor_ - These are used in all kinds of temperature measurement circuits. They are made from semiconductors and are usually NTC (negative temperature coefficient), meaning their resistance decreases by a reliable amount as temperature increases, although PTC thermistors are also available.
-
-_VDR (Voltage dependent resistor)_ - These are used to protect against voltage surges.
-
-_LDR_ - Light dependent resistor.
 
 === Conductor Boundary Conditions
 As a constant current passes through the boundary of two different conductors with specific conductivity $kappa_1$ and $kappa_2$, we can analyse the change in normal and tangential components of the current density and electrical (caused by the voltage source) fields. Let us once again consider an infinitely small cylinder at the boundary.
@@ -1068,7 +1069,7 @@ The same applies in the opposite direction, demagnetization occurs when an exter
 
 Ferromagnet flux density depends heavily on temperature and its previous state, hence the relationship between $arrow(B)$ and $arrow(H)$ is not linear and their relative permeability is only a rough approximation.
 
-Materials with a high $H_c$ value are labeled as magnetically hard.
+Materials with a high $H_c$ value are labeled as magnetically hard - they are used for producing permanent magnets or in applications such as magnetic tape storage, however they would be undesireable as the core of a transformer due to the large hysteresis energy losses.
 
 The *Curie-Temperature* of a ferromagnetic material is the temperature at which it loses its magnetic properties due to overwhelming kinetic energy - around 770 $degree C$ for iron.
 
@@ -1499,7 +1500,7 @@ In this case, the coordinated 3 phase currents ($prop V$) create a circulating m
 ) <fig-three-phase-star>
 The coils are often connected to a common reference point using the same returning Neutral wire, which saves half of the wire needed if each coil was connected to its load separately.
 
-Furthermore, if they each have the same load, the total current returning on the Neutral wire is 0 (unless something broke) meaning we can completely remove it and save even more wire (and potential power losses considering how power grid wires are):
+Furthermore, if they each have the same load, the total current returning on the Neutral wire is 0 (unless something broke) meaning we can completely remove it and save even more wire (and potential power losses considering how long power grid wires are):
 $
   i_1 + i_2 + i_3 &= (v_1 + v_2 + v_3) / R= hat(i)[sin(omega t) + sin(omega t - (2pi)/3) + sin(omega t - (4pi)/3)]\
   &= 0
