@@ -1119,7 +1119,7 @@ _Eigenspace_ - The space containing all eigenvectors for a given eigenvalue - $"
 _Spectrum_ - The set of eigenvalues of a matrix.
 
 These are very important when analyzing the effects of linear transformations without a standard basis. For example one can find the axis of a rotation of an arbitrary 3D rotation (vectors with eigenvalue 1).
-LTD: Possible applications
+LTD: More applications!
 
 Some transformations, for example rotations in 2D, have no real, non-zero eigenvalues.
 
@@ -1130,8 +1130,10 @@ Some transformations, for example rotations in 2D, have no real, non-zero eigenv
 - If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space of the original matrix.
 - The inverse of a matrix has the same eigenvectors, and eigenvalues $1/(lambda_n)$ (because it brings scaled eigenvectors back to their original length).
 - The eigenvalues of repeated transformations $A^k$ are simply powered: $(lambda_n)^k$ because the same eigenvectors are simply repeatedly scaled.
+- $bold(A)$ and $bold(A^2)$ do *not* necessarily have the same eigenvalues as signs are lost.
 - Scalar multiplication of a matrix leads to eigenvalues multiplied by the same scalar - matrices represent linear transformations hence $alpha bold(A(x)) = bold(A)(alpha bold(x)) = alpha lambda bold(x)$.
 - Addition of matrices does not necessarily mean the eigenvalues can be added, algebraic rearrangement can be used to find eigenvalues of a polynomial of a matrix.
+- If $bold(A)$ is square, $bold(A^T)$ has the same spectrum.
 
 
 === Finding Eigenvalues / Vectors
@@ -1245,12 +1247,14 @@ Therefore a similar diagonal matrix can simply be formed using its eigenvalues i
 $
   bold(D) = "diag"(lambda_1, lambda_2, ...)
 $
-Those eigenvalues do not need to unique - some may have geometric multiplicity $>1$.
+Those eigenvalues do not need to unique - some may have geometric multiplicity $>1$. However, the chosen eigenvectors must be independent to ensure $bold(S)$ is invertible.
+
+Calculating a diagonal form of the matrix (albeit in another basis) can be extremely useful for simplifying calculations, for example calculations where raw access to its eigenvalues is useful, or analyzing the properties of the transformation it represents.
 
 #figure(
   image("images/diagonalisability.png", width: 90%),
 ) <fig-diagonalisability>
-This can be derived from the fact that $n = sum "AM"_i$ due to the fundamental theorem of algebra.
+To be able to chose n independent eigenvectors, $sum "GM" = n$. The fundamental theorem of algebra states $n = sum "AM"$, hence if any eigenvalue's GM $<$ AM it cannot be diagonalized.
 
 == Normal Matrices
 Identities in terms of the Hermetian $bold(A^H)$ of a matrix will also be assumed to be valid for the real tranpose unless stated otherwise.
@@ -1304,19 +1308,19 @@ $
 - $<x, A y> = x^H A y = x^H A^H y = <A x, y>$ is valid for a symmetric matrix $A in RR^(n times n) union CC^(n times n)$
 
 === Symmetric Positive-Definite Matrices
-These are symmetric matrices which have *only positive* eigenvalues and therefore only positive pivots.
+These are symmetric matrices which have *only strictly-positive* (non-zero) eigenvalues and therefore only strictly positive pivots (and therefore full-rank).
 
-Therefore the total determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only check the total determinant, may have two negative eigenvalues).
+Therefore the total determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only rely on the total determinant, may have two negative eigenvalues).
 
-Another way of checking this is ensuring the dot product of all vectors before and after the transformation is $>= 0$ - space continues pointing in the same directions:
+Another way of checking this is ensuring the dot product of all vectors before and after the transformation is $>= 0$:
 $
   forall bold(x) in RR^n | <bold(x), bold(A x)> = bold(x^T A x) >= 0\
   <bold(x), bold(A x)> = 0 => bold(x) = 0\
 $
-If the zero vector checking condition is not satisfied, the matrix is called *semi positive-definite* - in other words some non-zero vectors are either sent to the zero vector or become orthogonal.
+If the zero vector checking condition is not satisfied, the matrix is called *semi positive-definite* - in other words some non-zero vectors are either sent to the zero vector or become orthogonal. It must have at least one 0 eigenvalue.
 
 == Schur Decomposition
-All square matrices (not only normal) are similar to a unitary matrix, with orthogonal change of base matrices! So cool :D, computers are gonna be so happy when they hear about this
+All square matrices (not only normal) are similar to an upper matrix with diagonal eigenvalues, with orthogonal change of base matrices.
 
 
 == Applications
@@ -1419,10 +1423,78 @@ We can now solve $bold(R|_n a = (Q^H y)|_n)$ The rest of the elements of $bold(Q
 
 LTD: The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
 
-== Linear Differential Equations
+=== Optimization
+==== Quadratic Forms
+A quadratic form is a multivariable polynomial who's terms are all degree 2, for example:
+$
+  f(x_1, x_2) = a(x_1)^2 + 2 b x_1 x_2 + c(x_2)^2
+$
+We can represent such equations using the following operation with a symmetric matrix:
+$
+  bold(A) = mat(a, b; b, c), bold(x) = vec(x_1, x_2) \
+  bold(x^T A x) = f(x_1, x_2)
+$
+If $bold(A)$ is positive-definite, it satisfies the properties of an inner product:
+$
+  forall x_1, x_2 in RR, f(x_1, x_2) >= 0\
+  f(0, 0) = 0
+$
+This shows us that $f(x_1, x_2)$ has a global minimum at $(0, 0)$. This can be generalized by introducing translational parameters to the quadratic form, allowing us to find the minimum of an $n$-dimensional quadratic form.
+
+==== Generic Multivariable Functions
+Furthermore, linear algebra allows us to define easy to calculate criteria for checking if a point is a local minimum / maximum of a multivariable function.
+
+Let $f: RR^n -> RR$ be differentiable within a specific domain of our interest. We can check if a point is critical if all of the partial derivatives are equal to 0:
+$
+  vec((diff f(bold(x))) / (diff x_1), ..., (diff f(bold(x))) / (diff x_n)) = bold(0)
+$
+To check if it's a local minima, the second partial derivatives must all be greater than 0. Modelling them as a matrix:
+$
+  mat(
+  (diff^2 f(bold(x)))/ (diff x_1 diff x_1), ..., (diff^2 f(bold(x)))/(diff x_i diff x_1);
+  dots.v, dots.down, dots.v;
+  (diff^2 f(bold(x)))/ (diff x_1 diff x_j), ..., (diff^2 f(bold(x)))/(diff x_i diff x_j);
+)>= bold(0)
+$
+This matrix's and the first derivative vector's entries can be calculated using numerical methods. The vector check is straightforward; we can check if the 2nd derivative condition is satisfied by rearranging it as an inner product $bold(x^T A x)$, performing Gaussian elimination on $bold(A)$ and ensuring it is *semi positive-definite*.
+
+LTD: Define similar criteria for multi-variate (n dimensional output) functions
+
+=== Contour Lines
+A contour line and the corresponding level set (set of points for which a function gives the same output) can be determined with the help of linear algebra:
+$
+  L_c(f) = {bold(x) | f(bold(x)) = c}
+$
+
+==== Quadratic Form
+#figure(
+  image("images/quadratic-contour-line.png", width: 30%),
+) <fig-quadratic-contour-line>
+As seen in the optimization examples, a quadratic form can be expressed using a symmetric positive-definite matrix $bold(A)$:
+$
+  f(x_1, x_2) = bold(x^T A x)
+$
+
+As $bold(A)$ is symmetric and therefore normal, the contour line at $f(x_1, x_2)=c$ can be diagonalized (thanks to the spectral theorem):
+$
+  c&= f(x_1, x_2)= bold(x^T A x) = bold(x^T Q D Q^(-1) x)\
+  &= bold(x^T Q D Q^(T) x)
+$
+
+The diagonalization now allow us to make better sense of the contour line in a helpful basis, which in the case of a quadratic form is an n-dimensional ellipse. Let $vec(y_1, y_2)$ be axes in our new basis:
+$
+  bold(y &= Q^(T) x)\
+  c &= bold(y^T D y)\
+  &= mat(y_1, y_2) mat(lambda_1, 0;0, lambda_2) vec(y_1, y_2)\
+  &= lambda_1(y_1)^2 + lambda_2 (y_2)^2
+$
+
+Therefore the radii of the n-dimensional ellipse (contour line) are $c/sqrt(lambda_n)$.
+
+=== Linear Differential Equations
 Extremely useful in physics! I will just cover the ways linear algebra can be used to solve them, see analysis notes for more background.
 
-=== First-order
+==== First-order
 TODO: https://tutorial.math.lamar.edu/Classes/DE/Linear.aspx , 7.1
 The solution satisfies an equation in the form:
 $
@@ -1430,8 +1502,6 @@ $
 $
 
 == Upcoming
-Next 3B1B Video - Dot products and duality
-
 LTD:
 - 4D, Flatland trick, hyperplane, cube etc
 - Jacobian
