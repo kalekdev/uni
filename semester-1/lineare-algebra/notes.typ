@@ -927,7 +927,8 @@ $
 
 Projectors have the following properties:
 - Every "successful" projection lies along the target $"Im"(bold(P_y)) = "Span"{bold(y)}$.
-- The kernel of a projector is the span of orthogonal vectors $"Kern"(bold(P_y)) = "Span"{bold(x) | bold(x) perp bold(y)}$
+- The kernel of every projector is the span of orthogonal vectors $"Kern"(bold(P_y)) = "Span"{bold(x) | bold(x) perp bold(y)}$; these are the eigenvectors with eigenvalue 0
+- They are therefore non-invertible
 
 #figure(
   image("images/orthogonal-hermetian.png", width: 80%),

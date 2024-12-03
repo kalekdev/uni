@@ -38,9 +38,9 @@ NOT'ing a gate usually means the resistor just needs to be moved before the tran
 
 *AND* - Conjunction - The resistor after the output point is needed to prevent a short circuit when both inputs are high.
 
-*Antivalenz (XOR)* - High if only one of the inputs is high.
+*Antivalenz (XOR)* - High if only one of the inputs is high. $A xor B = (A and overline(B)) or (overline(A) and B)$
 
-*XNOR* - High if both inputs are the same, gate symbol is a =.
+*XNOR* - Complement of XOR, High if both inputs are the same, gate symbol is a =.
 
 == CMOS (Complementary Metal Oxide Semiconductor) Technology
 _Transistor_ - Trans-Resistor (changable resistor)\
@@ -429,14 +429,92 @@ The intermittent and final output state can also be used as a 2-digit binary cou
 LTD: Can this extended to more than 2 digits?
 
 == Automata
-Mealy vs moore
-mealy can be used to reduce number of states needed - previous n + latest input considered for example binary pattern recognizer
-binary encoding to reduce number of flip flops needed
+This chapter involves modelling computational systems which act in discrete steps.
 
-Moore automata more stable, outputs are accurate regarding inputs, synchronisation between clock and inputs needed, use flipflops.
+They can be generally classified as:
+- Synchronous - State transitions happen based on a clock, which checks the current inputs on the changing flank and changes the state accordingly.
+- Asynchronous - State transition occurs as soon as an input changes.
 
-sequence detecter can be made with only 3 flip flops and binary encoding, or simply a series of 7 flipflops and a series of (notted) inputs to an and gate
+In this course we only cover finite state machines:
+- Finite number of possible states ($Q$ is the set) the system can be in between steps.
+- Finite set of inputs / steps called the alphabet $sum$
+- An initial state and a transition function $delta: Q times sum -> Q$ which determines which state given inputs transition the system towards.
+- Optionally a set of accepted final states upon which the computation is complete.
 
-automata can be connected with each other to abstract separate functions
+Although PCs technically have a finite amount of possible states (every possible combination of internal memory) and inputs (all possible opcodes + operands in word size) these are impractically large to analyse unless we apply restrictions (eg. only considering CPU registers and their relationship to very limited operations).
 
-cpus are infinite state machines, opcodes have arbitray operands and modern memory holds a huge amount of states.
+_Determinism_ - Complex philosophical term, in this context generalised such that a given set of inputs will always produce the same output in a deterministic system.
+
+FSMs can be divided into two categories:
+- Deterministic - Each state only has one possible transition for each input in the alphabet. A string of inputs and the starting state can be validated against these constraints and give a unique possible output.
+- Non-deterministic - Choices can be made at each transition, there may be multiple possible transitions for a given input and the output is therefore non-deterministic.
+
+Deterministic FSMs are more rigorous to design but therefore easier to implement with logical circuits.
+
+As expected, large problems can be abstracted to smaller tasks handled by individual automata designs, which can then be combined again.
+
+A reset input can also be introduced to bring back a machine to its initial state.
+
+=== Transducers
+_Transducers_ - These are a type of FSM which produces an output based on the current state (and possible inputs), rather than simply doing computation.
+
+This course focuses on synchronous, deterministic transducers. For purposes of simplicity, we use D-Flipflops as storage elements.
+
+==== State Transition Table
+This displays the subsequent state + current output for every possible state + input combination of a finite state machine.
+
+The number of rows is $e^(i + s)$ where $i$ is the number of binary input variables and $s$ is the number of state variables in which the $sum times Q$ possible states and inputs are encoded as.
+
+The number of columns is $i + 2s + o$, where $o$ are the output bits
+
+This can also be represented visually as a state transition diagram. *Important*: Do not forget to account for every possible input!
+
+==== Medwedjew Transducers
+#figure(
+  image("images/medwedjew.png", width: 60%),
+) <fig-medwedjew>
+This is the simplest type of transducer which outputs the current state directly.
+
+==== Moore Transducers
+#figure(
+  image("images/moore.png", width: 60%),
+) <fig-moore>
+A Moore transducer's output is a combinatronic circuit depending only on the current state.
+#figure(
+  image("images/moore-diagram.png", width: 60%),
+) <fig-moore-diagram>
+
+They are usually more stable as the outputs are only influenced by inputs which have successfully entered the state (during which they were compared with the existing state to determine the transition).
+
+However, this usually results in more possible states needed to achieve the same task.
+
+==== Mealy Transducers
+#figure(
+  image("images/mealy.png", width: 60%),
+) <fig-mealy>
+The output circuit of a Mealy transducer depends on the current state *and* inputs.
+#figure(
+  image("images/mealy-diagram.png", width: 60%),
+) <fig-mealy-diagram>
+
+These can reduce the number of states needed and deliver a correct output sooner - however this is not always desirable!
+
+For example, consider a "sequence detector" which outputs high if a certain binary sequence has been inputted during the past n clock cycles. A Mealy transducer only needs to store the previous $n -1$ inputs (can be encoded with far fewer bits!) at most to achieve this task and outputs high immediately upon the final clock edge.
+
+Alternatively this simple design also works (although there is no encoding and many more latches are required):
+#figure(
+  image("images/sequence-detector.png", width: 60%),
+) <fig-sequence-detector>
+
+This makes them more vulnerable to interruptions, for example a cat triggering the sensor of a garage door.
+
+A Mealy transducer can always be converted to a Moore transducer, although this will have an effect on the timing of inputs and outputs.
+
+==== Designing Transducers
++ Determine the smallest set of states and the type of transducer to effectively fulfill its role.
++ Suitable encoding should be chosen for the inputs, outputs and states that works well with the type of inputs at hand as well as trying to reduce the total number of state bits.
++ Draw a state transition diagram
++ Determine the state transition diagram including "Don't care" states (carefully check for any possible edge cases)
++ Simplify and synthesise the transition and output functions using Karnaugh diagrams.
+
+Moore transducers need a little bit *more* (state) than Medwedjew, but a *Mealy* transducer outputs the whole *meal* (state + inputs).

@@ -451,6 +451,12 @@ TODO
 === Circular Motion
 
 === Projectile Motion
+Key formulas from A levels
+The maximum distance is achieved when the initial velocity is $45 degree$ to the ground.
+
+=== Harmonic Oscilators
+Approximate solution for non-linear differential equation using taylor series -> small angle approximation
+Key polar coordinate dynamics functions in terms of angular velocity
 
 TODO:
 - Coefficient of restitution
