@@ -517,4 +517,74 @@ A Mealy transducer can always be converted to a Moore transducer, although this 
 + Determine the state transition diagram including "Don't care" states (carefully check for any possible edge cases)
 + Simplify and synthesise the transition and output functions using Karnaugh diagrams.
 
-Moore transducers need a little bit *more* (state) than Medwedjew, but a *Mealy* transducer outputs the whole *meal* (state + inputs).
+*Moore* transducers need a little bit *more* (state) than Medwedjew, but a *Mealy* transducer outputs the whole *meal* (state + inputs).
+
+==== Counters
+Counters are an essential component in many digital circuits, allowing us to execute loop logic, implement delays, or even generate music! (Square wave generator using T-Flipflop + binary controlled modulo counter). They are usually implemented as Medwedjew transducers.
+
+When using decimal encoding, the LSB flips every state change, 2nd LSB every two state changes and so on:
+#figure(
+  image("images/counter-bits.png", width: 40%),
+) <fig-counter-bits>
+A descending counter works in exactly the same way, except the bits all start with 1.
+
+===== Asynchronous Counter
+This can be implemented by using *falling flank* T-Flipflops:
+#figure(
+  image("images/async-counter.png", width: 60%),
+) <fig-async-counter>
+If a descending counter is needed, the negated outputs $overline(Q_i)$ can be used.
+
+This can be modified as a so-called *Modulo counter* to reset once a specific number has been reached by triggering the RESET inputs of the Flipflops once that desired output has been reached. For example, a 0-5 counter:
+#figure(
+  image("images/modulo-counter.png", width: 60%),
+) <fig-modulo-counter>
+
+However, the propogation delays of each flipflop accumulate in the subsequent bits. With many bits this can become very problematic:
+#figure(
+  image("images/async-counter-delays.png", width: 60%),
+) <fig-async-counter-delays>
+
+The maximum possible clock frequency for such a counter can be calculated using:
+$
+  f_"max" = 1 / sum_(i=1)^n t_("pd i")
+$
+Where $n$ is the number of bits / T-Flipflops
+
+===== Synchronous Counter
+This improves upon the delay issues by using a direct connection to the clock signal for each Flipflop. here is the circuit diagram for one using decimal encoding:
+#figure(
+  image("images/sync-counter.png", width: 60%),
+) <fig-sync-counter>
+
+===== Reversible Counter
+These counters can be toggled between ascending / descending using an X "direction" pin. They are useful for tracking the position of something which can move in both directions along an axis.
+
+They can be implemented by combining an array of D-Flipflops and Two's complement addition.
+- The Flipflops operate on the same clock and reset signal.
+- When the X pin is low, positive 1 is added to the current Flipflop state, which is then loaded in on the next rising edge.
+- A high X pin sets a two's complement -1 on the 2nd set of adder inputs, descending the current count by 1 each time.
+- This can also be implemented using arbitrary increments as input to the adder, allowing control over how quickly the counter completes its cycle.
+
+Here is an example of a 4 bit reversible counter:
+#figure(
+  image("images/reversible-counter.png", width: 60%),
+) <fig-reversible-counter>
+
+==== Frequency Divider
+As seen before, we can reduce a frequency by a factor of $2^n$ using chained T-Flipflops. However, the desired frequency is not always possible to reach using factors of 2. We can divide a frequency by an arbitrary multiple of 2 using a combination of a counter and T-Flipflop.
+
+#figure(
+  image("images/frequency-divider.png", width: 60%),
+) <fig-frequency-divider>
+
+In the above divider, we can choose the precise number of clock signals to wait for until the T-Flipflop is toggled. For example, lets say we need to toggle the T-Flipflop every 6 clock edges:
++ Choose the lowest number of bits with possible states greater than 6, ie 3, so $N=2^3=8$
++ Choose a starting state $k$ so that the total number of transitions $N - (k+1)$ is equal to our target 6
++ This can be summarised as
+$
+  f_"Out" = f_"In" / (2 (N - k+1))
+$
+
+
+Such a divider can of course be combined with regular T-Flipflop chains and is mainly used with the aim of fine tuning the resulting frequency.
