@@ -1127,15 +1127,20 @@ Some transformations, for example rotations in 2D, have no real, non-zero eigenv
 === Properties
 - $"det" bold(A) = product lambda_i$ - The determinant is equal to the product of eigenvalues.
 - _Trace_ - Sum of diagonal elements of a matrix. This is equal to the sum of eigenvalues.
-- There can be several "lines" of eigenvectors with the same eigenvalue. Hence, a single eigenvalue may have an $n >= 1$ dimensional eigenspace - any vector in the span of eigenvectors with the same eigenvalue must also have the same eigenvalue.
-- If a matrix has an eigenvalue 0 it must be singular (there is a set of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space of the original matrix.
+- Any vector which can be expressed as a linear combination of eigenvector(s) with the same eigenvalue is also also an eigenvector of the same eigenvalue (fundamental rules of linear transformations) - all vectors in the same line have the same eigenvalue. Furthermore, a single eigenvalue may have an $n >= 1$ dimensional eigenspace - any vector in this space also has the same eigenvalue.
+$
+  bold(x) &= alpha bold(y) + beta bold(b)\
+  A(bold(x)) &= lambda(alpha bold(y) + beta bold(b))\
+  &= lambda bold(x)
+$
+- If a matrix has an eigenvalue 0 it must be singular (there is a line of vectors that all become the same zero vector, information is lost and cannot be reversed). The eigenspace for $lambda = 0$ is simply the null space of the original matrix.
 - The inverse of a matrix has the same eigenvectors, and eigenvalues $1/(lambda_n)$ (because it brings scaled eigenvectors back to their original length).
 - The eigenvalues of repeated transformations $A^k$ are simply powered: $(lambda_n)^k$ because the same eigenvectors are simply repeatedly scaled.
 - $bold(A)$ and $bold(A^2)$ do *not* necessarily have the same eigenvalues as signs are lost.
 - Scalar multiplication of a matrix leads to eigenvalues multiplied by the same scalar - matrices represent linear transformations hence $alpha bold(A(x)) = bold(A)(alpha bold(x)) = alpha lambda bold(x)$.
-- Addition of matrices does not necessarily mean the eigenvalues can be added, algebraic rearrangement can be used to find eigenvalues of a polynomial of a matrix.
+- Addition / multiplication of matrices does not necessarily mean the eigenvalues can be added / multiplied, algebraic rearrangement can be used to find eigenvalues of a polynomial of a matrix.
 - If $bold(A)$ is square, $bold(A^T)$ has the same spectrum.
-
+- (Scaled) rotation matrices have only complex pairs of eigenvalues, total amount n.
 
 === Finding Eigenvalues / Vectors
 The eigenvalues $lambda$ and eigenvectors $bold(v)$ of a matrix $bold(A)$ relate as follows:
@@ -1166,8 +1171,6 @@ $
   ...
 $
 If eigenvectors are needed as well as the eigenvalues, it is best to compute $det(bold(A) - lambda bold(I))$ using Gaussian elimination, so that the reduced form can be reused in the above eigenvector LGSs. However, handling the $lambda$s in elimination can be tricky when all other elements in that column are either 0 or in terms of $lambda$. Sometimes a row can be divided so a certain element becomes 1, which can then accordingly be multiplied by a term involving $lambda$ (for example $(lambda+2)$) allowing another row to eliminate that element.
-
-LTD: Implications of complex eigenvalues?
 
 === Gershgorin Disk Theorem
 Polynomials of degree $n >= 5$ have no definite formula for solutions, eigenvalues of matrices with more than 4 columns must be found using numerical methods, expensive and numerically unstable operations.
@@ -1277,13 +1280,13 @@ $
 $
 Dividing each column by its norm can make the orthogonal matrices orthonormal.
 
-This is an incredibly useful statement for computation - we love orthonormal and diagonal matrices!
+This is an incredibly useful statement for computation - computers love orthonormal and diagonal matrices!
 
 This is be generalised with unitary matrices as the so called *Spectral Theorem*:
 $
   bold(A) "is normal" => bold(A = U Lambda U^H)
 $
-The inverse does *not* always apply.
+The inverse does *not* always apply - not all diagonalizable matrices are normal!
 
 LTD: Reason for name, investigate optics applications
 
@@ -1293,7 +1296,7 @@ A square matrix may be symmetric across its diagonal:
 - _Antisymmetric_ - $bold(A^T) = -bold(A)$
 - _Hermetian Symmetric_ - $bold(A^H) = bold(A)$
 
-Hence, symmetric matrices are a subset of the orthonormal matrices:
+Hence, symmetric matrices are a subset of the normal matrices:
 $
   bold(A^H A = A A = A A^H)
 $
@@ -1309,7 +1312,7 @@ $
 - $<x, A y> = x^H A y = x^H A^H y = <A x, y>$ is valid for a symmetric matrix $A in RR^(n times n) union CC^(n times n)$
 
 === Symmetric Positive-Definite Matrices
-These are symmetric matrices which have *only strictly-positive* (non-zero) eigenvalues and therefore only strictly positive pivots (and therefore full-rank).
+These are symmetric matrices which have *only strictly-positive* (non-zero) eigenvalues and therefore only strictly positive pivots (and therefore full-rank; invertible).
 
 Therefore the total determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only rely on the total determinant, may have two negative eigenvalues).
 
