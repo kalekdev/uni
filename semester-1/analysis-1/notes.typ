@@ -177,8 +177,8 @@ Infinity cannot be a Supre/Infimum, becuase $oo in.not RR$
 === De Morgan's Laws
 Also apply to boolean logic, where $A, B := 1, 0$
 $
-  (A sect B)^complement = A^complement union B^complement\
-  (A union B)^complement = A^complement sect B^complement\
+  (A sect B sect ...)^complement = A^complement union B^complement union ...^complement\
+  (A union B union ...)^complement = A^complement sect B^complement sect ...^complement\
 $
 
 === Characteristic / Indicator Function
@@ -413,6 +413,7 @@ $
   ) exists n_0 in NN_0 forall n in NN_0: n >= n_0, abs(a_n - A) < epsilon\
   a_n -> A space ("converges towards A")
 $
+One can analyze such $epsilon delta$ criteria by considering how the condition remains true as $epsilon$ - the error rate - reduces towards 0.
 
 We can also express this as a limit:
 $
@@ -470,11 +471,11 @@ $
 
 If a sequence converges, then:
 $
-  lim_(n -> oo) a_n = lim sup_(n -> oo) a_n = lim inf(n -> oo) a_n
+  lim_(n -> oo) a_n = lim sup_(n -> oo) a_n = lim inf_(n -> oo) a_n
 $
 
 === Cauchy Sequence
-Convergence can also be proved without any clue about which value $A$ the sequence converges to by the converging distance between subsequent members. If a sequence satisfies this criteria, it is known as a Cauchy sequence:
+Convergence can also be proved without any clue about which value $A$ the sequence converges to by the converging distance between subsequent members. If a sequence satisfies this criteria, it is known as a *Cauchy sequence*:
 $
   forall epsilon in (
     0, oo
@@ -526,14 +527,14 @@ $
 Where $a_k$ is a sequence containing the current coefficient. It is also possible to adjust the so called "center" of the series using $c$.
 
 === Radius of Convergence
-_Convergence area_ - The set of values x can take with which the series converges.
+_Convergence area_ - The interval of values x can take within which a power series converges - the approximated output for a given input in this area remains stable. The graph looks the same within this interval as $n$ increases and the accuracy of the series tends to infinity.
 
-The radius of convergence $rho$ is the upper limit of the convergence area, adjusted for the center of the series:
+The radius of convergence $rho$ is the upper limit of the convergence area, adjusted for the center of the power series:
 $
   "Converges:" abs(x - c) < rho\
   "Diverges:" abs(x - c) > rho
 $
-This peculiar name makes sense when considering $x in RR^2$, in which case an _open disc (circle excluding the edge)_ models the convergence area.
+This peculiar name makes sense when considering $x in RR^2$, in which case an _open disc (circle excluding the boundary)_ models the convergence area.
 
 === Taylor Series
 Any function $f(x)$ which is infinitely differentiable at a point $a$ can be approximated around the point $a$ as a so called Taylor series, an infinite power series:
@@ -562,6 +563,9 @@ Example Maclaurin Series:
 - $
     cos(x) =sum_(n =0)^oo (-1)^n / ((2n)!) x^(2n)
   $
+
+==== Accuracy
+The convergence radius of a Taylor series should be the entire domain of the function it's approximating in the ideal case. Polynomials (result of a power series) are always continuous, so using a Taylor series to approximate a function at a non-continuous point is not possible.
 
 === Riemann-Zeta Function
 $
@@ -608,7 +612,7 @@ This concerns defining many of the intuitive ideas learnt in school using $epsil
 
 These definitions extend to $n$ dimensions unless stated otherwise.
 
-=== Continuity (Stetigkeit)
+=== Continuity
 Intuitively, a function is continuous between an interval if we can draw it without lifting the pencil.
 
 The function $f: X -> Y$ is continuous *at the point* $x_0$ if:
@@ -619,7 +623,7 @@ $
 $
 This is criteria is named after Karl Weierstraß.
 
-This means that for every range error interval $epsilon$, there exists a maximum distance from $x_0$, $delta$, so that every other point within this maximum "radius" satisfies the $epsilon$ error interval. The closer $epsilon -> 0$, the smaller $delta$ will be to accomodate even the most "uncontinuous" point of the function.
+This means that for every range error interval $epsilon$, there exists a maximum distance from $x_0$, $delta$, so that the range difference interval of every other input within this maximum "radius" satisfies the current $epsilon$ error. The closer $epsilon -> 0$, the smaller $delta$ will be to accomodate even the most "uncontinuous" point of the function.
 
 If there is a jump in the function at the point $x_0$, then there exists a small enough $epsilon$, so that no matter how close the other points are to $x_0$, the error interval $epsilon$ will never be satisfied. The formal criteria for a function that isn't continuous at $x_0$:
 $
@@ -632,8 +636,10 @@ These definitions can of course be extended to an entire range by prepending $fo
 
 The *Dirichlet Function* based on the characteristic function defined earlier is non-continuous at every point:
 $
+  1_QQ: RR -> {1, 0}\
   1_QQ := chi_QQ
 $
+This is because there are irrational, real numbers around every rational number so the characteristic function jumps between 0 and 1 at an infinitely high frequency.
 
 - Addition and multiplication ($therefore$ subtraction and division too) of functions, which are continuous at a point, guarantees continuity at that point too.
 - A multivariable function is continuous at a point if every component is also continuous at that point.
@@ -648,15 +654,53 @@ Examples of continuous but not uniformly continuous functions are $1/x$ and $e^x
 
 LTD: Formulate formal definition
 
+=== Convergence
+Just like for sequences and series, we can define convergence for a function. A function $f$ converges towards $y_0$ at $x_0$ if:
+$
+  f: X -> Y\
+  forall epsilon (0, oo) exists delta in (0, oo) forall x in X | norm(x - x_0) < delta => norm(f(x) - y_0) < epsilon
+$
+The only difference from the continuity definition is that $y_0$ is used instead of $f(x_0)$; *the function does not need to be defined at this point.*
+
+Alternatively:
+$
+  lim_(x -> x_0) f(x) = y_0
+$
+This is a very useful definition, as some functions are undefined at single points, for example the derivative quotient.
+
+- A function converges at *a point in the domain* $<=>$ The function is continuous at that point
+- $1/x$ is an example of a function that doesn't converge at $x=0$
+
+The same definition can be inverted for checking divergence of a function.
+
+TODO: Link convergence to differentiability of a function at a point
+
 == Topology
 This is the branch of mathematics studying shapes, allowing us to make useful conconclusions about continuous sets.
+
+=== Nested Unions and Intersections
+Let $SS$ be a set of sets:
+$
+  union.big SS := {x | exists S in SS | x in S}\
+  sect.big SS := {x | forall S in SS | x in S}\
+  union.big {A, B} = A union B\
+  sect.big {A, B} = A sect B\
+$
+
+Cool sets can be defined, for example an open 2D half moon:
+$
+  B_1^2 (0) sect ((0, oo) times RR)
+$
+
+- The union of arbitrarily many open sets is open (the outer boundaries will remain open no matter what)
+- The intersection of finitely many open sets is open
 
 === Ball / Disk
 A topological ball with radius $r$ and center $x_0$ in dimension $RR^d$ is defined as the set of points:
 $
   B_r^d (x_0) = {x in RR^d | abs(x - x_0) < r} - "Open ball"\
   overline(B_r^d)(x_0) = {x in RR^d | abs(x - x_0) <= r} - "Closed ball"\
-  S_r^(d-1)(x_0) = {x in RR^d | abs(x - x_0) = r} - "Sphere (edge of ball)"
+  S_r^(d-1)(x_0) = {x in RR^d | abs(x - x_0) = r} - "Sphere (boundary of ball)"
 $
 Where $abs(x - x_0)$ is the length of the vector from $x_0 -> x$ ie the radius.
 
@@ -668,12 +712,16 @@ $
 $
 Man muss immer am $B_r^d$ bleiben!
 
-Mengen sind keine Türe! (Muss nicht entweder offen oder abgeschlossen sein). For example, the half open interval $[a, b)$
+The sphere has dimensions $d-1$ because its points only form a subspace in the dimension below the ball which it is enclosing:
+- $S_r^1$ - Is the line of points around a circle ie 1 dimensional
+- $S_r^2$ - Every point in the surface of a 3D ball can be reached with linear combinations of two basis vectors (such that they stay within the subspace).
+
+Mengen sind keine Türe! (Muss nicht entweder offen oder abgeschlossen sein). For example, the half open interval $[a, b)$.
 
 === Open Sets
 The set of all points "inside" a topological set.
 
-_Inner Point_ - A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$
+_Inner Point_ - A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$ - there is an open ball with a non-zero radius around $x$ such that it is entirely a subset of / equal to S.
 
 $"Int" S := {"inner points of S"}$ - The interior of a set is the set of all inner points. $"Int" S subset S$ is always true.
 
@@ -685,36 +733,90 @@ $
   x in RR, {x} "is not open"
 $
 
+Alternatively, the interior can be defined as:
+$
+  "Int" S := union.big_(B_r^n (x) | B subset.eq S) B
+$
+This follows from the fact that the union of abitrarily many open sets remains open.
+
 These definitions can be overwhelmingly nested, but in the end they all boil down to the set notation definitions of balls.
 
-=== Arbitrary Unions and Intersections
-Let $SS$ be a set of sets:
-$
-  union.big SS := {x | exists S in SS | x in S}\
-  sect.big SS := {x | forall S in SS | x in S}\
-  union.big {A, B} = A union B\
-  sect.big {A, B} = A sect B\
-$
-
-Cool sets can be defined using this notation, for example an open 2D half moon:
-$
-  B_1^2 (0) sect ((0, oo) times RR)
-$
-
-- The union of arbitrarily many open sets is open (the outer edges will remain open no matter what)
-- The intersection of finitely many open sets is open
-
 === Closed Sets
+A set being closed, for example $[a, b]$, can be defined formally.
+
 Let $A subset.eq RR^n$:
 $
-  A "is closed" <=> RR^n \\ A "is open"
+  A "is closed" <=> (RR^n \\ A "is open")
 $
 
 For example, $[a, b] | a< b$ can instead be expressed as $(-oo, a) union (b, oo)$, which is open.
 
-- $emptyset, RR^n$ are both open and closed!
+- ${x}$ is closed
+- $emptyset, RR^n$ are the only subsets of $RR^n$ which are both open and closed!
+
+Another possible definition for a closed set $S subset.eq RR^n$ can be formulated using convergence of sequences:
+$
+  (
+    forall x in RR^n, (exists "A sequence" a_K "with only elements in S" | a_k_(k -> oo) = x) => x in S
+  ) <=> S "is closed"
+$
+This checks for a sequence which converges to a point in S and only consists of elements of S. If there is such a possible sequence for every point in S, then S is a closed set.
+
+I believe this definition depends on the intuition that the final point before the supremum / infimum of an open interval can truly be reached, no matter how far a sequence goes.
+
+==== Closure
+The closure of S is the smallest possible closed set which entirely includes the set $S$, this can be formed using the intersection of all possible closed balls with different radii and centers, as long as they entirely contain $S$:
+$
+  overline(S) := "clos"(S) := union.big_("All" overline(B)_r^n (c) | S subset.eq overline(B)) overline(B)
+$
+For example:
+$
+  S := (0, 1]\
+  overline(S) = [0, 1]
+$
+
+- $S subset.eq overline(S)$ - The closure of a set contains the set itself
+- A topological set can only be called "closed" if it is equal to its closure
+
+=== Boundary $diff$
+The del symbol is used in topology to represent the boundary of a set:
+$
+  diff S := overline(S) \\ "Int" S
+$
+
+Characterised more fundamentally:
+$
+  diff S := {x in RR^n | (forall r in (0, oo) | (B_r^n (x) sect S) != emptyset != B_r^n (x) \\ S)}
+$
+The boundary of a set S is the set of points such that:
+- A ball with increasing radius (starting just above 0) always continues to overlap with some elements of S ($(B_r^n (x) sect S)!= emptyset$), ie the ball must be actually in or right next to S
+- The points themselves are part of $B_r^n (x) \\ S$, which is never equal to the empty set, ie the point itself is never in S
+
+By definition, a topological sphere is the boundary of a ball:
+$
+  diff B_r^(n) (x) = diff overline(B_r^(n)) (x) = S_r^(n-1) (x)
+$
+
+Furthermore, a boundary is a closed set:
+$
+  RR^n \\ diff S = "Int" S union RR^n \\ overline(S) "is open" => diff S "is closed"
+$
+
+LTD: Boundary of cusp
 
 === Compactness
+_Bounded_ - A set which is a subset of a closed ball (other than $RR^n$)
+
+_Compact_ - A set which is closed *and* bounded.
+
+- A closed ball and its 1D variant, the bounded interval is by definition compact.
+- $RR^n$ is not compact, because it is an infinitely large (albeit open & closed) set.
+
+*The range of a continuous function with a compact domain is also compact.*
+
+The maxi-, mini-, supre- and infimum of a function are defined as expected on its range.
+
+*Every continuous function with a compact domain and therefore range possesses a maximum and minimum.*
 
 TODO:
 - Formal definition of multivariable polynomial (Ziltener 4.6)
