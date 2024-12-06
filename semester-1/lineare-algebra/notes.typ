@@ -845,7 +845,7 @@ $
   norm(bold(A))_2 = abs(lambda_"max" (bold(A)))
 $
 
-In the singular case, real eigenvalues are ensured, which we have $n$ of, meaning the a linear combination of eigenvectors can cover the entire space and the maximum eigenvalue is the largest resulting norm of any unit vector (each eigenvalue has two unit vectors in its eigenspace which increase in length by $lambda_"max"$).
+In the symmetrical case, real eigenvalues are ensured, which we have $n$ of, meaning the a linear combination of eigenvectors can cover the entire space and the maximum eigenvalue is the largest resulting norm of any unit vector (each eigenvalue has two unit vectors in its eigenspace which increase in length by $lambda_"max"$).
 
 $bold(A^H A)$ ensures the eigenvalues become real ($CC dot CC = RR$), which is then accounted for by the square root - this can be proven due to $bold(A^H A)$ being Hermetian symmetric and thus diagonalizable using unitary matrixes accoring to the spectral theorem.
 
@@ -853,7 +853,6 @@ Furthermore, the spectral norm a matrix's inverse can be intuitively calculated 
 $
   norm(bold(A)^(-1))_2 = 1 / sqrt(lambda_"min" (bold(A^H A)))
 $
-TODO: Wait for reply to email
 
 TODO: The intuition for what $bold(A^H A)$ is has something to do with the singulars of a matrix, revisit.
 
@@ -1122,9 +1121,10 @@ _Spectrum_ - The set of eigenvalues of a matrix.
 These are very important when analyzing the effects of linear transformations without a standard basis. For example one can find the axis of a rotation of an arbitrary 3D rotation (vectors with eigenvalue 1).
 LTD: More applications!
 
-Some transformations, for example rotations in 2D, have no real, non-zero eigenvalues.
+Some transformations, for example rotations, have no real, non-zero eigenvalues.
 
 === Properties
+- The diagonal elements of an upper square matrix in reduced form are its eigenvalues; algebraic multiplicity can also be easily read from this form. LTD: Find / write proof
 - $"det" bold(A) = product lambda_i$ - The determinant is equal to the product of eigenvalues.
 - _Trace_ - Sum of diagonal elements of a matrix. This is equal to the sum of eigenvalues.
 - Any vector which can be expressed as a linear combination of eigenvector(s) with the same eigenvalue is also also an eigenvector of the same eigenvalue (fundamental rules of linear transformations) - all vectors in the same line have the same eigenvalue. Furthermore, a single eigenvalue may have an $n >= 1$ dimensional eigenspace - any vector in this space also has the same eigenvalue.
@@ -1324,7 +1324,7 @@ $
 If the zero vector checking condition is not satisfied, the matrix is called *semi positive-definite* - in other words some non-zero vectors are either sent to the zero vector or become orthogonal. It must have at least one 0 eigenvalue.
 
 == Schur Decomposition
-All square matrices (not only normal) are similar to an upper matrix with diagonal eigenvalues, with orthogonal change of base matrices.
+All square matrices (not only normal) are similar to an upper matrix with diagonal eigenvalues, with unitary change of base matrices (these may contain complex values).
 
 
 == Applications
@@ -1504,6 +1504,49 @@ The solution satisfies an equation in the form:
 $
   dot(y)(t) + a() y(t) =
 $
+
+=== Fourier-Transform
+Shift matrix multiplying vector can be used to create shifted circulation matrix - it shifts columns, which can then be transposed.
+$
+  S^T S = I
+$
+
+Shifts the vector through one complete cycle
+$
+  S^n x = x
+$
+
+Finding Eigenvalues of a a shift matrix:
+$
+  S v = lambda v\
+  S^n v = lambda^n v\
+  v = lambda^n v
+$
+A shift matrixes eigenvalues are the complex roots of unity, its eigenvectors' elements are the eigenvalues.
+
+The different shifted eigenvectors are an orthogonal basis in $CC^n$
+
+sum of complex roots of unity is 0? 1 is also a root, hence:
+$
+  sum omega^(k j) = n or 0\
+  V^H v = n I
+$
+Therefore diagonalisation of shift matrix:
+
+Matrix defining some polynomial using the monome base with shift transformation inside:
+$
+  p(S_n(x))= ...
+$
+Can be diagonalised as:
+$$
+
+All circulation matricex have the same eigenspaces!
+
+TODO: Revise basis change matrix
+DFT matrix, Vandermonde matrix, what actually is a Fourier Transform
+Study of how signals can be broken down into linear ocmbinations of trigonometric functions. Understand how frequency domain works etc
+
+Gleichtzeitig diagonalisierbar => AB = BA and alle EW haben AM 1, sie haben dieselbe eigenbasis
 
 == Upcoming
 LTD:

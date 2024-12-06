@@ -1203,7 +1203,7 @@ $
   W = 1 / 2 integral.triple_V arrow(H) dot arrow(B)space d arrow(V)
 $
 
-When considering the hysteresis curve of a ferromagnetic core, we can calculate the total energy stored / released as the inductor is attached to an alternating current source. This can be calculated by integrating over the energy density during storage release of energy:
+When considering the hysteresis curve of a ferromagnetic core, we can calculate the total energy stored / released as the inductor is attached to an alternating current source. This can be calculated by integrating over the energy density during storage / release of energy:
 $
   integral_0^B arrow(H) d arrow(B) = integral_0^B x d y
 $
@@ -1214,7 +1214,7 @@ The difference between these two areas results in the energy lost to heat whilst
 
 
 === Inductance of Common Coils
-It can be tricky to determine which surface exactly is "linked to a coil". In the case of a single loop of wire, the total flux can be calculated using the flux through the circular surface enclosed by the loop - similarly to Ampere's circuital law. For a toroidal coil with a ferromagnetic core, the vast majority of the flux flows through the core. Hence we can calculate the flux through a vertical cross section of the core $Phi_A$, multiplied by the number of turns $N$ (spiral-like surface).
+It can be tricky to determine which surface exactly is "linked to a coil". In the case of a single loop of wire, the total flux can be calculated using the flux through the circular surface enclosed by the loop - similarly to Ampere's circuital law; if the loop contains several loops of wire, the linked flux can be imagined as spiraling upwards hence we multiply the flux through the enclosed area by N. For a toroidal coil with a ferromagnetic core, the vast majority of the flux flows through the core. Hence we can calculate the flux through a vertical cross section of the core $Phi_A$, multiplied by the number of turns $N$ (spiral-like surface).
 #figure(
   image("images/flux-toroid.png", width: 40%),
 ) <fig-flux-toroid>
@@ -1519,6 +1519,30 @@ Alternatively, coils can be connected as below:
 In this case, the voltages across each load is the same and the maximum currents $i_k$ are $sqrt(3) times$ higher (if the loads are identical).
 
 === Transformers
+_Galvanically Isolated_ - No current flow is possible between two sections of a circuit, however energy / information may still be exchanged through induction, optically, etc. The two systems may have different ground potentials.
+
+A transformer consists of at least two inductively coupled coils for the purposes of adjusting voltage / current or simply transferring information between two galvanically isolated systems.
+
+The coils are usually wrapped around the same ferromagnetic core with $mu_r >>1$ to minimize stray magnetic fields. A resistor in series can be used to model the voltage lost over the coils (excluding self-inductance).
+
+We can now construct equations for the induced voltage / current in the secondary coil. The direction of the current induced in the secondary coil is always such that its self-induced flux opposes the change in flux from the primary coil. Therefore the directions of flux and currents are as follow:
+#figure(
+  image("images/transformer-diagram.png", width: 60%),
+) <fig-transformer-diagram>
+
+We can construct inductive coupling equations:
+$
+  u_0 = R_1 i_1 + L_11 (d i_1) / (d t) - M (d i_2) / (d t)\
+  0 = R_2 i_2 - M (d i_1) / (d t) + L_22 (d i_2) / (d t)\
+$
+
+Where the inductances can be calculated using the average path length around the core $l$ as:
+$
+  L_(i i) = N_i^2 (mu A) / l\
+  M = N_1 N_2 (mu A) / l
+$
+
+TODO: Reducing lost energy in core
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms

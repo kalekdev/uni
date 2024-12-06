@@ -39,6 +39,27 @@ This approximation is accurate when considering systems with velocities signific
 
 Transformations between reference frames can also be represented as a matrix allowing easier vector calculations.
 
+=== Harmonic Oscillators
+Consider a system where some particle has an oscillating potential energy, for example a swinging pendulum. Let $U(t)$ be a function of the particle's potential energy against time, in this case gravitiational potential. Using a Taylor Series, we can approximate it around a point in time as:
+$
+  U(t) approx U(t_0) + dot(U)(t_0) (t - t_0) + (dot.double(U)(t_0) (t - t_0)^2) / 2 + ...
+$
+
+Considering the system after a specific point in time $t_0$, we can define some remarks:
+- $t - t_0 = hat(t)$ - Time that has passed since the point in time
+- $U(t_0)$ - Starting potential energy of the particle, this is not a very useful value since it is so complicated - we are more interested in the changing potential energy between the two critical points.
+- $dot(U) (t)$ - This is the power of the restoring force at a point in time, ie gravity in a pendulum or a spring's tension.
+- Systems try to minimize potential energy; the minimum potential energy of the particle is at a critical point where $dot(U) = 0$.
+
+This leads to the minimum potential energy of an oscillating system:
+$
+  U(hat(t)) &approx (dot.double(U)(t_0) (hat(t))^2) / 2 + ...\
+  &approx 1 / 2 k hat(t)^2
+$
+Where $k$ is a constant specific to this system - the rate of change of the restoring force's power.
+
+TODO: Feynman's Lectures chapter 21
+
 == Special Relativity
 _Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage. However relativistic effects mean that time passes at different rates in different frames of reference, hence a 4th dimension is introduced.
 
@@ -93,6 +114,7 @@ TODO: PEP and why electrons stay in their energy levels
 TODO: Electron configurations
 
 TODO:
+- Thermodynamics and Entropy
 - Accelerating charge emitting radiation, Larmor formula, electrons losing energy in orbitals
 - Zeeman Effect
 - Field & thermionic emission / photoelectric effect
