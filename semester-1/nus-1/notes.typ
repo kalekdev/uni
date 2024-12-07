@@ -2,6 +2,8 @@
 
 #outline()
 
+#set heading(numbering: (..nums) => nums.pos().map(str).slice(1, none).join("."))
+
 #pagebreak()
 
 *Electromagnetism:*\
@@ -596,7 +598,7 @@ Voltage / Current sources can be converted between one another such that they ha
 
 Batteries connected in parallel can charge one another - they only discharge at the same rate if their internal resistances are identical.
 
-=== Load Power
+=== Load Power <load-power>
 The *maximum (useful) power at the load* is transferred when the load and internal resistance are *the same*. This can be expressed as:
 $
   P_(L "max") = U_0^2 / (4R_i)
@@ -1378,6 +1380,7 @@ The voltage induced is in such a direction that a change in flux is opposed (Len
 For example:
 - Increasing current - $(d (I(t))) / (d t) > 0$ - The back EMF is in the same direction as that of a resistor, such that current ceases to increase and flux remains constant.
 - Decreasing current - $(d (I(t))) / (d t) < 0$ - Back EMF in the same direction as voltage source, attempting to maintain current and flux, the energy stored in its magnetic field is released.
+- Constant current - $(d (I(t))) / (d t) = 0$ - No induction occurs, no voltage across the inductor.
 
 #figure(
   image("images/self-inductance.png", width: 60%),
@@ -1523,14 +1526,16 @@ _Galvanically Isolated_ - No current flow is possible between two sections of a 
 
 A transformer consists of at least two inductively coupled coils for the purposes of adjusting voltage / current or simply transferring information between two galvanically isolated systems.
 
-The coils are usually wrapped around the same ferromagnetic core with $mu_r >>1$ to minimize stray magnetic fields. A resistor in series can be used to model the voltage lost over the coils (excluding self-inductance).
+The coils are usually wrapped around the same ferromagnetic core with $mu_r >>1$ to minimize stray magnetic fields. A resistor in series can be used to model the voltage lost over the coils (excluding self-inductance). In an ideal transformer, the power through the primary coil is equal to the secondary coil.
 
-We can now construct equations for the induced voltage / current in the secondary coil. The direction of the current induced in the secondary coil is always such that its self-induced flux opposes the change in flux from the primary coil. Therefore the directions of flux and currents are as follow:
+TODO: Reducing lost energy in core
+
+We can now construct equations for the induced voltage / current in the secondary coil. The direction of the current induced in the secondary coil is always such that its self-induced flux opposes the change in flux from the primary coil. Therefore the directions of flux and currents are as follows:
 #figure(
   image("images/transformer-diagram.png", width: 60%),
 ) <fig-transformer-diagram>
 
-We can construct inductive coupling equations:
+Therefore the inductive coupling equations:
 $
   u_0 = R_1 i_1 + L_11 (d i_1) / (d t) - M (d i_2) / (d t)\
   0 = R_2 i_2 - M (d i_1) / (d t) + L_22 (d i_2) / (d t)\
@@ -1541,8 +1546,76 @@ $
   L_(i i) = N_i^2 (mu A) / l\
   M = N_1 N_2 (mu A) / l
 $
+Solving for the transformed voltage $u_2$ in terms of the alternating voltage $u_1$ (after resistive losses) across the secondary coil by substituting the inductances $L_(i i)$ & $M$ in terms of $N_i$ and performing elimination:
+$
+  u_1 = hat(u) cos(omega t)\
+  u_2 = -N_2 / N_1 u_1\
+  i_1 = 1 / (omega L_11) hat(u) sin(omega t) + N_2 / N_1 i_2\
+  i_2 = N_2 / (N_1 R_2) u_1
+$
+The transformed voltage $u_2$ is in antiphase to $u_1$ and its amplitude depends on the ratio of primary to secondary windings. The so-called *turn ratio* $dot.double(u)$ is used to describe a given transformer:
+$
+  dot.double(u) = N_1 / N_2 = hat(u_1) / hat(u_2) = hat(i_2) / hat(i_1)\
+  u_1 i_1 = u_2 i_2
+$
+This allows us to calculate the number of turns needed for a desired ideal voltage / current.
 
-TODO: Reducing lost energy in core
+==== Transformer Circuit Diagrams
+By adding the rows of our coupling system of equations to each other, we arrive at the following replacement circuit for an ideal transformer with identical behaviour (apart from the galvanic isolation) allowing us apply Kirchoff's Laws and other tools in circuit analysis:
+#figure(
+  image("images/t-transformer-circuit.png", width: 60%),
+) <fig-t-transformer-circuit>
+The blue dots in transformer circuit diagrams are chosen such that the potential difference between the terminal with a point and without a point has the same polarity in both coils at all times (depending on how the coils were winded). In other words, it represents the synchronised direction of current.
+
+The terminal initially chosen for the blue dot in the primary coil is arbitrary, although it is usually the one into which the chosen "positive" current direction flows in to.
+
+Alternatively, the following circuit symbol is commonly used to represent transformers:
+#figure(
+  image("images/transformer-circuit.png", width: 40%),
+) <fig-transformer-circuit>
+
+An ideal transformer with perfect efficiency is represented using a "vertical equals sign". These conventions are summarised in the figure below:
+#figure(
+  image("images/ideal-transformer-circuit.png", width: 60%),
+) <fig-ideal-transformer-circuit>
+Notice that the "positive" current direction in the two sections can be chosen as convenient - the blue dots simply indicate the relationship between the sections over time.
+
+===== Generic Transformer Circuit
+A highly flexible circuit can be used to represent a real-world transformer:
+#figure(
+  image("images/generic-transformer.png", width: 60%),
+) <fig-generic-transformer>
+- The ideal transformer symbol has been added on the right to highlight that the two circuits are galvanically isolated.
+- $dot.double(u)$ is free to choose (to simplify certain types of analysis) and does not represent the actual turn ratio of the transformer; the inductance values are adjusted so that the model continues to function accurately. For example, if $dot.double(u) = 1$ is chosen this becomes the T shaped inductor circuit in @fig-t-transformer-circuit.
+- The resistors in series represent the resistance of the two coils, the parallel resistor in the middle represents losses within the core. These can vary heavily depending on the material, frequency and even the waveform.
+
+LTD: Review streuung
+
+==== Load Resistance
+As seen in @load-power, the maximum useful power output is possible when the load and internal resistance are equal. A transformer can be useful to adjust the relationship between internal resistance $R_1$ and load resistance $R_2$:
+$
+  R_1 = u_1 / i_1 = dot.double(u)^2 R_2
+$
+#figure(
+  image("images/resistance-transformation.png", width: 60%),
+) <fig-resistance-transformation>
+By chosing a suitable turn ratio $dot.double(u)$, we can optimize an AC power source's maximal output (as long as we are able to make use of the changed secondary coil voltage).
+
+==== Autotransformer
+If galvanic isolation is not needed, a cheaper and more efficient transformer can be built using a single coil around a core with a terminal point at some point along the coil. The following diagram steps up a voltage as the changing magnetic flux enters through more turns in the secondary terminals as across the primary terminals:
+#figure(
+  image("images/autotransformer.png", width: 40%),
+) <fig-autotransformer>
+
+The turn ratio equations still apply:
+$
+  hat(u_1) / hat(u_2) = hat(i_2) / hat(i_1) = N_1 / (N_1 + N_2)
+$
+
+To step down a voltage, the terminals can simply be reversed:
+$
+  hat(u_1) / hat(u_2) = hat(i_2) / hat(i_1) = (N_1 + N_2) / N_1
+$
 
 == Maxwell's Equations
 Overview, differential form, curl, divergence etc, attempt to understand and derive notation + convert between integral and differential forms
