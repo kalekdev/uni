@@ -1,5 +1,7 @@
 #heading(outlined: false)[Lineare Algebra]
 
+#set heading(numbering: (..nums) => nums.pos().map(str).slice(1, none).join("."))
+
 #outline()
 
 https://students.aiu.edu/submissions/profiles/resources/onlineBook/Y5B7M4_Introduction_to_Linear_Algebra-_Fourth_Edition.pdf
@@ -41,12 +43,6 @@ $
 $
 $(<x, y>) / (abs(x) abs(y)) in [-1, 1]$ is proven by the Cauchy–Schwarz inequality.
 
-Thus it can also be used with a unit vector to calculate the projection of a vector in its direction:
-$
-  abs(u) = 1\
-  <x, u> = abs(x)1 (x_u) / abs(x)\
-$
-
 === Cross / Vektor product
 The cross product is only defined in $RR^3$ and results in a vector orthogonal to both inputs, whose direction can be determined with the right hand rule.
 $
@@ -68,10 +64,8 @@ $
 LTD: Review what linear algebra is all about: https://en.wikipedia.org/wiki/Linear_map
 
 _Lineare kombination_ - Summe von skalierten Vektoren\
-_Linearly dependent_ - When two vectors can be expressed as a linear combination of the other and thus doesn't add any information to a LGS.
-_Basis_ - the set of linearly independent vectors $e_1 ... e_n$ that span all of space $R^n$
-
-Vektoren werden immer als Spalten in diesem Kurs gezeichnet.\
+_Linearly dependent_ - When a vector can be expressed as a linear combination of the others and thus doesn't add any information to a LGS.\
+_Basis_ - A set of linearly independent vectors $e_1 ... e_n$ that span all of space $R^n$
 
 Matrix multiplication comes from the motivation for an efficient way of representing linear combinations / transformations of space.
 
@@ -79,16 +73,12 @@ Matrix multiplication comes from the motivation for an efficient way of represen
 An LGS can be viewed geometrically (2D/3D) in multiple different ways:
 1. A linear combination of vectors (the columns of the matrix), where we are solving for the set of scalars where the superposition of the vectors is equal to the RHS. The columns of the matrix can be viewed as basis vectors of a custom coordinate system, in which we need to find the equivalent of the RHS vector.
 2. Alternatively it can be viewed as a set of line / plane equations (where each row is the normal vector to the plane, unsure if the coefficients are meaningful in ax + by=c) and solutions are points / lines of intersection.
-3. The LHS can also be viewed (usually in 3B1B videos) as a linear transformation of space, where the columns of the matrix are where the basis vector of each dimension lands after the transformation. The solution is therefore the vector which after being transformed results in the RHS vector.
-
-*NOTE*: I will mostly think in terms of the _linear transformation of space_ intuition, because the others are not very meaningful when considering inverse matrices.
-
 
 === Superposition
-In this example, one of the LHS vectors is a linear combination of the other two. This results in the LGS only being able to express vectors in a single plane rather than the entire 3D space (it doesn't contain a 3rd base component).
+In this example, one of the LHS vectors is a linear combination of the other two. This results in the LGS only being able to express vectors in a single plane rather than the entire 3D space (it doesn't contain a 3rd linearly independent basis dimension).
 
-_Infinite solutions_ - if the RHS vector lays in the plane expressed by $bold(a_(1-3))$, any point in the positive / negative direction of the solution vector lays in the plane.\
-_No solutions_ - the vector does not lay perfectly on the plane, the LHS vectors lack a component (not necessarily base unit vector) in its direction.
+_Infinite solutions_ - if a 3D RHS vector lays in the plane spanned by a 2D basis, there are infinitely many combinations of the two dependent basis vectors that can reach the point.\
+_No solutions_ - the vector does not lay perfectly on the plane, the LHS vectors lacks a component in its direction and no linear combination of the basis can reach it.
 
 === Line / Plane equations
 The solution is the point at which the lines / planes represented by the horizontal equations intersect. There are many possible arrangements which we can visualise, especially in $3D$ space.
@@ -101,43 +91,40 @@ _No solution_ - Not all lines / planes meet at a common point, which is more lik
 == Gaussian Elimination
 Method for solving a $m times n$ system of equations, easy to implement algorithmically and works for all dimensions.
 
-_Pivot_ - element on the diagonal of a matrix that has a non 0 coefficient
+_Pivot_ - Element on the diagonal of an upper matrix that has a non 0 coefficient
 
-_Rang / rank_ - number of non 0 pivots, ie (number of rows - number of Kompatibilitaetsbedingungen) - the number of linearly independent rows / columns - the number of dimensions of the output of a linear transformation.
+_Rank_ - number of non 0 pivots, ie (number of rows - number of Kompatibilitaetsbedingungen) - the number of linearly independent rows / columns - the number of dimensions of the output of a linear transformation.
 
 Row Rank = Column Rank:
 $
   "Rank"(bold(A)) = "Rank"(bold(A^T))
 $
 
-_Kompatibilitaetsbedingungen_ - Empty rows at the bottom of the matrix (0 coefficients in one of the equations). If their result is not 0 then there are no solutions for the system. If their result is 0 and the number of equations $<=$ the number of variables, there are infinite solutions.\
-_Intuition:_ When thinking of the LGS as superposition, each LHS vector has a 0 component in this dimension, meaning that $forall x in RR$ scalar in the Lineare Kombination satisfies the system. Viewing the system with insufficient equations as a system of planes, two planes will intersect along an entire line.
-In 2D, there would just be a single line, which of course has solutions along its entirety.
+_Compatibility Conditions_ - All-0 rows at the bottom of the matrix. If their result is not 0 then there are no solutions for the system. If their result is 0 and the number of equations $<=$ the number of variables, there are infinite solutions (the corresponding scalar can take any value and the RHS component remains 0).
 
 _Free Variables_ - Any variables not accounted for due to no pivot in their column are called _free variables_. These can be thought of as degrees of freedom, we are free to give them any arbitrary value and the other variables for that specific solution in the linear combination then depend on these.
 
-*"Order is half of the work in maths."* - _Vasile Gradinaru_
+*"Order is half of the work in maths."* - _Dr. Vasile C. Gradinaru_
 
 === Tips:\
-- Never divide / subtract in Gaussian elimination. Either multiply by $1/x$ or -1.
+- Never divide / subtract in Gaussian elimination. Simply multiply by $1/x$ or -x and add.
 - Switch rows columns carefully *before* carrying out additions.
-- *Only* add the row who's pivot is currently being considered! Otherwise it is difficult to capture the operation in the elimination matrix (more on this later).
-- When switching rows to get pivots in the correct place, it is usually best to swap a line with zero pivot with the row that has the largest pivot in that place.
+- *Only* add the row who's pivot is currently being pursued to other rows! Otherwise it is difficult to capture the operation in the elimination matrix (more on this later).
+- When switching rows to get existing pivots in the correct place, it is usually best to swap a line with a zero pivot with the row that has the largest pivot in that place.
 
-_U - Upper (Deutsch: R - Rechts) Matrix_ - Matrix with 0s under the diagonal and any numbers above it\
-_L - Lower Matrix_ - Matrix with 0s above the diagonal and any numbers below it\
-_Identity Matrix_ - Matrix with 0s above and below the diagonal, which only contains 1s\
-_Tridiagonal Matrix_ - Matrix with 3 diagonals, and otherwise 0s everywhere
-
-_Homogene LGS_ - $bold(A x) = 0$ hat eine triviale Loesung $bold(x) = 0$, unless it has free variables.\
+- _U - Upper (sometimes: R - right) Matrix_ - Matrix with 0s under the diagonal
+- _L - Lower Matrix_ - Matrix with 0s above the diagonal
+- _Identity Matrix_ - Matrix with 1s on the diagonal, everything else 0.
+- _Tridiagonal Matrix_ - Matrix with 3 diagonals, and otherwise 0s everywhere
+- $bold(A x) = 0$ only has the trivial solution $bold(x) = 0$, unless $bold(A)$ contains free variables.
 
 === Square Matrices ($m times n$):
 *The following only applies to square matrices*
 
-_Regular Matrix_, Rank = n, has exactly one solution for arbitrary RHS and only the trivial solution when homogenous\
-_Singular Matrix (Single / peculiar)_, Rank < n, has infinite / no solutions and has infinite non trivial solutions when homogenous
+- _Regular Matrix_ - Rank = n - has exactly one solution for arbitrary RHS; only the trivial solution when homogenous
+- _Singular Matrix (single = strange and uncommon)_ - Rank < n - has infinite / no solutions and has infinite non trivial solutions when homogenous
 
-$m>n$ - An overdetermined LGS only has solutions for specific RHS values (if the rows are not linearly dependent) and therefore has no inverse (singular).
+$m>n$ - An overdetermined LGS only has solutions for very specific RHS values (if the rows are not linearly dependent) and therefore has no inverse (singular).
 
 == Matrices
 === Transposed Matrix
@@ -163,10 +150,10 @@ A matrix which satisfies $bold(A) = bold(A^H)$ is called a Hermitian matrix ie. 
 LTD: Investigate thoroughly https://en.wikipedia.org/wiki/Hermitian_adjoint
 
 ==== Properties
-Vectors may be treated like $RR^(n times 1), CC^(n times 1)$ matrices and transposed in the same manner.
+- Vectors may be treated like $RR^(n times 1), CC^(n times 1)$ matrices and transposed in the same manner.
+- Matrix addition / scalar multiplication is carried out in the same way as vectors.
 
-Matrix addition / scalar multiplication is carried out in the same way as vectors.
-
+==== Identities
 $
   bold((A B)^T = B^T A^T)\
   bold((A B)^H = B^H A^H)\
@@ -203,6 +190,21 @@ $
 )
 $
 
+=== Block Matrix
+A matrix that can be broken down into submatrices, used when performing Schur decomposition:
+
+As an example, the following matrix can be split into partitions and written as sub matrices:
+$
+  bold(A) = mat(augment: #(hline: 2, vline: 3),
+  1, 2, 3, 4;
+  5, 6, 7, 8;
+  9, 10, 11, 12
+)\
+  bold(M_1) = mat(1, 2, 3; 5, 6, 7), bold(M_2) = mat(4;8), bold(M_3) = mat(9, 10, 11)\
+  bold(A) = mat(bold(M_1), bold(M_2);bold(M_3), 12)
+$
+As can be seen, not every element needs to be separated as a submatrix. This is simply chosen so that it represents the subject matter best.
+
 === Adjugate Matrix
 TODO: cover adj matrix here https://en.wikipedia.org/wiki/Determinant#Adjugate_matrix
 
@@ -214,9 +216,9 @@ $
   bold(A_(X times Y) times B_(Y times Z) = C_(X times Z))
 $
 
-Several LGS with the same LHS can be solved simultaneously with matrix multiplication:\
+Several LGS with the same LHS can be solved simultaneously with matrix multiplication with the inverse of $bold(A)$:
 $
-  bold(X) = [arrow(X_1), ..., arrow(X_n)], bold(B) = [arrow(B_1), ..., arrow(B_n)]\
+  bold(X) = [bold(x_1), ..., bold(x_n)], bold(B) = [bold(b_1), ..., bold(b_n)]\
   bold(A^(-1) X = B)
 $
 
@@ -229,9 +231,9 @@ The inverse of a square matrix $bold(A)$ is denoted as $bold(A^(-1))$, which rev
 
 The inverse can be used to solve a LGS for arbitrary RHS vectors and only exists for square matrices by definition.
 
-*Regular, invertable and full rank* are synonyms meaning that a matrix has an inverse. Here are some equivalent conditions which show that a matrix $bold(A)$ is regular:
-- $bold(A)$ is invertierbar
-- Rang($bold(A)) = n$
+*Regular, invertable and full rank* are synonyms meaning that a matrix has an inverse. Here are some equivalent conditions which show that a matrix $bold(A) in RR^(n times n)$ is regular:
+- $bold(A)$ is square
+- $"Rank"(bold(A)) = "Rank"(bold(A^T)) = n$
 - $bold(A x = b)$ is solvable for any $bold(b)$
 - $bold(A x = 0)$ only has the trivial solution $x=0$
 
@@ -246,21 +248,28 @@ $
 === Elimination Matrix
 Matrix used for tracking the process of Gaussian elimination. The LHS / RHS multiplied by the elimination matrix results in the current state of the elimination!
 
+The elimination matrix can be used with any $bold(b)$ to apply the steps of elimination, for example when the first row was multiplied by 2 and added to the 2nd row: $
+mat(
+  1, 0, 0;
+  2, 1, 0;
+  0, 0, 1;
+) vec(b_1, b_2, b_3) = vec(b_1, 2b_1 + b_2, b_3)
+$
+
 It starts as the identity matrix, then the scalar by which another row was multiplied by before adding is written in the position of the currently eliminated variable of the row it was added to.
 
-*Important*: Keep the elimination matrix lower! This means that for the current column, only the current row with 1 in the diagonal may be added to other rows. If this doesn't work, use a permutation.
+*Important*: Keep the elimination matrix lower! This means that for the current column, only the current row who's pivot we are pursuing may be added to other rows. If this doesn't work, use a permutation.
 
 *Caution*: when swapping rows, do NOT forget adjusting the Elimination Matrix accordingly, by simply swapping all non diagonal values in the rows (this is done in a mathematical manner with Permutation matrices later).
 
 *Properties of elimination matrices:*\
-- The inverse of the elimination matrix is itself, but non diagonal values become negative. This makes sense intuitively, as $bold(E E^(-1) = I)$ so for $bold(E_(i j) + E^(-1)_(i j) =0)$ they must have opposite polarities.
-- Two lower elimination matrices (with no overlapping elements!) multiplied together is the identity matrix with the combination of both lower elements. This means we can chain steps of Gaussian elimination together nicely.
+- The inverse of the elimination matrix is itself, but non diagonal values become negative. This makes sense intuitively, when considering the elements of $bold(E E^(-1) = I)$.
+- Two lower elimination matrices (with no overlapping elements!) multiplied together is the identity matrix with the combination of both lower elements. This means we can combine steps of Gaussian elimination together nicely.
 
 === Permutation Matrix
+Orthogonal Matrix used to track the permutation of rows during elimination. This is simply the identity matrix with the corresponding rows swapped.
 
-Orthogonal Matrix used to track the permutation of rows in LU-Zerlegung. This is simply the identity matrix with the corresponding rows swapped.\
-
-*Properties of permutation matrices:*\
+==== Properties
 $
   bold(P_13) := mat(0,0,1;0,1,0;1,0,0)\
   bold(P^(-1) = P^T)\
@@ -268,9 +277,9 @@ $
   "Column permutation:" space mat(1,2,3;4,5,6;7,8,9) bold(P_13) &= mat(3,2,1;6,5,4;9,8,7)\
 $
 === Calculating the Inverse
-The inverse can be calculated through Gaussian elimination (full Gaussian elimination, ie. with back substitution already carried out so the LHS matrix is the identity matrix) with a RHS of $bold(b) = vec(b_1, b_2, ..., b_n)$ and then finding which $bold(X)$ results in $bold(X^(-1)b)=$ our eliminated original matrix (by simply reading the coefficients of each component of $bold(b)$).
+The inverse can be calculated through full Gaussian elimination (row-reduced echelon form, ie. with back substitution already carried out so the LHS matrix is the identity matrix) with a RHS of $bold(b) = vec(b_1, b_2, ..., b_n)$ and then finding which $bold(X)$ results in $bold(X^(-1)b)=$ our eliminated original matrix (by simply reading the coefficients of each component of $bold(b)$).
 
-This can be simplified as the so-called *Gauss-Jordan Elimination*. This can be described as the following transformation through regular Gaussian elimination. All operations happen on both sides in both matrices, unlike LU decomposition.
+This can be simplified as the so-called *Gauss-Jordan Elimination*. This can be described as the following transformation through regular Gaussian elimination. All operations happen on both sides:
 $
   [bold(A | I)] arrow.squiggly [bold(I | A^(-1))]\
   mat(augment: #3,
@@ -285,14 +294,6 @@ $
 )
 $
 
-The elimination matrix can be used with any $bold(b)$ to apply the steps of elimination, for example when the first row was multiplied by 2 and added to the 2nd row: $
-mat(
-  1, 0, 0;
-  2, 1, 0;
-  0, 0, 1;
-) vec(b_1, b_2, b_3) = vec(b_1, 2b_1 + b_2, b_3)
-$
-
 == LU Lower Upper (LR Left Right) Decomposition
 A matrix can be decomposed into an upper and lower matrix, such that:
 $
@@ -300,7 +301,7 @@ $
   bold(P A = L U)
 $
 
-This can be used to decouple the factorization phase from the actual solving phase in Gaussian elimination. When the number of RHS we need to solve for is relatively small and the A is extremely large, it is more efficient to carry out LU Zerlegung and the additional steps to solve each system separately rather than to calculate the inverse through Gauss-Jordan elimination.
+This can be used to decouple the factorization phase from the actual solving phase in Gaussian elimination. When the number of RHS we need to solve for is relatively small and $bold(A)$ is extremely large, it is more efficient to carry out LU Zerlegung and the additional steps to solve each system separately rather than to calculate the inverse through Gauss-Jordan elimination.
 
 *Proof of $bold(A = L U)$:*\
 For steps $1,2,3,...,n$ of Gaussian elimination, the end result of the LHS is an upper matrix.
@@ -317,16 +318,14 @@ $
 $
 Where $E^(-1)$ is very easy to find (non diagonal elements simply $times -1$ as mentioned earlier).
 
-Using a combination of Elimination matrices and row + column permutations (these are needed to preserve the diagonal 1s of the resulting elimination matrix), the entire Gaussian elimination process can be encoded as one L matrix.
-
-This is very powerful as the inverses of E and P matrices are easy to find and apply in reverse to the RHS in order to solve the LGS.
+Using a combination of Elimination matrices and row + column permutations (these are needed to preserve the diagonal 1s of the resulting elimination matrix), the entire Gaussian elimination process can be encoded as one $bold(L)$ matrix.
 
 === Using the LU Decomposition
 The decomposed system can then be used to solve for $bold(x)$ in the following way:
 1. $A x = b$
 2. Decompose into the form $P A = L U$
-3. Replacing A as PLU, $L c = P b$. $c$ can be solved easily thanks to the form of $L$
-4. Based on the above rearrangement, $c = U x$, in which x can also be solved easily with backsubstitution
+3. Replacing $A$ as LU, $P L U x =  b$
+4. $U x = P^(-1)L^(-1) b$, now $x$ can be solved easily as $U$ is already in reduced form and just requires back substitution
 
 LTD: Other decomposition methods (Cholesky etc)
 
@@ -343,7 +342,7 @@ LTD: Investigate unitary matrix applications
 === Orthogonal Matrices
 _Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space. Thus, orthogonal matrices are the real subset of unitary matrices.
 
-In other words, the columns are rows of an orthogonal matrix are orthonormal to each other (see Gram-Schmidt).
+In other words, the columns / rows of an orthogonal matrix are orthonormal to each other (see Gram-Schmidt).
 TODO: Learn how to link to reference typst
 
 The inverse of a rotation / reflection of space is logically its transposition (consider the rotation of base vectors to different axis):
@@ -352,7 +351,7 @@ $
   "Sei P Orthogonal"\
   bold(Q P) "und" bold(P Q) "sind auch Orthogonal"
 $
-An alternative intuition for this is considering matrix multiplication with the Hermetian as dot products between columns / rows, showing orthonormality (1 dot product pair with length 1, the others 0 $=>$ orthogonal).
+An alternative intuition for these conditions is considering matrix multiplication with the Hermetian as dot products between columns / rows, showing orthonormality (1 dot product pair with length 1, the others 0 $=>$ orthogonal).
 
 Orthogonal matrix multiplication is still generally not commutative.
 
@@ -373,13 +372,14 @@ $
   sin(alpha), cos(alpha)
 )
 $
-Due to the identity $bold(Q^(-1) = Q^T)$ rotation anti-clockwise is:
+Due to the identity $bold(Q^(-1) = Q^T)$ rotation clockwise is:
 $
   R(alpha)^T = R(-alpha) = mat(
   cos(alpha), sin(alpha);
   -sin(alpha), cos(alpha)
 )
 $
+Alternatively, this can be calculated by inserting $-alpha$ into the anti-clockwise rotation matrix and applying the trigonometric symmetry identities.
 
 For a rotation in a certain plane of $RR^n$, simply keep all columns and rows unaffected by the rotation as the identity matrix. For example a anti-clockwise rotation in the $x times y$ plane of $RR^3$:
 $
@@ -399,9 +399,9 @@ $
 $
 and so on in higher dimensions...
 
-_Givens Rotation_ $G(phi) = R(-phi)$ - Simply a rotation by the angle $phi$ in the anti-clockwise direction
+_Given's Rotation_ $G(phi) = R(phi)$ - Simply a name for a rotation by the angle $phi$ on the plane spanned by two canonical unit vectors in the anti-clockwise direction
 
-Rotations which are not confined to a plane can be achieved through a series of plane rotations multiplied together, still resulting in an orthogonal matrix.
+Rotations which are not confined to a plane can be achieved through a series of plane rotations multiplied together, still resulting in an orthogonal matrix. Alternatively, this can be found using a change of basis matrix and calculating a Given's rotation in the new basis.
 
 ==== Reflection (Householder) Matrix
 The orthogonal Householder matrix $Q$ represents the reflection of space (a vector $bold(x)$ which does not lie on the plane) over an arbitrary plane with normal *unit* vector $bold(u)$:
@@ -413,30 +413,33 @@ $
 
 *"Fuer die Computer sind alle Zahlen schön"* - _Vasile Gradinaru_
 
-== QR Zerlegung (QU Zerlegung)
-QR Decomposition is a different approach to solving LGSs, where the matrix Q is orthogonal.
+== QU Decomposition
+QU Decomposition is a different approach to solving LGSs, where the matrix Q is orthogonal.
 
 Likewise to LU decomposition, it can be used to solve LGSs:
 $
-  bold(A x = b <=> Q R x = b <=> R x = Q^T b)
+  bold(A x = b <=> Q U x = b <=> U x = Q^T b)
 $
 Advantage:
-- Reduced rounding errors due to the way computers represent floating point numbers (fractions)
+- Reduced rounding errors due to the way computers represent floating point numbers
 Disadvantage:
 - 3 times as inefficient as LU-Zerlegung
 
 The goal is to find a series of orthogonal transformations, which transform $bold(A)$ into an upper matrix when multiplying it. Since orthogonal matrices multiplied together result in an orthogonal matrix, they can easily be combined into one and used to solve the LGS as described above.
 
 === Givens rotations
-Considering a vector, for example $vec(x_1, x_2)$. We can transform one of its components into 0 by rotating it onto an axis, resulting in $vec(r, 0)$ the following applies:
+Considering a vector, for example $vec(x_1, x_2)$. We can transform $x_2$ into 0 by rotating it *clockwise* onto the x-axis, resulting in $vec(r, 0)$ the following applies:
 $
   r &= sqrt(x_1^2+x_2^2)\
   cos(theta) &= x_1 / r\
   sin(theta) &= x_2 / r
 $
-This works in $RR^n$ dimensions. TODO: Complex as well?
+This works in $RR^n$ dimensions.
 
-Using these formulas with a Givens (clockwise) rotation, we can simply replace $cos$ and $sin$ in the matrix with the fractions, targeting the row we don't mind changing and the element we currently want to transform into 0.
+Using these formulas with the inverse of a Given's rotation, we can simply replace $cos$ and $sin$ in the matrix with the fractions, targeting the row we don't mind changing and the element we currently want to transform into 0:
+$
+  G(theta)^(-1) = G(theta)^T = mat(cos(theta), sin(theta);-sin(theta), cos(theta))
+$
 
 By applying a series of Givens rotations, we can carry out the full Gaussian elimination, ending up with an Upper / Right matrix.
 
@@ -460,14 +463,12 @@ When targeting inner columns, the reflection matrix should only be in the bottom
 - Givens rotation is great for targeting specfic elements to turn into 0, and it needs a series of rotations to reduce several dimensions at once. It is ideal if there are already several 0s in the column.
 - Householder reflections have the power to turn all except one element of a column into 0s at once (reflect a vector in $RR^3$ directly onto the x-axis for example)
 
-#pagebreak()
-
 == Linear Vector Spaces
 *"Es macht Spaß"* - _Vasile Gradinaru_
 
 _Linear_ - Lines are mapped to lines after the transformation
 
-$RR^n$ and $CC^n$ are only two examples of many possible vector spaces. Considering the vector space $V$, the following operations / axioms are defined:
+$RR^n$ and $CC^n$ are only two examples of many possible vector spaces. Considering the vector space $V$, the following axioms are defined:
 #image("images/vector-space.png")
 
 Two linear spaces can proved to be equal to one another by proving $A subset.eq B and B subset.eq A therefore A = B$
@@ -559,30 +560,27 @@ Each linear space already has two simple subspaces:
 - The range of it as a transformation
 
 === Basis
-_Linearly Dependant_ - A vector in the set is linearly dependent if other vectors in the set can express it as a linear combination. In the case of two elements:
+_Linearly Dependant_ - A vector in the set is linearly dependent if other vectors in the set can express it as a linear combination. In the case of two vectors:
 $
   alpha in RR\
   bold(v_1) = alpha bold(v_2)
 $
 
-This check can be restructured as a linear combination of several vectors $bold(v_n)$, where we find the kernel of the matrix $bold(A)$, meaning the set of scalars which would express each column of the matrix as a linear combination of the other columns:
+This check can be restructured as a linear combination of several vectors $bold(v_n)$, where we find the kernel of them as a combined matrix, meaning the set of scalars which would express each column of the matrix as a linear combination of the other columns:
 $
-  vec(x_1, x_2, ..., x_n) in RR^n\
-  x_1 bold(v_1) + x_2 bold(v_2) +x_3 bold(v_3) +x_4 bold(v_4) + ...= 0\
-  bold(-v_1) = x_2 / x_1 bold(v_2) +x_3 / x_1 bold(v_3) +x_4 / x_1 bold(v_4) + ...\
-  bold(A) = mat(bold(v_1), bold(v_2), ..., bold(v_n))\
-  bold(A x = 0)
+  bold(A) = mat(bold(v_1), bold(v_2), ..., bold(v_n)), bold(x) = vec(x_1, x_2, ..., x_n) in RR^n\
+  bold(A x = 0)\
 $
-If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent.
+If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent. This is most easily checked through elimination.
 
-_Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system) and stay completely within the linear space (not allowed to span a parent space as well). There can be several independent bases in a space, but all bases have the same number of elements.
+_Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system) and stay completely within the linear space (not allowed to span a parent space as well). There can be several independent bases in a space, but all bases have the same number of elements (dimension).
 
-Any element in the linear space can be determined by a *unique* linear combination of the basis. Proof in script.
+Any element in the linear space can be determined by a *unique* linear combination of the basis vectors.
 
 _Canonical basis_ - Bases taken "as canon" (accepted standard) for each space, for example $e_x, e_y, e_z in RR^3$
 
 #image("images/lu-base.png", width: 60%)
-The basis of an erzeugenden system can be found through LU Zerlegung, where the columns with a pivot are linearly independent of one another and therefore the corresponding columns in A are a basis of the range / image (span of the erzeugenden system). The other columns are so called free variables because they can take
+The basis of an erzeugenden system can be found through elimination, where the columns with a pivot are linearly independent of one another and therefore the corresponding columns in A are also a possible basis in the space.
 
 ==== Basis of $cal(P)_n$ are the monomes
 Basis of $n in NN, cal(P)_n = {p_(i) = t^(i)| t in RR, i in NN_0 < n}$ - The monomes are linearly independent (proof in script) and span the entire polynomial space.
@@ -645,23 +643,20 @@ $
   x = x_1 bold(v_1) + x_2 bold(v_2) + x_3 bold(v_3) + ...\
   cal(k_B): bold(V) -> RR^3:= vec(x_1, x_2, x_3, ...)
 $
-This mapping transforms a tuple of coordinates into the resulting point in $RR^n$ using an abstract basis $cal(B)$.
+This mapping transforms a tuple of coordinates into the resulting point in $RR^n$ (commonly accepted canonical basis) using an abstract basis $cal(B)$ so that we can perform operations on elements in different abstract basis as one.
 
-Coordinates can of course be transformed to coordinates of another basis in the same linear space as follows:
-- Both coordinates are unique for their underlying basis and both result in an element in the same linear space.
+Coordinates can of course be transformed to coordinates of another basis in the same linear space:
+- Both coordinates are unique for their underlying basis and both can be mapped to a unique element in a common linear space.
 - Therefore each basis vector in the target basis can be represented as a linear combination of the original basis.
-- We can represent this mapping as a matrix $bold(C)$ where $bold(C tilde(x) = x)$
 
-$bold(C)$ is found by:
-+ Represent each vector in the new basis as a coordinate in the old basis.
-+ These are now the columns of $bold(C)$.
-+ Solve $bold(C tilde(x) = x)$
-+ The matrix can then be used to change the basis of any vector, as well as calculating the inverse (in case it is easier than finding a new suitable $bold(C)$)
-#figure(
-  image("images/basis-change.png", width: 80%),
-) <fig-basis-change>
+==== Change of Basis
+Let us assume we are working in the linear space $RR^n$. We want to determine matrices that transform coordinates between bases $cal(B)_1$ and $cal(B)_2$:
++ Express the target basis $cal(B)_2$ vectors as coordinates in our basis $cal(B)_1$
++ Set these coordinates as columns of a matrix $bold(P): cal(B)_2 -> cal(B)_1$. The order should be consistent with the order of coordinates in $cal(B)_2$.
++ We can now multiply coordinates $bold(x) in cal(B)_2$, $bold(P x = b)$. This expresses the same linear combination of $cal(B)_2$ basis vectors, but in coordinates of $cal(B)_1$. $bold(b) in cal(B)_1 = bold(x) in cal(B)_2$
++ To convert from coordinates in $cal(B)_1 -> cal(B)_2$, we can simply use $bold(P)^(-1)$
 
-LTD: is $tilde(x)$ the point we want to transform in terms of the new basis?
+This sheds a new light on transformations. Any square matrix with full rank can be interpreted to represent a change in basis.
 
 === Linear Transformations
 Useful resource: https://www.3blue1brown.com/lessons/abstract-vector-spaces
@@ -702,7 +697,7 @@ $
 $
 
 ==== Linear Form (Linear Functional)
-Simply any *linear* transformation that maps a linear space $V -> RR^1 or CC^1$.
+Simply any *linear* transformation that maps a linear space to one dimension $V -> RR$ or $V -> CC$.
 
 LTD: Quaternions
 
@@ -719,7 +714,7 @@ $
 $
 whereby the conjugation can be ignored if dealing with real linear forms.
 
-This is a cool way of representing any linear form, essentially a regular linear transformation mapping to 1 dimension, as a single vector; because any linear transformation can be represented as a matrix. LTD: Chicken vs the egg?
+This is a cool way of representing any linear form, essentially a regular linear transformation mapping to 1 dimension, as a single vector.
 
 ===== Dual Space
 The linear vector space $V'$ of all linear forms of a linear vector space $V$, such that:
@@ -800,7 +795,7 @@ $
 $
 Where $norm(dot)$ is the Euclidean norm. This can be proven by induction.
 
-Both sides are equal $<=>$ $v, w$ are linearly dependent. Due to this, the angle definition of the dot product is actually an application of the inequality used throughout mathematics:
+Both sides are equal $<=>$ $v, w$ are linearly dependent (they point in the same direction and the angle between them is ${0degree, 180degree}$. Due to this, the angle definition of the dot product is actually an application of the inequality used throughout mathematics:
 $
   cos(theta) = (<v, w>) / (norm(v) norm(w))
 $
@@ -845,7 +840,7 @@ $
   norm(bold(A))_2 = abs(lambda_"max" (bold(A)))
 $
 
-In the symmetrical case, real eigenvalues are ensured, which we have $n$ of, meaning the a linear combination of eigenvectors can cover the entire space and the maximum eigenvalue is the largest resulting norm of any unit vector (each eigenvalue has two unit vectors in its eigenspace which increase in length by $lambda_"max"$).
+In the symmetrical case, *n* real eigenvalues are ensured meaning that a linear combination of eigenvectors can cover the entire space and the maximum eigenvalue is the largest resulting norm of any unit vector.
 
 $bold(A^H A)$ ensures the eigenvalues become real ($CC dot CC = RR$), which is then accounted for by the square root - this can be proven due to $bold(A^H A)$ being Hermetian symmetric and thus diagonalizable using unitary matrixes accoring to the spectral theorem.
 
@@ -869,7 +864,7 @@ $
   k(bold(A)) = sqrt(abs(lambda_"max" (bold(A)))/abs(lambda_"min" (bold(A))))
 $
 
-It is purely a property of the matrix based on how much bigger the maximum eigenvalue is than the minimum eigenvalue - ie how much more the matrix stretches vectors in a specific direction than the others - which makes it more susceptible to computational errors.
+It is purely a property of the matrix based on how much bigger the maximum eigenvalue is than the minimum eigenvalue - ie how much more the matrix stretches vectors in a specific direction than the others - which makes it less "unitary" and more susceptible to computational errors.
 
 LTD: Benchmark condition numbers of different types of matrices.
 
@@ -985,7 +980,7 @@ It is very computationally advantageous to use an orthonormal basis whenever pos
 We would like to transform the basis $VV = {v_1, v_2, ..., v_n} -> UU = {e_1, e_2, ..., e_n}$ where $UU$ is orthonormal.
 
 This is carried out in 2 steps:
-1. Orthogonalise the vectors by recursively subtracting the previous $n$ elements of the resulting basis, the first vector can remain unchanged:
+1. Orthogonalize the vectors by recursively subtracting the previous $n$ elements of the resulting basis, the first vector can remain unchanged:
 $
   u_1 &= v_1\
   u_2 &= v_2 - P_(u_1)(v_2)\
@@ -1005,7 +1000,7 @@ If the $bold(0)$ vector is output at any stage, the input vectors are linearly d
 === Stability
 When calculating the recursive method, the resulting vectors are usually not quite orthogonal due to rounding errors, which becomes worse after each iterative subtraction of projections.
 
-This can be alleviated by instead projecting the "orthogonaler" $u_k$ at each stage of the iterative subtraction:
+This can be alleviated by instead projecting the "orthogonaler" $u_(k-1)$ at each stage of the iterative subtraction:
 #figure(
   image("images/modified-gram-schmidt.png", width: 40%),
 ) <fig-modified-gram-schmidt>
@@ -1126,7 +1121,7 @@ Some transformations, for example rotations, have no real, non-zero eigenvalues.
 === Properties
 - The diagonal elements of an upper square matrix in reduced form are its eigenvalues; algebraic multiplicity can also be easily read from this form. LTD: Find / write proof
 - $"det" bold(A) = product lambda_i$ - The determinant is equal to the product of eigenvalues.
-- _Trace_ - Sum of diagonal elements of a matrix. This is equal to the sum of eigenvalues.
+- $"trace" bold(A) = sum lambda_i$ - Sum of diagonal elements of a matrix. This is equal to the sum of eigenvalues.
 - Any vector which can be expressed as a linear combination of eigenvector(s) with the same eigenvalue is also also an eigenvector of the same eigenvalue (fundamental rules of linear transformations) - all vectors in the same line have the same eigenvalue. Furthermore, a single eigenvalue may have an $n >= 1$ dimensional eigenspace - any vector in this space also has the same eigenvalue.
 $
   bold(x) &= alpha bold(y) + beta bold(b)\
@@ -1139,7 +1134,7 @@ $
 - $bold(A)$ and $bold(A^2)$ do *not* necessarily have the same eigenvalues as signs are lost.
 - Scalar multiplication of a matrix leads to eigenvalues multiplied by the same scalar - matrices represent linear transformations hence $alpha bold(A(x)) = bold(A)(alpha bold(x)) = alpha lambda bold(x)$.
 - Addition / multiplication of matrices does not necessarily mean the eigenvalues can be added / multiplied, algebraic rearrangement can be used to find eigenvalues of a polynomial of a matrix.
-- If $bold(A)$ is square, $bold(A^T)$ has the same spectrum.
+- If $bold(A)$ is square, $bold(A^T)$ has the same pivots and therefore the same spectrum.
 - (Scaled) rotation matrices have only complex pairs of eigenvalues, total amount n.
 
 === Finding Eigenvalues / Vectors
@@ -1154,15 +1149,14 @@ $
 $
 The infinite non-zero solutions (eigenvectors) for $bold(v)$ are only possible when $det(bold(A) - lambda bold(I)) = 0$. Computing this determinant results in a polynomial in terms of $lambda$ with degree $n$ which can be solved to find all possible eigenvalues. This is called the *characteristic polynomial*.
 
-- Polynomials can also have complex solutions, hence real matrices can have $lambda in CC \\ RR$, which come in pairs with their conjugates.
+- Polynomials can also have complex solutions, hence real matrices can have $lambda in CC$, which come in pairs with their conjugates.
 - Multiplication by $times -1$ whilst swapping rows during elimination to find the characteristic polynomial can be ignored, because it is $=0$ anyway.
 - An $n times n$ matrix has $[1, n]$ real eigenvalues due to the fundamental theorem of algebra.
-- _Algebraic Multiplicity_ - This tells us how many times a root is repeated. For example the characteristic equation $(lambda - 1)^2 (lambda-4)=0$ has AM 2 for $lambda = 1$, therefore the eigenspace for $lambda = 1$ is spanned by two vectors.
-- _Geometric Multiplicity_ - Dimensions of an eigenspace.
+- _Algebraic Multiplicity_ - This tells us how many times a root is repeated. For example the characteristic equation $(lambda - 1)^2 (lambda-4)=0$ has AM 2 for $lambda = 1$.
+- _Geometric Multiplicity_ - Dimensions of an eigenspace. If the eigenvectors for an eigenvalue are linearly independent, this is the same as the AM, otherwise it's less:
 $
   1 <= "GM"(lambda) <= "AM"(lambda) <= n
 $
-LTD: Still don't quite understand the proof for this inequality
 
 Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding each set of eigenvectors simply becomes the task of finding the different nullspaces, for which we have already calculated the reduced form of $bold(A)$ whilst finding the characteristic equation:
 $
@@ -1204,7 +1198,7 @@ $
   0, 0, a_3;
 ) vec(bold(x_1), bold(x_2), bold(x_3)) = vec(a_1 bold(x_1), a_2 bold(x_2), a_2 bold(x_3))
 $
-which is for example useful when solving linear differential equations.
+which is for example useful when solving linear differential equations. It is also extremely computationally efficient
 
 They are square most of a time, but a non-square diagonal matrix simply takes the form:
 $
@@ -1251,7 +1245,7 @@ Therefore a similar diagonal matrix can simply be formed using its eigenvalues i
 $
   bold(D) = "diag"(lambda_1, lambda_2, ...)
 $
-Those eigenvalues do not need to unique - some may have geometric multiplicity $>1$. However, the chosen eigenvectors must be independent to ensure $bold(S)$ is invertible.
+Those eigenvalues do not need to unique (although unique eigenvalues guarantee linear independence and diagonalization) - some may have geometric multiplicity $>1$. However, the chosen eigenvectors must be independent to ensure $bold(S)$ is invertible.
 
 Calculating a diagonal form of the matrix (albeit in another basis) can be extremely useful for simplifying calculations, for example calculations where raw access to its eigenvalues is useful, or analyzing the properties of the transformation it represents.
 
@@ -1267,14 +1261,15 @@ $
   bold(A) "is normal" <=> bold(A^H A = A A^H)
 $
 
-A useful property of normal matrices in general is that $n$ eigenvectors *can always be chosen to be orthogonal* to each other:
-- If there are $n$ distinct eigenvalues, these eigenspaces are orthogonal to one another
+A useful property of *only* normal matrices is that $n$ eigenvectors *can always be chosen to be orthogonal* to each other:
+- If there are $n$ distinct eigenvalues, these eigenspaces are *orthogonal* to one another
 - If there are eigenvalues with geometric multiplicity $> 1$ this is not an issue. For example, all vectors are eigenvectors of the identity matrix's only eigenvalue $lambda = 1$, and we can choose any $n$ dimensional orthogonal basis without issues to satisfy this statement.
 $
-  bold(A) "is normal" => bold(A) "has n orthogonal eigenvalues" => bold(A) "is diagonalizable!"
+  bold(A) "is normal" <=> bold(A) "has n orthogonal eigenvalues" => bold(A) "is diagonalizable!"
 $
+However, the only condition for diagonalizability is *linearly independent* eigenvectors (they do not need to be perfectly orthogonal), hence not all diagonalizable matrices are normal.
 
-Therefore, they are diagonalisable through an ortho(normal) change of basis matrix - the eigenvalues are not just linearly independent:
+Therefore, they are diagonalisable through an ortho(normal) change of basis matrix - the chosen eigenvectors are not just linearly independent but also orthogonal to each other:
 $
   bold(A = Q Lambda Q^(-1)= Q Lambda Q^T)\
 $
@@ -1282,7 +1277,7 @@ Dividing each column by its norm can make the orthogonal matrices orthonormal.
 
 This is an incredibly useful statement for computation - computers love orthonormal and diagonal matrices!
 
-This is be generalised with unitary matrices as the so called *Spectral Theorem*:
+This is be generalised with unitary matrices (entries can be complex) as the so called *Spectral Theorem*:
 $
   bold(A) "is normal" => bold(A = U Lambda U^H)
 $
@@ -1314,7 +1309,7 @@ $
 === Symmetric Positive-Definite Matrices
 These are symmetric matrices which have *only strictly-positive* (non-zero) eigenvalues and therefore only strictly positive pivots (and therefore full-rank; invertible).
 
-Therefore the total determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only rely on the total determinant, may have two negative eigenvalues).
+Therefore the determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only rely on the "total" determinant, it may have two negative eigenvalues).
 
 Another way of checking this is ensuring the dot product of all vectors before and after the transformation is $>= 0$:
 $
@@ -1323,9 +1318,42 @@ $
 $
 If the zero vector checking condition is not satisfied, the matrix is called *semi positive-definite* - in other words some non-zero vectors are either sent to the zero vector or become orthogonal. It must have at least one 0 eigenvalue.
 
-== Schur Decomposition
-All square matrices (not only normal) are similar to an upper matrix with diagonal eigenvalues, with unitary change of base matrices (these may contain complex values).
+== Non-Diagonalizable Decomposition
+=== Schur Decomposition
+All complex square matrices (not only normal) are unitarily similar (unitary change of basis matrices) to an upper matrix (may contain complex elements) with its eigenvalues as its pivots.
+$
+  bold(A = Q U Q^(-1) = Q U Q^(H))
+$
 
+If $bold(A)$ is real, it is orthogonally similar to a _block upper matrix_, such that when represented as a block matrix using $1 times 1$ and $2 times 2$ sub matrices, only entries on and above the diagonal are non-zero.
+
+The existence of this decomposition is more relevant than using it and it as a useful ingredient in many fundamental proofs.
+
+==== QU Algorithm
+This is an algorithm based on QU decomposition for finding a similar matrix using unitary change of basis vectors, ie computing the Schur decomposition:
++ Compute the QU decomposition: $bold(A = Q U)$
++ Let $bold(A_(k+1) = U Q)$
++ $bold(A_(k+1)= Q^(-1) Q U Q = Q^H A Q)$
++ Keep iterating until $bold(A_(k+1))$ converges to an upper matrix, the Schur decomposition is then solved and can be rearranged to $bold(A = Q A_(k+1) Q^H)$
+
+TODO: Jordan form
+
+== Singular Value Decomposition
+Diagonalization is only possible for square matrices with $n$ independent eigenvectors and Schur decomposition only leads to a similar upper matrix, not a diagonal one.
+
+Singular value decomposition (SVD) allows us to diagonalize all non-square matrices, with the downside that the change of basis matrices are different and therefore need to be calculated twice:
+$
+  bold(A) in RR^(m times n), bold(U) in RR^(m times m), bold(V) in RR^(n times n)\
+  bold(Sigma) = "diag"(sigma_1, sigma_2, ..., sigma_p), p = "min"(m, n)\
+  bold(A = U Sigma V^H)
+$
+
+Here are some examples of the dimensions involved in SVD:
+#figure(
+  image("images/svd-dimensions.png", width: 60%),
+) <fig-svd-dimensions>
+
+TODO
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
@@ -1537,7 +1565,7 @@ Matrix defining some polynomial using the monome base with shift transformation 
 $
   p(S_n(x))= ...
 $
-Can be diagonalised as:
+Can be diagonalized as:
 $$
 
 All circulation matricex have the same eigenspaces!
