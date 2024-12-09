@@ -330,28 +330,32 @@ The decomposed system can then be used to solve for $bold(x)$ in the following w
 LTD: Other decomposition methods (Cholesky etc)
 
 == Unitary Matrices
-Unitary matrices preserve norms, hence they have $det = 1$.
+_Orthonormal_ - Normalised orthogonal vectors; ie. a set of vectors that are orthogonal between one another and have length (norm) 1.
+
+Orthonormality can be tested with dot products:
+- $< u, v > = 0$ - Orthogonal
+- $< u, u > = 1$ - Normal
+
+_Unitary matrix_ A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1, hence they have $det = 1$.
 $
-  bold(Q^H Q = I) <=> "Q is Unitary"\
+  bold(Q^H Q = I) <=> bold(Q) "is Unitary"\
 $
 
-Furthermore, their eigenspaces are orthogonal to each other and $lambda = abs(1)$ - they are a subset of the normal matrices.
+The condition $bold(Q^H Q = I)$ ensures the dot product of every column with it self is 1 (they have length 1) and with other columns is 0 (the columns are orthogonal to each other) due to the 1s along the diagonal and 0s everywhere else in the identity matrix.
+
+Furthermore, their eigenspaces are orthogonal to each other and $lambda = abs(1)$ - they are a subset of the normal matrices ($bold(A^H A = A A^H)$).
 
 LTD: Investigate unitary matrix applications
 
 === Orthogonal Matrices
-_Orthogonal matrix_ - A square matrix whose columns are perpendicular to each other (dot product 0) and their Euclidean Norms are 1. They do not change lengths or angles - ie they only rotate / reflect space. Thus, orthogonal matrices are the real subset of unitary matrices.
+_Orthogonal matrix_ - A unitary matrix with only *real elements*. They do not change lengths or angles - ie they only rotate / reflect space.
 
-In other words, the columns / rows of an orthogonal matrix are orthonormal to each other (see Gram-Schmidt).
-TODO: Learn how to link to reference typst
-
-The inverse of a rotation / reflection of space is logically its transposition (consider the rotation of base vectors to different axis):
+The inverse of a rotation / reflection of space is logically its transpose (consider the rotation of base vectors to different axis):
 $
   bold(Q^T Q = I) : "Q is Orthogonal"\
   "Sei P Orthogonal"\
   bold(Q P) "und" bold(P Q) "sind auch Orthogonal"
 $
-An alternative intuition for these conditions is considering matrix multiplication with the Hermetian as dot products between columns / rows, showing orthonormality (1 dot product pair with length 1, the others 0 $=>$ orthogonal).
 
 Orthogonal matrix multiplication is still generally not commutative.
 
@@ -961,12 +965,6 @@ TODO: Define cauchy completeness, may still come up in analysis though
 _Hilbert Space_ - A complete metric space, limits are defined, which may be infinite dimensional
 
 == Gram-Schmidt
-_Orthonormal_ - Normalised orthogonal vectors; ie. a set of vectors that are orthogonal between one another and have length (norm) 1.
-
-Orthonormality can be tested with dot products:
-- $< u, v > = 0$ - Orthogonal
-- $< u, u > = 1$ - Normal
-
 LTD: Inner product or dot products?
 
 === Theorem
@@ -1275,7 +1273,7 @@ $
 $
 Dividing each column by its norm can make the orthogonal matrices orthonormal.
 
-This is an incredibly useful statement for computation - computers love orthonormal and diagonal matrices!
+This is an incredibly useful statement for computation - computers love orthonormal and diagonal matrices! When visualising this decomposition, the orthogonal change of basis matrix has its orthonormal basis vectors as eigenvectors, meaning the eigenvectors become aligned with the basis. Space is then scaled accordingly by the diagonal eigenvalue matrix $Lambda$ and rotated / reflected back to the original basis.
 
 This is be generalised with unitary matrices (entries can be complex) as the so called *Spectral Theorem*:
 $
@@ -1341,19 +1339,46 @@ TODO: Jordan form
 == Singular Value Decomposition
 Diagonalization is only possible for square matrices with $n$ independent eigenvectors and Schur decomposition only leads to a similar upper matrix, not a diagonal one.
 
-Singular value decomposition (SVD) allows us to diagonalize all non-square matrices, with the downside that the change of basis matrices are different and therefore need to be calculated twice:
+Singular value decomposition (SVD) allows us to "diagonalize" *all* matrices using unitary change of basis matrices, with the downside that the change of basis matrices are different and therefore need to be calculated twice:
 $
   bold(A) in RR^(m times n), bold(U) in RR^(m times m), bold(V) in RR^(n times n)\
-  bold(Sigma) = "diag"(sigma_1, sigma_2, ..., sigma_p), p = "min"(m, n)\
+  bold(Sigma) in RR^(m times n) = "diag"(sigma_1, sigma_2, ..., sigma_p), p = "min"(
+    m, n
+  ), sigma_1 >= sigma_2 >= ... >= sigma_p >= 0\
   bold(A = U Sigma V^H)
 $
+There are multiple possible decompositions for a given matrix. SVD unlocks countless applications in all areas of science.
+
+Alternatively, the decomposition can be written as (TODO: Useful for the best rank 1 representation of a matrix):
+$
+  bold(A) in RR^(m times n), bold(u_i) in RR^(m times 1), bold(v_i) in RR^(n times 1)\
+  bold(A) = sum_(i=1)^r sigma_i bold(u_i (v_i)^H)
+$
+Where $r = "rank"(bold(A)$), $bold(u_i)$ is the corresponding column of $bold(U)$ and $bold(v_i)$ is the corresponding column of the matrix $bold(V)$ (*pre-transpose*, or alternatively the $i$-th row) such that $bold(v^T)_i$ has dimensions $1 times n$. The matrix in this sum with the largest singular value (weight) holds the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored).
 
 Here are some examples of the dimensions involved in SVD:
 #figure(
-  image("images/svd-dimensions.png", width: 60%),
+  image("images/svd-dimensions.png", width: 40%),
 ) <fig-svd-dimensions>
 
-TODO
+=== Calculating SVD
+SVD is based on the fact that *any* matrix multiplied with its transpose results in a square, *symmetric* matrix, which can be diagonalised!
+$
+  bold(A^T A &= (U Sigma V^H)^H (U Sigma V^H) = V Sigma^H U^H U Sigma V^H)\
+  bold(&= V Sigma^H Sigma V^H = V Sigma^2 V^H)\
+  bold(A A^T &= (U Sigma V^H)(U Sigma V^H)^H = U Sigma V^H V Sigma^H U^H)\
+  bold(&= U Sigma Sigma^H U^H = U Sigma^2 U^H)\
+$
+
+_Singular values_ - $sigma_i$ - Square roots of the eigenvalues of a matrix multiplied by its own transpose, usually listed in descending order.
+- If a matrix is normal, $bold(sigma = abs(lambda))$:
+$
+  bold(A = U Lambda U^T)\
+  bold(A^T A =  (U Lambda^T Lambda U^T))\
+  bold(Lambda^T = Lambda)\
+  therefore bold(sigma(A) = sqrt(lambda(A^T A)) = sqrt(lambda(A^2)))\
+  = abs(bold(lambda(A)))
+$
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
