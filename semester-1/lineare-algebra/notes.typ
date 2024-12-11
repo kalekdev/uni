@@ -559,6 +559,8 @@ Let $bold(A):= m times n$. The kernel is the set of vectors that is transformed 
 
 The kernel can be found by solving the LGS $bold(A x = 0)$ with Gaussian Elimination. This provides infinite solutions for a singular matrix or the null vector for a regular system.
 
+_Nullity_ - Dimensions of the null-space
+
 Each linear space already has two simple subspaces:
 - The kernel of its matrix
 - The range of it as a transformation
@@ -575,7 +577,12 @@ $
   bold(A) = mat(bold(v_1), bold(v_2), ..., bold(v_n)), bold(x) = vec(x_1, x_2, ..., x_n) in RR^n\
   bold(A x = 0)\
 $
-If only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent. This is most easily checked through elimination.
+This can be rearranged for any columns of $bold(A)$:
+$
+  x_1 bold(v_1) + x_2 bold(v_2) + ... + x_n bold(v_n) = 0\
+  bold(v_1) = (x_2 bold(v_2) + ... + x_n bold(v_n)) / (-x_1)
+$
+Therefore if only the trivial solution exists for $bold(x)$ (A is regular), all vectors $bold(v_n)$ are linearly independent. This is most easily checked through elimination.
 
 _Basis_ - A set of linearly independent vectors that spans the entire linear space (minimal Erzeugenden system) and stay completely within the linear space (not allowed to span a parent space as well). There can be several independent bases in a space, but all bases have the same number of elements (dimension).
 
@@ -603,6 +610,28 @@ $
 $
 Since the monomes have already been proved to be linearly independent, we can construct the coefficients containing $x$ as an LGS with right hand side 0 and show that this matrix indeed only has the trivial solution (it is regular).
 
+LTD: Continuous differentiable functions as monomes using the Taylor Series sounds like an interesting basis
+
+==== Wronskian
+Another method for checking the linear independence of $n$ differentiable functions $f_1, f_2, ... f_n$ is by finding the *Wronskian*:
+$
+  W(f_1, f_2, ... f_n)(
+    x
+  ) = det mat(
+  f_1(x), f_2(x), ..., f_n(x);
+  f'_1(x), f'_2(x), ..., f'_n(x);
+  dots.v, dots.v, dots.down, dots.v;
+  f^(n-1)_1(x), f^(n-1)_2(x), ..., f^(n-1)_n(x);
+)
+$
+Where $f^(n)(x)$ is the n'th derivative of the function at $x$.
+
+For only two functions:
+$
+  W(f, g) = f g' - g f'
+$
+
+If $W(...)(x) != 0 forall x in (a, b)$, the functions are linearly independent and suitable as a basis throughout the interval.
 
 === Dimensions
 The number of elements in a basis of a space.
@@ -833,27 +862,32 @@ $A x$ results in the sum of each row:
 ) <fig-max-row-sum>
 
 ==== Spectral Norm ($norm(dot)_2$)
-This is a measure of the maximum a matrix increases the Euclidean norm (lengths) of vectors in space - an extremely useful result.
+This is a measure of the maximum factor by which a matrix increases the Euclidean norm (lengths) of vectors in space - an extremely useful result.
 
 It can be calculated as follows:
 $
-  norm(bold(A))_2 = sqrt(lambda_"max" (bold(A^H A)))
+  norm(bold(A))_2 = sqrt(lambda_"max" (bold(A^H A))) = sigma_"max" (bold(A))
 $
-If $bold(A)$ is symmetrical:
+If $bold(A)$ is normal:
 $
   norm(bold(A))_2 = abs(lambda_"max" (bold(A)))
 $
 
-In the symmetrical case, *n* real eigenvalues are ensured meaning that a linear combination of eigenvectors can cover the entire space and the maximum eigenvalue is the largest resulting norm of any unit vector.
-
-$bold(A^H A)$ ensures the eigenvalues become real ($CC dot CC = RR$), which is then accounted for by the square root - this can be proven due to $bold(A^H A)$ being Hermetian symmetric and thus diagonalizable using unitary matrixes accoring to the spectral theorem.
-
 Furthermore, the spectral norm a matrix's inverse can be intuitively calculated as:
 $
-  norm(bold(A)^(-1))_2 = 1 / sqrt(lambda_"min" (bold(A^H A)))
+  norm(bold(A)^(-1))_2 = 1 / sqrt(lambda_"min" (bold(A^H A))) = 1 / (sigma_"min" (bold(A)))
 $
 
-TODO: The intuition for what $bold(A^H A)$ is has something to do with the singulars of a matrix, revisit.
+The intuition behind this is based on the fact that any matrix multiplied by its transpose results in a square, symmetric matrix with real eigenvalues. Symmetric matrices can be diagonalized, which tells us that they transform space in such a way that the maximum eigenvalue is also the maximum scaling factor for all vectors, not only the eigenvectors. We then take the square root of this to account for the "double" multiplication, leading to the maximum singular value.
+
+SVD shows us that the singular values are equal to the magnitude of the eigenvalues in the case of a normal matrix $bold(A)$:
+$
+  bold(A = U Lambda U^T)\
+  bold(A^T A =  U Lambda^T Lambda U^T)\
+  bold(Lambda^T = Lambda)\
+  therefore bold(sigma(A) = sqrt(lambda(A^T A)) = sqrt(lambda(A^2)))\
+  = abs(bold(lambda(A)))
+$
 
 ==== Condition Number
 This is a measure of how accurately the inverse of a matrix can be computed:
@@ -1156,12 +1190,18 @@ $
   1 <= "GM"(lambda) <= "AM"(lambda) <= n
 $
 
-Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding each set of eigenvectors simply becomes the task of finding the different nullspaces, for which we have already calculated the reduced form of $bold(A)$ whilst finding the characteristic equation:
+Once we find the eigenvalues of the matrix, the matrix $bold(A) - lambda bold(I)$ can be computed for each one and finding the eigenspaces (each set of eigenvectors) simply becomes the task of finding the different nullspaces, for which we have already calculated the reduced form of $bold(A)$ whilst finding the characteristic equation:
 $
   bold(A_(lambda_1) v) = 0\
   bold(A_(lambda_2) v) = 0\
   ...
 $
+The dimensions of each eigenspace can be calculated thanks to the Fundamental Theorem of Linear Algebra:
+$
+  dim("Kernel"(bold(A_(lambda_i)))) = "Columns" -"Rank" = "Number of free variables"
+$
+Where $bold(A_(lambda_i)) = bold(A) - lambda_i bold(I)$.
+
 If eigenvectors are needed as well as the eigenvalues, it is best to compute $det(bold(A) - lambda bold(I))$ using Gaussian elimination, so that the reduced form can be reused in the above eigenvector LGSs. However, handling the $lambda$s in elimination can be tricky when all other elements in that column are either 0 or in terms of $lambda$. Sometimes a row can be divided so a certain element becomes 1, which can then accordingly be multiplied by a term involving $lambda$ (for example $(lambda+2)$) allowing another row to eliminate that element.
 
 === Gershgorin Disk Theorem
@@ -1237,7 +1277,8 @@ $
   lambda_1, 0, ..., 0;
 0, lambda_2, ..., 0;
 dots.v, dots.down, dots.v, dots.v;
-0, 0, ..., lambda_n)
+0, 0, ..., lambda_n)\
+  bold(A &= S Lambda S^(-1))
 $
 Therefore a similar diagonal matrix can simply be formed using its eigenvalues in any order (as long as $bold(S)$ is consistent with this order):
 $
@@ -1245,12 +1286,14 @@ $
 $
 Those eigenvalues do not need to unique (although unique eigenvalues guarantee linear independence and diagonalization) - some may have geometric multiplicity $>1$. However, the chosen eigenvectors must be independent to ensure $bold(S)$ is invertible.
 
+When visualising this decomposition in the order $bold(S^(-1) A S = D)$, the change of basis matrix $bold(S)$ changes the canonical basis to an eigenvector basis. $bold(A)$ is then applied, which of course scales the eigenvector basis by $lambda_i$, after which $bold(S^(-1))$ rotates / reflects space back to the original canonical basis. The basis vectors have however been scaled by the eigenvalues, such that the original canonical unit vectors now have length $lambda_i$, forming the diagonal $Lambda$ matrix.
+
 Calculating a diagonal form of the matrix (albeit in another basis) can be extremely useful for simplifying calculations, for example calculations where raw access to its eigenvalues is useful, or analyzing the properties of the transformation it represents.
 
 #figure(
   image("images/diagonalisability.png", width: 90%),
 ) <fig-diagonalisability>
-To be able to chose n independent eigenvectors, $sum "GM" = n$. The fundamental theorem of algebra states $n = sum "AM"$, hence if any eigenvalue's GM $<$ AM it cannot be diagonalized.
+To be able to chose n independent eigenvectors, $sum "GM" = n$. The fundamental theorem of algebra states $n = sum "AM"$, hence if any eigenvalue's GM $<$ AM it cannot be diagonalized - such eigenvalues are called *defective*.
 
 == Normal Matrices
 Identities in terms of the Hermetian $bold(A^H)$ of a matrix will also be assumed to be valid for the real tranpose unless stated otherwise.
@@ -1273,7 +1316,7 @@ $
 $
 Dividing each column by its norm can make the orthogonal matrices orthonormal.
 
-This is an incredibly useful statement for computation - computers love orthonormal and diagonal matrices! When visualising this decomposition, the orthogonal change of basis matrix has its orthonormal basis vectors as eigenvectors, meaning the eigenvectors become aligned with the basis. Space is then scaled accordingly by the diagonal eigenvalue matrix $Lambda$ and rotated / reflected back to the original basis.
+This is an incredibly useful statement for computation - computers love orthonormal and diagonal matrices!
 
 This is be generalised with unitary matrices (entries can be complex) as the so called *Spectral Theorem*:
 $
@@ -1317,13 +1360,15 @@ $
 If the zero vector checking condition is not satisfied, the matrix is called *semi positive-definite* - in other words some non-zero vectors are either sent to the zero vector or become orthogonal. It must have at least one 0 eigenvalue.
 
 == Non-Diagonalizable Decomposition
+Regular diagonalization only works for square matrices with $n$ independent eigenvectors. However, there are some slightly less convenient methods which are able to almost diagonalize rectangular / defective matrices.
+
 === Schur Decomposition
-All complex square matrices (not only normal) are unitarily similar (unitary change of basis matrices) to an upper matrix (may contain complex elements) with its eigenvalues as its pivots.
+All complex *square* matrices (not only normal) are unitarily similar (unitary change of basis matrices) to an upper matrix (may contain complex elements) with its eigenvalues as its pivots.
 $
   bold(A = Q U Q^(-1) = Q U Q^(H))
 $
 
-If $bold(A)$ is real, it is orthogonally similar to a _block upper matrix_, such that when represented as a block matrix using $1 times 1$ and $2 times 2$ sub matrices, only entries on and above the diagonal are non-zero.
+If $bold(A)$ is real, it is orthogonally similar to a _block upper matrix_, such that when represented as a block matrix using $1 times 1$ and $2 times 2$ sub matrices, all entries below the diagonal are zero.
 
 The existence of this decomposition is more relevant than using it and it as a useful ingredient in many fundamental proofs.
 
@@ -1334,11 +1379,53 @@ This is an algorithm based on QU decomposition for finding a similar matrix usin
 + $bold(A_(k+1)= Q^(-1) Q U Q = Q^H A Q)$
 + Keep iterating until $bold(A_(k+1))$ converges to an upper matrix, the Schur decomposition is then solved and can be rearranged to $bold(A = Q A_(k+1) Q^H)$
 
-TODO: Jordan form
+=== Jordan Form
+This is based on the same principle as regular diagonalisation, with the difference that the eigenvectors which would be columns of $bold(S)$ are not required to be linearly independent, hence $bold(S)$ would not be guaranteed invertible. The set of eigenvectors are extended through linearly independent *generalized eigenvectors*, allowing them to be always be used as a change of basis matrix.
 
-== Singular Value Decomposition
-Diagonalization is only possible for square matrices with $n$ independent eigenvectors and Schur decomposition only leads to a similar upper matrix, not a diagonal one.
+An almost diagonal, similar _Jordan matrix_ can be found for square non-diagonalizable matrices, which is composed of so-called _Jordan Blocks_:
+$
+  bold(J_(lambda, n)) in RR^(n times n)\
+  bold(J_(lambda, n)) = mat(
+  lambda, 1, ,0;
+  ,dots.down,dots.down,;
+  ,,dots.down,1;
+  0,,,lambda
+)
+$
+which consist of an eigenvector of the original matrix on the diagonals, 1s directly above each diagonal element (superdiagonal) and 0s everywhere else.
+- They can also be formed with 1s under the diagonal (subdiagonal), in which case all of the following information still applies.
+- These blocks can also have dimensions $1 times 1$, meaning that that particular eigenvalue has the same AM and GM (and its block appears AM / GM times).
 
+Consider the *square* matrix $bold(A) in RR^(n times n)$, which has eigenvalues $lambda_1, lambda_2, ..., lambda_k$. There is an invertible matrix $bold(S)$ such that:
+$
+  bold(A = S "diag"(J_(lambda_1, "AM"(lambda_1)), J_(lambda_2, "AM"(lambda_2)), ..., J_(lambda_k, "AM"(lambda_k))) S^(-1))
+$
+
+Here is an example of a Jordan Matrix, where eigenvalue $lambda_1$ has AM 3:
+#figure(
+  image("images/jordan-matrix.png", width: 40%),
+) <fig-jordan-matrix>
+The decomposition is not unique but there is only one possible $bold(S)$ for a specific order of Jordan Blocks along the diagonal.
+
+We can read the following properties about $bold(A)$ by looking at its corresponding Jordan Matrix:
+- All of its eigenvalues are along the diagonal
+- The total number of times an eigenvalue appears on the diagonal indicates its algebraic multiplicity (sum of dimensions of all blocks belonging to that eigenvalue).
+- The number of discrete Jordan blocks for a specific eigenvalue indicates its geometric multiplicity.
+
+==== Finding S
+_Generalized Eigenvectors_ - These are a sequence of linearly independent vectors for an eigenvalue $lambda$ generated by starting with a real eigenvector $bold(v_1)$ and calculated iteratively using:
+$
+  bold((A - lambda I) v_(n+1) = v_n)
+$
+Where $v_(n+1)$ is the next generalized eigenvector and can be found using Gaussian elimination.
+
++ Find the characteristic polynomial of $bold(A)$ and its eigenvalues + their AMs. Calculate the GM of each eigenvalue by calculating the nullity of $bold(A - lambda I)$ (n - rank)
++ Construct the set of Jordan Blocks accordingly and place them along the diagonal to form the Jordan Matrix.
++ For each column with *no super- / subdiagonal 1* in the Jordan Matrix, we can simply set a linearly independent eigenvector in the corresponding column of $bold(S)$ and move on.
++ For each column *with a super- / subdiagonal 1*, the eigenspace lacks enough linearly independent vectors and we have to create a new generalized eigenvector based on the previous column eigenvector / generalized eigenvector in the block.
++ Once $bold(S)$ is complete, calculate its inverse using Gauss-Jordan elimination and assemble the final decomposition: $bold(A = S A S^(-1))$
+
+=== Singular Value Decomposition
 Singular value decomposition (SVD) allows us to "diagonalize" *all* matrices using unitary change of basis matrices, with the downside that the change of basis matrices are different and therefore need to be calculated twice:
 $
   bold(A) in RR^(m times n), bold(U) in RR^(m times m), bold(V) in RR^(n times n)\
@@ -1361,7 +1448,7 @@ Here are some examples of the dimensions involved in SVD:
   image("images/svd-dimensions.png", width: 40%),
 ) <fig-svd-dimensions>
 
-=== Calculating SVD
+==== Calculating SVD
 SVD is based on the fact that *any* matrix multiplied with its transpose results in a square, *symmetric* matrix, which can be diagonalised!
 $
   bold(A^T A &= (U Sigma V^H)^H (U Sigma V^H) = V Sigma^H U^H U Sigma V^H)\
@@ -1558,6 +1645,10 @@ $
   dot(y)(t) + a() y(t) =
 $
 
+=== Markov Matrices
+TODO:
+Method for finding steady state of probability based change using eigenvectors and special form of matrix with columns adding to 1 (all possibilities covered) and elements >0 (no negative probabilities). Name city movement example / maybe find some physics related one.
+
 === Fourier-Transform
 Shift matrix multiplying vector can be used to create shifted circulation matrix - it shifts columns, which can then be transposed.
 $
@@ -1603,5 +1694,6 @@ Gleichtzeitig diagonalisierbar => AB = BA and alle EW haben AM 1, sie haben dies
 
 == Upcoming
 LTD:
+- Inner product for space of continuous functions and intuition relating to dot product
 - 4D, Flatland trick, hyperplane, cube etc
 - Jacobian
