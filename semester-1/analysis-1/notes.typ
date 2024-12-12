@@ -821,4 +821,3 @@ The maxi-, mini-, supre- and infimum of a function are defined as expected on it
 TODO:
 - Formal definition of multivariable polynomial (Ziltener 4.6)
 - Lagrange Polynomial
-- Fourier Series

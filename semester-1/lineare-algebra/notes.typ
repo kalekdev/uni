@@ -924,6 +924,14 @@ $
   u perp v <=> <u, v> = 0
 $
 
+=== Hilbert Space
+_Inner Product Space_ - A vector space with an inner product defined over its members\
+_Complete Space_ - An inner product space where every Cauchy sequence with members in the space also converges towards a member of the space. This is a rigorous way of saying that the space is not missing any points.
+
+The most obvious example is the Euclidean vector space, with the dot product defined as its inner product. However, the same can be done with other spaces, for example the inner product of the continuous differentiable functions:
+$$
+TODO: Find precise name for this space and explain intuitive similarity to dot product.
+
 === Projectors
 _Projector_ - A linear transformation such that repeated application has no effect:
 $
@@ -990,13 +998,6 @@ $
 This can also be used to project a vector into a subspace through a smaller dimensional identity matrix looking ahh:
 
 TODO: Lecture 14 & 15 Gilbert Strang, unsure what script means here
-
-== Hilbert Space
-_Metric Space (aka Pre-Hilbert space)_ - A space with an inner product that satisfies the previously defined criteria
-
-TODO: Define cauchy completeness, may still come up in analysis though
-
-_Hilbert Space_ - A complete metric space, limits are defined, which may be infinite dimensional
 
 == Gram-Schmidt
 LTD: Inner product or dot products?
@@ -1694,6 +1695,5 @@ Gleichtzeitig diagonalisierbar => AB = BA and alle EW haben AM 1, sie haben dies
 
 == Upcoming
 LTD:
-- Inner product for space of continuous functions and intuition relating to dot product
 - 4D, Flatland trick, hyperplane, cube etc
 - Jacobian
