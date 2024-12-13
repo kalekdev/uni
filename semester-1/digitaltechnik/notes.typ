@@ -376,6 +376,12 @@ The Jump and Kill pins function as the S and R pins, however both are allowed to
   image("images/jk-from-d-fliplop.png", width: 60%),
 ) <fig-jk-from-d-fliplop>
 
+When synthesizing combinatronic logic for a specific type of Flipflop, we can apply restrictions to the Flipflops functional behaviour:
+#figure(
+  image("images/jk-flipflop-synthesis.png", width: 60%),
+) <fig-jk-flipflop-synthesis>
+In the above example, we have guaranteed that there is one minterm including $Q_i$ and one including $overline(Q_i)$, along with at least one other variable so the input to the J and K terminals is not empty.
+
 ==== T-Flipflop
 This simply toggles the output at every rising edge.
 #figure(
@@ -404,12 +410,12 @@ The delays for a given flipflop must be respected to ensure correct operation:
 
 These delays can be combined to analyse the minimum clock period (and therefore maximum clock frequency; the fastest rate at which we are allowed to operate a computer) of a complex circuit involving several flip flops and combinatronic circuits.
 
-For instance in the circuit below, the minimal clock period must be $t_(p d f f 1) + t_(p d k s) + t_(p d f f 2)$ to ensure a signal can make it through the circuit before the clock signal changes:
+For instance when the input of a Flipflop depends on a previous Flipflop and some combinatronic circuit in between, such as in the circuit below, the minimal clock period must be $t_(p d f f 1) + t_(p d k s) + t_(s f f 2)$ to ensure a signal can make it through the first Flipflop, the combinatronic circuit and then stay stable throughout the setup time before the clock signal changes:
 #figure(
   image("images/min-clock-period.png", width: 60%),
 ) <fig-min-clock-period>
 
-Of course if a circuit contains several branches, the branch with the longest delay represents hte minimum clock period.
+Of course if a circuit contains several branches, the branch with the longest delay represents the minimum clock period.
 
 ==== Applications
 Apart from stable 1-bit storage, flipflops can be useful building blocks for a variety of functional components.
@@ -463,7 +469,7 @@ This course focuses on synchronous, deterministic transducers. For purposes of s
 ==== State Transition Table
 This displays the subsequent state + current output for every possible state + input combination of a finite state machine.
 
-The number of rows is $e^(i + s)$ where $i$ is the number of binary input variables and $s$ is the number of state variables in which the $sum times Q$ possible states and inputs are encoded as.
+The number of rows is $2^(i + s)$ where $i$ is the number of binary input variables and $s$ is the number of state variables in which the $sum times Q$ possible states and inputs are encoded as.
 
 The number of columns is $i + 2s + o$, where $o$ are the output bits
 
@@ -522,11 +528,15 @@ A Mealy transducer can always be converted to a Moore transducer, although this 
 ==== Counters
 Counters are an essential component in many digital circuits, allowing us to execute loop logic, implement delays, or even generate music! (Square wave generator using T-Flipflop + binary controlled modulo counter). They are usually implemented as Medwedjew transducers.
 
-When using decimal encoding, the LSB flips every state change, 2nd LSB every two state changes and so on:
+When using decimal encoding , the LSB flips every state change, 2nd LSB every two state changes and so on:
 #figure(
   image("images/counter-bits.png", width: 40%),
 ) <fig-counter-bits>
 A descending counter works in exactly the same way, except the bits all start with 1.
+
+_BCD_ - Binary Coded Decimal convention uses *4 bits* to represent the numbers 0-9, meaning there are $16-10 = 6$ "Don't Care" states.
+
+_Pseudo-Tetrades_ - Unused "Don't Care" states in BCD
 
 ===== Asynchronous Counter
 This can be implemented by using *falling flank* T-Flipflops:
@@ -547,7 +557,7 @@ However, the propogation delays of each flipflop accumulate in the subsequent bi
 
 The maximum possible clock frequency for such a counter can be calculated using:
 $
-  f_"max" = 1 / sum_(i=1)^n t_("pd i")
+  f_"max" = 1 / (sum_(i=1)^n t_("pd i"))
 $
 Where $n$ is the number of bits / T-Flipflops
 

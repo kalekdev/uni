@@ -1203,7 +1203,9 @@ $
 $
 Where $bold(A_(lambda_i)) = bold(A) - lambda_i bold(I)$.
 
-If eigenvectors are needed as well as the eigenvalues, it is best to compute $det(bold(A) - lambda bold(I))$ using Gaussian elimination, so that the reduced form can be reused in the above eigenvector LGSs. However, handling the $lambda$s in elimination can be tricky when all other elements in that column are either 0 or in terms of $lambda$. Sometimes a row can be divided so a certain element becomes 1, which can then accordingly be multiplied by a term involving $lambda$ (for example $(lambda+2)$) allowing another row to eliminate that element.
+If eigenvectors are needed as well as the eigenvalues, it is best to compute $det(bold(A) - lambda bold(I))$ using Gaussian elimination (IMPORTANT: This is not equal $det(bold(A)))$, so that the reduced form can be reused in the above eigenvector LGSs. However, handling the $lambda$s in elimination can be tricky when all other elements in that column are either 0 or in terms of $lambda$. Sometimes a row can be divided so a certain element becomes 1, which can then accordingly be multiplied by a term involving $lambda$ (for example $(lambda+2)$) allowing another row to eliminate that element.
+
+LTD: Review Vieta's Theorem for finding roots. First root can be found using the constant term due to the Fundamental THeorem of Algebra. subsequent roots can be found by substuting this in to Vieta's Formulas and rearranging
 
 === Gershgorin Disk Theorem
 Polynomials of degree $n >= 5$ have no definite formula for solutions, eigenvalues of matrices with more than 4 columns must be found using numerical methods, expensive and numerically unstable operations.
