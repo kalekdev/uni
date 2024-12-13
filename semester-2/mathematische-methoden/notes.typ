@@ -7,10 +7,10 @@
 #pagebreak()
 
 == Fourier Transforms
-_Analysis_ - Converts from a signal to a frequency distribution by sampling the signal.\
-_Synthesis_ - Synthesises the approximated signal from its constituent sinusoids.
+_Analysis_ - Converts from time-domain to frequency domain\
+_Synthesis_ - Synthesises the approximated frequency-domain signal back to the time-domain by superposing its sinusoids.
 
-The goal is to find a set of trigonmetric functions, such that their superposition matches the signal being analysed. This is usually done by finding the suitable sinusoid for each possible frequency - changing the time-domain signal to frequency-domain sets of amplitudes and phase shifts.
+The goal is to find a set of periodic functions, such that their superposition matches the signal being analysed. This is usually done by finding the suitable sinusoid for each possible frequency, changing the time-domain signal to frequency-domain sets of amplitudes and phase shifts.
 
 To be able to capture an arbitrary signal in the frequency domain, we need to determine the amplitude, frequency and phase difference of each possible frequency. A possible basis could be a single $sin$ function:
 $
@@ -44,30 +44,51 @@ Here is the summary of the most popular forms of continuous Fourier transform an
 ) <fig-fourier-transform-equations>
 
 === Negative Frequencies
-These can give the notion of a sinusoid progressing in the negative direction ie clockwise on the unit circle. However, in many Fourier transforms they do not play a huge role and don't appear as part of the frequency spectrum. Nonetheless, it is necessary to include these frequencies in the analysis to be able to characterize certain complex valued signals.
+These can give the notion of sinusoids progressing in the negative direction ie clockwise on the unit circle. However, in many Fourier transforms they do not play a huge role and don't appear as part of the frequency spectrum. Nonetheless, it is necessary to include these frequencies in the analysis to be able to characterize certain complex valued signals.
 
-=== Analysis
-The goal here is to convert a time-domain signal $f(t)$ to a frequency $->$ complex number (amplitude and initial phase encoded) mapping, usually denoted as $hat(f)(omega)$. I will consider the angular frequency version of this transform as it feels the most intuitive to me:
+=== Analysis (Transform)
+The goal here is to convert a time-domain signal $f(t)$ to a frequency $->$ complex number (amplitude and initial phase encoded) mapping, usually denoted as $hat(f)(omega)$. This can then be used to analyze the presence of specific frequencies / phase shifts in the signal (and when needed to modify the signal, for example removing parasitic frequencies and resynthesize the signal).
+
+I will consider the angular frequency version of this transform as it feels the most intuitive to me:
 $
   hat(f) (omega) = integral_(-oo)^oo f(t) e^(-i omega t) d t
 $
 
-Let us imagine we want to find how much of a sinusoid with frequency $omega_1$ is in the signal and at what phase shift it begins. The integral "plays" the complex unit circle at this frequency alongside the sampled signal and sums the product of all of these infinitesimal samples, which results in a complex number with a radius corresponding to how much the frequency is part of the signal and whose angle is equal to the best phase shift of that frequency so it aligns with $f(t)$. TODO: Understand exactly why this mechanism works so well.
-
-TODO: An interesting detail is the negative sign in the power of $e$. This is effectively the complex conjugate and has something to do with inner product of complex space using the Hermetian. Hopefully this becomes clear after understanding the matrix representation of the transform.
-
-This results in the fourier transform $hat(f) (omega)$ with a complex output. When we plot the radius against frequency graph for all of these complex outputs, we arrive at the top left graph, which can be extremely useful for identifying interesting or unwanted frequencies which are part of the signal:
+This results in the fourier transform $hat(f) (omega)$ with a complex range. When we plot the radius against frequency graph for all of these complex outputs, we arrive at the top left graph, which can be extremely useful for identifying interesting or unwanted frequencies which are part of the signal:
 #figure(
   image("images/fourier-analysis-results.png", width: 70%),
 ) <fig-fourier-analysis-results>
 Since the phase is usually not that interesting, it is often discarded unless we plan on synthesizing the time domain signal again.
 
-=== Synthesis
+
+==== How It Works
+The analysis mechanism can be thought of as a dot product between the signal function $f(t)$ and Fourier basis $e^(i omega t)$ (or a different basis in other transforms) at a given frequency - a measure of how much the basis at this frequency and phase shift "points in the same direction" as the signal.
+
+_Coherency_ - Constant phase difference due to the same frequency.
+
+To simplify the process, consider the inner product of two cosine functions at frequency $omega_1$ and $omega_2$, with phase shifts $theta$ and $phi$:
+$
+  f &:= cos(omega_1 t + theta), g:= cos(omega_2 t + phi)\
+  <f, g> &= integral_a^b f(t) overline(g(t)) d t\
+  &= integral_(-oo)^(oo) cos(omega_1 t + theta)cos(omega_2 t + phi) d t\
+$
+Desmos: https://www.desmos.com/calculator/q8lihjtsur
+
+Their inner product will clearly be at its maximum when the frequencies are equal (they are coherent) and they are in phase; when this is the case they are positive at the same and also negative at the same time, leading to a positive infinitesimal product at all times and a very large integral. Because the signal is not periodic, we need to calculate this dot product over the entire sample (interval $(-oo, oo)$).
+
+Replacing $f(t)$ with the time-domain signal and $g(t)$ with the *complex conjugate* of the unit circle $e^(-i omega t)$ (which encodes both frequency and phase shift) we arrive at the Fourier transform equation:
+$
+  hat(f) (omega) = integral_(-oo)^oo f(t) e^(-i omega t) d t
+$
+The angle of the summed complex numbers becomes the phase-shift for the transform at that frequency. The complex plot of this has been visualized very well by 3B1B: https://www.youtube.com/watch?v=spUNpyF58BY
+However, I found his explanation too beginner-friendly.
+
+=== Synthesis (Inverse Transform)
 We can also recreate the time domain signal from the complex frequency-domain transform:
 $
   f(t) = integral_(-oo)^oo hat(f) (omega) e^(i omega t) d omega
 $
-This effectively calculates the superposition of all possible frequencies at a specific point in time.
+This effectively calculates the superposition of all transformed frequencies at a specific point in time.
 
 As seen previously $hat(f) (omega)$ returns a complex number for each frequency in the form $R e(i theta)$ where $R$ is the amplitude of the sinusoid and $theta$ is that frequencies phase shift. When multiplied with $e^(i omega t)$:
 $
@@ -75,11 +96,27 @@ $
   &= R e^(i(omega t + theta))\
   &= R cos(omega t + theta) + i R sin(omega t + theta)
 $
-We arrive at the following familiar $R cos(omega t + theta)$ representation of a sinusoid for that given frequency. TODO: I believe the imaginary part is simply ignored, or maybe it evaluates to 0 somehow thanks to the conjugate used when analysing.
+We arrive at the following familiar $R cos(omega t + theta)$ representation of a sinusoid for that given frequency.
+
+As these complex numbers are summed for all possible frequencies at a point in time (superposition of the transforms), the imaginary components cancel each other out due to the orthogonality of $sin$ and $cos$, resulting in a single real output for each point in time (unless the time-domain signal had complex components in its values).
 
 === Discrete Fourier Transform
-TODO then cover matrix method in linalg notes
+TODO then cover matrix method and FFT in linalg notes
 
 === Fourier Series
 This is the process of converting a periodic signal against time to the frequency domain.
 
+TODO:
+- Uncertainty principle
+
+#pagebreak()
+== Proposed Project: Digital Spectrum Analyzer
+Goal: Demonstrate understanding of Fourier Analysis, Linear Algebra and learn C++ fundamentals
+
+Description:
+- Implement the discrete Fourier Transform + FFT analysis and synthesis algorithms in C++.
+- Input signal as CSV / some standard file format and output Amplitude / Frequency plot + synthesize back into time-domain signal to demonstrate quality of different sample rates.
+- Interface into the real world by connecting to oscilloscope or even running on some microcontroller and designing suitable host PCB with ADC etc. (explore area of high-frequency electronics) Most likely only accurate for relatively low frequencies (for example the audible range). It may be a good idea to connect it directly to a microphone and design some kind of audio visualizer.
+
+Tools:
+- C++, Blaze or Eigen linear algebra library
