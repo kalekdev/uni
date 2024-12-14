@@ -103,7 +103,7 @@ As these complex numbers are summed for all possible frequencies at a point in t
 === Discrete Fourier Transform
 In our digital world we often work with discrete samples of a continuous signal.
 
-_Bin_ - Frequency intervals indexed by $0$ to $N-1$, represented by $k$. If the signal was sampled at frequency $f_S$ for a total of $N$ samples, the frequency bin $k$ represents frequencies $[-1/2 (k f)/N, 1/2 (k f)/N]$
+_Bin_ - Frequency intervals indexed by $0$ to $N-1$, represented by $k$. If the signal was sampled at frequency $f_S$ for a total of $N$ samples, the frequency bin $k$ represents frequencies $ f in [-1/2 (k f)/N, 1/2 (k f)/N]$. The higher the sampling rate, the more samples are collected and the smaller the interval of each frequency bin $=>$ a better, albeit slower, analysis.
 
 Whilst taking the dot product for a given frequency, we can of course only consider dimensions for which we have a sample and therefore analyze *intervals of frequencies*, hence the Discrete Fourier Transform Consider based on $N$ samples is:
 $
@@ -111,9 +111,11 @@ $
 $
 Inverse transform:
 $
-  x_n = 1 / N sum^(N-1)_(k=0) X_k e^(-i 2 pi k / N n)
+  x_n = 1 / N sum^(N-1)_(k=0) X_k e^(i 2 pi k / N n)
 $
-Notice the frequency frequency represented as $k /N = "Current bin" / "Number of Samples"$ which has no real-world meaning. The sample rate of the time-domain signal is not relevant during the Fourier analysis / synthesis and is reintroduced based on the needs of the application, for example when plotting the frequency spectrum / outputing the resynthesized signal. After all, Fourier analysis is just a change of basis, in this case in a finite dimensional space.
+Notice the frequency represented as $k /N = "Current bin" / "Number of Samples" in [0, 1[$ has no real-world meaning other than a sense traversing through the range of possible frequencies in the signal. The sample rate of the time-domain signal is not relevant during the Fourier analysis / synthesis and is reintroduced based on the needs of the application, for example when plotting the frequency spectrum / outputing the resynthesized signal. After all, Fourier analysis is just a change of basis, in this case in a finite dimensional space.
+
+_Nyquist Theorem_ - The maximum frequency that can be accurately captured by sample rate of $f_s$ is $f_s / 2$. The middle frequency bin $k = (N-1)/2$ is therefore called the Nyquist bin, and subsequent bins are mirrors of the previous analysis (see Nyquist limit).
 
 
 See `../../semester-1/lineare-algebra/notes.pdf` for matrix implementation and the Fast Fourier Transform.

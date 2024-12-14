@@ -1253,6 +1253,8 @@ $
 
 $"diag"(a_1, a_2, ...)$ notation can be used to specify a diagonal matrix with diagonal entries in that order.
 
+The inverse of a diagonal matrix $bold(D^(-1))$ simply involves replacing non-zero elements with their reciprocal $1/x$.
+
 _Scalar Matrix_ - Diagonal matrix with the same diagonal entries, multiplying by it has the same effect as scalar multiplication.
 
 === Similar Matrices
@@ -1652,46 +1654,44 @@ $
 TODO:
 Method for finding steady state of probability based change using eigenvectors and special form of matrix with columns adding to 1 (all possibilities covered) and elements >0 (no negative probabilities). Name city movement example / maybe find some physics related one.
 
-=== Fourier-Transform
-Shift matrix multiplying vector can be used to create shifted circulation matrix - it shifts columns, which can then be transposed.
+=== Discrete Fourier Transform and FFT
+The change-of-basis nature of the discrete Fourier transform makes a matrix implementation the obvious choice and allows us to recognize the optimized FFT variant of the algorithm. See `../../semester-2/mathematische-methoden/notes.pdf` for explanation of how the formula works:
 $
-  S^T S = I
-$
-
-Shifts the vector through one complete cycle
-$
-  S^n x = x
+  X_k = sum^(N-1)_(n=0) x_n e^(-i 2 pi k / N n)
 $
 
-Finding Eigenvalues of a a shift matrix:
+Multiplying a sample vector $bold(S) in CC^(N times 1)$ by the following *Fourier matrix* performs the complete analysis:
 $
-  S v = lambda v\
-  S^n v = lambda^n v\
-  v = lambda^n v
+  bold(F_(k, n in ZZ_[0, N-1])) = e^(-i 2 pi k / N n) / sqrt(N)\
 $
-A shift matrixes eigenvalues are the complex roots of unity, its eigenvectors' elements are the eigenvalues.
+Here is an example of a DFT matrix for $8$ samples:
+#figure(
+  image("images/dft-matrix.png", width: 60%),
+) <fig-dft-matrix>
+The resulting vector $bold(F S = T in CC^(N times 1))$ contains the complex number representing the amplitude and phase shift each bin frequency.
 
-The different shifted eigenvectors are an orthogonal basis in $CC^n$
+==== Properties
+- The Fourier matrix is unitary. The scalar multiplication $1/sqrt(N)$ makes each column have norm 1 (do not forget complex conjugation in the complex inner product $norm(bold(c)) = sqrt(bold(c^H  c))$) and all columns are orthogonal to each other $bold(<a\, b> = 0)$.
+- The inverse discrete Fourier transform can be performed by taking the inverse of the matrix $bold(F^(-1) = F^H = overline(F))$, simply the complex conjugate of each element as it is also symmetric.
 
-sum of complex roots of unity is 0? 1 is also a root, hence:
-$
-  sum omega^(k j) = n or 0\
-  V^H v = n I
-$
-Therefore diagonalisation of shift matrix:
+==== Cooley-Tukey FFT
+This famous algorithm is based on maximizing the number of 0s (skipped operations) in the Fourier matrix thanks to a set of permutations and recognizing the symmetry of roots of unity. It reduces the number of operations from $N^2$ to $N log N$ transforming digital sampling (alongside the development of high frequency ADCs).
 
-Matrix defining some polynomial using the monome base with shift transformation inside:
-$
-  p(S_n(x))= ...
-$
-Can be diagonalized as:
-$$
+_Operation_ - A single operation involves a complex multiplication followed by a complex addition. For example multiplying a $CC^(N times 1)$ vector by a $CC^(N times N)$ matrix involves $N$ operations for computing each element of the resulting vector, hence $N^2$ in total during the normal DFT.
 
-All circulation matricex have the same eigenspaces!
-
-TODO: Revise basis change matrix
-DFT matrix, Vandermonde matrix, what actually is a Fourier Transform
-Study of how signals can be broken down into linear ocmbinations of trigonometric functions. Understand how frequency domain works etc
+The rows of a Fourier matrix are simply the k'th roots of unity $z^N = 1$:
+$
+  e^(i n (2 pi ) / N)
+$
+Multiplication by a fundamental root of unity ($n=1$) twice is equal to the fundamental root of unity for $z^(N/2) = 1$:
+$
+  (e^(i (2 pi) / N))^2 = e^(i 2 (2 pi) / N )
+$
+Therefore with some slight adjustment, a $N$ dimensional Fourier matrix can be calculated using a Fourier matrix half the size + some permutation and correction factors, reducing half of the Fourier matrix to 0s (operations we can skip):
+$
+  bold(F_64) = bold(mat(I, D; I, -D) mat(F_32, 0;0, F_32) C)
+$
+Where $bold(C)$ is a *circulant matrix* (LTD: Describe properties) which rearranges the order of the signal samples and $bold(D)$ has the roots of unity along its diagonal. Furthermore, the circulant matrix can be "hardwired" into the application and does not require any significant computation. This decomposition can be iteratively carried out, further reducing the dimensions of the Fourier matrices and the number of operations.
 
 Gleichtzeitig diagonalisierbar => AB = BA and alle EW haben AM 1, sie haben dieselbe eigenbasis
 
