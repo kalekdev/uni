@@ -1289,9 +1289,9 @@ Therefore a similar diagonal matrix can simply be formed using its eigenvalues i
 $
   bold(D) = "diag"(lambda_1, lambda_2, ...)
 $
-Those eigenvalues do not need to unique (although unique eigenvalues guarantee linear independence and diagonalization) - some may have geometric multiplicity $>1$. However, the chosen eigenvectors must be independent to ensure $bold(S)$ is invertible.
+Those eigenvalues do not need to be unique (although unique eigenvalues guarantee linear independence and diagonalization) - some may have geometric multiplicity $>1$. However, the chosen eigenvectors must be independent to ensure $bold(S)$ is invertible and represents a basis one can switch to.
 
-When visualising this decomposition in the order $bold(S^(-1) A S = D)$, the change of basis matrix $bold(S)$ changes the canonical basis to an eigenvector basis. $bold(A)$ is then applied, which of course scales the eigenvector basis by $lambda_i$, after which $bold(S^(-1))$ rotates / reflects space back to the original canonical basis. The basis vectors have however been scaled by the eigenvalues, such that the original canonical unit vectors now have length $lambda_i$, forming the diagonal $Lambda$ matrix.
+When visualising this decomposition in the order $bold(S^(-1) A S = D)$, the change of basis matrix $bold(S)$ changes the canonical basis to an eigenvector basis. $bold(A)$ is then applied, which of course scales the eigenvector basis by $lambda_i$ (every vector is also scaled accordingly, as they are simply combinations of the eigenvector basis), after which $bold(S^(-1))$ rotates / reflects space back to the original canonical basis. The basis vectors have been scaled by the eigenvalues, such that the original canonical unit vectors now have length $lambda_i$, forming the diagonal $Lambda$ matrix.
 
 Calculating a diagonal form of the matrix (albeit in another basis) can be extremely useful for simplifying calculations, for example calculations where raw access to its eigenvalues is useful, or analyzing the properties of the transformation it represents.
 
@@ -1353,7 +1353,7 @@ $
 - $<x, A y> = x^H A y = x^H A^H y = <A x, y>$ is valid for a symmetric matrix $A in RR^(n times n) union CC^(n times n)$
 
 === Symmetric Positive-Definite Matrices
-These are symmetric matrices which have *only strictly-positive* (non-zero) eigenvalues and therefore only strictly positive pivots (and therefore full-rank; invertible).
+These are symmetric matrices which have *only strictly-positive* (non-zero) eigenvalues and therefore only strictly positive pivots (and therefore full-rank; *invertible*).
 
 Therefore the determinant (product of eigenvalues / pivots), as well as all determinants of "sub" matrices with $n-k$ dimensions are also positive (we can't only rely on the "total" determinant, it may have two negative eigenvalues).
 
