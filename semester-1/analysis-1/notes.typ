@@ -217,8 +217,8 @@ $X := RR, Y := ]0, infinity[, G = {(x, x^2) | x in RR^2}$
 $X -> X, id(x) := x$ - _Identitäts Funktion_\
 
 === Bild und Urbild - Muss nicht bijektiv sein\
-$im(X) := f(X)$ - _Bild von f_\
-$f:X -> alpha, f^(-1)(Y) := {x in X | f(x) in Y}$ - _Urbild von y unter f_
+$im(X) := f(X)$ - Bild von f\
+$f:X -> alpha, f^(-1)(Y) := {x in X | f(x) in Y}$ - Urbild von y unter f, not every element in $Y$ has to be accounted for
 
 _Surjektiv_ - $forall y in Y exists x in X: f(x) = y$ - Es gibt fuer jeder Ausgang einige dazugehoerige Eingange\
 _Injektiv_ - $forall x, x' in X : x != x' => f(x) != f(x')$ - Es gibt genau eine Ausgang fuer jeder Eingang in dem Definitionsbereich\
@@ -719,9 +719,9 @@ The sphere has dimensions $d-1$ because its points only form a subspace in the d
 Mengen sind keine Türe! (Muss nicht entweder offen oder abgeschlossen sein). For example, the half open interval $[a, b)$.
 
 === Open Sets
-The set of all points "inside" a topological set.
+A set without boundary endpoints - there are infinitely many points $< x$. It has no maximum / minimum only an infimum / supremum.
 
-_Inner Point_ - A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$ - there is an open ball with a non-zero radius around $x$ such that it is entirely a subset of / equal to S.
+_Inner Point_ - A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$ - there is an open ball with a radius $>0$ around $x$ such that it is entirely a subset of / equal to S.
 
 $"Int" S := {"inner points of S"}$ - The interior of a set is the set of all inner points. $"Int" S subset S$ is always true.
 
@@ -812,11 +812,127 @@ _Compact_ - A set which is closed *and* bounded.
 - A closed ball and its 1D variant, the bounded interval is by definition compact.
 - $RR^n$ is not compact, because it is an infinitely large (albeit open & closed) set.
 
-*The range of a continuous function with a compact domain is also compact.*
+*The range of a continuous function with / bounded to a compact domain is also compact.*
 
 The maxi-, mini-, supre- and infimum of a function are defined as expected on its range.
 
 *Every continuous function with a compact domain and therefore range possesses a maximum and minimum.*
+
+=== Relatively Open / Closed
+The set $U in X$ is relatively open in $X$ if there is a set such that:
+$
+  tilde(U) in RR^n "is open"\
+  U = tilde(U) sect X
+$
+
+$U$ relatively closed in $X$ is defined identically:
+$
+  tilde(U) in RR^n "is closed"\
+  U = tilde(U) sect X
+$
+
+For example $[0, 1)$ is relatively open in $[0, 2]$ because:
+$
+  [0, 1) = (-1, 1) sect [0, 2]
+$
+
+=== Neighbourhood (Umgebung)
+Intuitively, the neighbourhood $U$ of a point $x_0$ relative to a set $X$ is a set of points one can move around without leaving the set $X$:
+$
+  r in (0, oo)\
+  B_r (x_0) sect X subset.eq U
+$
+For example, there exists a neighbourhood around a point in the middle of a set. Points on the boundary of $X$ have no neighbourhood $U$ as no ball with positive radius contains only points which remain in the set.
+
+=== Topological Continuity Definitions
+Continuity of a function can also be defined with the following topological criteria:
+
+==== Closed / Open Sets
+$
+  f: X -> Y "is continuous" <=>\ "The inverse image (Urbild) of every relatively open / closed subset in" X "is also relatively open / closed."
+$
+
+==== Neighbourhoods
+$
+  f: X -> Y "is continuous" <=>\ "The inverse image of every neighbourhood at point" f(
+    x_0
+  ) "in" Y "is also a neighbourhood of" x_0 "in" X
+$
+
+==== Continuity of the Inverse
+$
+  f: K -> Y "is continuous and" K "is compact" => Y "is continuous"
+$
+If the domain is not compact, it could be defined as follows:
+$
+  X := (-oo, 0] union [1, oo)
+$
+and a function can be chosen such that $f$ is continuous and bijective (Remark 4.50) and the range is $RR$, however the inverse is clearly not continuous because the domain is not compact.
+
+TODO: Theorem 4.51 monotonicity of the inverse
+
+== Bijective Functions
+There are two main theorems allowing us to prove the bijectivity of a function and thus define an inverse.
+
+=== Surjectivity - Intermediate Value Theorem
+This states that a function that is continuous over the domain interval $[a, b]$ takes on every value between $f(a)$ and $f(b)$ in its range at some point in the domain. Intuitively, an unbroken line connecting two points must cross every point in between *at least* once.
+
+This is an important theorem used to show that the image of a function is a complete interval, and thus proving that $e^x: RR -> (0, oo)$ is surjective for example.
+
+Formally:
+$
+  a, b in RR | a <= b\
+  f: [a, b] -> [f(a), f(b)] "is continuous" => forall y in [f(a), f(b)] exists x in [a, b] | f(x) = y
+$
+
+=== Injectivity - Monotonic Functions
+A function $f: X -> RR$ is *montone increasing (decreasing)* if:
+$
+  a, b in X\
+  a <= b => f(a) <= (>=) f(b)
+$
+#figure(
+  image("images/monotone-increasing.png", width: 30%),
+) <fig-monotone-increasing>
+
+A function is *strictly monotone increasing (decreasing)* if:
+$
+  a < b => f(a) < (>) f(b)
+$
+*A strictly monotone increasing / decreasing function is injective.*
+
+=== Example Functions
+==== K'th Roots
+For even k's the signs (think quadratic parabola) are lost and the domain + range are limited:
+$
+  k in NN | k "is even", x^k: [0, oo) -> [0, oo)\
+  (x^k)^(-1) := root(k, x): [0, oo) -> [0, oo)
+$
+Odd k's preserve signs (think cubic function) hence they are bijective over $RR$:
+$
+  k in NN | k "is odd", x^k: RR -> RR\
+  (x^k)^(-1) := root(k, x): RR -> RR
+$
+
+==== Logarithms
+$e^x$ is bijective over $e^x: RR -> (0, oo)$ and its root is defined as:
+$
+  (e^x)^(-1) := log(x): (0, oo) -> RR
+$
+In general:
+$
+  (a^x)^(-1) := log_a (x)
+$
+The symbol $ln$ is sometimes used to represent this function and $log$ without a specified base can denote $log_10$, especially in Computer Science contexts.
+
+The following identities apply:
+$
+  log(a b) &= log a + log b\
+  log(a / b) &= log a - log b\
+  log(a^k) &= k log a
+$
+These were used in the past with logarithm tables, where logarithm results were listed for common factors.
+
 
 TODO:
 - Formal definition of multivariable polynomial (Ziltener 4.6)
