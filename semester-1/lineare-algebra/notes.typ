@@ -12,6 +12,9 @@ We live in a discrete, digital age.
 - https://n.ethz.ch/~jamatter/
 - https://www.felixgbreuer.com/linalg
 
+Nice Blog:
+https://gregorygundersen.com/blog/tags/la/
+
 Notation:\
 _LGS_ - Lineare Gleichung System - linear system of equations\
 $cal(A)(bold(x)) = bold(A x)$ - the corresponding Abbildung von the matrix A. Matrix multiplication is often referred to as a function
@@ -866,7 +869,7 @@ This is a measure of the maximum factor by which a matrix increases the Euclidea
 
 It can be calculated as follows:
 $
-  norm(bold(A))_2 = sqrt(lambda_"max" (bold(A^H A))) = sigma_"max" (bold(A))
+  norm(bold(A))_2 =sigma_"max" (bold(A)) = sqrt(lambda_"max" (bold(A^H A)))
 $
 If $bold(A)$ is normal:
 $
@@ -875,10 +878,14 @@ $
 
 Furthermore, the spectral norm a matrix's inverse can be intuitively calculated as:
 $
-  norm(bold(A)^(-1))_2 = 1 / sqrt(lambda_"min" (bold(A^H A))) = 1 / (sigma_"min" (bold(A)))
+  norm(bold(A)^(-1))_2 = 1 / (sigma_"min" (bold(A)))= 1 / sqrt(lambda_"min" (bold(A^H A)))
 $
 
-The intuition behind this is based on the fact that any matrix multiplied by its transpose results in a square, symmetric matrix with real eigenvalues. Symmetric matrices can be diagonalized, which tells us that they transform space in such a way that the maximum eigenvalue is also the maximum scaling factor for all vectors, not only the eigenvectors. We then take the square root of this to account for the "double" multiplication, leading to the maximum singular value.
+The intuition stems from the fact that the SVD of *any matrix* $bold(A)$ can be rewritten as:
+$
+  bold(A V = U Sigma)
+$
+where $bold(Sigma)$ is a diagonal transformation, meaning it only scales space along an orthogonal basis. $bold(U)$ is unitary and has no effect on lengths, therefore the largest diagonal element (singular value $sigma_i$) of $bold(Sigma)$ is the maximum increase in the Euclidean norm.
 
 SVD shows us that the singular values are equal to the magnitude of the eigenvalues in the case of a normal matrix $bold(A)$:
 $
@@ -1203,9 +1210,23 @@ $
 $
 Where $bold(A_(lambda_i)) = bold(A) - lambda_i bold(I)$.
 
-If eigenvectors are needed as well as the eigenvalues, it is best to compute $det(bold(A) - lambda bold(I))$ using Gaussian elimination (IMPORTANT: This is not equal $det(bold(A)))$, so that the reduced form can be reused in the above eigenvector LGSs. However, handling the $lambda$s in elimination can be tricky when all other elements in that column are either 0 or in terms of $lambda$. Sometimes a row can be divided so a certain element becomes 1, which can then accordingly be multiplied by a term involving $lambda$ (for example $(lambda+2)$) allowing another row to eliminate that element.
+==== Solving the Characteristic Polynomial
+If eigenvectors are needed as well as the eigenvalues, it is best to compute $det(bold(A) - lambda bold(I))$ using Gaussian elimination (IMPORTANT: This is not equal $det(bold(A)))$, so that the reduced form can be reused in the above eigenvector LGSs.
 
-LTD: Review Vieta's Theorem for finding roots. First root can be found using the constant term due to the Fundamental THeorem of Algebra. subsequent roots can be found by substuting this in to Vieta's Formulas and rearranging
+Handling the $lambda$s in elimination can be tricky when all other elements in that column are either 0 or in terms of $lambda$. Sometimes a row can be multiplied / divided by a term involving $lambda$ (for example $(lambda+2)$) allowing it to eliminate another element in the same column. However, this often results in characteristic polynomials too complicated to solve (in which case Laplace expansion is often better) and is more useful for inserting $lambda$ and finding the eigenspaces.
+
+*Vieta's Formulae* are useful finding / checking eigenvalues, especially when some are already known / can be deduced from the constant term:
+$
+  a x^3 + b x^2 + c x + k = 0 => -k "is a root"
+$
+They are as follows:
+$
+  -b / a &= sum alpha\
+  c / a &= sum alpha beta\
+  -d / a &= sum alpha beta gamma\
+  ...
+$
+Where $sum alpha$ represents the sum of roots, $sum alpha beta$ the sum of root pairs and so on.
 
 === Gershgorin Disk Theorem
 Polynomials of degree $n >= 5$ have no definite formula for solutions, eigenvalues of matrices with more than 4 columns must be found using numerical methods, expensive and numerically unstable operations.
@@ -1431,7 +1452,7 @@ Where $v_(n+1)$ is the next generalized eigenvector and can be found using Gauss
 + Once $bold(S)$ is complete, calculate its inverse using Gauss-Jordan elimination and assemble the final decomposition: $bold(A = S A S^(-1))$
 
 === Singular Value Decomposition
-Singular value decomposition (SVD) allows us to "diagonalize" *all* matrices using unitary change of basis matrices, with the downside that the change of basis matrices are different and therefore need to be calculated twice:
+Singular value decomposition (SVD) allows us to "diagonalize" *all* matrices using unitary change of basis matrices, with the downside that the "change of basis" matrices are different and therefore need to be calculated twice:
 $
   bold(A) in RR^(m times n), bold(U) in RR^(m times m), bold(V) in RR^(n times n)\
   bold(Sigma) in RR^(m times n) = "diag"(sigma_1, sigma_2, ..., sigma_p), p = "min"(
@@ -1439,14 +1460,25 @@ $
   ), sigma_1 >= sigma_2 >= ... >= sigma_p >= 0\
   bold(A = U Sigma V^H)
 $
-There are multiple possible decompositions for a given matrix. SVD unlocks countless applications in all areas of science.
+There are multiple possible decompositions for a given matrix. SVD unlocks rich applications across several areas.
 
-Alternatively, the decomposition can be written as (TODO: Useful for the best rank 1 representation of a matrix):
+This can be rearranged to:
+$
+  bold(A V = U Sigma)\
+  therefore bold(A V x = U Sigma x)
+$
+Which leads to a *beautiful* geometric interpretation:
+#quote(block: true)[*Any matrix* $bold(A)$ can be modified to behave as a diagonal matrix $bold(Sigma)$ (only scales along orthogonal basis vectors, no shearing) followed by a rotation / reflection $bold(U)$ by rotating space before applying the transformation $bold(A)$ (change the basis) with the unitary matrix $bold(V)$.]
+#figure(
+  image("images/svd-geometrical.png", width: 60%),
+) <fig-svd-geometrical>
+
+Alternatively, the decomposition can be written as (TODO: Useful for the best rank 1 representation of a matrix, image compression):
 $
   bold(A) in RR^(m times n), bold(u_i) in RR^(m times 1), bold(v_i) in RR^(n times 1)\
   bold(A) = sum_(i=1)^r sigma_i bold(u_i (v_i)^H)
 $
-Where $r = "rank"(bold(A)$), $bold(u_i)$ is the corresponding column of $bold(U)$ and $bold(v_i)$ is the corresponding column of the matrix $bold(V)$ (*pre-transpose*, or alternatively the $i$-th row) such that $bold(v^T)_i$ has dimensions $1 times n$. The matrix in this sum with the largest singular value (weight) holds the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored).
+Where $r = "rank"(bold(A)$), $bold(u_i)$ is the corresponding column of $bold(U)$ and $bold(v_i)$ is the corresponding column of the matrix $bold(V)$ (*pre-transpose*, or alternatively the $i$-th row) such that $bold(v^T)_i$ has dimensions $1 times n$. The columns of $bold(U)$ and $bold(V)$ corresponding to the largest singular value (weight) holds the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored).
 
 Here are some examples of the dimensions involved in SVD:
 #figure(
@@ -1454,7 +1486,9 @@ Here are some examples of the dimensions involved in SVD:
 ) <fig-svd-dimensions>
 
 ==== Calculating SVD
-SVD is based on the fact that *any* matrix multiplied with its transpose results in a square, *symmetric* matrix, which can be diagonalised!
+SVD is based on the fact that *any* matrix multiplied with its transpose results in one of 2 square, *symmetric* matrices with the *same eigenvalues* and which can be diagonalised!
+
+$bold(U)$ and $bold(V)$ can be isolated as follows:
 $
   bold(A^T A &= (U Sigma V^H)^H (U Sigma V^H) = V Sigma^H U^H U Sigma V^H)\
   bold(&= V Sigma^H Sigma V^H = V Sigma^2 V^H)\
@@ -1462,7 +1496,7 @@ $
   bold(&= U Sigma Sigma^H U^H = U Sigma^2 U^H)\
 $
 
-_Singular values_ - $sigma_i$ - Square roots of the eigenvalues of a matrix multiplied by its own transpose, usually listed in descending order.
+_Singular values_ - $sigma_i$ - *Positive* square roots of $lambda(bold(A^H A)) = lambda(bold(A A^H))$, usually listed in descending order.
 - If a matrix is normal, $bold(sigma = abs(lambda))$:
 $
   bold(A = U Lambda U^T)\
@@ -1471,6 +1505,10 @@ $
   therefore bold(sigma(A) = sqrt(lambda(A^T A)) = sqrt(lambda(A^2)))\
   = abs(bold(lambda(A)))
 $
+
+Hence:
++ U and V are eigenvectors of $A^H A$ and $A A^H$
++ $sum$ diagonal from sqrt of U or V's eigenvalues
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
