@@ -4,8 +4,6 @@
 
 #outline()
 
-https://students.aiu.edu/submissions/profiles/resources/onlineBook/Y5B7M4_Introduction_to_Linear_Algebra-_Fourth_Edition.pdf
-
 We live in a discrete, digital age.
 
 Übungsstunde Notizen:
@@ -109,7 +107,7 @@ _Free Variables_ - Any variables not accounted for due to no pivot in their colu
 
 *"Order is half of the work in maths."* - _Dr. Vasile C. Gradinaru_
 
-=== Tips:\
+=== Tips
 - Never divide / subtract in Gaussian elimination. Simply multiply by $1/x$ or -x and add.
 - Switch rows columns carefully *before* carrying out additions.
 - *Only* add the row who's pivot is currently being pursued to other rows! Otherwise it is difficult to capture the operation in the elimination matrix (more on this later).
@@ -121,13 +119,11 @@ _Free Variables_ - Any variables not accounted for due to no pivot in their colu
 - _Tridiagonal Matrix_ - Matrix with 3 diagonals, and otherwise 0s everywhere
 - $bold(A x) = 0$ only has the trivial solution $bold(x) = 0$, unless $bold(A)$ contains free variables.
 
-=== Square Matrices ($m times n$):
-*The following only applies to square matrices*
-
-- _Regular Matrix_ - Rank = n - has exactly one solution for arbitrary RHS; only the trivial solution when homogenous
-- _Singular Matrix (single = strange and uncommon)_ - Rank < n - has infinite / no solutions and has infinite non trivial solutions when homogenous
-
-$m>n$ - An overdetermined LGS only has solutions for very specific RHS values (if the rows are not linearly dependent) and therefore has no inverse (singular).
+=== Types
+Consider a $m times n$ matrix with rank $r$:
+- *Square* _Regular Matrix_ - $r = n$ AND $m=n$ - has exactly one solution for arbitrary RHS; only the trivial solution when homogenous
+- *Square* _Singular Matrix (single = strange and uncommon)_ - Rank < n - has infinite / no solutions and has infinite non trivial solutions when homogenous
+- _Overdetermined_ - $m>n$ - An overdetermined LGS only has solutions for very specific RHS values (if the rows are linearly independent) and therefore has no inverse (singular). Solutions can however always be approximated (See @linear-least-squares).
 
 == Matrices
 === Transposed Matrix
@@ -649,7 +645,7 @@ Sometimes non-finite dimensional spaces can be approximated using finite dimensi
 
 #image("images/dimensions.png")
 
-=== Fundamental Theorem of Linear Algebra (Gilbert Strang)
+=== Fundamental Theorem of Linear Algebra (Gilbert Strang) <fundamental-theorem>
 For a $n times k$ matrix $bold(A)$ with rank $r$:
 $
   dim("Im"(bold(A))) = r\
@@ -664,7 +660,7 @@ For example, considering a 3x3 matrix $P$ with rank 2:
 - The transformation maps any $x$ onto a 2D plane due to only 2 independent vectors in the basis, the image has dimension 2. A solution only exists if the RHS vector is in this plane.
 - The kernel of the matrix $P x=0$ includes an entire line of vectors, meaning that there is 1 free variable (the non-pivot column) that scales along this line.
 
-LTD: Review these proofs
+LTD: Internalise / develop intuition
 
 _Orthogonal Spaces_ - Two linear spaces are orthogonal $U perp V$ to one another when any two vectors in the spaces are always orthogonal to one another :$bold(<u\, v>) = 0$
 $
@@ -875,6 +871,7 @@ If $bold(A)$ is normal:
 $
   norm(bold(A))_2 = abs(lambda_"max" (bold(A)))
 $
+Therefore, if $bold(A)$ is diagonal this is simply the largest absolute diagonal value.
 
 Furthermore, the spectral norm a matrix's inverse can be intuitively calculated as:
 $
@@ -885,9 +882,9 @@ The intuition stems from the fact that the SVD of *any matrix* $bold(A)$ can be 
 $
   bold(A V = U Sigma)
 $
-where $bold(Sigma)$ is a diagonal transformation, meaning it only scales space along an orthogonal basis. $bold(U)$ is unitary and has no effect on lengths, therefore the largest diagonal element (singular value $sigma_i$) of $bold(Sigma)$ is the maximum increase in the Euclidean norm.
+where $bold(Sigma)$ is a diagonal transformation, meaning it only scales space along an orthogonal basis. $bold(U)$ and $bold(V)$ are unitary and have no effect on lengths, therefore the largest diagonal element (singular value $sigma_i$) of $bold(Sigma)$ is the maximum increase in the Euclidean norm.
 
-SVD shows us that the singular values are equal to the magnitude of the eigenvalues in the case of a normal matrix $bold(A)$:
+SVD also shows us that the singular values are equal to the magnitude of the eigenvalues in the case of a normal matrix $bold(A)$:
 $
   bold(A = U Lambda U^T)\
   bold(A^T A =  U Lambda^T Lambda U^T)\
@@ -1274,7 +1271,7 @@ $
 
 $"diag"(a_1, a_2, ...)$ notation can be used to specify a diagonal matrix with diagonal entries in that order.
 
-The inverse of a diagonal matrix $bold(D^(-1))$ simply involves replacing non-zero elements with their reciprocal $1/x$.
+The inverse of a diagonal matrix $bold(D^(-1))$ can be computed if there are no 0s (full-rank) on the diagonal and simply involves replacing diagonal elements with their reciprocal $1/x$.
 
 _Scalar Matrix_ - Diagonal matrix with the same diagonal entries, multiplying by it has the same effect as scalar multiplication.
 
@@ -1460,7 +1457,7 @@ $
   ), sigma_1 >= sigma_2 >= ... >= sigma_p >= 0\
   bold(A = U Sigma V^H)
 $
-There are multiple possible decompositions for a given matrix. SVD unlocks rich applications across several areas.
+There are multiple (but finite) possible decompositions for a given matrix. This depends on order of singular values on the diagonal and their underlying geometric multiplicy.
 
 This can be rearranged to:
 $
@@ -1468,7 +1465,7 @@ $
   therefore bold(A V x = U Sigma x)
 $
 Which leads to a *beautiful* geometric interpretation:
-#quote(block: true)[*Any matrix* $bold(A)$ can be modified to behave as a diagonal matrix $bold(Sigma)$ (only scales along orthogonal basis vectors, no shearing) followed by a rotation / reflection $bold(U)$ by rotating space before applying the transformation $bold(A)$ (change the basis) with the unitary matrix $bold(V)$.]
+#quote(block: true)[*Any matrix* $bold(A)$ can be modified to behave as a diagonal matrix $bold(Sigma)$ (only scales along orthogonal basis vectors, no shearing), followed by a rotation / reflection $bold(U)$, by rotating space before applying the transformation $bold(A)$ (change the basis) with the unitary matrix $bold(V)$.]
 #figure(
   image("images/svd-geometrical.png", width: 60%),
 ) <fig-svd-geometrical>
@@ -1482,33 +1479,52 @@ Where $r = "rank"(bold(A)$), $bold(u_i)$ is the corresponding column of $bold(U)
 
 Here are some examples of the dimensions involved in SVD:
 #figure(
-  image("images/svd-dimensions.png", width: 40%),
+  image("images/svd-dimensions.png", width: 60%),
 ) <fig-svd-dimensions>
+
+==== Properties
+$
+  bold(A) in RR^(m times n)
+$
+The SVD has strong connections to Strang's Fundamental Theorem of Linear Algebra:
+- $bold(A V = U Sigma)$ shows that the left singular vectors (columns of $bold(U)$) are in the column space (image) of $bold(A)$
+- Rearranging to $bold(A^H U = V Sigma)$ shows that the right singular vectors (columns of $bold(V)$) are in the row space of $bold(A)$
+- Let $r := "Rank"(bold(A))$. To span the entire row / column space, $bold(V)$ and $bold(U)$ only need $r$ vectors but have dimensions $n times n$ and $m times m$ respectively. Therefore the remaining $n - r$ *right* singular vectors are a basis for $"Kernel"(bold(A))$.
+- The remaining $m - r$ *left* singular vectors are a basis for $"Kernel"(bold(A^H))$. The orthogonality properties discussed in @fundamental-theorem apply to these spaces as usual.
+#figure(
+  image("images/fundamental-theorem-svd.png", width: 80%),
+) <fig-fundamental-theorem-svd>
 
 ==== Calculating SVD
 SVD is based on the fact that *any* matrix multiplied with its transpose results in one of 2 square, *symmetric* matrices with the *same eigenvalues* and which can be diagonalised!
 
 $bold(U)$ and $bold(V)$ can be isolated as follows:
 $
-  bold(A^T A &= (U Sigma V^H)^H (U Sigma V^H) = V Sigma^H U^H U Sigma V^H)\
+  bold(A^H A &= (U Sigma V^H)^H (U Sigma V^H) = V Sigma^H U^H U Sigma V^H)\
   bold(&= V Sigma^H Sigma V^H = V Sigma^2 V^H)\
-  bold(A A^T &= (U Sigma V^H)(U Sigma V^H)^H = U Sigma V^H V Sigma^H U^H)\
+  bold(A A^H &= (U Sigma V^H)(U Sigma V^H)^H = U Sigma V^H V Sigma^H U^H)\
   bold(&= U Sigma Sigma^H U^H = U Sigma^2 U^H)\
 $
+Showing us that $bold(U)$ and $bold(V)$ are simply orthonormal eigenvectors of multiplications with the transpose (the so-called *singular vectors*). These identities can be used to check which singular vectors belong to $bold(U)$ and $bold(V)$ if this is not obvious from the dimensions.
 
-_Singular values_ - $sigma_i$ - *Positive* square roots of $lambda(bold(A^H A)) = lambda(bold(A A^H))$, usually listed in descending order.
+_Singular values_ - $sigma_i$ - *Positive* square roots of $lambda(bold(A^H A)) = lambda(bold(A A^H))$, usually listed in descending order. Recall that the maximum singular value is the spectral norm $norm(.)_2$ of a matrix.
 - If a matrix is normal, $bold(sigma = abs(lambda))$:
 $
-  bold(A = U Lambda U^T)\
-  bold(A^T A =  (U Lambda^T Lambda U^T))\
-  bold(Lambda^T = Lambda)\
-  therefore bold(sigma(A) = sqrt(lambda(A^T A)) = sqrt(lambda(A^2)))\
+  bold(A = U Lambda U^H)\
+  bold(A^H A =  (U Lambda^H Lambda U^H))\
+  bold(Lambda^H = Lambda)\
+  therefore bold(sigma(A) = sqrt(lambda(A^H A)) )\
+  = bold(sqrt(lambda(A^2)) = sqrt(lambda(S D^2 S^(-1))) = abs(lambda(D)))\
   = abs(bold(lambda(A)))
 $
 
-Hence:
-+ U and V are eigenvectors of $A^H A$ and $A A^H$
-+ $sum$ diagonal from sqrt of U or V's eigenvalues
+Hence to calculate the SVD of a matrix $bold(A)$:
++ Calculate $bold(A^H A)$ and $bold(A A^H)$
++ Find the eigenvalues of the simpler product (they are the same for both) and use them to find both sets of orthogonal eigenvectors (singular vectors)
++ Arrange them in order of descending singular value as the columns of $bold(U)$ and $bold(V)$ respectively ($bold(A A^H -> U\, A "and" U "come before")$ and $bold(A^H A -> V\, A "and" V "come after")$)
++ Norm the columns of $bold(U)$ and $bold(V)$ if needed so their $norm(.)_2 = 1$
++ $bold(Sigma)$ has the singular values in descending order along its diagonal
++ It is often quicker to find $bold(U)$ using $bold(U = Sigma^(-1) A V)$ if $bold(Sigma)$ is invertible (strictly positive singular values).
 
 == Applications
 Finally, we can enjoy the wide variety of real world uses for linear algebra!
@@ -1520,12 +1536,19 @@ Most real-world applications are expected to depend on not only one but several 
 
 This most often uses the *least squares* approach for reducing error, which is carried out using techniques in linear algebra
 
-==== Linear Least Squares
-This can also be used to solve non-linear relationships by finding the multivariable minima through means of calculus, maybe a good LTD topic...
+Non-linear relationships can also be found using the multivariable minima through means of calculus, maybe a good LTD topic...
 
 LTD: Generalise for multiple dependent variables (https://en.wikipedia.org/wiki/General_linear_model) essentially performing multiple linear regressions simultaneously
 
-We suspect that there is a linear relationship between $n$ independent variables $bold(x) in RR^n$ and the dependent scalar $y in RR$ such that:
+==== Linear Least Squares <linear-least-squares>
+This is a method for finding the best approximation of an overdetermined system of equations:
+$
+  bold(X a approx y)\
+  bold(X a - y -> 0)\
+  therefore min norm(bold(X a - y))_2
+$
+
+Applying it to the context of linear regression, we suspect that there is a linear relationship between $n$ independent variables $bold(x) in RR^n$ and the dependent scalar $y in RR$ such that:
 $
   bold(m) in RR^n, c in RR\
   bold(m^T x) + c = y\
@@ -1546,13 +1569,13 @@ $
 $
 Let us consider we have $s$ samples available to optimise our answer vector against. We can extend $bold(X)$ with each sample ${bold(x_1), bold(x_2), ..., bold(x_s)}$ and subtract the corresponding sample outputs $bold(y) = vec(y_1, y_2, ..., y_s)$ to calculate the set of residuals $bold(r) in RR^s$:
 $
-  bold(X) &= mat(
+  bold(X) = mat(
   1, bold(x_1), ...;
   1, bold(x_2), ...;
 ..., ..., ...;
   1, bold(x_s), ...;
 )\
-  bold(X a - y &= r)
+  bold(X a - y = r)
 $
 We can now convert this set of residuals into an unsigned scalar representing how "bad" the current answer vector $bold(a)$ is using a norm, usually the Euclidean $L_2$ norm:
 $
@@ -1569,7 +1592,7 @@ $
   r &=norm(bold(X a - y)) = 0\
   bold(X a &= y)
 $
-In other words, $bold(y)$ is probably not in $"Im"bold(X)$. However, we are able to find the closest answer vector $bold(a) in "Im"bold(X)$ thanks to orthogonal projections!
+In other words, $bold(y)$ is probably not in $"Im"bold(X)$. However, there are several techniques available for approximating the closest answer vector $bold(a) in "Im"bold(X)$.
 
 ===== Orthogonal Projection Method
 The current goal is to find the best answer $bold(a)$ such that $bold(X a &= y)$. We can express $arrow(y)$ as the sum of the closest vector in the image $bold(p) in "Im"bold(X)$ and another vector $bold(c) in "Kern" bold(A^T)$ which we know are orthogonal to one another thanks to the Fundamental Theorem of Linear Algebra:
@@ -1592,7 +1615,7 @@ $
 However, this is still not guaranteed to have a solution, namely when $bold(X)$ doesn't have full rank (can happen quite often for perfectly reasonable samples). Furthermore, it is very sensitive to rounding errors.
 
 ===== QR-Decomposition Method
-This method solves the rounding error issues, although it still only works if $bold(X)$ has full rank (the upper $bold(R)$ matrix has the same rank as the input). Quite wasteful data cleaning can be done to ensure these methods are fit for use, hence why singular value decomposition is used much more commonly in practice.
+This method solves the rounding error issues, although it still only works if $bold(X)$ has full rank (the upper reduced $bold(R)$ matrix has the same rank as $bold(X)$ and needs to be invertible to deliver a single solution). Wasteful data cleaning would have to be done to ensure these methods are fit for use, therefore why singular value decomposition is used much more commonly in practice.
 
 We can rewrite $bold(X a &= y)$ using the QR decomposition of $bold(X)$:
 $
@@ -1606,9 +1629,21 @@ $
 $
 Where $dot |_n$ represents the first $n$ rows of a matrix / vector.
 
-We can now solve $bold(R|_n a = (Q^H y)|_n)$ The rest of the elements of $bold(Q^H y)$, named $r_(n+1), ..., r_s$, represent the residuals of the optimal solution - their norm shows exactly what the lowest possible error is for the sample.
+We can now solve $bold(R|_n a = (Q^H y)|_n)$ The rest of the elements of $bold(Q^H y)$, named $r_(n+1), ..., r_s$, represent the residuals of the optimal solution - their norm shows exactly what the lowest possible error is for the sample. TODO: Apply method and check what the residuals look like in practice
 
 LTD: The same technique can be used to find a polynomial of degree $n$ solution TODO: Bespiel 5.1.0.4, think about how this corresponds to curved surfaces in 3D space.
+
+===== SVD / The Pseudoinverse
+This powerful method works regarding the rank of the matrix $bold(X)$.
+$
+  bold(X = U Sigma V^H)\
+  bold(U Sigma V^H a = y)\
+  bold(a = V Sigma^+ U^H y)\
+  bold(X^+ := V Sigma^+ U^H)
+$
+Where $bold(X^+\, Sigma^+)$ denote the so-called *pseudoinverses*.
+- The pseudoinverse of a diagonal matrix $Sigma$ is simply the reciprocal of non-zero values along the diagonal.
+TODO properties, description, other methods of computing. 0 singular values represent the least important rank 1 approximations about the matrix hence this matrix loses them with the goal of creating a suitable inverse.
 
 === Optimization
 ==== Quadratic Forms
