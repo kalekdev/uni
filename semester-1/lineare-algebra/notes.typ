@@ -894,21 +894,48 @@ $
 $
 
 ==== Condition Number
-This is a measure of how accurately the inverse of a matrix can be computed:
+This is a measure of how sensitive an operation is to changes in input and how accurately the inverse of a matrix can be computed:
 $
-  k(bold(A)) = norm(bold(A))_2 norm(bold(A^(-1)))_2
+  k(bold(A)) = norm(bold(A))_2 norm(bold(A^(-1)))_2 = sigma_max(bold(A)) / sigma_min(bold(A))
 $
-- $k=1$ - The matrix is said to be well-conditioned
-- $k >> 1$ - Such a matrix is almost singular and is very prone to errors
-
 For a symmetric matrix $bold(A)$:
 $
   k(bold(A)) = sqrt(abs(lambda_"max" (bold(A)))/abs(lambda_"min" (bold(A))))
 $
 
-It is purely a property of the matrix based on how much bigger the maximum eigenvalue is than the minimum eigenvalue - ie how much more the matrix stretches vectors in a specific direction than the others - which makes it less "unitary" and more susceptible to computational errors.
+It is purely a property of a matrix based on how much bigger the maximum eigenvalue is than the minimum eigenvalue - ie how much more a matrix stretches vectors in a specific direction than the others - which makes it less "unitary" and more susceptible to rounding errors.
+
+- $k=1$ - The matrix is said to be well-conditioned
+- $k >> 1$ - Such a matrix is almost singular and is very prone to errors, a tiny change in the vector it is applied to has a drastic effect on the output.
+- $k = oo$ - The matrix has a singular / eigenvalue 0 and part of space is sent to the origin, meaning numerical solutions involving the matrix are very unreliable.
+
+When a matrix comes from the result of a previous calculation, and some of its singular values are very close, but not equal to 0, it can be suspected that this slight deviations arose due to rounding errors. Therefore, many Linear Algebra packages offer the option to define a *numerical rank*, which is a limit under which singular values are considered as 0. TODO: read chapter 3 numerical methods for linear control systems
 
 LTD: Benchmark condition numbers of different types of matrices.
+
+==== Entry-Based Matrix Norms
+The general $L_(p, q)$ norms ignore the structure of a matrix and treat its entries as one big $m dot n$ vector, stemming from the *Frobenius inner product*, a finite dimensional version of the inner (dot) product on Tensor spaces (elements are matrices instead of vectors) $norm(A)_F := sqrt(bold(<A\, A>)_F)$.
+
+The $L_(p, q)$ norms are defined as:
+$
+  bold(A in CC^(m times n))\
+  norm(bold(A))_(p, q) := (sum_(j=1)^n (sum_(i=1)^m abs(a_(i j))^p)^(q / p))^(1 / q)
+$
+
+The *Frobenius Norm* is the special $L_(2, 2)$ case:
+$
+  norm(bold(A))_F := sqrt(sum_(j=1)^n sum_(i=1)^m abs(a_(i j))^2) = sqrt("trace"(bold(A^H A))) = sqrt(sum_(i=1)^(min(m, n)) sigma_i^2(bold(A)))
+$
+
+The Frobenius Norm in particular is also an example of a *Schatten norm*:
+$
+  norm(bold(A))_p := (sum_(i=1)^(min(m, n)) sigma_i^p(bold(A)))^(1 / p)
+$
+
+Another example is the so-called *Nuclear norm*:
+$
+  norm(bold(A))_* := sum_(i=1)^(min(m, n)) sigma_i(bold(A))
+$
 
 == Inner Products
 In Euclidean space, the dot product is an inner product.
@@ -1271,7 +1298,7 @@ $
 
 $"diag"(a_1, a_2, ...)$ notation can be used to specify a diagonal matrix with diagonal entries in that order.
 
-The inverse of a diagonal matrix $bold(D^(-1))$ can be computed if there are no 0s (full-rank) on the diagonal and simply involves replacing diagonal elements with their reciprocal $1/x$.
+The inverse of a diagonal matrix $bold(D^(-1))$ can be computed if there are no 0s (full-rank) on the diagonal and the matrix is square. It simply involves replacing diagonal elements with their reciprocal $1/x$.
 
 _Scalar Matrix_ - Diagonal matrix with the same diagonal entries, multiplying by it has the same effect as scalar multiplication.
 
@@ -1475,7 +1502,7 @@ $
   bold(A) in RR^(m times n), bold(u_i) in RR^(m times 1), bold(v_i) in RR^(n times 1)\
   bold(A) = sum_(i=1)^r sigma_i bold(u_i (v_i)^H)
 $
-Where $r = "rank"(bold(A)$), $bold(u_i)$ is the corresponding column of $bold(U)$ and $bold(v_i)$ is the corresponding column of the matrix $bold(V)$ (*pre-transpose*, or alternatively the $i$-th row) such that $bold(v^T)_i$ has dimensions $1 times n$. The columns of $bold(U)$ and $bold(V)$ corresponding to the largest singular value (weight) holds the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored).
+Where $r = "rank"(bold(A))$ (the number of non-zero singular values), $bold(u_i)$ is the corresponding column of $bold(U)$ and $bold(v_i)$ is the corresponding column of the matrix $bold(V)$ (*pre-transpose*, or alternatively the $i$-th row) such that $bold(v^T)_i$ has dimensions $1 times n$. The columns of $bold(U)$ and $bold(V)$ corresponding to the largest singular value (weight) holds the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored).
 
 Here are some examples of the dimensions involved in SVD:
 #figure(
@@ -1508,6 +1535,7 @@ $
 Showing us that $bold(U)$ and $bold(V)$ are simply orthonormal eigenvectors of multiplications with the transpose (the so-called *singular vectors*). These identities can be used to check which singular vectors belong to $bold(U)$ and $bold(V)$ if this is not obvious from the dimensions.
 
 _Singular values_ - $sigma_i$ - *Positive* square roots of $lambda(bold(A^H A)) = lambda(bold(A A^H))$, usually listed in descending order. Recall that the maximum singular value is the spectral norm $norm(.)_2$ of a matrix.
+- The rank of $bold(A)$ is equal to the number of *non-zero* singular values because $"Rank"(bold(A))="Rank"(bold(Sigma))$, unitary transformations do not affect rank
 - If a matrix is normal, $bold(sigma = abs(lambda))$:
 $
   bold(A = U Lambda U^H)\
@@ -1597,8 +1625,8 @@ In other words, $bold(y)$ is probably not in $"Im"bold(X)$. However, there are s
 ===== Orthogonal Projection Method
 The current goal is to find the best answer $bold(a)$ such that $bold(X a &= y)$. We can express $arrow(y)$ as the sum of the closest vector in the image $bold(p) in "Im"bold(X)$ and another vector $bold(c) in "Kern" bold(A^T)$ which we know are orthogonal to one another thanks to the Fundamental Theorem of Linear Algebra:
 $
-  bold(X a &= y = p + c)\
-  bold(p &perp c)\
+  bold(X a = y = p + c)\
+  bold(p perp c)\
 $
 Their orthogonality means that $bold(c)$ is the shortest possible error from the real $arrow(y)$ possible. We can find $bold(p)$ by simply projecting $bold(y)$ onto the image subspace of $bold(X)$.
 
@@ -1615,7 +1643,7 @@ $
 However, this is still not guaranteed to have a solution, namely when $bold(X)$ doesn't have full rank (can happen quite often for perfectly reasonable samples). Furthermore, it is very sensitive to rounding errors.
 
 ===== QR-Decomposition Method
-This method solves the rounding error issues, although it still only works if $bold(X)$ has full rank (the upper reduced $bold(R)$ matrix has the same rank as $bold(X)$ and needs to be invertible to deliver a single solution). Wasteful data cleaning would have to be done to ensure these methods are fit for use, therefore why singular value decomposition is used much more commonly in practice.
+This method solves the rounding error issues, although it *still only works if $bold(X)$ has full rank* (the upper reduced $bold(R)$ matrix has the same rank as $bold(X)$ and needs to be invertible to deliver a single solution). Wasteful data cleaning would have to be done to ensure these methods are fit for use, therefore why singular value decomposition is used much more commonly in practice.
 
 We can rewrite $bold(X a &= y)$ using the QR decomposition of $bold(X)$:
 $
@@ -1641,9 +1669,18 @@ $
   bold(a = V Sigma^+ U^H y)\
   bold(X^+ := V Sigma^+ U^H)
 $
-Where $bold(X^+\, Sigma^+)$ denote the so-called *pseudoinverses*.
-- The pseudoinverse of a diagonal matrix $Sigma$ is simply the reciprocal of non-zero values along the diagonal.
-TODO properties, description, other methods of computing. 0 singular values represent the least important rank 1 approximations about the matrix hence this matrix loses them with the goal of creating a suitable inverse.
+Where $bold(X^+\, Sigma^+)$ denote the so-called *Pseudoinverses*. Professor Gradinaru uses dagger notation $bold(X^dagger)$.
+
+The Pseudoinverse of a diagonal matrix, for example $bold(Sigma^+)$, is simply the reciprocal of non-zero values along the diagonal followed by tranposing the matrix (to satisfy SVD dimensions).
+
+Intuitively, 0 singular values represent the least important rank 1 approximations of the matrix hence they can be "ignored" whilst taking the inverse of the matrix's SVD, creating the optimal least squares solution inverse.
+
+A *unique* (no matter the order of the singular values) Pseudoinverse exists for *every matrix* and is calculated using the SVD $bold(A^+ := V Sigma^+ U^H)$ as seen above and exhibits the following properties:
+- If $bold(A)$ is invertible $bold(A^(-1) = A^+)$
+- $bold((A^+)^+ = A)$
+- $bold(A A^+ A = A)$
+- $bold((A^+ A)^T = A^+ A)$
+- $bold((A A^+)^T = A A^+)$
 
 === Optimization
 ==== Quadratic Forms
