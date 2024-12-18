@@ -909,7 +909,7 @@ It is purely a property of a matrix based on how much bigger the maximum eigenva
 - $k >> 1$ - Such a matrix is almost singular and is very prone to errors, a tiny change in the vector it is applied to has a drastic effect on the output.
 - $k = oo$ - The matrix has a singular / eigenvalue 0 and part of space is sent to the origin, meaning numerical solutions involving the matrix are very unreliable.
 
-When a matrix comes from the result of a previous calculation, and some of its singular values are very close, but not equal to 0, it can be suspected that this slight deviations arose due to rounding errors. Therefore, many Linear Algebra packages offer the option to define a *numerical rank*, which is a limit under which singular values are considered as 0. TODO: read chapter 3 numerical methods for linear control systems
+When a matrix comes from the result of a previous calculation, and some of its singular values are very close, but not equal to 0, it can be suspected that this slight deviations arose due to rounding errors and don't represent any meaningful values. Therefore, many Linear Algebra packages offer the option to define a *numerical rank*, which is a limit under which singular values are considered as 0 - their corresponding rank-1 approximations are considered unnecessary. This reduces storage / computational requirements, avoids introducing further rounding errors and often removes useless noise from the data.
 
 LTD: Benchmark condition numbers of different types of matrices.
 
