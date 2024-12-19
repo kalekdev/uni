@@ -1497,12 +1497,12 @@ Which leads to a *beautiful* geometric interpretation:
   image("images/svd-geometrical.png", width: 60%),
 ) <fig-svd-geometrical>
 
-Alternatively, the decomposition can be written as (TODO: Useful for the best rank 1 representation of a matrix, image compression):
+Alternatively, the decomposition can be written as a weighted sum of rank-1 representation of the matrix, which is useful for data compression:
 $
   bold(A) in RR^(m times n), bold(u_i) in RR^(m times 1), bold(v_i) in RR^(n times 1)\
   bold(A) = sum_(i=1)^r sigma_i bold(u_i (v_i)^H)
 $
-Where $r = "rank"(bold(A))$ (the number of non-zero singular values), $bold(u_i)$ is the corresponding column of $bold(U)$ and $bold(v_i)$ is the corresponding column of the matrix $bold(V)$ (*pre-transpose*, or alternatively the $i$-th row) such that $bold(v^T)_i$ has dimensions $1 times n$. The columns of $bold(U)$ and $bold(V)$ corresponding to the largest singular value (weight) holds the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored).
+Where $r = "rank"(bold(A))$ (the number of non-zero singular values), $bold(u_i)$ is the corresponding column of $bold(U)$ and $bold(v_i)$ is the corresponding column of the matrix $bold(V)$ (*pre-transpose*, or alternatively the $i$-th row) such that $bold(v^T)_i$ has dimensions $1 times n$.
 
 Here are some examples of the dimensions involved in SVD:
 #figure(
@@ -1805,7 +1805,20 @@ Where $bold(C)$ is a *circulant matrix* (LTD: Describe properties) which rearran
 
 Gleichtzeitig diagonalisierbar => AB = BA and alle EW haben AM 1, sie haben dieselbe eigenbasis
 
+=== Compression
+==== SVD
+TODO: Sometimes SVD has less elements than original matrix
+
+==== Low-rank Approximation
+Recall that all matrices can be decomposed to:
+$
+  bold(A) in RR^(m times n), bold(u_i) in RR^(m times 1), bold(v_i) in RR^(n times 1)\
+  bold(A) = sum_(i=1)^r sigma_i bold(u_i (v_i)^H)
+$
+The columns of $bold(U)$ and $bold(V)$ corresponding to the largest singular values (weight) hold the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored) by setting a numerical rank $k$ and only requires $abs({sigma_i | sigma_i > k})dot (1+m + n)$ values to be stored. This is a better approximation of the matrix than simpler kinds of lossy compression, for example taking the average values of submatrices to reduce dimension.
+
 == Upcoming
 LTD:
+- PCA
 - 4D, Flatland trick, hyperplane, cube etc
 - Jacobian
