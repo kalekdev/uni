@@ -1806,16 +1806,42 @@ Where $bold(C)$ is a *circulant matrix* (LTD: Describe properties) which rearran
 Gleichtzeitig diagonalisierbar => AB = BA and alle EW haben AM 1, sie haben dieselbe eigenbasis
 
 === Compression
-==== SVD
-TODO: Sometimes SVD has less elements than original matrix
-
 ==== Low-rank Approximation
 Recall that all matrices can be decomposed to:
 $
   bold(A) in RR^(m times n), bold(u_i) in RR^(m times 1), bold(v_i) in RR^(n times 1)\
   bold(A) = sum_(i=1)^r sigma_i bold(u_i (v_i)^H)
 $
-The columns of $bold(U)$ and $bold(V)$ corresponding to the largest singular values (weight) hold the most information about the matrix $bold(A)$, which can be used for data compression (only 2 single vectors must be stored) by setting a numerical rank $k$ and only requires $abs({sigma_i | sigma_i > k})dot (1+m + n)$ values to be stored. This is a better approximation of the matrix than simpler kinds of lossy compression, for example taking the average values of submatrices to reduce dimension.
+Storing the elements of the SVD of a matrix requires less space if the following inequality holds:
+$
+  r(m + n + 1) < m dot n
+$
+Rearranging, SVD storage is advantageous for matrices where:
+$
+  r < (m dot n) / (m + n + 1)
+$
+
+Most matrices holding data (rather than some transformation with heavily related elements) satisfy this inequality, making SVD a good choice for storing images. Furthermore, we can set a numerical rank $k$ and compress an image by only keeping the first $x$ columns of $bold(U)$ and $bold(V)$, which are the heaviest weighted and most "important" components of the entire decomposition. This is a better approximation of the matrix than simpler kinds of lossy compression, for example taking the average values of submatrices to reduce dimension.
+
+Here are some nice demonstrations of SVD compression:
+https://dmicz.github.io/machine-learning/svd-image-compression/
+
+Working with matrices in the SVD format is more tricky, however many algorithms can be adjusted to handle matrices in this format (Numerical Methods course).
+
+===== Eckart-Young Theorem
+The SVD of a matrix cut-off at numerical rank $k$ ($bold(A_k)$) is the best posible approximation at this rank limit:
+$
+  bold(norm(A - A_k) = min_("Rank"(B) <= k) norm(A - B)) = sigma_(k +1)
+$
+Where $sigma_(k +1)$ is the max singular value of the discarded terms (definition of Spectral norm) and represents the smallest possible error of the approximation. This has been proven for the Spectral, Frobenius and Nuclear norms.
+
+=== Polar Decomposition
+A square, invertible matrix can be converted into a "polar form" of a stretch followed by a rotation, just like complex numbers can be expressed as $z = abs(z) "cis"(theta)$:
+$
+  bold(A = U Sigma V^H = U V^H (V Sigma V^H) = Q S)
+$
+Where $bold(Q)$ is an orthogonal rotation matrix and $bold(S)$ is a symmetric positive-definite stretching matrix.
+
 
 == Upcoming
 LTD:
