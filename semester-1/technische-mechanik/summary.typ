@@ -42,6 +42,7 @@
 
 #table(
   theader[Vector Identities], columns: 3,
+  $arrow(a) times arrow(b)$, $norm(a) norm(b) sin(theta) arrow(n)$, [Area of parallelogram],
   $arrow(a) times (b + c)$, $arrow(a) times arrow(b) + arrow(a) times arrow(c)$, [],
   $a dot (b times c)$, $b dot (c times a)$, $c dot (a times b)$
 )

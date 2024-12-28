@@ -39,6 +39,44 @@ This approximation is accurate when considering systems with velocities signific
 
 Transformations between reference frames can also be represented as a matrix allowing easier vector calculations.
 
+=== Momentum
+Consider a system of $n$ particles, where the only forces are those exerted by the particles on each other. The sum of momentum of this system is:
+$
+  sum p = P
+$
+The rate change of a single particle's momentum is the resultant force:
+$
+  dot(p) = sum_(i=1)^n F_(1 i)
+$
+Since differentiation is a linear operation, the rate of change of the total momentum is:
+$
+  dot(P) = sum_(j=1)^n sum_(i != j)^n F_(j i) = 0
+$
+This always equal to 0 due to Newton's 3rd Law of Motion: $F_(j i) = -F_(i j)$
+
+Hence total momentum is constant and conserved, which is a useful fact for solving collision problems.
+
+Newton's 3rd law and thus the conservation of momentum does not hold when relativistic effects are apparent and therefore also in the case of magnetic fields (which is a consequence of special relativity):
+#figure(
+  image("images/momentum-magnetism.png", width: 60%),
+) <fig-momentum-magnetism>
+However, unless the particles are moving near the speed of light, the electrostatic forces far outweigh momentum losses due to magnetism.
+
+==== Angular Momentum
+Momentum and Newton's 2nd Law can be defined with respect to a point as angular momentum:
+$
+  l = arrow(r) times arrow(p)
+$
+Where $arrow(r)$ is the vector from the point to the particle and $arrow(p)$ is its linear momentum.
+
+Newton's 2nd Law is defined accordingly - the resultant moment of forces applied on the particle with respect to the point is equal to its rate of change of angular momentum with respect to the same point:
+$
+  arrow(M) = dot(l)
+$
+For example, the angular momentum of a centripetal system (orbiting planet) with respect to the origin stays constant as the force has no perpendicular component.
+
+The total angular momentum of a classical system around any point is conserved, just like linear momentum.
+
 === Harmonic Oscillators
 Consider a system where some particle has an oscillating potential energy, for example a swinging pendulum. Let $U(t)$ be a function of the particle's potential energy against time, in this case gravitiational potential. Using a Taylor Series, we can approximate it around a point in time as:
 $
@@ -59,6 +97,13 @@ $
 Where $k$ is a constant specific to this system - the rate of change of the restoring force's power.
 
 TODO: Feynman's Lectures chapter 21
+
+=== Action
+Consider a particle on a mountainous terrain, the resultant force has been observed by experiment to be equal to the derivative of potential energy with respect to direction at that point:
+$
+  arrow(F) = -(d arrow(V(x))) / (d x)
+$
+On a steep slope, the resultant force points downwards and is at its maximum. At a peak or trough, there is no resultant force as the normal reaction force cancels out the particle's weight.
 
 == Special Relativity
 _Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage. However relativistic effects mean that time passes at different rates in different frames of reference, hence a 4th dimension is introduced.
@@ -120,7 +165,7 @@ TODO:
 - Field & thermionic emission / photoelectric effect
 - Wave equation
 - De Broglie equation
-- Feynman or University Physics, angular momentum
+- Angular momentum
 - Spin
 - Lagrangian & Hamiltonian mechanics
 - Nuclear mass defect

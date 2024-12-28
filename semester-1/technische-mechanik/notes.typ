@@ -9,6 +9,7 @@ _Statics_ - Which conditions (forces & moments) are needed to keep a system at r
 _Dynamics_ - Which conditions are needed to create movement in a system in a certain way\
 
 Vector Identities:\
+$arrow(a) times arrow(b) = norm(a) norm(b) sin(theta) arrow(n)$ = Area of parallelogram spanned by $arrow(a)$ and $arrow(b)$\
 $arrow(a) times (b + c) = arrow(a) times arrow(b) + arrow(a) times arrow(c)$\
 $a dot (b times c) = b dot (c times a) = c dot (a times b)$ (Pacman Identity)
 
@@ -30,7 +31,7 @@ _Time derivative_ - $dot(x) = (d y) / (d t)$\
 #pagebreak()
 
 == Coordinate Systems
-Orthogonale Koordinatensystemen:
+Orthogonal base vectors:
 $
   "Cartesian:" e_x times e_y &= e_z\
   "Cylindrical:" e_rho times e_phi &= e_z
@@ -68,14 +69,15 @@ $
 $
 
 === Satz der Projizierten Geschwindigkeiten
-The velocities of any two points in a rigid body projected on the vector between them is always the same. This means the body is not getting shorter or longer (deforming).\
-Useful for determining the velocities of points on rigid bodies with relation to each other.
+The velocities of any two points in a rigid body projected on the vector between them is always the same. This means the body is never getting shorter or longer between two points (deforming).\
+
+This is useful for determining the velocities of points on rigid bodies with relation to each other.
 $
   arrow(v_Q) dot e = arrow(v_P) dot e\
   "wo" e = (r_Q-r_P) / abs(r_Q-r_P)
 $
 
-$arrow(v_A) dot e = v'_A$ = Velocity of A projected onto the vector alongside a rigid body.
+$arrow(v_A) dot e = v'_A$ = Velocity of A projected onto a unit vector within a rigid body.
 
 _Translation_ - for all points $P, arrow(v_P)$ is equal
 
@@ -98,12 +100,12 @@ _Polbahn_ - The path traced by the series of momentary centers of rotation of a 
 == Movement in space
 In 3D space, simultaneous translation & rotation is possible due to the extra dimension.
 
-_Rotation Axis_ - The body rotates around an entire axis instead of a single point. The velocity of all points on this axis are the same and equal to the object's overall translational velocity. $arrow(omega)$ is defined as the unit vector in the direction of the axis times the angular velocity: $arrow(omega) = omega arrow(e_r)$
+_Rotation Axis_ - The body rotates around an entire axis instead of a single point. The velocity of all points on this axis are the same and equal to the object's overall translational velocity. $arrow(omega)$ is defined as the unit vector in the direction of the axis times the angular velocity: $arrow(omega) := omega arrow(e_r)$
 
 LTD: Parametric equation of points along the rotational axis
 
 === Starrkörperformel
-The following extremely useful formula can be used to link the unique angular velocity vector to the velocity of any two points in a rotating body:#footnote("Derivation available in the 5th Powerpoint of Dr. P Tiso")
+The following extremely useful relationship can be used to link the unique angular velocity vector to the velocity of any two points in a rotating body:#footnote("Derivation available in the 5th Powerpoint of Dr. P Tiso")
 $
   arrow(v_P) = arrow(v_B) + arrow(omega) times arrow(r_(B P))
 $
@@ -119,7 +121,7 @@ LTD: Test these in a simulation :)
 
 _Schraubung_ - The combination of a rotation with a translation in the direction of the rotation axis
 
-Types of movement in space:
+Types of momentary movement in space:
 + Translation: $arrow(omega) = 0$
 + Rotation: $arrow(omega) eq.not 0 and I_2 = 0$
 + Schraubung: $I_2 eq.not 0$
@@ -127,16 +129,15 @@ Types of movement in space:
 LTD: Understand Rechteck Beispiel in script
 
 == Degrees of freedom
-The minimum number of coordinates (in an arbitrary optimal coordinate system for this specific system) to clearly determine the state of a system. This could for example be the location of a slider and the angle at which a rod is attached to it (much more concise than for example the cartesian coordinates of the slider and the other end of the rod).
+The dimensions needed (using an arbitrary basis for this specific system) to clearly determine the state of a system. This could for example be the location of a slider and the angle at which a rod is attached to it (much more concise than for example the cartesian coordinates of the slider and the other end of the rod).
 
 Considering a system with several bodies. For a sum of degrees of freedom of $n$, and $b$ restricted degrees of freedom due to connections, the resulting degrees of freedom of the whole system is:
 $
   f = n -b
 $
 #image("images/degrees-of-freedom.png")
-IMPORTANT: The joint at a roller / pivot must be accounted for too! (using the n-Gelenk formula)
+IMPORTANT: The joint at a roller / pivot must be accounted for too, in case it has more than 1 rod connected! (using the n-Gelenk formula)
 #image("images/degrees-of-freedom-joints.png")
-TODO: b-value for slider? 1
 
 == Forces
 _Force_ - An influence that can cause an object's velocity to change. It is a vector quantity applied at an attack point. The line through the attack point in the direction of the force is called the line of action.
@@ -144,7 +145,7 @@ _Force_ - An influence that can cause an object's velocity to change. It is a ve
 In reality, there are 4 fundamental forces (electromagnetic, gravitational, weak and strong nuclear) but in many practical applications we consider integral values such as contact forces and friction.
 
 === Inner vs outer forces
-Every inner force in a system exists in a pair with its corresponding reaction force. Forces without a corresponding reaction are so called _external forces_.
+Every inner force in a system exists in a pair with its corresponding reaction force. Forces who's reaction we don't care about are so-called _external forces_.
 $
   sum "Inner Forces" = 0
 $
@@ -163,6 +164,8 @@ $
   R_1 = R_2\
   (M_B)_1 = (M_B)_2
 $
+Where $B$ is the same point on the body these force groups are acting on.
+
 Furthermore, two forces are equivalent if they have the same magnitude and line of action.
 
 Forces with lines of action going through the same point have only a resultant force - no moment:
@@ -196,11 +199,12 @@ $
 $
 
 === Torque
-A torque (also known as couple) is a pair of moments with respect to the same point with equal magnitude $F$ and opposite direction. Considering the perpendicular distance between their lines of action $d$, these result in:
+A torque (also known as couple) is a pair of antiparallel moments with equal magnitude $F$ with respect to the same point. Considering the perpendicular distance between their lines of action $d$, these result in:
 $
   R = 0\
   M_P = d F
 $
+Where $P$ is the midpoint between their lines of attack.
 
 Whenever the resultant force is 0, the moment around all points in the body is the same.
 
@@ -228,17 +232,17 @@ $
 - A force perpendicular to the velocity of an object does not contribute to its power until the object begins moving with a component in the direction of the perpendicular force.
 
 === Total power of a rigid body
-The total power of an object is the sum of powers for each force acting on the body:
+The total power of a force group is the sum of powers for each force acting on the body:
 $
   cal(P)_"tot" = sum_(i = 1)^n arrow(F_i) dot arrow(v_i)
 $
-When the kinematic ${v_B, omega}$ and dynamic ${R, M_B}$ with respect to a point B are known, we can calculate the total power thanks to the rigid body formula and the "pacman" identity:
+When the kinematic ${v_B, omega}$ and dynamic ${R, M_B}$ with respect to a point B are known, we can calculate the total momentary power thanks to the rigid body formula and the "pacman" identity:
 $
   cal(P)_"tot" = R dot v_B + M_B dot omega
 $
 
 == Parallel Forces
-When all forces acting on a body point point in the same direction, they can be written as:
+When all forces acting on a body point in the same direction (negative direction also allowed), they can be written as:
 $
   arrow(F_i) = F_i arrow(e)
 $
@@ -247,14 +251,14 @@ Where $arrow(e)$ is the unit vector of their common direction.
 The dynamic with reference to a point O is:
 $
   R &= sum arrow(F_i) = arrow(e) sum F_i \
-  M &= sum arrow(r_i) times arrow(F_i) = sum arrow(r_i) F_i times arrow(e)
+  M &= sum arrow(r_i) times arrow(F_i) = (sum arrow(r_i) F_i) times arrow(e)
 $
-The sum $sum arrow(r_i) F_i$ is called the dipole moment (sometimes written as $N$) of a set of parallel forces. It is independent of the point O, as long as it's consistent for each force included.
+Where $arrow(r_i)$ is the vector from O to $arrow(F_i)$'s point of attack.
+
+The sum $sum arrow(r_i) F_i$ is called the dipole moment (sometimes written as $N$) of a set of parallel forces. It is independent of the point O and, as long as it's consistent for each force included, and describes the distribution of a parallel force group. This can be intuitively understood by choosing O as the midpoint along a line of forces with equal magnitude - the x-components would cancel each other out, and the cross product of the two parallel vectors (dipole moment and $arrow(e)$) is 0.
 
 === Center of Forces
-This is the point on which a pivot can be placed and no resultant moment would act on the body. In other words, an equal and opposite resultant force can act on this point resulting in a net 0 dynamic.
-
-It is unique to a dipole moment, the direction of $arrow(e)$ is irrelevant (although gravity always acts in the same direction, so in practice this fact isn't too important).
+This is the "midpoint" on which a pivot can be placed so that no resultant moment arises due to a force group (for example the body's weight distribution or the forces of an electric field). It is unique to a dipole moment and the direction of $arrow(e)$ is irrelevant.
 
 The position vector of the center of forces from the point O can be calculated using a dipole moment with *the same point O* as its origin:
 $
@@ -294,7 +298,7 @@ A system is at rest when all of its velocities are 0.
 - State of rest - $arrow(v_p) = 0 forall p in kappa, forall t$
 
 === Fundamental Theorem of Statics
-This also means that the resultant force and moment around any point (the moment is always the same if $R=0$) is 0:
+This also means that the resultant force and resultant moment around any point (the moment is always the same if $R=0$ due to the transformation of moments relationship - consider a torque couple for intuition) is 0:
 $
   arrow(R) = 0\
   arrow(M) = 0
@@ -306,7 +310,7 @@ Forces in a system at rest with multipled bodies can be solved by including forc
 #figure(
   image("images/multiple-bodies-rest.png", width: 80%),
 ) <fig-multiple-bodies-rest>
-These systems of equations can be solved through Gaussian elimination.
+These systems of equations are linear can be solved through Gaussian elimination.
 
 === Virtual Motion
 A system can be modelled as in virtual motion when virtual velocities are modelled at each point, such that the total power of constraint forces is 0:
@@ -316,8 +320,9 @@ A system can be modelled as in virtual motion when virtual velocities are modell
 - For example, velocity at the slider is perpendicular to its constraint force, and equal and opposite constraint forces at joints cancel each other's accelerating and braking power out.
 - There can be no virtual velocity at a pivot, as it exerts constraint forces in both the x and y component - they are orthogonal and the power of this force would never be 0.
 - There can however exist a rotational velocity around a pivot.
+- TODO: When can constraints be removed? Clarify this after learning the Euler-Lagrange formalism
 
-These virtual velocities, denoted as $tilde(v)$ can be found using techniques in the kinematics of rigid bodies.
+These subsequent virtual velocities, denoted as $tilde(v)$ can be found using techniques in the kinematics of rigid bodies.
 
 ==== Theorem of Virtual Power
 A system is at rest when the virtual total power is 0 for every virtual state of motion:
@@ -436,7 +441,7 @@ $
 This can of course be integrated to determine the velocity and position functions. IMPORTANT: Do not forget to account for the initial velocity / position! Integration only returns the total velocity gained / lost or the displacement.
 
 === Momentum
-Momentum is a conserved quantity (within a system) of how much force is needed to change the velocity of an object with units $"kg" m s^(-1)$:
+Momentum is a conserved quantity (within a system, provided the total external force is 0) of how much force is needed to change the velocity of an object with units $"kg" m s^(-1)$:
 $
   arrow(p) = m arrow(v)
 $
@@ -447,7 +452,6 @@ $
   F = (d arrow(P)) / (d t) = m arrow(a)
 $
 
-TODO
 === Circular Motion
 
 === Projectile Motion
