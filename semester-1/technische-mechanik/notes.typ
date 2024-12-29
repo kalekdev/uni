@@ -4,7 +4,7 @@
 
 LTD read https://engineeringstatics.org
 
-_Kinematiks_ - How a model is currently at motion without concern for the causes (forces)\
+_Kinematics_ - How a model is currently at motion without concern for the causes (forces)\
 _Statics_ - Which conditions (forces & moments) are needed to keep a system at rest\
 _Dynamics_ - Which conditions are needed to create movement in a system in a certain way\
 
@@ -455,13 +455,66 @@ $
 === Circular Motion
 
 === Projectile Motion
-Key formulas from A levels
-The maximum distance is achieved when the initial velocity is $45 degree$ to the ground.
+Consider the following projectile with negligible air resistance:
+#figure(
+  image("images/projectile-motion.png", width: 80%),
+) <fig-projectile-motion>
+$
+  dot(r)(0) = v_0 (cos(alpha) e_x + sin(alpha) e_y)\
+  dot.double(r)(t) = -g e_y\
+  dot(r)(t) = (v_0 cos(alpha)) e_x + (v_0 sin(alpha) -g t) e_y
+$
+Solving for the positions, taking the starting position as the origin:
+$
+  r(t) = (v_0 cos(alpha)t) e_x + (v_0 sin(alpha)t -g / 2 t^2) e_y\
+$
+The maximum distance is achieved at $r_y (t) = 0$ and is at its maximum when the initial angle is $45 degree$ to the ground.
 
-=== Harmonic Oscilators
+The maximum height is when $dot(r)_y (t) = 0$. The solved time can then be inserted into the position equation.
+
+=== Block on a Slope
+Consider the following system, where a block slides down a slope with frictional coefficient $mu_1$:
+#figure(
+  image("images/block-on-slope.png", width: 80%),
+) <fig-block-on-slope>
+$
+  F = mu_1 N = mu_1 m g cos alpha\
+  m dot.double(x) = m g (sin alpha - mu_1 cos alpha)
+$
+Solving the differential equation:
+$
+  dot(x) = g (sin alpha - mu_1 cos alpha)t + dot(x)(0)\
+  dot.double(x) = 1 / 2 g (sin alpha - mu_1 cos alpha)t^2 + dot(x)(0)t + x(0)\
+$
+
+=== Harmonic Oscillators
 Approximate solution for non-linear differential equation using taylor series -> small angle approximation
 Key polar coordinate dynamics functions in terms of angular velocity
+
+=== Angular Momentum
+==== Steiner's Theorem
+Consider a body with moment of inertia $I$ around an axis through its center of mass CM. The moment of inertia of that same body rotating around another *parallel* axis is:
+$
+  I = I_"CM" + m d^2
+$
+Where $d$ is the distance between the two parallel axes.
+
+Here it is applied to common bodies:
+#figure(
+  image("images/inertia-rod.png", width: 80%),
+) <fig-inertia-rod>
+
+#figure(
+  image("images/inertia-discs.png", width: 80%),
+) <fig-inertia-discs>
+
+Uniform solid sphere:
+$
+  I_C = 2 / 5 m R^2
+$
 
 TODO:
 - Coefficient of restitution
 - Add useful conversions to formula sheet (km/h - m/s etc.)
+- Massenmittlepunksatz
+- Transformationsformel des Dralls
