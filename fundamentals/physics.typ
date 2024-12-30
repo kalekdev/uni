@@ -21,7 +21,7 @@ A coordinate system whose origin and basis are specified in space.
 
 A frame of reference itself can be in motion, for example when considering an object on the Earth's surface as "stationary" the frame of reference in which we are thinking is moving with the same velocity as that object when compared to any other object in space. It would be considered as moving at the same velocity as the Earth's surface in a different frame of reference with the sun as the origin.
 
-_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia; ie. the frame itself is moving at a constant velocity in relation to any other intertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of.
+_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia; ie. the frame itself is moving at a constant velocity in relation to any other inertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of.
 
 _Non-Inertial Reference Frame_ - It is accelerating in some way; objects defined as stationary / moving at a constant velocity with respect to the frame are therefore also accelerating in relation to any other inertial reference frame without the need of any external force and thus violate the principle of inertia.
 
@@ -120,27 +120,27 @@ $
   (d T) / (d t) = m a v = F v\
   d T = F v d t = F d s
 $
-This proves $W = F d$ the *Work-KE theorem*, as a line integral:
+This proves $Delta T = F d$ the *Work-KE theorem*, as a line integral:
 $
-  W = integral_C F dot d arrow(s)
+  Delta T = integral_C F dot d arrow(s)
 $
 Where $F$ is the resultant force acting on the particle.
 
 ==== Conservative Forces
 The 4 fundamental forces are conservative due to the conservation of energy, meaning that they satisfy the following criteria:
-- It depends only on a test particle's position, not on its velocity, time or any other variable.
+- They depend only on relative positions, not on velocity, time or any other variable.
 - The work done by the force as test particle moves between two points is the same, regardless which path it takes
 Macroscopic forces which exhibit this behavior can also be defined as conservative, for example the elastic force of a spring.
 
-The total *mechanical energy* of a particle that only interacts with conservative forces is conserved:
+The total *mechanical energy* of a particle that only interacts with conservative forces is conserved and constant:
 $
   E = T + U(arrow(r))
 $
 Where $T$ is the convention for kinetic energy and $U(arrow(r))$ is the potential energy.
 
-Forces such as friction are not fundamental and are called *effective forces*; approximations of the huge number of underlying fundamental forces, which do not account for all energy involved (some of it is lost to heat), for example moving a table between two points on the floor requires more work if the path chosen is longer.
+Forces such as friction are not fundamental and are called *effective forces*; approximations of the huge number of underlying fundamental forces, which do not account for all work done (some of it is lost to heat), for example moving a table between two points on the floor requires more work if the path chosen is longer.
 
-The second condition can be checked using curl (rather than comparing every path):
+The second condition can be checked using curl (rather than comparing every possible path):
 $
   gradient times F = 0 "everywhere" <=> "The work done is path independent"
 $
@@ -172,7 +172,9 @@ $
 $
 Alternatively the *change* in potential energy can be calculated between two points.
 
-The negative sign is there so when the Work-KE Theorem is applied:
+Intuitively, change in potential energy is the change in energy stored as the force does work on a particle from one point to another. If the conservative force acts in the same direction as the particle's movement, it accelerates the particle and increases its kinetic energy, reducing that force's potential energy store, thus the negative change in potential. If the particle moves against the conservative force, it slows down and the lost kinetic energy is stored as potential $Delta U > 0$.
+
+Furthermore, the negative sign ensures mechanical energy (of an object only acted upon by conservative forces) is constant:
 $
   Delta T = integral_C F dot d arrow(s) = - Delta U\
   Delta T + Delta U = 0 = Delta E
@@ -182,39 +184,120 @@ $
   E = T + sum U_i
 $
 
-Intuitively, potential energy is the *external* energy needed to get a particle to that point from the point of 0 potential. Negative energy external energy is needed to bring a particle from infinity to a point near a mass, because gravity does the work for you.
-
-If there is non-conservative forces acting on the object, the mechanical energy "stolen" by these forces is:
+If there are non-conservative forces acting on the object, the mechanical energy (usually) stolen / introduced by these forces is:
 $
   Delta E = W_(n c)
 $
 
 ==== Gradient of Potential Energy
-Solving the equation $U = - integral_C F dot d arrow(r)$, the *conserved force* (not resultant!) can be derived from the gradient of its potential energy at a point:
+Solving the equation $U = - integral_C F dot d arrow(r)$, a *conserved force* can be derived from the gradient of its potential energy at a point:
 $
-  F = - gradient U(r)
+  arrow(F) = - gradient U(r) = -vec((partial U(r))/(partial x), (partial U(r))/(partial y), (partial U(r))/(partial z))
 $
-
-=== Harmonic Oscillators
-Consider a system where some particle has an oscillating potential energy, for example a swinging pendulum. Let $U(t)$ be a function of the particle's potential energy against time, in this case gravitational potential. Using a Taylor Series, we can approximate it around a point in time as:
+Because the total potential energy is simply the sum of potential energies, this also applies to the resultant force *only if* work is done completely by conserved forces:
 $
-  U(t) approx U(t_0) + dot(U)(t_0) (t - t_0) + (dot.double(U)(t_0) (t - t_0)^2) / 2 + ...
+  arrow(F_"Resultant") = - gradient U(r)_"Total"
 $
 
-Considering the system after a specific point in time $t_0$, we can define some remarks:
-- $t - t_0 = hat(t)$ - Time that has passed since the point in time
-- $U(t_0)$ - Starting potential energy of the particle, this is not a very useful value since it is so complicated - we are more interested in the changing potential energy between the two critical points.
-- $dot(U) (t)$ - This is the power of the restoring force at a point in time, ie gravity in a pendulum or a spring's tension.
-- Systems try to minimize potential energy; the minimum potential energy of the particle is at a critical point where $dot(U) = 0$.
+In the example of a box on a frictionless slope, the normal reaction force is always perpendicular to the direction of movement, hence work is only done by *a component* of the gravitational force acting on the box - the change in potential graph of a roller coaster shows its changing height and negative gradient represents the resultant force at each point (down the slope).
 
-This leads to the minimum potential energy of an oscillating system:
-$
-  U(hat(t)) &approx (dot.double(U)(t_0) (hat(t))^2) / 2 + ...\
-  &approx 1 / 2 k hat(t)^2
-$
-Where $k$ is a constant specific to this system - the rate of change of the restoring force's power.
+*IMPORTANT:* This is not the same as the graph of its gravitational potential, which remains largely constant as the changes in height are relatively small, rather the graph of work done by the gravitational force (which depends on the constraints of the track). TODO: Double check
 
-TODO: Feynman's Lectures chapter 21
+Furthermore, when considering multiple isolated particles which exert conservative forces on one another and Newton's 3rd Law, we can derive the forces acting on each of them from a *single* potential energy function:
+$
+  F_12 = -gradient_1 U\
+  F_21 = -gradient_2 U\
+$
+Where $gradient_1$ is the gradient with respect to the current coordinates of particle 1.
+
+This can be generalized to a system of n particles:
+$
+  T = sum^n_i 1 / 2 m_i v_i^2\
+  U = sum_j^n sum_(i > j)^n U_(j i) + sum_i^n U^"ext"_i\
+  F_"Resultant" = - gradient_i U
+$
+
+==== One-Dimensional Systems
+A force acting on a particle who's position is constrained to 1 degree of freedom must only satisfy the first condition (the force only depends on position) to be classified as a conservative force and the second condition (work done independent of path) is guaranteed to be true. This is because the work done by any combinations of going forwards and backwards along the path to the 2nd point cancel each other out.
+
+Both minima and maxima represent points where the resultant force is 0, however minima are more stable as a small deviation pushes the object back to minimum potential. Points of inflection (or saddle points in 2D) are considered as unstable in one direction.
+
+If an object starts in between two hills and its total mechanical energy is lower than the peak of one of the hills, it's "trapped in the energy well".
+#figure(
+  image("images/molecule-energy.png", width: 40%),
+) <fig-molecule-energy>
+
+==== Equation of Motion
+Given a function of the potential energy $U(x)$ and the initial mechanical energy, we can solve for the equation of motion $x(t)$:
+$
+  T = E - U(x) = 1 / 2 m dot(x)^2\
+  dot(x) = sqrt((2 (E - U(x)))/m)
+$
+Using separation of variables TODO: Review after analysis 2:
+$
+  t = integral_(x_0)^x 1 / (dot(x) (x')) d x' = sqrt(m/2) integral_(x_0)^x 1 / sqrt(E - U(x')) d x'
+$
+Solving this integral (may only be possible numerically) gives us $t(x)$, which can be rearranged to $x(t)$.
+
+==== Elastic Collisions
+An elastic collision is a collision between two particles that interact through a conservative force that tends towards 0 as their separation increases, for example between two protons approaching each other from $oo$. The steady state initial and final potential can be taken as 0, meaning that:
+$
+  T_"Init" = T_"Final"
+$
+In reality this is only possible at low energies, as relativity tells us that new particles may be created.
+
+An useful property of elastic collisions between two particles of the same mass is that they exit perpendicular to each other.
+
+==== Rigid Bodies
+Within rigid bodies, the distances between particles is constant and they exert *circular* electrostatic forces on each other (meaning they only dependent on the constant distances between each other). Hence, the total *internal* potential energy of the body stays constant and can be ignored - energy is only exchanged between $U^"ext"$ and $T^"Total"$ where:
+$
+  T^"Total" = 1 / 2 m v_"CM"^2 + 1 / 2 I omega^2
+$
+TODO: Rotational kinetic energy
+
+=== Oscillations
+Consider a system where some particle has an oscillating potential energy, for example a swinging pendulum. Let $U(x)$ be a function of the particle's potential energy against displacement. The first 3 terms of a Taylor Series serves as a good approximation provided that the displacement is small:
+$
+  U(x) approx U(0) + U'(0)x + 1 / 2 U''(0) x^2+ ...
+$
+
+- $U(0)$ - The potential energy at equilibrium can be defined as 0
+- $U' (x)$ - This is equal to the magnitude of the resultant force, which at $x=0$ is 0.
+- $U''(0) > 0$ because the position of zero displacement is stable and a local minima
+
+This leads to the familiar parabolic potential energy of an oscillating system:
+$
+  U(x) &approx 1 / 2 U''(0) x^2\
+  &approx 1 / 2 k x^2
+$
+Where $k$ is a positive constant specific to this system, a measure of how "stable" the equilibrium position is.
+
+==== Simple Harmonic Motion
+Recall $F_"Resultant" = -gradient U(x)$ for a body upon which only conservative forces do work. In a one dimensional oscillating system:
+$
+  F = - (d U(x)) / (d x) = -k x
+$
+The familiar Hooke's law.
+
+Applying Newton's 2nd law:
+$
+  dot.double(x) &= -k / m x\
+  &= -omega^2 x
+$
+Where $omega= sqrt(k/m)$, which ends up being the angular velocity, is often used instead. $x$ is not necessarily a linear displacement and can represent a displacement angle, for example in a swinging pendulum.
+
+Possible solutions to this differential equation are:
+$
+  x(t) = e^(plus.minus i omega t)
+$
+Furthermore, because differentiation is a linear operation, any linear combination of these solutions is also a solution (it can all be expressed as matrix multiplication):
+$
+  x(t) = C_1 e^(i omega t) + C_2 e^(-i omega t)
+$
+
+TODO: Expand Euler's formula and reveal the correlation with angles
+
+=== Lagrangian Mechanics
 
 == Special Relativity
 _Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage. However relativistic effects mean that time passes at different rates in different frames of reference, hence a 4th dimension is introduced.
