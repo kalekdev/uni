@@ -76,6 +76,8 @@ An LGS can be viewed geometrically (2D/3D) in multiple different ways:
 2. Alternatively it can be viewed as a set of line / plane equations (where each row is the normal vector to the plane, unsure if the coefficients are meaningful in ax + by=c) and solutions are points / lines of intersection.
 
 === Superposition
+TODO: Expand this principle further
+
 In this example, one of the LHS vectors is a linear combination of the other two. This results in the LGS only being able to express vectors in a single plane rather than the entire 3D space (it doesn't contain a 3rd linearly independent basis dimension).
 
 _Infinite solutions_ - if a 3D RHS vector lays in the plane spanned by a 2D basis, there are infinitely many combinations of the two dependent basis vectors that can reach the point.\

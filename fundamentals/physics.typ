@@ -429,10 +429,33 @@ An interesting property of damped oscillations is how quickly they decay. The *d
   image("images/decay-parameter-plot.png", width: 50%),
 ) <fig-decay-parameter-plot>
 
-The greatest decay parameter arises under critical damping, meaning that it stops oscillation in the shortest possible time, useful for applications like vehicle suspension.
+The greatest decay parameter arises under critical damping, meaning that it stops oscillation in the shortest possible time, useful for applications like vehicle suspension. The intuition behind this is that a damping force with $beta > omega_n$ will slow the movement down so much that it actually takes longer to reach equilibrium in the first place (for example an oscillator in an overly viscous fluid).
 
 ==== Driven-Damped Oscillations
-This is the most general formula
+To keep damped oscillations oscillating, a driving force must be introduced to add energy back into the system. This can be written as a non-homogeneous ODE ($F(t)$ does not depend on x):
+$
+  m dot.double(x) + b dot(x) + k x = F(t)
+$
+Which can be tidied up as before to:
+$
+  dot.double(x) + 2 beta dot(x) + omega_n^2 x = f(t)
+$
+Where $f(t) = F(t) / m$.
+
+Let us assume the case that the driving force is a sinusoidal function of time (of course in reality is not always a perfect sine wave, any periodic driving force can be assembled from sinusoids thanks to Fourier transforms):
+$
+  f(t) = f_0 cos(omega_d t)
+$
+
+We can find a solution to this non-homogeneous ODE thanks to the fact that its differential operator $D(f)$ is linear. We already know the solutions if it were homogeneous $D(x_h) = 0$ where $x_h$ are the solutions to damped oscillation, and can find a *particular solution* $D(x_p) = f(t)$ with the help of Euler's formula. TODO: Cover exact method in Analysis notes.
+
+
+We have found a particular solution, therefore applying linearity:
+$
+  D(x_h + x_p) = 0 + f(t) = f(t)
+$
+Furthermore, we know that a second order linear differential operator must have 2 dimensions in its null space, which $x_h$ already spans. Therefore $x_h + x_p$ contains every possible solution, where $x_p$ can be thought of as an adjustment term to fix the basis when $f(t)$ is introduced into the linear operator.
+
 
 === Lagrangian Mechanics
 
