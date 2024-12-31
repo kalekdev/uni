@@ -261,8 +261,8 @@ $
   U(x) approx U(0) + U'(0)x + 1 / 2 U''(0) x^2+ ...
 $
 
-- $U(0)$ - The potential energy at equilibrium can be defined as 0
-- $U' (x)$ - This is equal to the magnitude of the resultant force, which at $x=0$ is 0.
+- $U(0) = 0$ - The equilibrium can be defined as the ground potential
+- $U'(0)$ - This is equal to the magnitude of the resultant force, which at $x=0$ is 0.
 - $U''(0) > 0$ because the position of zero displacement is stable and a local minima
 
 This leads to the familiar parabolic potential energy of an oscillating system:
@@ -277,16 +277,16 @@ Recall $F_"Resultant" = -gradient U(x)$ for a body upon which only conservative 
 $
   F = - (d U(x)) / (d x) = -k x
 $
-The familiar Hooke's law.
+Gives us Hooke's law.
 
 Applying Newton's 2nd law:
 $
   dot.double(x) &= -k / m x\
   &= -omega^2 x
 $
-Where $omega= sqrt(k/m)$, which ends up being the angular velocity, is often used instead. $x$ is not necessarily a linear displacement and can represent a displacement angle, for example in a swinging pendulum.
+Where $omega= sqrt(k/m)$, which ends up being the angular velocity. $x$ is not necessarily a linear displacement and can represent a displacement angle, for example in a swinging pendulum.
 
-Possible solutions to this differential equation are:
+There are two independent solutions to this 2nd order linear differential equation:
 $
   x(t) = e^(plus.minus i omega t)
 $
@@ -294,8 +294,145 @@ Furthermore, because differentiation is a linear operation, any linear combinati
 $
   x(t) = C_1 e^(i omega t) + C_2 e^(-i omega t)
 $
+Where the coefficients must be chosen so that $x(t)$ is real.
 
-TODO: Expand Euler's formula and reveal the correlation with angles
+Expanding Euler's formula gives us more insight into the underlying functions:
+$
+  x(t) &= C_1(cos(omega t) + i sin(omega t))+ C_2(cos(omega t) - i sin(omega t))\
+  &= (C_1 + C_2) cos(omega t) + (C_1 - C_2)i sin(omega t)\
+  &= B_1 cos(omega t) + B_2 sin(omega t)
+$
+By inspecting the behavior of the system we can determine the meaning of the coefficients:
+$
+  dot(x) &= -B_1 omega sin(omega t) + B_2 omega cos(omega t)\
+  x(0) &= B_1 = "Initial displacement"\
+  dot(x)(0) &= B_2 omega = "Initial velocity"
+$
+Therefore an oscillation starting at initial velocity $v_0$ at displacement $x_0$:
+$
+  x(t) = x_0 cos(omega t) + v_0 / omega sin(omega t)
+$
+Where $omega$ is the angular frequency of the oscillation and hence:
+$
+  omega = (2 pi) / T\
+  T = (2 pi) / omega = (2 pi) / sqrt(k/m)
+$
+
+A more compact solution can be found by introducing a phase shift through trig identities:
+$
+  x(t) = A cos(omega t - phi)\
+  dot(x)(t) = -A omega sin(omega t - phi)
+$
+Where $A$ is the maximum displacement and $phi$ is the initial angular displacement $pi/2 dot x/ A$ when $t=0$.
+
+==== Energy
+By substituting either of these solutions into the formulae for potential and kinetic energy:
+$
+  E = T + U = 1 / 2 (m dot(x)^2 + k x^2)\
+  = 1 / 2 k A^2 (sin^2(omega t - phi) + cos^2(omega t - phi))
+$
+This reveals the following intuitive properties:
+- The kinetic and potential energy are in antiphase, the velocity is at its greatest at the equilibrium position and 0 at the maximum displacement.
+- The total mechanical energy is constant $= 1/2 k A^2$ (taking the equilibrium potential as 0)
+
+==== 2D Oscillations
+*Isotropic oscillation* is the simplest form of 2D oscillation, where the restoring has the same constant of proportionality in all directions:
+$
+  arrow(F) = -k arrow(r)
+$
+Examples of such an oscillation include:
+- A ball attached to identical springs around the origin
+- A ball rolling around the bottom of a spherical bowl
+- An atom vibrating around its equilibrium position in a symmetric crystal
+
+By considering each component separately we arrive at a set of parametric equations, for example in 2D:
+$
+  x(t) = A_x cos(omega t - delta_x)\
+  y(t) = A_y cos(omega t - delta_y)
+$
+#figure(
+  image("images/isotropic-oscillation.png", width: 60%),
+) <fig-isotropic-oscillation>
+
+An *anisotropic oscillation* may have different constants of proportionality in different directions and hence different angular frequencies. This can give rise to cool paths called *Lissajous curves*:
+#figure(
+  image("images/lissajous-curves.png", width: 60%),
+) <fig-lissajous-curves>
+
+==== Damped Oscillations
+Consider a damping force $F = -b dot(x)$ proportional to velocity (for example air resistance). Newton's 2nd law reads:
+$
+  m dot.double(x) + b dot(x) + k x = 0
+$
+
+The same differential equation also applies to the voltages in an LRC circuit:
+#figure(
+  image("images/lrc-circuit.png", width: 20%),
+) <fig-lrc-circuit>
+$
+  L dot.double(q) + R dot(q) + 1 / C q = 0
+$
+
+This can be rewritten as:
+$
+  dot.double(x) + 2 beta dot(x) + omega_n^2 x = 0
+$
+Where $2 beta = b / m$ and $omega_n = sqrt(k / m)$.
+- $beta$ is named the damping constant which characterizes the strength of damping in this system.
+- $omega_n$ is named the natural frequency, at which the system would oscillate if $beta = 0$
+
+Solving this 2nd order linear ODE:
+$
+  x(t) = e^(r t)\
+  dot(x)(t) = r e^(r t)\
+  dot.double(x)(t) = r^2 e^(r t)\
+  r^2 e^(r t) + 2 beta r e^(r t) + omega_n^2 e^(r t) = 0\
+  therefore r^2 + 2 beta r + omega_n^2 = 0\
+  r = - beta plus.minus sqrt(beta^2 - omega_n^2)\
+  x(t) = C_1 e^(- beta t + sqrt(beta^2 - omega_n^2)t) + C_2 e^(- beta t - sqrt(beta^2 - omega_n^2)t)\
+  = e^(- beta t)(C_1 e^(sqrt(beta^2 - omega_n^2) t) + C_2 e^(- sqrt(beta^2 - omega_n^2) t))\
+$
+Whose validity can be checked by setting $beta = 0$, giving us the solutions to undamped simple harmonic motion. We can observe that the amplitude decreases exponentially depending on $beta$
+
+===== Weak Damping
+In the case of $beta < omega_n$, the constant $sqrt(beta^2 - omega_n^2)$ is complex an can be rewritten as $i sqrt(omega_n^2 - beta^2) = i omega'$ giving a very similar equation to undamped oscillation:
+$
+  x(t) &= e^(- beta t)(C_1 e^(i omega' t) + C_2 e^(-i omega' t))\
+  "Ensuring a real output:" &= A e^(- beta t) cos(omega' t - phi)
+$
+This reveals:
+- The amplitude exponentially tends towards 0
+- The frequency of oscillation is constant throughout and is slightly lower than the natural frequency $omega_n$
+#figure(
+  image("images/weak-damping.png", width: 60%),
+) <fig-weak-damping>
+
+===== Strong Damping
+If $beta > omega_n$, the constant $sqrt(beta^2 - omega_n^2)$ is real and $e^(omega' t), omega' in RR$ is simply exponential increase, there is no more oscillation. The displacement time graph looks something like this:
+#figure(
+  image("images/strong-damping.png", width: 60%),
+) <fig-strong-damping>
+
+===== Critical Damping
+When $beta = omega_n$, we get the following solutions:
+$
+  x(t) &= C_1 e^(- beta t) + C_2 t e^(-beta t)\
+  &= e^(- beta t) (C_1 + C_2 t)\
+$
+TODO: Is it even possible to find the second solution methodically?
+
+An interesting property of damped oscillations is how quickly they decay. The *decay parameter* is the factor of exponential decay in the equation of motion, here are the decay parameters of the different types of damping and a plot:
+#figure(
+  image("images/decay-parameters.png", width: 40%),
+) <fig-decay-parameters>
+#figure(
+  image("images/decay-parameter-plot.png", width: 50%),
+) <fig-decay-parameter-plot>
+
+The greatest decay parameter arises under critical damping, meaning that it stops oscillation in the shortest possible time, useful for applications like vehicle suspension.
+
+==== Driven-Damped Oscillations
+This is the most general formula
 
 === Lagrangian Mechanics
 
@@ -310,7 +447,7 @@ After the failed Michelson-Morsley experiment, a new theory was needed to explai
 
 In special relativity, time and distances become relative to the velocity of particles.
 
-_Postulate_ - Something assumed as true in a theory.
+_Postulate_ - Something given as true in a theory.
 
 It is based on 2 postulates:
 + The laws of physics are invariant in all inertial frames of reference. This is known as the principle of relativity.
