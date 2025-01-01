@@ -66,11 +66,11 @@ $
   W_e = -integral_(P_0)^(P_1) arrow(F) dot d arrow(s)=-Q integral_(P_0)^(P_1) arrow(E) dot d arrow(s)
 $
 
-The work done by the electric field as a positive test charge moves towards another positive is negative, as external energy is needed in order to overcome the repulsive force. The potential energy of the test charge increases due to the incoming energy, so $W_e$ is made positive.
+The work done by the electric field as a positive test charge moves towards another positive is negative, as it pushes in the opposite direction. The potential energy of the test charge increases due to the incoming stored energy, so $W_e$ is positive.
 
 $integral.cont$ - Closed integral, when a line begins and ends at the same point in space.
 
-Provided the speed as the charge moves through the field tends towards 0 (to minimize the arising electromagnetic field):
+Provided the speed as the charge moves through the field tends towards 0 (to minimize the arising magnetic field), the electrostatic force is conservative:
 $
   integral.cont_C arrow(E) dot d arrow(s) = 0
 $

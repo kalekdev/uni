@@ -442,20 +442,66 @@ $
 $
 Where $f(t) = F(t) / m$.
 
-Let us assume the case that the driving force is a sinusoidal function of time (of course in reality is not always a perfect sine wave, any periodic driving force can be assembled from sinusoids thanks to Fourier transforms):
+Let us assume the case that the driving force is a sinusoidal function of time (of course in reality is not always a perfect sine wave, however any periodic driving force can be assembled from sinusoids thanks to Fourier transforms):
 $
   f(t) = f_0 cos(omega_d t)
 $
 
-We can find a solution to this non-homogeneous ODE thanks to the fact that its differential operator $D(f)$ is linear. We already know the solutions if it were homogeneous $D(x_h) = 0$ where $x_h$ are the solutions to damped oscillation, and can find a *particular solution* $D(x_p) = f(t)$ with the help of Euler's formula. TODO: Cover exact method in Analysis notes.
-
+We can find a solution to this non-homogeneous ODE thanks to the fact that its differential operator $D(f)$ is linear. We already know the solutions if it were homogeneous $D(x_h) = 0$ where $x_h$ are the solutions to damped oscillation, and can find a *particular solution* $D(x_p) = f(t)$ by making the RHS complex with the help of Euler's formula, finding a complex solution and taking its real part (See Taylor 5.5):
+$
+  A = f_0 / sqrt((omega_n^2-omega_d^2)^2+4 beta^2 omega_d^2), phi = arctan((2 beta omega_d)/(omega_n^2 - omega_d^2))\
+  x_p (t) = A cos(omega_d t - phi)
+$
 
 We have found a particular solution, therefore applying linearity:
 $
-  D(x_h + x_p) = 0 + f(t) = f(t)
+  D(x_h + x_p) = D(x_h) + D(x_p) = 0 + f(t) = f(t)
 $
-Furthermore, we know that a second order linear differential operator must have 2 dimensions in its null space, which $x_h$ already spans. Therefore $x_h + x_p$ contains every possible solution, where $x_p$ can be thought of as an adjustment term to fix the basis when $f(t)$ is introduced into the linear operator.
+$x = x_h + x_p$ is also a solution. Furthermore, we know that a second order linear differential operator must have 2 dimensions in its null space, which $x_h$ already spans. Therefore $x_h + x_p$ contains every possible solution, where $x_p$ can be thought of as an adjustment term to fix the basis when $f(t)$ is introduced into the linear operator.
 
+Finally:
+$
+  x(t) = A cos(omega_d t - phi) + [
+    e^(- beta t)(C_1 e^(sqrt(beta^2 - omega_n^2) t) + C_2 e^(- sqrt(beta^2 - omega_n^2) t))
+  ]\
+$
+Where $omega_n$ is the natural angular frequency (no damping or oscillation) and $omega_d$ is the driving force angular frequency.
+
+The terms inside of the square brackets are called *transients* because they decay over time and play no role in the steady state of the system.
+
+This leads to the following insights as expected:
+- The steady amplitude of the system is given by $A$. It is directly proportional to the driving force $m f_0$.
+- The steady angular frequency is that of the driving force $omega_d$.
+
+These steady state conditions are the same regardless of initial displacement or velocity.
+
+#figure(
+  image("images/damped-driven-oscillator.png", width: 50%),
+) <fig-damped-driven-oscillator>
+
+==== Resonance
+As seen above, the amplitude of driven oscillations depends on several variables:
+$
+  A = f_0 / sqrt((omega_n^2-omega_d^2)^2+4 beta^2 omega_d^2)
+$
+It is greatest when $omega_n = omega_d$ (the natural and driving frequency are the same) and the damping coefficient $beta$ is low. Therefore $omega_n$ is also called the *resonant frequency*. If there is no damping and the oscillator is being driven at the resonant frequency, $A -> oo$.
+#figure(
+  image("images/resonant-frequency.png", width: 60%),
+) <fig-resonant-frequency>
+
+An application of this is when tuning a radio, the resonant frequency of an LRC circuit is adjusted so that it is the same as the desired radio station's signal and that specific induced signal has the largest amplitude.
+
+===== Q Factor
+Reducing the damping constant $beta$ not only increases the amplitude but also makes the resonance peak narrower, focusing the oscillator on a narrow ranger of driving frequencies:
+#figure(
+  image("images/q-factor.png", width: 40%),
+) <fig-q-factor>
+
+The *Q Factor* is a measure of how narrow the resonance for an oscillator is:
+$
+  Q = omega_n / (2 beta)
+$
+Where the resonance width is inversely proportional to $beta$, hence a high Q value indicates a narrow width. A crystal oscillator should have a large Q value as clocks depend on its resonance frequency being constant.
 
 === Lagrangian Mechanics
 
