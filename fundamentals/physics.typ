@@ -559,6 +559,45 @@ Here is an example Bode plot of an oscillator, demonstrating the RMS of the reso
 
 
 === Lagrangian Mechanics
+TODO: Mention Brachistochrone problem solution
+
+Lagrangian mechanics is a formulation of classical mechanics that uses the calculus of variations. It is independent of choice of coordinates (whose acceleration functions can get very complicated) and constraint forces (which are usually unknown), which greatly simplifies the analysis of certain systems compared to Newtonian mechanics.
+
+=== Unconstrained Motion
+Consider a particle moving unconstrained in 3D, subject to a *conservative* resultant force. Its energies are:
+$
+  U(arrow(r)) = U(x, y, z)\
+  T(dot(arrow(r))) = 1 / 2 m dot(arrow(r))^2\
+  E = T + U
+$
+
+*The Lagrangian* is defined as:
+$
+  cal(L)(r, dot(r), t) = T(dot(arrow(r))) - U (arrow(r))
+$
+With the following partial derivatives:
+$
+  (partial cal(L)) / (partial arrow(r)) = - (partial U) / (partial arrow(r)) = arrow(F)\
+  (partial cal(L)) / (partial dot(arrow(r))) = (partial T) / (partial dot(arrow(r))) = m dot(arrow(r)) = arrow(p)
+$
+Applying Newton's 2nd Law we can express the following PDE called the *Lagrange Equation*:
+$
+  F = dot(p)\
+  (partial cal(L)) / (partial arrow(r)) = (d ((partial cal(L)) / (partial dot(arrow(r))))) / (d t)\
+  (partial cal(L)) / (partial arrow(r)) - (d ((partial cal(L)) / (partial dot(arrow(r))))) / (d t) = 0\
+$
+TODO: Check if partial notation or $gradient$ is correct here
+
+The remarkable thing is that this PDE in the same form as the Euler-Lagrange equation for finding stationary paths:
+$
+  (partial f) / (partial y) - d((partial f) / (partial y')) / (d x) = 0
+$
+Where $f(y(x), y'(x), x) = cal(L) (r, dot(r), t)$, showing that if Newton's 2nd Law holds true, the actual equation of motion for the particle $arrow(r) (t)$ is a stationary path, which can be solved using the Euler-Lagrange equation *only* from the energies of the particle in the Lagrangian - no constraint force or acceleration vector was needed.
+
+This is summarized in *Hamilton's Principle*, which states that the actual path taken between two points is such that the action integral is stationary:
+$
+  S = integral_1^2 cal(L) d t
+$
 
 == Special Relativity
 _Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage. However relativistic effects mean that time passes at different rates in different frames of reference, hence a 4th dimension is introduced.
