@@ -54,12 +54,13 @@ $
   hat(f) (omega) = integral_(-oo)^oo f(t) e^(-i omega t) d t
 $
 
-This results in the fourier transform $hat(f) (omega)$ with a complex range. When we plot the radius against frequency graph for all of these complex outputs, we arrive at the top left graph, which can be extremely useful for identifying interesting or unwanted frequencies which are part of the signal:
+This results in the Fourier transform $hat(f) (omega)$ with a complex range. When we plot the radius against frequency graph for all of these complex outputs, we arrive at the top left graph, which can be extremely useful for identifying interesting or unwanted frequencies which are part of the signal:
 #figure(
   image("images/fourier-analysis-results.png", width: 70%),
 ) <fig-fourier-analysis-results>
-Since the phase is usually not that interesting, it is often discarded unless we plan on synthesizing the time domain signal again.
+Since the phase is usually not that interesting, it is often ignored unless we plan on synthesizing the time domain signal again.
 
+White Noise - A signal where each constituent frequency has equal amplitude.
 
 ==== How It Works - Dot Products
 The analysis mechanism can be thought of as a dot product between the signal function $f(t)$ and Fourier basis $e^(i omega t)$ (or a different basis in other transforms) at a given frequency - a measure of how much the basis at this frequency and phase shift "points in the same direction" as the signal.
@@ -100,6 +101,8 @@ We arrive at the following familiar $R cos(omega t + theta)$ representation of a
 
 As these complex numbers are summed for all possible frequencies at a point in time (superposition of the transforms), the imaginary components cancel each other out due to the orthogonality of $sin$ and $cos$, resulting in a single real output for each point in time (unless the time-domain signal had complex components in its values).
 
+_Gibbs phenomenon_ - Tendency of the Fourier transform to "overshoot" near peaks in the input signal
+
 === Discrete Fourier Transform
 In our digital world we often work with discrete samples of a continuous signal.
 
@@ -117,7 +120,6 @@ Notice the frequency represented as $k /N = "Current bin" / "Number of Samples" 
 
 _Nyquist Theorem_ - The maximum frequency that can be accurately captured by sample rate of $f_s$ is $f_s / 2$. The middle frequency bin $k = (N-1)/2$ is therefore called the Nyquist bin, and subsequent bins are mirrors of the previous analysis (see Nyquist limit).
 
-
 See `../../semester-1/lineare-algebra/notes.pdf` for matrix implementation and the Fast Fourier Transform.
 
 TODO Move somewhere more relevant (Signals and Systems Semester 3?):
@@ -127,7 +129,7 @@ TODO:
 - Analogue Spectrum analyzers
 
 === Fourier Series
-This is the process of converting a periodic signal against time to the frequency domain.
+This is the process of converting a *periodic* signal against time to the frequency domain and only needs to be analyzed over 1 period.
 
 TODO:
 - Uncertainty principle

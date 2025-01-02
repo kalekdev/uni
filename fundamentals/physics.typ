@@ -256,6 +256,8 @@ $
 TODO: Rotational kinetic energy
 
 === Oscillations
+Excellent simulator: https://www.falstad.com/harmonicosc/
+
 Consider a system where some particle has an oscillating potential energy, for example a swinging pendulum. Let $U(x)$ be a function of the particle's potential energy against displacement. The first 3 terms of a Taylor Series serves as a good approximation provided that the displacement is small:
 $
   U(x) approx U(0) + U'(0)x + 1 / 2 U''(0) x^2+ ...
@@ -502,6 +504,59 @@ $
   Q = omega_n / (2 beta)
 $
 Where the resonance width is inversely proportional to $beta$, hence a high Q value indicates a narrow width. A crystal oscillator should have a large Q value as clocks depend on its resonance frequency being constant.
+
+===== Phase Shift
+Since both the driving force and steady-state displacement were modeled using $cos$ functions, with the driving force starting at $t=0$, the $phi$ variable indicates the phase shift between driving force and oscillator displacement:
+$
+  phi = arctan((2 beta omega_d)/(omega_n^2 - omega_d^2))
+$
+We can observe:
+- $omega_d << omega_n => phi -> 0$
+- $omega_d = omega_n => phi -> pi / 2$
+- $omega_d >> omega_n => phi -> pi/2 -> pi$ - Purely mathematically, $phi = -pi/2 -> 0$ as soon as the driving frequency exceed the natural frequency, however, this is due to the restricted domain of the inverse $tan$ function. To correct for this and keep the phase-shift continuous, $phi +pi$ is added as soon as it becomes negative.
+#figure(
+  image("images/oscillator-phase.png", width: 50%),
+) <fig-oscillator-phase>
+
+==== Fourier Solution
+Thanks to the linearity of the driven-damped differential operator $D(x(t))$ and the Fourier series of any periodic driving force, we can find a general solution:
+$
+  D(x_1) = f_1, D(x_2) = f_2, ...\
+  D(x_1 + x_2 + ...) = f_1 + f_2 + ... = sum_(i=0)^oo c_i e^(i j omega_d t)\
+$
+Where $c_i$ is the complex Fourier value for harmonic $i$, $omega_d$ is the fundamental angular frequency of the driving force and $j=i$ the imaginary unit.
+
+Since we are only interested in the steady-state solution, we can ignore the transient terms and sum the particular solutions of each frequency in the driving force Fourier series:
+$
+  A_i = abs(c_i) / sqrt((omega_n^2-i^2omega_d^2)^2+4 i^2 beta^2 omega_d^2), phi_i = arctan((2 i beta omega_d)/(omega_n^2 - i^2 omega_d^2))\
+  x(t) = x_1 + x_2 + ... = sum_(i=0)^oo A_i cos(i omega_d t - phi_i)
+$
+TODO: It's possible to simplify $A_i$ with complex notation?
+
+In practice, conveniently few terms are needed for an accurate approximation of the motion as driving frequencies near the resonant frequency $omega_n$ have by far the largest amplitudes.
+
+==== Bode Plots & RMS
+_Bode plot_ - Frequency response graph, a sweep of driving frequencies can be used to find the resonant frequency and Q factor of an oscillator.
+
+When constructing a Bode plot of an oscillator, the amplitude tells us the peak kinetic energy of an oscillator, however it doesn't account for different waveforms in its motion which may occur in more complicated oscillators. Therefore the RMS is a more accurate representation of the energy transferred by a driving force:
+$
+  x_"RMS" = sqrt(angle.l x^2 angle.r)
+$
+Where $angle.l x^2 angle.r$ represents the average squared value over time (to account for negative values), it is sufficient to calculate this over one period:
+$
+  angle.l x^2 angle.r = 1 / T integral_0^T (x(t))^2 d t
+$
+
+If the equation of motion is the sum of solutions from the Fourier series of the driving force, *Parseval's Theorem* allows us to significantly reduce the computation in calculating this integral:
+$
+  angle.l x^2 angle.r = A_0^2 + 1 / 2 sum_(i=1)^oo A_i^2
+$
+
+Here is an example Bode plot of an oscillator, demonstrating the RMS of the resonant frequency and subsequent harmonics $omega_d = n omega_n$:
+#figure(
+  image("images/driving-harmonics.png", width: 60%),
+) <fig-driving-harmonics>
+
 
 === Lagrangian Mechanics
 
