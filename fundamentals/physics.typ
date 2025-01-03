@@ -559,32 +559,38 @@ Here is an example Bode plot of an oscillator, demonstrating the RMS of the reso
 
 
 === Lagrangian Mechanics
-TODO: Mention Brachistochrone problem solution
+TODO: Try Brachistochrone problem for practice
 
 Lagrangian mechanics is a formulation of classical mechanics that uses the calculus of variations. It is independent of choice of coordinates (whose acceleration functions can get very complicated) and constraint forces (which are usually unknown), which greatly simplifies the analysis of certain systems compared to Newtonian mechanics.
+
+The independent variable in Lagrangian problems is time and the dependent, *bijective* coordinates in a system with $n$ degrees of freedom are called *generalized coordinates* and denoted as:
+$
+  q_1(t), q_2(t), ..., q_n(t)
+$
+For example a system of $N$ particles free to move in 3D space has $3N$ generalized coordinates.
 
 === Unconstrained Motion
 Consider a particle moving unconstrained in 3D, subject to a *conservative* resultant force. Its energies are:
 $
-  U(arrow(r)) = U(x, y, z)\
-  T(dot(arrow(r))) = 1 / 2 m dot(arrow(r))^2\
+  U(r) = U(x, y, z)\
+  T(dot(r)) = 1 / 2 m dot(r)^2\
   E = T + U
 $
 
 *The Lagrangian* is defined as:
 $
-  cal(L)(r, dot(r), t) = T(dot(arrow(r))) - U (arrow(r))
+  cal(L)(r, dot(r), t) = T(dot(r)) - U (r)
 $
 With the following partial derivatives:
 $
-  (partial cal(L)) / (partial arrow(r)) = - (partial U) / (partial arrow(r)) = arrow(F)\
-  (partial cal(L)) / (partial dot(arrow(r))) = (partial T) / (partial dot(arrow(r))) = m dot(arrow(r)) = arrow(p)
+  (partial cal(L)) / (partial r) = - (partial U) / (partial r) = arrow(F)\
+  (partial cal(L)) / (partial dot(r)) = (partial T) / (partial dot(r)) = m dot(r) = arrow(p)
 $
 Applying Newton's 2nd Law we can express the following PDE called the *Lagrange Equation*:
 $
   F = dot(p)\
-  (partial cal(L)) / (partial arrow(r)) = (d ((partial cal(L)) / (partial dot(arrow(r))))) / (d t)\
-  (partial cal(L)) / (partial arrow(r)) - (d ((partial cal(L)) / (partial dot(arrow(r))))) / (d t) = 0\
+  (partial cal(L)) / (partial r) = (d ((partial cal(L)) / (partial dot(r)))) / (d t)\
+  (partial cal(L)) / (partial r) - (d ((partial cal(L)) / (partial dot(r)))) / (d t) = 0\
 $
 TODO: Check if partial notation or $gradient$ is correct here
 
@@ -592,12 +598,15 @@ The remarkable thing is that this PDE in the same form as the Euler-Lagrange equ
 $
   (partial f) / (partial y) - d((partial f) / (partial y')) / (d x) = 0
 $
-Where $f(y(x), y'(x), x) = cal(L) (r, dot(r), t)$, showing that if Newton's 2nd Law holds true, the actual equation of motion for the particle $arrow(r) (t)$ is a stationary path, which can be solved using the Euler-Lagrange equation *only* from the energies of the particle in the Lagrangian - no constraint force or acceleration vector was needed.
+Where $f(y(x), y'(x), x) = cal(L) (r, dot(r), t)$, showing that if Newton's 2nd Law holds true, the actual equation of motion for the particle $r(t)$ is a stationary path, which can be solved using the Euler-Lagrange equation *only* from the energies of the particle in the Lagrangian - no constraint force or acceleration vector was needed.
 
-This is summarized in *Hamilton's Principle*, which states that the actual path taken between two points is such that the action integral is stationary:
+This is summarized in *Hamilton's Principle*, which states that the actual path taken between two points is such that the action integral is stationary, we do not need to check that it's explicitly a minimum:
 $
   S = integral_1^2 cal(L) d t
 $
+
+TODO: Non-inertial reference frames?
+TODO: Generalized force and momentum
 
 == Special Relativity
 _Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage. However relativistic effects mean that time passes at different rates in different frames of reference, hence a 4th dimension is introduced.

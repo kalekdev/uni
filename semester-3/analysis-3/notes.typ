@@ -19,8 +19,27 @@ Euler-Lagrange's equation states that stationary functions satisfy the PDE:
 $
   (partial f) / (partial y) - d((partial f) / (partial y')) / (d x) = 0
 $
-Calculating the terms of this PDE from our problem and finding solutions (if possible) gives us the stationary function(s) $y(x)$, which in the shortest path problem is a minimum function.
+Calculating the terms of this PDE from our problem and finding solutions (if possible) gives us the stationary function(s) $y(x)$, although it is not clear whether this is a maximum, minimum or "path of inflection".
 
 TODO: Derivation after covering multi variable chain rule
 
-TODO: Maximum / minimum / stationary
+=== Multi variable
+Oftentimes, more than one dependent variable is needed to fully express the problem. For example, a spiral path can only be expressed using parametric equations instead of a single injective function $y(x)$:
+$
+  x = x(t)\
+  y = y(t)\
+$
+In this case, the path length is given by:
+$
+  L(y(x)) = integral_(1)^(2) sqrt(d x^2 + d y^2) = integral_(1)^(2) sqrt((d t (d x)/(d t))^2 + (d t (d y)/(d t))^2)\
+  = integral_(1)^(2) sqrt(((d x)/(d t))^2 + ((d y)/(d t))^2) d t\
+$
+The problem has become:
+$
+  S(x(t), y(t)) = integral_(1)^(2) f(x(t), y(t), x'(t), y'(t), t) d t
+$
+Finding stationary function(s) simply involves solving two Euler-Lagrange equations:
+$
+  (partial f) / (partial x) - d((partial f) / (partial x')) / (d t) = 0\
+  (partial f) / (partial y) - d((partial f) / (partial y')) / (d t) = 0\
+$
