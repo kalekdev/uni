@@ -18,6 +18,10 @@ What I would like to take notes of:
 
 These notes should serve as condensed revision material - only the minimal, important facts to remember before solving problems
 
+Proofs heavily involve decomposition; to progress, smaller Lemmas need to be brought in along the way and proven (or taken as true since someone else proved them). However first of all, you need to understand and remember the axioms (rules of the game).
+
+Contradiction is a useful tool for linking statements about $>$ and $>=$.
+
 #pagebreak()
 
 = The Real Numbers
@@ -95,13 +99,66 @@ $
 - Reflexive - $x ~ x$ - Example: $<=$
 - Transitive - $x ~ y and y ~ z => x ~ z$ - Example: $<$
 - Symmetric - $x ~ y => y ~ x$ - Example: $=$
-- Anti-Symmetric - $x ~ y and y ~ x => x = y$ - Example: $<=$ - Although such relations are often reflexive, this is not a requirement, consider $Re = emptyset, X = {1}$
-- A relation is called *equivalence relation* if it is reflexive, transitive and symmetric
-- A relation is called *order relation* if it is reflexive, transitive and anti-symmetric
+- Anti-Symmetric - $x ~ y and y ~ x => x = y$ - Example: $<=$ - Although such relations are often reflexive too, this is not a requirement, consider $<$, which is anti-symmetric (no such $x, y$ exist) but not reflexive.
+- A relation is called *equivalence relation* if it is reflexive, transitive and symmetric. For example $=$ is an equivalence relation, $<=$ is not (not symmetric).
+- A relation is called *order relation* if it is reflexive, transitive and anti-symmetric. For example $<=$
+
+/ Definition - Ordered Field: This extends the definition of a field $K$ with an order relation (such as $<=$), which is denoted as $(K, <=)$, under which all elements $x, y, z in K$ satisfy the following:
++ Linearity of the order: $
+x <= y or y <= x
+$
++ Compatibility of order and addition: $
+x <= y => x + z <= y + z
+$
++ Compatibility of order and multiplication: $
+ 0 <= x and 0 <= y => 0 <= x dot y
+$ This can be combined with the Inverse Element of addition (which exists in all fields) to make statements about multiplication of negative numbers.
+These conditions allow us to define conventions such as:
+- Positive $:= x>0$
+- Non-negative $:= x>=0$
+- $(x <= y = z) equiv (x <= y and y = z)$
+- An example of an ordered field is the set of rational numbers $QQ$.
+- An example of a non-ordered field is the set of complex numbers $CC$, upon which an order relation cannot be defined in a way that satisfies the ordered field axioms. Proof: $
+"Let" 0<= i, "condition 3. implies" 0<= i dot i = -1 "which is false" therefore i <= 0\
+"Applying condition 2." i + -i <= 0 + -i => 0 <= -i\
+"Applying condition 3." 0 <= -i dot -i = i^2 = -1 "which is also false and contradicts" i<= 0 qed
+$
+The conditions of an ordered field lead to many properties we take as given. Here are some interesting proofs:
+- $(x < y and y <= z) => x < z$ - Proof: $
+x < y => x <= y. <= "is a transitive relation, hence" x <= z\
+"We must now show that" x< z.\
+"Assume by contradiction that" not(x < z) equiv x >= z "holds true"\
+"Due to" x<=z and x>= z, x = z\
+"Recalling" x < y "this implies" z < y "which contradicts" y <= z\
+therefore x < z qed
+$
+#list.item[
+  If $x !=0$, $x^2 > 0$ holds true. Proof:\
+  As $x !=0$ there are 2 cases:
+  - $x>0$
+  - $x<0$
+  The ring is only guaranteed to be valid for the relation $<=$, so we will prove $x^2 >= 0$ first.\
+  If $x > 0$, $x >=0$ also holds true and also $x^2>= 0$ per condition 3.\
+  If $x < 0$, $x<=0$ also holds true. Applying condition 2, $(x-x <= 0-x) equiv (0 <= -x)$. Applying condition 3, $-x dot -x = x^2 >= 0$.\
+  Lastly, we must show that $x^2 >= 0 => x^2 > 0$. Assume by contradiction that $exists x !=0: x^2 <= 0 => x^2 < 0$. This contradicts $x^2 >= 0$, which we have proven for all $x != 0$ in the field. Hence $x^2>0$ must also be true $qed$
+]
+#list.item[
+  $0 < 1$. Proof:\
+  Lemma: $0!= 1$ (Neutral Elements of addition and multiplication are not the same)\
+  Lemma: If $x !=0$, $x^2 > 0$ holds true.
+  Therefore $1^2 = 1 > 0$ $qed$
+]
+Based on the fact that $0 < 1$ and the compatibility + inverse element of addition, it is clear that the integers $ZZ := ..., < -1 < 0 < 1 < ...$ are a subset of any ordered field. Furthermore, the rational numbers are defined from the set of integers, which are also a subset of all ordered fields $K$:
+$
+  ZZ subset.neq QQ subset.eq K
+$
+
+TODO: Exercise 2.14
+
 
 TODO: As part of set operations
 / Definition - Complement: $A subset.eq X, A^complement = X \\ A$ The elements of a set excluding those that appear in a set.
 
-= Functions of one Real Variable
+= Functions of One Real Variable
 
 
