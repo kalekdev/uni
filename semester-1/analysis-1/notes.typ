@@ -31,7 +31,7 @@ Contradiction is a useful tool for linking statements about $>$ and $>=$.
 
 #pagebreak()
 
-= The Real Numbers
+= Fundamentals
 
 / Definition - Set: An *unordered* collection of *distinct* (${x, x} equiv {x}$) elements such that:
 + It is defined by the elements it contains
@@ -41,7 +41,162 @@ Contradiction is a useful tool for linking statements about $>$ and $>=$.
   $ Where $|$ and $:$ both mean "such that".
 + The empty set $emptyset$ contains no elements
 
-== Axioms of The Real Numbers
+/ Definition - Interval Notation: Interval notation allows us to succinctly express common sets of real numbers between limits $a, b in RR$:
+- Closed interval $
+[a, b] := {x in RR | a<= x <= b}
+$
+- Open interval $
+(a, b) := {x in RR | a< x < b}
+$
+- Half-open interval $
+[a, b) := {x in RR | a<= x < b}
+$
+- Unbounded interval $
+[a, oo) := {x in RR | a <= x}
+$
+- For a non-empty interval, the *length* is defined as $b - a$
+- Sometimes inverted square brackets are used to specify an open bound, ex. $[a, b[$
+- The intersection of a finite number of intervals is also an interval, such that the lower bound is the smallest lower bound and vice versa for the upper bound
+- Sets aren't doors, they don't need to be either open or closed.
+
+
+/ Definition - Set Operations: This allows us to construct common sets from component sets $P, Q$:
+- Intersection: $
+P sect Q := {x in P | x in Q}
+$
+- Union: $
+P union Q := {x in P or x in Q}
+$
+- Relative Complement: $
+P \\ Q := {x in P | x in.not Q}
+$
+- Complement of a Subset: $
+R subset.eq X\
+R^complement := {x in X | x in.not R}
+$
+- Symmetric Difference: $
+P triangle.small Q := (P union Q) \\ (P sect Q)
+$
+- They are distributive: $
+  A union (B sect C) = (A union B) sect (A union C)\
+  A sect (B union C) = (A sect B) union (A sect C)\
+$
+- Let $AA$ be a set of sets, we can also define:
+$
+  sect.big_(A in AA) A := {x | exists A in AA | x in A}\
+  union.big_(A in AA) A := {x | forall A in AA | x in A}
+$
+
+/ Theorem - De Morgan's Laws: This states:
+$
+  (A sect B sect ...)^complement = A^complement union B^complement union ...^complement\
+  (A union B union ...)^complement = A^complement sect B^complement sect ...^complement\
+$
+It is commonly applied to Boolean logic, where $A, B subset.neq {0, 1}$:
+$
+  overline(A and B and ...) equiv overline(A) or overline(B) or ...
+$
+
+= Topology
+
+/ Definition - Ball / Disk: A topological ball with radius $r$ and center $x_0$ in dimension $RR^d$ is defined as the set of points:
+$
+  B_r^d (x_0) = {x in RR^d | abs(x - x_0) < r} - "Open ball"\
+  overline(B_r^d)(x_0) = {x in RR^d | abs(x - x_0) <= r} - "Closed ball"\
+  S_r^(d-1)(x_0) = {x in RR^d | abs(x - x_0) = r} - "Sphere (boundary of ball)"
+$
+Where $abs(x - x_0)$ is the length of the vector from $x_0 -> x$ ie the radius.
+It follows:
+$
+  B_0(x_0) = emptyset\
+  overline(B_0)(x_0) = {x_0}\
+  B_oo^d (x_0) = overline(B_oo^d)(x_0) = RR^d\
+$
+- Man muss immer am $B_r^d$ bleiben!
+The sphere has dimensions $d-1$ because its points only form a subspace in the dimension below the ball which it is enclosing:
+- $S_r^1$ - Is the line of points around a circle ie 1 dimensional
+- $S_r^2$ - Every point in the surface of a 3D ball can be reached with linear combinations of two basis vectors (such that they stay within the subspace).
+
+/ Definition - Inner Point: A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$ - there is an open ball with a radius $>0$ around $x$ such that it is entirely a subset of / equal to S.
+
+/ Definition - Interior: - The interior of a set is the set of all its inner points:
+$
+  "Int" S := {"inner points of S"}
+$
+- $"Int" S subset S$ is always true.
+- Alternatively, the interior can be defined as the union of open balls:
+$
+  "Int" S := union.big_(B_r^n (x) | B subset.eq S) B
+$
+
+/ Definition - Open Set: A set which is equal to its interior: $S = "Int" S$. In other words, it is defined with $>$ or $<$ relations.
+- It has no maximum / minimum, only an infimum / supremum.
+- Every point of an open ball is an inner point, hence making the ball "open".
+$
+  "Int" overline(B_r^d)(x_0) = B_r^d (x_0)\
+  x in RR, {x} "is not open"
+$
+- The union of arbitrarily many open sets is open (the outer boundaries will remain open no matter what)
+- The intersection of finitely many open sets is also open
+
+/ Definition - Closed Set: The definition is built upon that of an open set:
+Let $A subset.eq RR^n$:
+$
+  A "is closed" <=> (RR^n \\ A) "is open"
+$
+For example, $[a, b] | a< b$ can instead be expressed as $(-oo, a) union (b, oo)$, which is open.
+- ${x}$ is closed
+- $emptyset, RR^n$ are both open and closed, since $emptyset^complement = RR^n$ and $RR^complement = emptyset$
+- $[a, b) subset.neq RR$ is neither open or closed
+
+/ Definition - Closure: The closure of $overline(S)$ is the smallest possible closed set which entirely includes the set $S$, this can be formed using the intersection of all possible closed balls with different radii and centers, as long as they entirely contain $S$:
+$
+  overline(S) := "clos"(S) := union.big_("All" overline(B)_r^n (c) | S subset.eq overline(B)) overline(B)
+$
+For example:
+$
+  S := (0, 1]\
+  overline(S) = [0, 1]
+$
+- $S subset.eq overline(S)$ - The closure of a set contains the set itself
+- A topological set can only be called *closed* if it is equal to its closure
+
+/ Definition - Boundary: The boundary of a set $diff S$ is:
+$
+  diff S := overline(S) \\ "Int" S
+$
+Characterized more fundamentally:
+$
+  diff S := {x in RR^n | (forall r in (0, oo) | (B_r^n (x) sect S) != emptyset != B_r^n (x) \\ S)}
+$
+The boundary of a set S is the set of points such that:
+- A ball with increasing radius (starting just above 0) always continues to overlap with some elements of S ($(B_r^n (x) sect S)!= emptyset$), ie the ball must be actually in or right next to S
+- The points themselves are part of $B_r^n (x) \\ S$, which is never equal to the empty set, ie the point itself is never in S
+By definition, a topological sphere is the boundary of a ball:
+$
+  diff B_r^(n) (x) = diff overline(B_r^(n)) (x) = S_r^(n-1) (x)
+$
+Furthermore, a boundary is a closed set:
+$
+  (RR^n \\ diff S = ("Int" S union RR^n \\ overline(S))) "which is open" => diff S "is closed"
+$
+
+/ Definition - Bounded: A set which is a subset of a closed set (other than $RR^n$)
+
+/ Definition - Compact: A set which is closed *and* bounded
+- A closed ball is by definition compact.
+- $RR^n$ is not compact, because it is an infinitely large (albeit open & closed) set.
+
+/ Definition - Neighborhood (Umgebung): A subset $U subset.eq X$ is considered a *neighborhood* of a point $x_0$ relative to a set $X$ if:
+$
+  x_0 in O subset.eq U subset.eq X
+$
+Where $O$ is a non-empty open set.
+- For example, there are many possible neighborhoods around a point in the middle of a non-empty set.
+- Points on the boundary of $X$ have no neighborhood $U$ as no non-empty open set contains only points which remain in $X$
+
+= Axioms of The Real Numbers
+
 An axiomatic approach to defining the set of real numbers $RR$.
 
 / Definition - Group: A *non-empty* set $G$ endowed with an operation $star$ which satisfies the following criteria $forall a, b, c in G$:
@@ -110,7 +265,7 @@ $
 - A relation is called *equivalence relation* if it is reflexive, transitive and symmetric. For example $=$ is an equivalence relation, $<=$ is not (not symmetric).
 - A relation is called *order relation* if it is reflexive, transitive and anti-symmetric. For example $<=$
 
-/ Definition - Ordered Field: This extends the definition of a field $K$ with an order relation (such as $<=$), which is denoted as $(K, <=)$, under which all elements $x, y, z in K$ satisfy the following:
+/ Definition - Ordered Field: This extends the definition of a field $K$ with the relation $<=$, which is denoted as $(K, <=)$, under which all elements $x, y, z in K$ satisfy the following:
 + Linearity of the order: $
 x <= y or y <= x
 $
@@ -120,6 +275,7 @@ $
 + Compatibility of order and multiplication: $
  0 <= x and 0 <= y => 0 <= x dot y
 $ This can be combined with the Inverse Element of addition (which exists in all fields) to make statements about multiplication of negative numbers.
+Axioms 2 and 3 *also* apply to the relation $<$, which significantly simplifies proofs. Proof: https://math.stackexchange.com/a/3271338\
 These conditions allow us to define conventions such as:
 - Positive $:= x>0$
 - Non-negative $:= x>=0$
@@ -214,6 +370,10 @@ $
 - The field of real numbers $RR$ is a completely ordered field
 - The reason subsets are checked instead of individual elements $x, y$ is because subsets can be defined in terms of inequalities. For example, consider checking the existence of $sqrt(2)$ in $QQ$. The set of rational numbers is *dense*, therefore no matter which lower bound $x$ we choose, there is *always* a rational number closer to $sqrt(2)$ and therefore the check $x<=c<= y$ holds true (although $sqrt(2)$ is not a member of $QQ$). On the other hand if we choose the subset $X = {x in QQ | x <= sqrt(2)}$, this contains the true infimum of $sqrt(2)$ and checks *completeness* rather than *density*. Of course, both approaches would involve checking infinitely many elements but luckily we can arrive at such an inequality from the axioms of an ordered set.
 
+= Complex Numbers
+TODO
+
+= Functions of One Real Variable
 / Definition - Function: A function $f: X -> Y$ is a mapping from the domain $X$ to range / codomain $Y$. It *may* have the following properties:
 + _Injective_ - $forall x, x' in X : x != x' => f(x) != f(x')$ - Assigns each element of $X$ a *unique* element in $Y$
 + _Surjective_ - $forall y in Y exists x in X: f(x) = y$ - Every element in the range is a possible output of the function
@@ -247,9 +407,26 @@ Consider two elements $x_1,x_2 in X$. Since $X$ is a set, they are distinct $x_1
 If $f(x_1) = f(x_2)$ for any two elements, they would "validate" the same member of $f(X)$, leaving out at least one element of $Y$ (deterministic, another input cannot have 2 outputs to make up for it) meaning $f(X)$ would have $n-1$ elements, which contradicts the lemma about surjectivity, therefore $f$ must also be injective $qed$\
 This is *not* necessarily true for infinite sets, for example $f: NN -> NN, f(x) := x+1$ is injective but not surjective.
 
-TODO: As part of set operations
-/ Definition - Complement: $A subset.eq X, A^complement = X \\ A$ The elements of a set excluding those that appear in a set.
+/ Definition - Square Root: This is the bijective function $sqrt(dot): RR_(>=0) -> RR_(>=0)$ such that $forall a in RR_(>=0) (sqrt(a))^2 = a$, whose existence is only possible due to the real numbers being a *complete ordered field*. TODO: Various proofs Exercise 2.27 Figalli's script
 
-= Functions of One Real Variable
+TODO:
+*The range of a continuous function with / bounded to a compact domain is also compact.*
 
+The maxi-, mini-, supre- and infimum of a function are defined as expected on its range.
 
+*Every continuous function with a compact domain and therefore range possesses a maximum and minimum.*
+
+=== Topological Continuity Definitions
+Continuity of a function can also be defined with the following topological criteria:
+
+==== Closed / Open Sets
+$
+  f: X -> Y "is continuous" <=>\ "The inverse image (Urbild) of every relatively open / closed subset in" X "is also relatively open / closed."
+$
+
+==== Neighbourhoods
+$
+  f: X -> Y "is continuous" <=>\ "The inverse image of every neighbourhood at point" f(
+    x_0
+  ) "in" Y "is also a neighbourhood of" x_0 "in" X
+$
