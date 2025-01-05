@@ -2,7 +2,10 @@
 
 #set heading(numbering: "1.")
 #show terms.item: it => {
-  [\ *#it.term:*\ #it.description]
+  let term = it.term
+
+  [=== #term
+    #it.description]
 }
 
 #outline()
@@ -18,7 +21,11 @@ What I would like to take notes of:
 
 These notes should serve as condensed revision material - only the minimal, important facts to remember before solving problems
 
+Note on order: Many scripts used for teaching introduce concepts as they become relevant. My goal is to build a revision reference, not a learning resource, therefore over time the order will be rearranged to group relevant definitions and theorems together.
+
 Proofs heavily involve decomposition; to progress, smaller Lemmas need to be brought in along the way and proven (or taken as true since someone else proved them). However first of all, you need to understand and remember the axioms (rules of the game).
+
+Mathematics - Abstracting enough to focus on the matter
 
 Contradiction is a useful tool for linking statements about $>$ and $>=$.
 
@@ -153,8 +160,92 @@ $
   ZZ subset.neq QQ subset.eq K
 $
 
-TODO: Exercise 2.14
+/ Definition - Absolute Function: A function $abs(x): K -> K_+$ defined on every *ordered field* such that:
+$
+  abs(x) := cases(
+  x & "if" x>= 0\
+  -x space & "if" x <0
+  )
+$
+- $(abs(x) <= y) equiv (-y <= x <= y)$
+- $abs(x y) equiv abs(x) abs(y)$
 
+/ Definition - Sign Function: A function $abs(x): K -> {-1, 0, 1}$ defined on every *ordered field* such that:
+$
+  "sgn"(x) := cases(
+  1 & "if" x> 0\
+  0 & "if" x= 0\
+  -1 space & "if" x <0
+  )
+$
+- Every $x in K$ can be expressed as $x= "sgn"(x) dot abs(x)$
+
+/ Theorem - Triangle Inequality: It holds $forall x, y in K$ elements of an ordered field that:
+$
+  abs(x + y) <= abs(x) + abs(y)
+$
+The name stems from considering a triangle spanned by two vectors. It is clear that the length of their vector sum is $<=$ the sum of both side lengths. Proof (on an ordered field):\
+Lemma: $abs(x) => -abs(x) <= x <= abs(x)$\
+Therefore we can state the following:
+$
+  -abs(x) <= x <= abs(x)\
+  -abs(y) <= y <= abs(y)\
+$
+Lemma: $x <= y => x + z <= y + z$:
+$
+  -abs(x) + - abs(y) <= x + -abs(y)\
+  -abs(y) + x <= y + x\
+$
+Lemma: $x <= y and y <= z => x <= z$
+$
+  therefore -(abs(x) + abs(y)) <= x + y\
+$
+Applying the same procedure to $x <= abs(x)$ and $y <= abs(y)$ we get:
+$
+  -(abs(x) + abs(y)) <= x + y <= abs(x) + abs(y)
+$
+Lemma: $(abs(x) <= y) equiv (-y <= x <= y)$\
+$
+  therefore abs(x + y) <= abs(x) + abs(y) qed
+$
+
+/ Definition - Completeness Axiom: The definition of an *ordered field* so far is unsuitable as we need to "fill in the gaps". The completeness axiom is an alternative but equivalent approach to Dedekind cuts (which define the cuts first and then operations in terms of cuts) which defines a *complete ordered field* if the completeness axiom holds true:
++ Let $X, Y subset.neq K | X, Y != emptyset: forall x in X forall y in Y$ the inequality $x <= y$ holds true. If there exists $c in K | x <= c <= y$ for all such subsets $X$ and $Y$, the ordered field is complete.
+- The field of real numbers $RR$ is a completely ordered field
+- The reason subsets are checked instead of individual elements $x, y$ is because subsets can be defined in terms of inequalities. For example, consider checking the existence of $sqrt(2)$ in $QQ$. The set of rational numbers is *dense*, therefore no matter which lower bound $x$ we choose, there is *always* a rational number closer to $sqrt(2)$ and therefore the check $x<=c<= y$ holds true (although $sqrt(2)$ is not a member of $QQ$). On the other hand if we choose the subset $X = {x in QQ | x <= sqrt(2)}$, this contains the true infimum of $sqrt(2)$ and checks *completeness* rather than *density*. Of course, both approaches would involve checking infinitely many elements but luckily we can arrive at such an inequality from the axioms of an ordered set.
+
+/ Definition - Function: A function $f: X -> Y$ is a mapping from the domain $X$ to range / codomain $Y$. It *may* have the following properties:
++ _Injective_ - $forall x, x' in X : x != x' => f(x) != f(x')$ - Assigns each element of $X$ a *unique* element in $Y$
++ _Surjective_ - $forall y in Y exists x in X: f(x) = y$ - Every element in the range is a possible output of the function
++ _Bijective_ - It is both injective and surjective, and therefore an inverse function can be defined
++ Two functions are *equal* $<=> X_1 = X_2 and Y_1 = Y_2 and forall x in X, f_1(x) = f_2(x)$
+
+/ Definition - Image and Preimage (Urbild) of a Function: Consider a function $f: X -> Y$.
+- The Image $f(A)$ of $A subset.eq X$ under $f$ is defined as: $
+f(A) := {y in Y | exists x in A: f(x) = y}\
+f(A) subset.eq Y
+$
+- The Preimage (Urbild) $f^(-1)(B)$ of $B subset.eq Y$ under $f$ is defined as: $
+f^(-1)(B) := {x in X | exists y in B: f(x) = y} = {x in X | f(x) in B}\
+f^(-1)(B) subset.eq X
+$
+- A function $f: X -> Y$ is surjective $<=>$ The set $f(X) = Y$, because the image can only contain domain elements which map to $Y$ by definition.
+- For example consider $f: RR -> RR := x -> 0$:
+  - $f(RR) = {0}$ - It is not surjective
+  - $f^(-1)(RR) = f^(-1)({0}) = RR$
+  - $f^(-1)({1}) = emptyset$
+There is an interesting property of finite sets; consider $f: X -> Y$, where $X$ and $Y$ are *finite* sets with the same number of elements $n$:
+$
+  f "is injective" <=> f "is surjective"
+$
+Proof:\
+If $f$ is injective, the image $f(X)$ has at least $n$ distinct elements so every distinct $x in X$ has its own $y in f(X)$.\
+Lemma: A function $f: X -> Y$ is surjective $<=>$ The set $f(X) = Y$\
+We are given that $Y$ has $n$ elements, and since $f(X) subset.eq Y => f(X) = Y$ showing that it must also be surjective.\
+We must now show that surjectivity $=>$ injectivity. If $f$ is surjective, $f(X) = Y$ (Lemma), therefore $f(X)$ has $n$ elements.\
+Consider two elements $x_1,x_2 in X$. Since $X$ is a set, they are distinct $x_1 != x_2$.\
+If $f(x_1) = f(x_2)$ for any two elements, they would "validate" the same member of $f(X)$, leaving out at least one element of $Y$ (deterministic, another input cannot have 2 outputs to make up for it) meaning $f(X)$ would have $n-1$ elements, which contradicts the lemma about surjectivity, therefore $f$ must also be injective $qed$\
+This is *not* necessarily true for infinite sets, for example $f: NN -> NN, f(x) := x+1$ is injective but not surjective.
 
 TODO: As part of set operations
 / Definition - Complement: $A subset.eq X, A^complement = X \\ A$ The elements of a set excluding those that appear in a set.

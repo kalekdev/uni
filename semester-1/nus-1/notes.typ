@@ -11,7 +11,7 @@ A linear theory of how charges interact governed by Maxwell's Equations and the 
 
 Nonetheless they are very useful in practice and certainly worth studying.
 
-Charge polarity is completely arbitrary; it is only important to stay consistent. The same applies to magnetic poles, which were so defined based on the Earth's magnetic field (however this flips occaisonally too...).
+Charge polarity is completely arbitrary; it is only important to stay consistent. The same applies to magnetic poles, which were so defined based on the Earth's magnetic field (however this flips occasionally too...).
 #figure(
   image("images/conventional-current.png", width: 50%),
 ) <fig-conventional-current>
