@@ -77,6 +77,12 @@ $
 - Symmetric Difference: $
 P triangle.small Q := (P union Q) \\ (P sect Q)
 $
+- Addition: $
+ P + Q := {p + q | p in P and q in Q}
+$
+- Multiplication: $
+ P dot Q := {p dot q | p in P and q in Q}
+$
 - They are distributive: $
   A union (B sect C) = (A union B) sect (A union C)\
   A sect (B union C) = (A sect B) union (A sect C)\
@@ -97,15 +103,52 @@ $
   overline(A and B and ...) equiv overline(A) or overline(B) or ...
 $
 
+/ Definition - Maxima and Minima: The maximum of a set is the smallest upper bound, which is *contained* in the set:
+$
+  X subset.eq\
+  max(X) := m in X | forall x in X x<= m
+$
+The *minimum* is defined analogously:
+$
+  min(X) := m in X | forall x in X x>= m
+$
+- An open bound has no maximum or minimum defined as there is always some number slightly larger / smaller than a number we can express inside it. An open bound itself is not in the set
+- The maximum / minimum is unique. Proof: Let $m_1, m_2$ be 2 maxima of the set. It follows $m_1 <= m_2$ and $m_2 <= m_1$, therefore $m_1 = m_2$ (trichotomy)
+
+/ Definition - Supremum and Infimum: Let $B = {b in RR | forall x in X x <= (>=) b}$ be the set of upper (lower) bounds for the set $X$. The supremum (infimum) is defined as the smallest (largest) such bound:
+$
+  sup(X) := min(B)\
+  inf(X) := max((B))
+$
+- Due to the $<= (>=)$ the supremum infimum may be the same as the maximum / minimum for a closed bound
+- An alternative characterization states there is no smaller bound, anything smaller is not a bound of $X$:
+$
+  forall x in X x<= sup(X), t <= sup(X) => exists x' in X: t < x'
+$
+- The supremum / infimum does *not* exist for an unbounded or empty set, as this would be infinitely large / small, and $oo in.not RR therefore oo in.not B$
+#list.item[For all bounded, non-empty sets $X$, the supremum / infimum exists.\
+  Proof:\
+  The set of bounds $B = {b in RR | forall x in X x <= (>=) b} != emptyset$\
+  We need to show that $exists sup(X) in RR | forall b in B, sup(X) <= b$\
+  Lemma: Completeness Axiom $forall x in X forall b in B, x <= b => exists c in RR | x <= c <= b forall x in X forall b in B$
+  This $c$ is an upper bound *and* minimum of $B$, therefore it is the supremum $qed$
+]
+Let $X, Y$ be non-empty sets with an upper bound:
+- $sup(X union Y) = max(sup(X), sup(Y))$
+- $sup(X sect Y) = min(sup(X), sup(Y)) | (X sect Y) != emptyset$
+- $sup(X + Y) = sup(X)+ sup(Y)$
+- $sup(X dot Y) = sup(X)dot sup(Y) | forall x in X forall y in Y x, y >= 0$ (two "large" negative elements can make a larger supremum)
+TODO: Review proof 2.59
+
 = Topology
 
-/ Definition - Ball / Disk: A topological ball with radius $r$ and center $x_0$ in dimension $RR^d$ is defined as the set of points:
+/ Definition - Ball / Disk: A topological ball with radius $r$ and center $x_0 in RR^d$ in dimension $RR^d$ is defined as the set of points:
 $
   B_r^d (x_0) = {x in RR^d | abs(x - x_0) < r} - "Open ball"\
   overline(B_r^d)(x_0) = {x in RR^d | abs(x - x_0) <= r} - "Closed ball"\
   S_r^(d-1)(x_0) = {x in RR^d | abs(x - x_0) = r} - "Sphere (boundary of ball)"
 $
-Where $abs(x - x_0)$ is the length of the vector from $x_0 -> x$ ie the radius.
+Where $abs(x - x_0)$ is the length of the vector from $x_0 -> x$ ie the radius. This can also be defined using complex numbers and the complex absolute function.
 It follows:
 $
   B_0(x_0) = emptyset\
@@ -181,7 +224,7 @@ $
   (RR^n \\ diff S = ("Int" S union RR^n \\ overline(S))) "which is open" => diff S "is closed"
 $
 
-/ Definition - Bounded: A set which is a subset of a closed set (other than $RR^n$)
+/ Definition - Bounded: A set which is a subset of a closed set (other than $RR^n$). In other words, the set of bounds $B = {b in RR^n | forall x in X x <= (>=) b} != emptyset$.
 
 / Definition - Compact: A set which is closed *and* bounded
 - A closed ball is by definition compact.
@@ -281,11 +324,7 @@ These conditions allow us to define conventions such as:
 - Non-negative $:= x>=0$
 - $(x <= y = z) equiv (x <= y and y = z)$
 - An example of an ordered field is the set of rational numbers $QQ$.
-- An example of a non-ordered field is the set of complex numbers $CC$, upon which an order relation cannot be defined in a way that satisfies the ordered field axioms. Proof: $
-"Let" 0<= i, "condition 3. implies" 0<= i dot i = -1 "which is false" therefore i <= 0\
-"Applying condition 2." i + -i <= 0 + -i => 0 <= -i\
-"Applying condition 3." 0 <= -i dot -i = i^2 = -1 "which is also false and contradicts" i<= 0 qed
-$
+- An example of a non-ordered field is the set of complex numbers $CC$
 The conditions of an ordered field lead to many properties we take as given. Here are some interesting proofs:
 - $(x < y and y <= z) => x < z$ - Proof: $
 x < y => x <= y. <= "is a transitive relation, hence" x <= z\
@@ -370,8 +409,96 @@ $
 - The field of real numbers $RR$ is a completely ordered field
 - The reason subsets are checked instead of individual elements $x, y$ is because subsets can be defined in terms of inequalities. For example, consider checking the existence of $sqrt(2)$ in $QQ$. The set of rational numbers is *dense*, therefore no matter which lower bound $x$ we choose, there is *always* a rational number closer to $sqrt(2)$ and therefore the check $x<=c<= y$ holds true (although $sqrt(2)$ is not a member of $QQ$). On the other hand if we choose the subset $X = {x in QQ | x <= sqrt(2)}$, this contains the true infimum of $sqrt(2)$ and checks *completeness* rather than *density*. Of course, both approaches would involve checking infinitely many elements but luckily we can arrive at such an inequality from the axioms of an ordered set.
 
-= Complex Numbers
+/ Definition - Compactification: The reals can be extended to be compact (closed an bounded) with $-oo, oo$ for certain purposes, such as defining the supremum / infimum of an unbounded / empty set:
+$
+  overline(R) = RR union {-oo, oo}\
+  forall x in RR, -oo < x < oo
+$
+Certain conventions are defined, however these are ambiguous and should be used sparingly:
+$
+  oo + x = oo\
+  -oo + x = -oo\
+  x dot oo = oo | x >0\
+  sup(emptyset) = -oo\
+  inf(emptyset) = oo\
+$
+
+/ Definition - Archimedean Principle:
 TODO
+
+= Complex Numbers
+/ Definition - Complex Numbers: The set of complex numbers $CC$ is defined from the Cartesian coordinates, where the $+$ can be thought of as a substitute for the comma in a tuple, and $i$ is called the *complex unit*:
+$
+  z = a + b i in CC := RR^2 = {(a, b) | a, b in RR}\
+  a = "Re"(z)\
+  b = "Im"(z)\
+$
+Complex addition $+_CC$ and multiplication $dot_CC$ are defined such that $CC$ is a field (the operations follow the conditions for a ring excluding division by 0) *and* $i^2 = -1$ holds:
+$
+  (a + b i) +_CC (c + d i) = (a + b) + (c + d)i\
+  (a + b i) dot_CC (c + d i) = a c + a d i + b c i + b d i^2\
+  = (a c - b d) + (a d + b c) i
+$
+- Addition has Neutral Element $(0,0) = 0$ and Inverse Element $(-a, -b) = -a - b i$
+- Multiplication has Neutral Element $(1,0) = 1$ and (non-zero) Inverse Element $(a/(a^2 + b^2), -b/(a^2 + b^2))$
+- The same notation as in $RR$ is normally used, for example $-(i) = (-0, -1) = -i$ and $i^(-1) = (0, -1) = -i$
+- An order relation cannot be defined in a way that satisfies the ordered field axioms. Proof: $
+"Let" 0<= i, "condition 3. implies" 0<= i dot i = -1 "which is false" therefore i <= 0\
+"Applying condition 2." i + -i <= 0 + -i => 0 <= -i\
+"Applying condition 3." 0 <= -i dot -i = i^2 = -1 "which is also false and contradicts" i<= 0 qed
+$
+Nevertheless, they satisfy a generalization of the completeness axiom and we can perform calculus on them.
+
+/ Definition - Complex Conjugate: The mapping $overline(dot): CC -> CC$ of a complex number $z = a + b i in CC$ is denoted as $overline(z)$ and defined:
+$
+  overline(z) := a - b i
+$
+It has the following properties $forall z, w in CC$:
+- $z dot overline(z) in RR >= 0$
+- $overline(z + w) = overline(z) + overline(w)$
+- $overline(z dot w) = overline(z) dot overline(w)$
+- $overline(z dot w) = overline(z) dot overline(w)$
+- $"Re"(z) = (z + overline(z)) / 2$
+- $"Im"(z) = (z - overline(z)) / (2i)$
+
+/ Definition - Complex Absolute Function: The complex absolute function $abs(dot): CC -> RR$ is defined as:
+$
+  abs(z = a + b i) := sqrt(z dot overline(z)) = sqrt(a^2 + b^2)
+$
+- $abs(z dot w) = sqrt((z dot w) dot overline(z dot w)) = sqrt(z dot overline(z) dot w dot overline(w)) = sqrt(z dot overline(z)) dot sqrt(w dot overline(w)) = abs(z) dot abs(w)$
+- It has the same notion of length when complex numbers are plotted on an Argand diagram
+
+/ Theorem - Cauchy-Schwartz Inequality: $forall z= x_1 + y_1 i, w = x_2 + y_2 i in CC$:
+$
+  x_1 x_2 + y_1 y_2 <= abs(z dot w)
+$
+Proof:\
+Through algebraic rearrangement, we can show that:
+$
+  abs(z dot w) - x_1 x_2 + y_1 y_2 = (x_1 y_2 -x_2 y_1)^2
+$
+Lemma: $x^2 >= 0$\
+Therefore $abs(z dot w) - x_1 x_2 + y_1 y_2 >= 0$\
+By applying the compatibility of addition in an ordered field (although $CC$ is not an ordered field, $abs(x dot w)$ can be expressed in terms of the component real numbers), we arrive at:
+$
+  abs(z dot w) >= x_1 x_2 + y_1 y_2 qed
+$
+
+/ Theorem - Complex Triangle Inequality: We can show that the triangle inequality also holds true $forall z= x_1 + y_1 i, w = x_2 + y_2 i in CC$:
+$
+  abs(z + w) <= abs(z) + abs(w)
+$
+Proof:\
+Through algebraic rearrangement, we can show:
+$
+  abs(z + w)^2 = abs(z)^2 + abs(w)^2 + 2(x_1 x_2 + y_1 y_2)
+$
+Applying the Cauchy-Schwarz Inequality:
+$
+  abs(z)^2 + abs(w)^2 + 2(x_1 x_2 + y_1 y_2) <= abs(z)^2 + abs(w)^2 + 2abs(z dot w)\
+  abs(z + w)^2 <= (abs(z) + abs(w))^2\
+  therefore abs(z + w) <= abs(z) + abs(w)
+$
 
 = Functions of One Real Variable
 / Definition - Function: A function $f: X -> Y$ is a mapping from the domain $X$ to range / codomain $Y$. It *may* have the following properties:
