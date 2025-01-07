@@ -29,6 +29,8 @@ Mathematics - Abstracting enough to focus on the matter
 
 Contradiction is a useful tool for linking statements about $>$ and $>=$.
 
+Conjecture - A conclusion formed on the basis of incomplete information
+
 #pagebreak()
 
 = Fundamentals
@@ -40,6 +42,16 @@ Contradiction is a useful tool for linking statements about $>$ and $>=$.
     {n in ZZ | exists m in ZZ: n = 2m}
   $ Where $|$ and $:$ both mean "such that".
 + The empty set $emptyset$ contains no elements
+
+/ Definition - Power Set: The power set of a set $X$ is the set of all subsets:
+$
+  cal(P)(X) := {"Set" Q | Q subset.eq X}
+$
+Example:
+$
+  X ={0, 1, 2}\
+  cal(P)(X) = {emptyset, {0}, {1}, {2}, {0, 1}, {0, 2}, {1, 2}, {0, 1, 2}}
+$
 
 / Definition - Interval Notation: Interval notation allows us to succinctly express common sets of real numbers between limits $a, b in RR$:
 - Closed interval $
@@ -303,7 +315,7 @@ $
 / Definition - Relationship: A relationship on $X$ is the subset $Re := { (a, b) in X times X | a ~ b}$ where $~$ is an operator for expressing conditions called a relation and may have the following properties if the corresponding condition holds true $forall x, y ,z in X$:
 - Reflexive - $x ~ x$ - Example: $<=$
 - Transitive - $x ~ y and y ~ z => x ~ z$ - Example: $<$
-- Symmetric - $x ~ y => y ~ x$ - Example: $=$
+- Symmetric - $x ~ y => y ~ x$ - Example: $=, !=$
 - Anti-Symmetric - $x ~ y and y ~ x => x = y$ - Example: $<=$ - Although such relations are often reflexive too, this is not a requirement, consider $<$, which is anti-symmetric (no such $x, y$ exist) but not reflexive.
 - A relation is called *equivalence relation* if it is reflexive, transitive and symmetric. For example $=$ is an equivalence relation, $<=$ is not (not symmetric).
 - A relation is called *order relation* if it is reflexive, transitive and anti-symmetric. For example $<=$
@@ -423,8 +435,29 @@ $
   inf(emptyset) = oo\
 $
 
-/ Definition - Archimedean Principle:
-TODO
+/ Definition - Archimedean Principle: For every $x in RR$ there exists *exactly one* $n in ZZ | n <= x < n + 1$. In simpler words, $forall x in RR exists z in ZZ | z > x$
+
+/ Definition - Integer / Fractional Part: The integer part of any $r in RR$ is given by the floor function $floor(dot): RR -> ZZ$ which returns the lower $n$ which exists due to the Archimedean principle.\
+The fractional part is given by $r - floor(r) in [0, 1)$
+
+/ Corollary - $1/n$ is arbitrarily small: $forall epsilon in RR | epsilon > 0 exists n in ZZ | n >= 1 and 1 / n < epsilon$.\
+Proof:\
+If $epsilon > 1$ this holds true with $n = 1$.\
+For $epsilon <= 1$, $1/epsilon >= 1$. The Archimedian principle states that there is always a $n >=1| n > 1/epsilon$, which becomes $1/n < epsilon qed$
+
+/ Definition - Cardinality: The cardinality of two sets describes their relative "sizes".
+- $X ~ Y$ - We say two sets $X$ and $Y$ have the same cardinality (the same number of elements) if there exists a *bijective* mapping $f: X -> Y$. Surjectivity guarantees that $abs(Y) >= abs(X)$ and injectivity guarantees $abs(X) >= abs(Y)$, which leads to$abs(X) = abs(Y)$ (trichotomy).
+- $X <_~ Y$ - $X$ is *smaller than or equal to* $Y$ if there exists an injective mapping $f: X -> Y$
+- $X <_~ Y and Y <_~ X = > X ~ Y$ - One can find a bijective mapping (Schröder-Bernstein Theorem)
+- $abs(emptyset) = 0$
+- $exists f: X -> {1, 2, ..., n} "is bijective" =>abs(X) =n, X "is finite"$
+- $abs(NN) = aleph_0$ - A set which has the same cardinality as $NN$ is called *countable*
+
+/ Definition - Cantor's Theorem: The power set $cal(P)(X)$ of any non-empty set $X$ is larger than and not equal to $X$.\
+Proof:\
+Although this may seem obvious, as with many theorems it is easier to write a formal proof than logically reason the intuition.\
+First we must show that there is an injective mapping $i: X -> cal(P)(X)$, which indeed exists: $x in X -> {x}$.\
+Now we show that there is *no* surjective mapping. Assume by contradiction that such a mapping $s: X -> cal(P)(X)$ exists.
 
 = Complex Numbers
 / Definition - Complex Numbers: The set of complex numbers $CC$ is defined from the Cartesian coordinates, where the $+$ can be thought of as a substitute for the comma in a tuple, and $i$ is called the *complex unit*:
