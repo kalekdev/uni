@@ -23,13 +23,16 @@ These notes should serve as condensed revision material - only the minimal, impo
 
 Note on order: Many scripts used for teaching introduce concepts as they become relevant. My goal is to build a revision reference, not a learning resource, therefore over time the order will be rearranged to group relevant definitions and theorems together.
 
-Proofs heavily involve decomposition; to progress, smaller Lemmas need to be brought in along the way and proven (or taken as true since someone else proved them). However first of all, you need to understand and remember the axioms (rules of the game).
+Proofs heavily involve decomposition; to progress, smaller Lemmas need to be brought in along the way and proven (or taken as true since someone else proved them). However first of all, you need to understand and remember the axioms (rules of the game). Intuition is helpful but doesn't prove anything unless it can be formulated as a series of statements a computer can verify
 
 Mathematics - Abstracting enough to focus on the matter
 
 Contradiction is a useful tool for linking statements about $>$ and $>=$.
 
 Conjecture - A conclusion formed on the basis of incomplete information
+Prove uniqueness through trichotomy, existence by completeness axiom.
+
+TODO: Read Einsiedler einführung
 
 #pagebreak()
 
@@ -42,6 +45,24 @@ Conjecture - A conclusion formed on the basis of incomplete information
     {n in ZZ | exists m in ZZ: n = 2m}
   $ Where $|$ and $:$ both mean "such that".
 + The empty set $emptyset$ contains no elements
+
+/ Definition - Cartesian Product: For the sets $X, Y$, the Cartesian product is the set of tuples (ordered lists): $X times Y := {(x, y) | x in X, y in Y}$
+- The number of elements in the set is: $
+    abs(X times Y) = abs(X) dot abs(Y)
+  $
+Example:
+$
+  X :={0, 1}, Y := {alpha, beta}\
+  X times Y := {(0,alpha), (0, beta), (1, alpha), (1, beta)}\
+$
+
+/ Definition - Subset: A set whose elements are entirely contained in a parent set with the following notation:
+- $P subset.eq Q$ - $P$ is a subset of $Q$ and they may be equal
+- $P subset.neq Q$ - $P$ is a *proper* subset of $Q$; $Q$ has at least 1 additional element
+- $P subset.not Q$ - There is at least one element in $P$ that is not in $Q$
+- The same applies in reverse using sup(er)set notation $supset.eq$
+- The symbols $subset$ and $supset$ are ambiguous in meaning
+- Two sets can be shown to be equal if $P subset.eq Q and Q subset.eq P$ holds true
 
 / Definition - Power Set: The power set of a set $X$ is the set of all subsets:
 $
@@ -294,24 +315,6 @@ Examples:
     0 = 0 dot a - 0 dot a = (0-0) dot a = 0 dot a
   $
 
-/ Definition - Cartesian Product: For the sets $X, Y$, the Cartesian product is the set of tuples (ordered lists): $X times Y := {(x, y) | x in X, y in Y}$
-- The number of elements in the set is: $
-    abs(X times Y) = abs(X) dot abs(Y)
-  $
-Example:
-$
-  X :={0, 1}, Y := {alpha, beta}\
-  X times Y := {(0,alpha), (0, beta), (1, alpha), (1, beta)}\
-$
-
-/ Definition - Subset: A set whose elements are entirely contained in a parent set with the following notation:
-- $P subset.eq Q$ - $P$ is a subset of $Q$ and they may be equal
-- $P subset.neq Q$ - $P$ is a *proper* subset of $Q$; $Q$ has at least 1 additional element
-- $P subset.not Q$ - There is at least one element in $P$ that is not in $Q$
-- The same applies in reverse using sup(er)set notation $supset.eq$
-- The symbols $subset$ and $supset$ are ambiguous in meaning
-- Two sets can be shown to be equal if $P subset.eq Q and Q subset.eq P$ holds true
-
 / Definition - Relationship: A relationship on $X$ is the subset $Re := { (a, b) in X times X | a ~ b}$ where $~$ is an operator for expressing conditions called a relation and may have the following properties if the corresponding condition holds true $forall x, y ,z in X$:
 - Reflexive - $x ~ x$ - Example: $<=$
 - Transitive - $x ~ y and y ~ z => x ~ z$ - Example: $<$
@@ -415,6 +418,10 @@ Lemma: $(abs(x) <= y) equiv (-y <= x <= y)$\
 $
   therefore abs(x + y) <= abs(x) + abs(y) qed
 $
+An alternative, the *inverse triangle inequality* can also be useful:
+$
+  abs(x - y) >= abs(abs(x) - abs(y))
+$
 
 / Definition - Completeness Axiom: The definition of an *ordered field* so far is unsuitable as we need to "fill in the gaps". The completeness axiom is an alternative but equivalent approach to Dedekind cuts (which define the cuts first and then operations in terms of cuts) which defines a *complete ordered field* if the completeness axiom holds true:
 + Let $X, Y subset.neq K | X, Y != emptyset: forall x in X forall y in Y$ the inequality $x <= y$ holds true. If there exists $c in K | x <= c <= y$ for all such subsets $X$ and $Y$, the ordered field is complete.
@@ -453,11 +460,102 @@ For $epsilon <= 1$, $1/epsilon >= 1$. The Archimedian principle states that ther
 - $exists f: X -> {1, 2, ..., n} "is bijective" =>abs(X) =n, X "is finite"$
 - $abs(NN) = aleph_0$ - A set which has the same cardinality as $NN$ is called *countable*
 
-/ Definition - Cantor's Theorem: The power set $cal(P)(X)$ of any non-empty set $X$ is larger than and not equal to $X$.\
+/ Theorem - Cantor's Theorem: The power set $cal(P)(X)$ of any (infinite too) non-empty set $X$ is larger than and not equal to $X$.\
+This reveals that $cal(P)(NN) > NN and cal(P)(NN) != NN$ which is useful for showing that other sets are larger than or equal to $cal(P)(NN)$ ($exists$ injection) and therefore also uncountable.\
 Proof:\
-Although this may seem obvious, as with many theorems it is easier to write a formal proof than logically reason the intuition.\
+Although this may seem obvious, when dealing with infinity it is easier to write a formal proof than find logical reasoning behind the intuition.\
 First we must show that there is an injective mapping $i: X -> cal(P)(X)$, which indeed exists: $x in X -> {x}$.\
-Now we show that there is *no* surjective mapping. Assume by contradiction that such a mapping $s: X -> cal(P)(X)$ exists.
+Now we show that there is *no* surjective mapping. Assume by contradiction that such a mapping $s: X -> cal(P)(X)$ exists.\
+We will demonstrate its absurdity by defining the subset:
+$
+  B = {x in X | x in.not f(x)} subset.eq X
+$
+For every $x in X$ there are two cases:
+1. $x in s(x)$, therefore $x in.not B$ and $s(x) != B$ because $x$ would need to be a member of $B$ for them to be equal
+2. $x in.not s(x)$, therefore $x in B$ and $s(x) != B$ because $x$ would need to be a member of $s(x)$ for them to be equal
+We have shown that $exists.not x in X | s(x) = B$ and because $B in cal(P)(X)$, there exists no surjective mapping $s: X -> cal(P)(X) qed$
+
+/ Theorem - $RR$ is Uncountable: To prove this, we can find an injection $i: cal(P)(NN) -> RR$, which is given from the decimal expansion of reals TODO: Understand Cantor diagonalization
+
+= Sequences of Real Numbers
+/ Definition - Sequence: A sequence is a function $a: NN -> RR$ which is often written as $(a_n)_(n in NN)$
+- A sequence is called *constant* if $forall n, m in NN, a_n = a_m$ and *eventually constant* if $exists N in NN | forall n, m >= N, a_n = a_m$
+
+/ Definition - Convergence: A sequence is said to *converge towards $A$* if:
+$
+  exists A in RR forall epsilon in (0, oo) exists N in NN | forall n in NN: n >= N, abs(a_n - A) < epsilon\
+  lim_(n -> oo) a_n = A
+$
+- *Divergence* can be proved by proving the conjugate:
+$
+  forall A in RR exists epsilon in (0, oo) forall N in NN_0 exists n in N: n >= N, abs(N - A) > epsilon\
+$
+#list.item[A convergent sequence has *only one* limit. Proof:\
+  Let $A_1, A_2 in RR$ be two limits of the sequence $a_n$.\
+  Due to the convergence criteria:$
+  exists N_1, N_2 in NN | forall n >= max(N_1, N_2), abs(a_n - A_1) < epsilon and abs(a_n - A_2) < epsilon, forall epsilon in (0, oo)\
+  0 < epsilon - abs(a_n - A_1), 0 < epsilon - abs(a_n - A_2)\
+  therefore abs(a_n - A_1) + abs(a_n - A_2)< 2 epsilon\
+$
+  Applying the Lemma $abs(a + b) <= abs(a) + abs(b)$: $
+  a_n - A_1 - (a_n - A_2) = A_2 - A_1\
+  0 <= abs(A_2 + (-A_1)) <= abs(a_n - A_1) + abs(-(a_n - A_2))< 2epsilon
+  $
+  Since $abs(-x) = abs(x) >= 0$, and this is true $ forall epsilon > 0$:
+  $
+    abs(A_2 -A_1) = 0 = A_2 - A_1\
+    A_2 = A_1 qed
+  $
+]
+- The sequence $a_n = 1/n$ converges to 0, because $forall epsilon > 0, exists n in ZZ | 1/n < epsilon$, satisfying the criteria of convergence $abs(1/n - 0) < epsilon$
+
+/ Definition - Subsequence: A subsequence of $a_n$ is any sequence obtained by keeping certain elements $a_n_i$ indexed by $i_k_(k in NN) | forall k in NN, i_(k + 1) > i_k$
+- It follows that $i_k >= k$ (proof by induction invoking the property of natural numbers $x > y => x>= y + 1$
+- A sequence can have convergent subsequences *without* itself converging, for example $a_n = (-1)^n$ does not converge but the subsequences $a_(2n), a_(2n +1)$ are constant and convergent
+
+/ Lemma - Subsequences of a Convergent Sequence are Convergent to the Same Limit: Proof:\
+Let $a_n_i$ (indexed by $i_k_(k in NN)$) be a subsequence of $a_n$, which converges to $A in RR$, ie $exists N in NN | forall n > N, abs(a_n - A) < epsilon$.\
+$i_k >= k  => j >= n$ is a term of $i_k$, which satisfies the convergence condition for the same $A$, along with all subsequent elements.
+
+/ Definition - Accumulation Point: A point $A in RR$ is called an *accumulation point* of a sequence $a_n$ if:
+$
+  forall epsilon > 0 forall N in NN exists n in NN | n >= N and abs(a_n - A) < epsilon
+$
+This no longer requires that every $n >= N$ is close to $A$, just that such an $n$ can be chosen for every minimum $N$. For example, both $1$ and $-1$ are accumulation points of $a_n = (-1)^n$ but not limits.\
+The following corollaries apply:
+- $A$ is an accumulation point of a sequence $a_n <=>$ There exists a subsequence of $a_n$ which converges towards $A$
+- $forall epsilon > 0$ there are infinitely many elements of the sequence $a_n$ near an accumulation point $(A - epsilon, A + epsilon)$. This follows from the fact that there is a subsequence that converges to $A$ and all elements of the subsequence after $N$ are both close to $A$ *and* elements of the parent sequence.
+- A convergent sequence's limit is its *only* accumulation point. The Lemma states: All subsequences of this sequence are convergent to the same limit and applying the first corollary proves that they all correspond to the same accumulation point.
+
+/ Definition - Ring of Sequences: Sequences $in RR$ form a commutative ring together with point wise addition and multiplication and the constant sequences $0_n$ and $1_n$ as neutral elements:
+$
+  a_n + b_n = (a + b)_n\
+  a_n dot b_n = (a dot b)_n\
+  alpha dot b_n = (alpha dot b)_n
+$
+- They do not form a field under pointwise multiplication, as a non-zero sequence may still contain $0 in RR$ in it, which under real multiplication has no inverse $0 dot i != 1$.
+
+/ Theorem - Operations on Limits: Operations on the sequence $x_n$ which converges to $X$ and $y_n$ which converges to $Y$ have the following effects on their limits:
+#enum.item[$(x_n + y_n)_n -> X + Y$ Proof:\
+  We can say the following about these sequences:
+  $
+    forall epsilon > 0 exists n in NN | n >= max(N_x, N_y) and abs(x_n - X) < epsilon and abs(y_n - Y) < epsilon
+  $
+  To show that $(x_n + y_n)_n$ converges to $X+Y$, we need to show $abs((x_n + y_n) - (X + Y)) < epsilon$ for increasing $n$. Due to $0<=abs(x)$ and the compatibility of addition in the ordered field $RR$, we can add these inequalities:
+  $
+    abs(x_n - X) + abs(y_n - Y) < 2 epsilon
+  $
+  Applying the triangle inequality:
+  $
+    abs(x_n - X + y_n - Y) = abs((x_n + y_n) - (X + Y)) < 2 epsilon qed
+  $
+  Similar proofs to 2, 3 and 4
+]
++ $(x_n dot y_n)_n -> X dot Y$
++ $forall alpha in RR, alpha dot x_n -> alpha X$
++ $forall n in NN, x_n !=0 and X != 0 => (x^(-1))_n -> X^(-1)$
+
+TODO: 2.97
 
 = Complex Numbers
 / Definition - Complex Numbers: The set of complex numbers $CC$ is defined from the Cartesian coordinates, where the $+$ can be thought of as a substitute for the comma in a tuple, and $i$ is called the *complex unit*:
