@@ -173,6 +173,20 @@ Let $X, Y$ be non-empty sets with an upper bound:
 - $sup(X dot Y) = sup(X)dot sup(Y) | forall x in X forall y in Y x, y >= 0$ (two "large" negative elements can make a larger supremum)
 TODO: Review proof 2.59
 
+/ Definition - Characteristic Function: $X subset.eq Y$, the characteristic / indicator function $chi_X: Y -> {0, 1}$ indicates whether an element is part of a set:
+$
+  chi_X (x) := cases(
+  1 "if" x in X,
+  0 "otherwise"
+)
+$
+
+/ Definition - Restriction Function: A new function can be defined with a smaller domain:
+$
+  f: X -> Y, A subset.eq X\
+  f |_A: A -> Y
+$
+
 = Topology
 
 / Definition - Ball / Disk: A topological ball with radius $r$ and center $x_0 in RR^d$ in dimension $RR^d$ is defined as the set of points:
@@ -305,7 +319,7 @@ Examples:
 + If multiplication is commutative, it is a *commutative ring* and has neutral element $n=1$
 + It is *not necessarily* a group for multiplication as $0$ may be included and has no inverse element $0 dot i != 1$
 
-/ Definition - Field: A commutative ring $K$ (Körper) where $forall a in K | k != 0$ the inverse element for multiplication exists.
+/ Definition - Field (Körper): A commutative ring $K$ (Körper) where $forall a in K | k != 0$ the inverse element for multiplication exists.
 + Addition: $n = 0, i = -a, -(-a) = a$
 + Multiplication: $n = 1, i = a^(-1), (a^(-1))^(-1) = a | a != 0$
 Examples:
