@@ -535,11 +535,11 @@ $i_k >= k  => j >= n$ is a term of $i_k$, which satisfies the convergence condit
 $
   forall epsilon > 0 forall N in NN exists n in NN | n >= N and abs(a_n - A) < epsilon
 $
-This no longer requires that every $n >= N$ is close to $A$, just that such an $n$ can be chosen for every minimum $N$. For example, both $1$ and $-1$ are accumulation points of $a_n = (-1)^n$ but not limits.\
+This no longer requires that every $n >= N$ is close to $A$, just that such an $n$ can be chosen for every minimum $N$ (which is a similar notion to choosing the terms that make up a converging subsequence). For example, both $1$ and $-1$ are accumulation points of $a_n = (-1)^n$ but not limits.\
 The following corollaries apply:
 - $A$ is an accumulation point of a sequence $a_n <=>$ There exists a subsequence of $a_n$ which converges towards $A$
 - $forall epsilon > 0$ there are infinitely many elements of the sequence $a_n$ near an accumulation point $(A - epsilon, A + epsilon)$. This follows from the fact that there is a subsequence that converges to $A$ and all elements of the subsequence after $N$ are both close to $A$ *and* elements of the parent sequence.
-- A convergent sequence's limit is its *only* accumulation point. The Lemma states: All subsequences of this sequence are convergent to the same limit and applying the first corollary proves that they all correspond to the same accumulation point.
+- A convergent sequence's limit is its *unique* accumulation point. The Lemma states: "All subsequences of a convergent sequence are convergent to the same limit" and applying the first corollary proves that they all correspond to the same accumulation point.
 
 / Definition - Ring of Sequences: Sequences $in RR$ form a commutative ring together with point wise addition and multiplication and the constant sequences $0_n$ and $1_n$ as neutral elements:
 $
@@ -563,13 +563,75 @@ $
   $
     abs(x_n - X + y_n - Y) = abs((x_n + y_n) - (X + Y)) < 2 epsilon qed
   $
-  Similar proofs to 2, 3 and 4
+  Similar proofs for 2, 3 and 4
 ]
 + $(x_n dot y_n)_n -> X dot Y$
 + $forall alpha in RR, alpha dot x_n -> alpha X$
 + $forall n in NN, x_n !=0 and X != 0 => (x^(-1))_n -> X^(-1)$
+Furthermore:
+#enum.item[$X < Y => exists N in NN | forall n > N, x_n < y_n$\
+  Proof:\
+  Since both sequences converge, there exists: $
+exists N | forall epsilon > 0, forall n>N, abs(x_n - X) < epsilon and abs(y_n - Y) < epsilon
+$
+  We want to consider the case of $X < Y$ and look for terms that "surround" this inequality. These inequalities can be rewritten as:
+  $
+    -epsilon + X< x_n < epsilon + X\
+    -epsilon + Y< y_n < epsilon + Y\
+    x_n - epsilon < X\
+    y_n + epsilon > Y\
+    x_n - epsilon < X <Y < y_n + epsilon\
+    x_n - epsilon < y_n + epsilon\
+  $
+  Since $epsilon$ can be chosen to tend towards $0$, $x_n < y_n forall n> N qed$
+]
++ $(exists N in NN | forall n> N, x_n < y_n) => X <= Y$. This can be proved by contradiction using the previous Lemma. We cannot say $X <Y$, for example the two sequences $x_n = -1/n, y_n = 1/n$ approach their limit $0$ from different sides.
+These can be very useful to calculate the limits of complicated expressions, for example:
+$
+  lim_(n-> oo) (7n^4+15) / (3n^4+n^3+n-1) = lim_(n->oo) (7+15 n^(-4)) / (3+n^3n^(-4)+n n^(-4)-1n^(-4)) = lim_(n->oo) (7+15 n^(-4)) / (3+n^(-1)+n^(-3)-n^(-4))\
+  x >= 1, lim_(n->oo) n^(-x) = 0\
+  therefore 7 / 3
+$
+Care must be taken to not divide by $0$ or $oo$ when simplifying such limits.
 
-TODO: 2.97
+/ Lemma - Sandwich Lemma: Consider 3 sequences, such that $exists N in NN | forall n > N | x_n <= y_n <= z_n$. If $x_n$ and $z_n$ converge to the same limit, the sequence $y_n$ also converges to the same limit. The proof follows from the previous Lemma $(exists N in NN | forall n> N, x_n < y_n) => X <= Y$ applied for both $x_n$ and $z_n$ and the principle of trichotomy.
+
+/ Definition - Bounded Sequence: A sequence is bounded if $exists M in RR | M >= 0, abs(x_n) <= M forall n in NN$. This is different from a limit as the sequence may oscillate between negative and positive.
+- Every convergent sequence is bounded (but not every bounded sequence is convergent). Proof: The bound $M$ is $max(abs(A), abs(x_1), abs(x_2), ..., abs(x_(N-1)))$, where $N$ is finite.
+- Bounded sequences have at least 1 accumulation point / a convergent subsequence.
+
+/ Definition - Monotone Sequence: A sequence $x_n$ is called (strictly) monotonically increasing / decreasing if:
+$
+  (forall m, n in NN | m > n) => x_m >= (>) x_n\
+  (forall m, n in NN | m > n) => x_m <= (<) x_n
+$
+- Consider a monotone sequence. It is bounded $<=>$ it converges, such that:
+$
+  "Montonically increasing:" lim_(n -> oo) x_n = sup{x_n | n in NN}\
+  "Montonically decreasing:" lim_(n -> oo) x_n = inf{x_n | n in NN}
+$
+Proof:\
+I state the following facts:
+$
+  "Monotonically increasing:" (forall m, n in NN | m > n) => x_m >= x_n\
+  "Bounded:" exists M in RR | M >= 0, forall b in NN, abs(x_b) <= M, -M <= x_b <= M\
+  "Supremum: " min{b in RR | forall x in X,x <= b}
+$
+I aim to show convergence by combining these definitions towards: $exists A in RR forall epsilon in (0, oo) exists N in NN | forall n in NN: n >= N, abs(a_n - A) < epsilon$.\
+The existence of a bound $M$ shows that the bound set is *not* empty and a supremum "on the sequence" exists (although it may be smaller to $M$). Let $A in RR$ be such a supremum:
+$
+  forall x_n, -A <= x_n <= A \
+  therefore x_n - A <= 0
+$
+Since $epsilon >0$, we can rearrange this to:
+$
+  x_n - A < epsilon
+$
+We now wish to show $-epsilon < x_n - A$. It is given $x_(n) >= x_(n-1)$. Furthermore, $x_(n-1)$ also respects the bound $A$. Hence:
+$
+  -A<= x_(n-1) <= x_n\
+$
+TODO: This proof is taking too long :( but I think I am almost there. Hoping to apply the definition of the absolute function, $abs(x_n - A) < epsilon$. I also need to show that there is an $N$ after which this is valid, will try again another time...
 
 = Complex Numbers
 / Definition - Complex Numbers: The set of complex numbers $CC$ is defined from the Cartesian coordinates, where the $+$ can be thought of as a substitute for the comma in a tuple, and $i$ is called the *complex unit*:
