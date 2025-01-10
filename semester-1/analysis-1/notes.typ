@@ -464,7 +464,7 @@ The fractional part is given by $r - floor(r) in [0, 1)$
 / Corollary - $1/n$ is arbitrarily small: $forall epsilon in RR | epsilon > 0 exists n in ZZ | n >= 1 and 1 / n < epsilon$.\
 Proof:\
 If $epsilon > 1$ this holds true with $n = 1$.\
-For $epsilon <= 1$, $1/epsilon >= 1$. The Archimedian principle states that there is always a $n >=1| n > 1/epsilon$, which becomes $1/n < epsilon qed$
+For $epsilon <= 1$, $1/epsilon >= 1$. The Archimedian principle states that there always exists a $n >=1| n > 1/epsilon$, which becomes $1/n < epsilon qed$
 
 / Definition - Cardinality: The cardinality of two sets describes their relative "sizes".
 - $X ~ Y$ - We say two sets $X$ and $Y$ have the same cardinality (the same number of elements) if there exists a *bijective* mapping $f: X -> Y$. Surjectivity guarantees that $abs(Y) >= abs(X)$ and injectivity guarantees $abs(X) >= abs(Y)$, which leads to$abs(X) = abs(Y)$ (trichotomy).
@@ -632,6 +632,65 @@ $
   -A<= x_(n-1) <= x_n\
 $
 TODO: This proof is taking too long :( but I think I am almost there. Hoping to apply the definition of the absolute function, $abs(x_n - A) < epsilon$. I also need to show that there is an $N$ after which this is valid, will try again another time...
+
+/ Definition - Superior / Inferior Limits: These can be thought of as the steady-state bounds of a sequence. Consider the sequence $s_n = sup{x_k | k>=n}$ based on the sequence $x_n$. As the starting term to be included $n$ gets larger, the supremum can only stay the same or get smaller (monotonically decreasing) because $m> n, {x_k | k>=m} subset.neq {x_k | k>=n}$, ie. the starting terms get excluded and $therefore s_m <= s_n$. *If the sequence $x_n$ is bounded*, $s_n$ is also bounded as the first (and subsequent) suprema are a real, non-infinite number. Therefore, $s_n$ converges to $inf{s_n | n in NN}$ and vice versa for the inferior limit $i_n$, such that:
+$
+  forall n in NN, i_n <= x_n <= s_n\
+  (lim sup)_(n-> oo) x_n = lim_(n -> oo) (sup{x_k | k>= n}) = inf{sup{x_k | k>= n} | n in NN}\
+  (lim inf)_(n-> oo) x_n = lim_(n -> oo) (inf{x_k | k>= n}) = sup{inf{x_k | k>= n} | n in NN}\
+  (lim inf)_(n-> oo) x_n <= (lim sup)_(n-> oo) x_n
+$
+#figure(
+  image("images/limsup.png", width: 60%),
+) <fig-limsup>
+- The superior and inferior limits of all *bounded* sequences are accumulation points, and therefore have convergent subsequences:
+$
+  A = "Set of accumulation points"\
+  (lim sup)_(n-> oo) x_n = max(A)\
+  (lim inf)_(n-> oo) x_n = inf(A)
+$
+
+/ Theorem - Squeeze Theorem: This is known as the *squeeze theorem* as the bounds squeeze towards the limit from either side and is an alternative criteria for convergence:
+$
+  "A sequence converges"<=> (lim inf)_(n-> oo) x_n = (lim sup)_(n-> oo) x_n
+$
+Proof:\
+Let $s_n= sup{x_k | k>=n}$, $i_n= inf{x_k | k>=n}$, we know that $forall n in NN, i_n <= x_n <= s_n$.\
+It is given that $s_n$ and $i_n$ converge to the same limit, therefore $x_n$ also converges to this limit (sandwich lemma).\
+To show convergence $=> lim sup = lim inf$, as $n->oo$, the minimum index for convergence $N$ will have been reached and:
+$
+  forall n> N forall epsilon in RR | epsilon > 0, -epsilon< x_n -A < epsilon\
+  A - epsilon< x_n < A + epsilon\
+  A - epsilon< i_n <= s_n < A + epsilon\
+$
+This can be rearranged to convergence criteria for $s_n$ and $i_n$, showing that their limits are equal:
+$
+  forall epsilon > 0, A - epsilon < i_n < A + epsilon => abs(i_n - A) < epsilon\
+  abs(s_n - A) < epsilon qed
+$
+
+/ Definition - Cauchy Sequence: A sequence is a *Cauchy Sequence* if:
+$
+  forall epsilon > 0 exists N in NN | forall n, m> N, abs(x_n - x_m) < epsilon
+$
+- They are bounded
+- A sequence converges $<=>$ it is a Cauchy sequence.\
+Proof:\
+Let $x_n$ be a sequence converging to $A$:
+$
+  forall epsilon > 0 exists N in NN | forall n > N, abs(x_n - A) < epsilon\
+  m > N => abs(x_m - A) < epsilon\
+  abs(x_n - A) + -abs(x_m - A) < epsilon
+$
+Applying the triangle inequality:
+$
+  abs(x_n  - x_m) < epsilon
+$
+Since $epsilon$ is arbitrary, this shows that it is a Cauchy sequence. Now we must show that this implies that it converges, let $x_n$ be a Cauchy sequence. Because it is bounded, there exists a subsequence $x_n_k$ which converges to the bound $A$ as $n->oo$:
+$
+  abs(x_n_k - A) < epsilon\
+  abs(x_n_k - A) + < 2epsilon
+$
 
 = Complex Numbers
 / Definition - Complex Numbers: The set of complex numbers $CC$ is defined from the Cartesian coordinates, where the $+$ can be thought of as a substitute for the comma in a tuple, and $i$ is called the *complex unit*:

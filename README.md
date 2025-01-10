@@ -1,11 +1,12 @@
 # University Notes
-Various notes and exercises made during my BSc in Electrical Engineering and Information Technology (Started September 2024) at ETH Zürich, mainly using [Typst](https://typst.app/), a modern feature-rich replacement for LaTeX.
+Various notes and exercises made during my BSc in Physics (switched after 1 semester of Electrical Engineering starting in September 2024) at ETH Zürich, mainly using [Typst](https://typst.app/), a modern feature-rich replacement for LaTeX.
 
 ## Structure
 *semester-1* - Notes and exercises for the following courses:
 - Analysis 1
-- Digital Circuits
 - Linear Algebra
+- Physics 1
+- Digital Circuits
 - Networks and Circuits 1 (NUS)
 - Technical Mechanics
 
