@@ -27,7 +27,7 @@ Proofs heavily involve decomposition; to progress, smaller Lemmas need to be bro
 
 Mathematics - Abstracting enough to focus on the matter
 
-Contradiction is a useful tool for linking statements about $>$ and $>=$.
+Contradiction is a useful tool for linking statements about $>$ and $>=$. When in doubt, assume by contradiction
 
 Conjecture - A conclusion formed on the basis of incomplete information
 Prove uniqueness through trichotomy, existence by completeness axiom.
@@ -596,7 +596,8 @@ Care must be taken to not divide by $0$ or $oo$ when simplifying such limits.
 
 / Lemma - Sandwich Lemma: Consider 3 sequences, such that $exists N in NN | forall n > N | x_n <= y_n <= z_n$. If $x_n$ and $z_n$ converge to the same limit, the sequence $y_n$ also converges to the same limit. The proof follows from the previous Lemma $(exists N in NN | forall n> N, x_n < y_n) => X <= Y$ applied for both $x_n$ and $z_n$ and the principle of trichotomy.
 
-/ Definition - Bounded Sequence: A sequence is bounded if $exists M in RR | M >= 0, abs(x_n) <= M forall n in NN$. This is different from a limit as the sequence may oscillate between negative and positive.
+/ Definition - Bounded Sequence: A sequence is bounded if $exists M in RR | M >= 0, abs(x_n) <= M forall n in NN$. This is different from a limit as the sequence may oscillate between negative and positive.\
+A sequence is unbounded if $forall M in RR | M >= 0,exists n in NN | abs(x_n) >= M $
 - Every convergent sequence is bounded (but not every bounded sequence is convergent). Proof: The bound $M$ is $max(abs(A), abs(x_1), abs(x_2), ..., abs(x_(N-1)))$, where $N$ is finite.
 - Bounded sequences have at least 1 accumulation point / a convergent subsequence.
 
@@ -673,6 +674,7 @@ $
 $
   forall epsilon > 0 exists N in NN | forall n, m> N, abs(x_n - x_m) < epsilon
 $
+*Important:* It is only a Cauchy sequence if $abs(x_n - x_m) < epsilon$ *for all* $n, m> N$. For example, the sequence $1, 1+ 1/2, 2, 2 + 1/3, 2+2/3, 3, ...$ satisfies $abs(x_n - x_(n-1)) < epsilon forall n > N$, but it is not a Cauchy sequence and is unbounded.
 - They are bounded
 - A sequence converges $<=>$ it is a Cauchy sequence.\
 Proof:\
@@ -686,11 +688,35 @@ Applying the triangle inequality:
 $
   abs(x_n  - x_m) < epsilon
 $
-Since $epsilon$ is arbitrary, this shows that it is a Cauchy sequence. Now we must show that this implies that it converges, let $x_n$ be a Cauchy sequence. Because it is bounded, there exists a subsequence $x_n_k$ which converges to the bound $A$ as $n->oo$:
+Since $epsilon$ is arbitrary, this shows that it is a Cauchy sequence. Now we must show that this implies that it converges, let $x_n$ be a Cauchy sequence. Because it is bounded, there exists a subsequence $x_n_k$ which converges to the bound $A$ as $n->oo$. Elements of this subsequence are also elements of $x_n$ and can be included in the Cauchy inequality as $n->oo$:
 $
+  abs(x_n  - x_n_k) < epsilon\
   abs(x_n_k - A) < epsilon\
-  abs(x_n_k - A) + < 2epsilon
+  abs(x_n - A) <= abs(x_n - x_n_k) + abs(x_n_k - A) < 2epsilon\
 $
+Therefore the entire sequence converges to $A qed$
+
+/ Definition - Divergence: We say that a sequence $x_n$ diverges to $oo$ $(-oo)$ if:
+$
+  forall M in RR | M > (<) 0, exists N in NN | forall n > N, x_n > (<) M\
+  lim_(n-> oo) x_n = oo (-oo)
+$
+The limits $oo$ and $-oo$ are called *improper*.
+- An unbounded sequence doesn't necessarily diverge to $oo$, for example $(-1)^n n$ oscillates.
+#list.item[ An unbounded sequence always has a subsequence which diverges to $oo$ or $-oo$.\
+  Proof:\
+  The definition of an unbounded sequence is very similar to that of divergence to $oo$ or $-oo$:
+  $
+    forall M in RR | M >= 0,exists k in NN | abs(x_k) >= M\
+    x_k > M or x_k < -M
+  $
+  We now need to show that there are infinitely many such elements with index greater than $k$. Assume by contradiction that $exists.not i >k | x_i > M or x_k < -M$. This violates the criteria for an unbounded sequence, as it implies there are finitely ($NN$ is not dense) many elements $x_k > M$ but this is required for *infinitely* many $M > 0$.\
+  This contradicts the assumption and shows: $
+  forall M in RR | M > (<) 0, exists N in NN | forall n > N, x_n_k > (<) M qed
+$]
+- The superior / inferior limits of an unbounded sequence are the improper limits $oo$ or $-oo$ depending on if it has an upper or lower bound.
+
+/ Definition - Complex Sequences: We can study the limits of the real and imaginary parts of a complex number individually. A sequence $z_n$ converges to $A + B i$ if $"Re"(z_n) -> A, "Im"(z_n) -> B$. Since complex numbers are not ordered, we check divergence using the absolute function $abs(z_n) -> oo$.
 
 = Complex Numbers
 / Definition - Complex Numbers: The set of complex numbers $CC$ is defined from the Cartesian coordinates, where the $+$ can be thought of as a substitute for the comma in a tuple, and $i$ is called the *complex unit*:
