@@ -181,7 +181,7 @@ $
 )
 $
 
-/ Definition - Restriction Function: A new function can be defined with a smaller domain:
+/ Definition - Restriction Function: A new function can be defined with a smaller domain, which is useful for drawing conclusions from its properties over that domain:
 $
   f: X -> Y, A subset.eq X\
   f |_A: A -> Y
@@ -793,7 +793,7 @@ $
 $
 
 = Functions of One Real Variable
-/ Definition - Function: A function $f: X -> Y$ is a mapping from the domain $X$ to range / codomain $Y$. It *may* have the following properties:
+/ Definition - Function: A function $f: X -> Y$ is a mapping from a domain $X$ (not just the natural numbers like sequences) to range / codomain $Y$. For now we only discuss single-valued *real* functions: $X, Y subset.eq RR$. It *may* have the following properties:
 + _Injective_ - $forall x, x' in X : x != x' => f(x) != f(x')$ - Assigns each element of $X$ a *unique* element in $Y$
 + _Surjective_ - $forall y in Y exists x in X: f(x) = y$ - Every element in the range is a possible output of the function
 + _Bijective_ - It is both injective and surjective, and therefore an inverse function can be defined
@@ -827,6 +827,68 @@ If $f(x_1) = f(x_2)$ for any two elements, they would "validate" the same member
 This is *not* necessarily true for infinite sets, for example $f: NN -> NN, f(x) := x+1$ is injective but not surjective.
 
 / Definition - Square Root: This is the bijective function $sqrt(dot): RR_(>=0) -> RR_(>=0)$ such that $forall a in RR_(>=0) (sqrt(a))^2 = a$, whose existence is only possible due to the real numbers being a *complete ordered field*. TODO: Various proofs Exercise 2.27 Figalli's script
+
+/ Definition - Ring of Functions: For a domain $X$, we can define a *commutative* ring (not a field, there is no inverse element for multiplication) on the set of real valued functions $cal(F)(X) := {f | f: X -> RR}$ with the following operations:
+$
+  f_1, f_2 in cal(F)(X)\
+  (f_1 + f_2)(x) = f_1(x) + f_2(x)\
+  (f_1 dot f_2)(x) = f_1(x) dot f_2(x)\
+  alpha in RR, (alpha dot f_1)(x) = alpha dot f_1(x)\
+$
+The constant function is defined as $forall x in X, f(x) = a$.
+- Neutral elements - Addition: $f(x) = 0$, Multiplication: $f(x) = 1$
+An order relation $<=$ is defined:
+$
+  f_1 <= f_2 <=> forall x in X, f_1(x) <= f_2(x)
+$
+
+/ Definition - Bounded Functions: As with many function definitions, they are very similar to the definitions for sequences. A function $f: X -> Y$ is bounded if:
+$
+  exists M in RR | M > 0, forall x in X, abs(f(x)) < M
+$
+This can be separated into "bounded from above" $f(x) < M$ and below $f(x) < -M$
+
+/ Definition - Monotone Functions: A function $f: X -> Y$ is called (strictly) monotonically increasing / decreasing if $forall m, n in X$:
+$
+  m > n => f(m) >= (>) f(n)\
+  m > n => f(m) <= (<) f(n)
+$
+- The rounding function $floor(x)$ is monotonically increasing but not strictly
+- A function is constant $<=>$ A function is both monotonically increasing and decreasing. Proof: Trichotomy
+- A *strictly* monotone function is always injective. Proof:\ Assume by contradiction that it is not injective. $exists x_1 != x_2 | f(x_1) = f(x_2$. However, since $x_1 != x_2$, they must be either $>$ or $<$ each other and therefore $f(x_1) != f(x_2)$ (monotone) which proves that they are injective by contradiction $qed$
+
+/ Definition - $epsilon delta$ Continuity: Intuitively, a function is continuous over an interval if we can draw it without lifting the pencil. A function is continuous at a point $x_0 in X$ if:
+$
+  forall epsilon > 0 exists delta > 0 | forall x in X, abs(x - x_0) < delta => abs(f(x) - f(x_0)) < epsilon
+$
+It is continuous over a set $X$ if it is continuous $forall x_0 in X$, the definition can be amended to $forall x_1, x_2 in X, abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon$. If there is a jump in the function at the point $x$, then there exists a small enough $epsilon$, so that no matter how close $x$ is to $x_0$, the max error $epsilon$ will never be satisfied.
+- The *Dirichlet Function* based on the characteristic function defined earlier is non-continuous at every point: $
+  1_QQ: RR -> {1, 0}\
+  1_QQ := chi_QQ
+$ This is because there are irrational, real numbers around every rational number so for $0< epsilon <1 exists.not delta$ such that points next to each other have an output $< epsilon$. This also demonstrates why the $forall x in X$ is necessary, otherwise one could simply pick two rational numbers (it is a dense set).
+- Constant functions are continuous. Proof:\ $forall x, x_0 in X, f(x) - f(x_0) = 0 < epsilon$ therefore there always exists such a $delta qed$
+- The function $f(x) = x$ is continuous. Proof:\ We need to find a $delta$ such that $forall x_1, x_2 in X, abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon$.\ Because $abs(f(x_1) - f(x_2)) = abs(x_1 - x_2)$ and $delta, epsilon > 0$, $delta$ can always be chosen such that the second inequality also holds true $forall epsilon > 0 qed$
+- The absolute function $f(x) = abs(x)$ is continuous. Proof:\ Inverse triangle inequality: $abs(f(x_1) - f(x_2)) = abs(abs(x_1) - abs(x_2)) <= abs(x_1 - x_2) < delta = epsilon qed$
+- $x^2$ is continuous TODO
+
+/ Lemma - Operations on Continuous Functions: Let $f_1, f_2: D -> RR$ be continuous functions at a point $x_0 in D$. The following functions are also continuous at $x_0$:
++ $(f_1 + f_2)(x)$ - Proof:\ We are given: $
+  forall epsilon > 0 forall x in X\
+exists delta_1 > 0 | abs(x - x_0) < delta_1 => abs(f_1(x) - f_1(x_0)) < epsilon\
+exists delta_2 > 0 | abs(x - x_0) < delta_2 => abs(f_2(x) - f_2(x_0)) < epsilon
+$ Setting $delta = min{delta_1, delta_2}$: $
+  exists delta > 0 | abs(x - x_0) < delta => 0 <= abs(f_1(x) - f_1(x_0)) < epsilon and 0 <= abs(f_2(x) - f_2(x_0)) < epsilon\
+abs(f_1(x) - f_1(x_0))  +  abs(f_2(x) - f_2(x_0)) < 2 epsilon
+$ Since functions form a ring, we want to show $exists delta | abs(x-x_0) < delta => abs(f_1(x) + f_2(x) - f_1(x_0) + f_2(x_0))$. Applying the triangle inequality gives: $
+  abs(f_1(x) + f_2(x) + (- (f_1(x_0) + f_2(x_0)))) <= abs(f_1(x) - f_1(x_0)) + abs(f_2(x) - f_2(x_0)) < 2 epsilon
+$ Therefore $(f_1 + f_2)(x)$ is also continuous at $x_0 qed$
++ $(f_1 dot f_2)(x)$ - Proof:\ Following the previous definitions, we wish to show that $exists delta | abs(x - x_0) < delta => abs(f_1(x) dot f_2(x) - f_1(x_0) dot f_2(x_0)) < epsilon$
++ $forall alpha in RR, (alpha dot f_2)(x)$ - The proof follows from setting $f_1(x)$ in the previous Lemma to the constant function $f_1(x) = alpha$
+This can be extended to continuity over a common subset if they are both continuous over that set.
+
+/ Corollary - Polynomials are continuous: All polynomials can be constructed from a linear combination of $f(x) = x$ and constant functions $f(x) = a$, which were both shown to be continuous $in RR$. Hence polynomials are also continuous for all points in $RR$.
+
+TODO Composition of functions
 
 TODO:
 *The range of a continuous function with / bounded to a compact domain is also compact.*
