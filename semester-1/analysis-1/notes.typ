@@ -882,13 +882,40 @@ abs(f_1(x) - f_1(x_0))  +  abs(f_2(x) - f_2(x_0)) < 2 epsilon
 $ Since functions form a ring, we want to show $exists delta | abs(x-x_0) < delta => abs(f_1(x) + f_2(x) - f_1(x_0) + f_2(x_0))$. Applying the triangle inequality gives: $
   abs(f_1(x) + f_2(x) + (- (f_1(x_0) + f_2(x_0)))) <= abs(f_1(x) - f_1(x_0)) + abs(f_2(x) - f_2(x_0)) < 2 epsilon
 $ Therefore $(f_1 + f_2)(x)$ is also continuous at $x_0 qed$
-+ $(f_1 dot f_2)(x)$ - Proof:\ Following the previous definitions, we wish to show that $exists delta | abs(x - x_0) < delta => abs(f_1(x) dot f_2(x) - f_1(x_0) dot f_2(x_0)) < epsilon$
-+ $forall alpha in RR, (alpha dot f_2)(x)$ - The proof follows from setting $f_1(x)$ in the previous Lemma to the constant function $f_1(x) = alpha$
++ $(f_1 dot f_2)(x)$ - Proof:\ Following the previous definitions, we wish to show that $exists delta | abs(x - x_0) < delta => abs(f_1(x) dot f_2(x) - f_1(x_0) dot f_2(x_0)) < epsilon$, which we can achieve as follows: $
+abs(f_2(x))abs(f_1(x) - f_1(x_0)) < abs(f_2(x))epsilon\
+abs(f_1(x_0))abs(f_2(x) - f_2(x_0)) < abs(f_1(x_0))epsilon\
+abs(f_2(x)f_1(x) - f_2(x)f_1(x_0)) + abs(f_1(x_0)f_2(x) - f_1(x_0) f_2(x_0)) < epsilon (abs(f_1(x)) + abs(f_2(x)))\
+abs(f_1(x) dot f_2(x) - f_1(x_0) dot f_2(x_0))< epsilon (abs(f_1(x)) + abs(f_2(x)))
+$ Since $epsilon > 0$ is arbitrary, this proves the continuity of the product of continuous functions $qed$
++ $forall alpha in RR, (alpha dot f_2)(x)$ - The proof follows from setting $f_1(x)$ in the previous Lemma to the constant function $f_1(x) = alpha$, which has been shown to be continuous.
 This can be extended to continuity over a common subset if they are both continuous over that set.
 
 / Corollary - Polynomials are continuous: All polynomials can be constructed from a linear combination of $f(x) = x$ and constant functions $f(x) = a$, which were both shown to be continuous $in RR$. Hence polynomials are also continuous for all points in $RR$.
 
-TODO Composition of functions
+/ Definition - Composition of Functions: Functions can be passed as arguments into one another:
+$
+  f: X -> Y, g: Y -> Z\
+  g compose f: X -> Z\
+  g compose f := g(f(x))
+$
+- Composition of functions is associative and brackets are irrelevant
+
+/ Theorem - Composition of Continuous Functions: Let $f: X -> Y$ which is continuous at $x_0$ and $g: Y -> Z$ continuous at $f(x_0)$ such that $X, Y, Z subset.eq RR$. $g compose f$ is also continuous at $x_0$.\
+Proof:\
+The following properties apply $forall epsilon > 0$:
+$
+  exists delta_1 | forall x in X, abs(x - x_0) < delta_1 => abs(f(x) - f(x_0)) < epsilon\
+  exists delta_2 | forall f(x) in Y, abs(f(x) - f(x_0))< delta_2 => abs(g(f(x)) - g(f(x_0))) < epsilon\
+$
+To show continuity of $g compose f$ at $x_0$, I will show $exists delta | forall x in X, abs(x - x_0) < delta => abs(g(f(x)) - g(f(x_0))) < epsilon$. By choosing $delta = min(delta_1, delta_2)$ , this is clearly the case as:
+$
+  abs(x - x_0)< delta => abs(f(x) - f(x_0)) < epsilon =>abs(g(f(x)) - g(f(x_0)))
+$
+The surjectivity of $f(x)$ does not matter, as the final inequality only applies if the intermediate $abs(f(x) - f(x_0)) < epsilon$ is true $qed$\
+As usual, this extends to the entire domain if both $f$ and $g$ are continuous functions.
+
+TODO: Exercise 3.22
 
 TODO:
 *The range of a continuous function with / bounded to a compact domain is also compact.*
