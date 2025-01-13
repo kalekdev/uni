@@ -862,10 +862,10 @@ $
   forall epsilon > 0 exists delta > 0 | forall x in X, abs(x - x_0) < delta => abs(f(x) - f(x_0)) < epsilon
 $
 It is continuous over a set $X$ if it is continuous $forall x_0 in X$, the definition can be amended to $forall x_1, x_2 in X, abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon$. If there is a jump in the function at the point $x$, then there exists a small enough $epsilon$, so that no matter how close $x$ is to $x_0$, the max error $epsilon$ will never be satisfied.
-- The *Dirichlet Function* based on the characteristic function defined earlier is non-continuous at every point: $
+- The *Dirichlet Function* based on the characteristic function is non-continuous at every point: $
   1_QQ: RR -> {1, 0}\
   1_QQ := chi_QQ
-$ This is because there are irrational, real numbers around every rational number so for $0< epsilon <1 exists.not delta$ such that points next to each other have an output $< epsilon$. This also demonstrates why the $forall x in X$ is necessary, otherwise one could simply pick two rational numbers (it is a dense set).
+$ This is because there are irrational, real numbers around every rational number so for $0< epsilon <1 exists.not delta$ such that points next to each other have an output $< epsilon$. This also demonstrates why the $forall x in X$ is necessary, otherwise one could simply pick two rational numbers within the $delta$ interval (it is a dense set).
 - Constant functions are continuous. Proof:\ $forall x, x_0 in X, f(x) - f(x_0) = 0 < epsilon$ therefore there always exists such a $delta qed$
 - The function $f(x) = x$ is continuous. Proof:\ We need to find a $delta$ such that $forall x_1, x_2 in X, abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon$.\ Because $abs(f(x_1) - f(x_2)) = abs(x_1 - x_2)$ and $delta, epsilon > 0$, $delta$ can always be chosen such that the second inequality also holds true $forall epsilon > 0 qed$
 - The absolute function $f(x) = abs(x)$ is continuous. Proof:\ Inverse triangle inequality: $abs(f(x_1) - f(x_2)) = abs(abs(x_1) - abs(x_2)) <= abs(x_1 - x_2) < delta = epsilon qed$
@@ -915,9 +915,29 @@ $
 The surjectivity of $f(x)$ does not matter, as the final inequality only applies if the intermediate $abs(f(x) - f(x_0)) < epsilon$ is true $qed$\
 As usual, this extends to the entire domain if both $f$ and $g$ are continuous functions.
 
-TODO: Exercise 3.22
+/ Theorem - Sequential Continuity: This is an alternative characterization of a continuous function. The function $f: X-> RR$ is continuous at $x_0 <=>$ For every sequence $x_n subset.neq X$ converging to $x_0$ (this always exists, for example $x_n = x_0$), the sequence $f(x_n)$ converges to $f(x_0)$.\
+Proof:\
+The following holds true for all sequences converging to $x_0$:
+$
+  forall delta > 0 exists N_1 | forall n > N_1, abs(x_n - x_0) < delta\
+$
+If the sequence $f(x_n)$ converges to $f(x_0)$:
+$
+  forall epsilon > 0 exists N_2 | forall n > N_2, abs(f(x_n) - f(x_0)) < epsilon\
+$
+Choosing $N = max{N_1, N_2}$ both conditions hold true:
+$
+  forall epsilon > 0 exists N | forall n > N, abs(x_n - x_0) < delta and abs(f(x_n) - f(x_0)) < epsilon\
+$
+TODO: Somehow this is equivalent to saying $forall x in X$:
+$
+  forall epsilon > 0 exists delta | forall x in X abs(x - x_0) < delta => abs(f(x) - f(x_0)) < epsilon qed
+$
 
-TODO:
+/ Theorem - Intermediate Value Theorem: Let $f: [a, b] -> RR$ be a continuous function such that $a <= b$. $forall c in [f(a), f(b)] exists x in [a, b] | f(x) = c$. In simpler words, a continuous function $f$ takes on every value between $[f(a), f(b)]$ at least once - it is *surjective* over $[a, b]$.\
+Proof:\
+TODO
+
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
 The maxi-, mini-, supre- and infimum of a function are defined as expected on its range.
