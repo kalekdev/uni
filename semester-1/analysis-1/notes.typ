@@ -934,9 +934,14 @@ $
   forall epsilon > 0 exists delta | forall x in X abs(x - x_0) < delta => abs(f(x) - f(x_0)) < epsilon qed
 $
 
-/ Theorem - Intermediate Value Theorem: Let $f: [a, b] -> RR$ be a continuous function such that $a <= b$. $forall c in [f(a), f(b)] exists x in [a, b] | f(x) = c$. In simpler words, a continuous function $f$ takes on every value between $[f(a), f(b)]$ at least once - it is *surjective* over $[a, b]$.\
+/ Theorem - Intermediate Value Theorem (Zwischenwertsatz): Let $f: [a, b] -> RR$ be a continuous function such that $a <= b$. $forall c in [f(a), f(b)] exists x in [a, b] | f(x) = c$. In simpler words, a continuous function $f$ takes on every value between $[f(a), f(b)]$ at least once - it is *surjective* over $[f(a), f(b)]$.\
 Proof:\
-TODO
+Let $c$ be the value who want to show is in the domain of the continuous function $f: [a, b] -> X$ such that $f(a) < c < f(b)$ (one can prove for $f(b) < f(a)$ similarly).\
+Consider the set $L = {x in [a, b] | f(x) < c}$. The set is not-empty ($a in L$) and is bounded, therefore it has a supremum $s$. We will now show that $s!=a and s!=b$.\
+Due to the continuity of $f$ at $a$, we can keep $f(x)$ any $epsilon > 0$ away (at most) from $f(a)$ such that $abs(x - a) < delta$. Choose $epsilon < c - f(a)$ (to pull the values away from $a$ towards whichever value outputs $c$).\
+The $x$'s which satisfy this $epsilon$ must be in $L$ ($forall x in [a, b] and f(x) - f(a) < epsilon = c-f(a)=> f(x) < c$) but not equal to $a$ (because $delta > 0$), therefore $L$ contains at least one element greater than $a =>$ the supremum $s > a$. The same can be applied to a set $U$ of outputs greater than $c$ to show that the infimum $i < b$.
+
+TODO: https://mathcenter.oxford.emory.edu/site/math111/proofs/ivt/
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
