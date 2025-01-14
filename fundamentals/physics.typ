@@ -39,6 +39,88 @@ This approximation is accurate when considering systems with velocities signific
 
 Transformations between reference frames can also be represented as a matrix allowing easier vector calculations.
 
+=== Kinematics
+The equation of motion for a point mass in Cartesian Coordinates given its velocity function can be calculated by solving the differential equation:
+$
+  arrow(r)(t) = arrow(r)(t_0) + integral_(t_0)^(t) arrow(v)(t') d t'
+$
+Where the initial position $arrow(r)(t_0)$ is needed due to the constant of integration. Integration only returns the total distance / velocity gained / lost or the displacement.
+
+==== Acceleration Formulae
+Acceleration is the rate of change of velocity, can be found by taking the derivative of velocity:
+$
+  arrow(a) = dot(v) = d(
+    dot(x)e_x + dot(y)e_y +dot(z)e_z
+  ) / (d t) &= dot.double(x)e_x + dot.double(y)e_y +dot.double(z)e_z
+$
+In cylindrical coordinates:
+$
+  v = dot(rho) e_rho + rho dot(phi) e_phi + dot(z) e_z\
+  a = (dot.double(rho) - rho dot(phi)^2)e_rho + (2dot(rho)dot(phi) + rho dot.double(phi))e_phi + dot.double(z) e_z
+$
+
+==== Projectile Motion
+Consider the following projectile with negligible air resistance:
+#figure(
+  image("images/projectile-motion.png", width: 80%),
+) <fig-projectile-motion>
+$
+  dot(r)(0) = v_0 (cos(alpha) e_x + sin(alpha) e_y)\
+  dot.double(r)(t) = -g e_y\
+  dot(r)(t) = (v_0 cos(alpha)) e_x + (v_0 sin(alpha) -g t) e_y
+$
+Solving for the positions, taking the starting position as the origin:
+$
+  r(t) = (v_0 cos(alpha)t) e_x + (v_0 sin(alpha)t -g / 2 t^2) e_y\
+$
+The maximum distance is achieved at $r_y (t) = 0$ and is at its maximum when the initial angle is $45 degree$ to the ground.
+
+The maximum height is when $dot(r)_y (t) = 0$. The solved time can then be inserted into the position equation.
+
+==== Angular Velocity
+In a polar coordinate system, we define the angular velocity $omega$ as the rate of change of the $phi$ coordinate, which is given as a component in the $e_z$ direction, allowing us to store, allowing us to calculate the velocity of a particle using the cross product:
+$
+  dot(r)(t) = arrow(omega)(t) times arrow(rho)(t)
+$
+Usually anti-clockwise rotation is attributed to a positive angular velocity and vice versa.
+
+==== Circular Motion
+Consider a particle moving around a circular path (constrained to a plane) with a constant radius $r$ and angular velocity $omega$:
+$
+  rho(t) = r\
+  phi(t) = omega t + phi_0\
+$
+Expressing its equation of motion using Cartesian coordinates:
+$
+  arrow(r)(t) = vec(r cos(omega t + phi_0), r sin(omega t + phi_0))\
+  dot(r)(t) = omega r vec(-sin(omega t + phi_0), cos(omega t + phi_0))\
+  dot.double(r)(t) = -omega^2 r vec(cos(omega t + phi_0), sin(omega t + phi_0)) = -omega^2 arrow(r)(t)
+$
+Where the velocity and current position vector are always perpendicular to each other (inner product of $sin$ and $cos$ is always 0). We can see that the acceleration (and resultant force) needed to sustain such motion is always in the opposite direction of the position vector: $-arrow(e_rho)$.
+
+The speed of the particle can also be calculated as $v= r omega$, therefore the acceleration for a desired speed is:
+$
+  omega = v / r\
+  dot.double(r) = -r(v / r)^2 e_rho= - v^2 / r e_rho
+$
+Furthermore, the period for a single orbit is given by:
+$
+  T = (2 pi) / omega = (2 pi r) / v
+$
+Particle accelerators operate upon these principles.
+
+==== Angular Acceleration
+We define the angular acceleration as the rate of change of angular velocity:
+$
+  alpha = dot(omega) = dot.double(phi)
+$
+
+In cylindrical coordinates the general formulae for velocity and acceleration are:
+$
+  v = dot(rho) e_rho + rho dot(phi) e_phi + dot(z) e_z\
+  a = (dot.double(rho) - rho dot(phi)^2)e_rho + (2dot(rho)dot(phi) + rho dot.double(phi))e_phi + dot.double(z) e_z
+$
+
 === Momentum
 Consider a system of $n$ particles, where the only forces are those exerted by the particles on each other. The sum of momentum of this system is:
 $
