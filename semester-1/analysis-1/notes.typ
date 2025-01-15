@@ -173,6 +173,12 @@ Let $X, Y$ be non-empty sets with an upper bound:
 - $sup(X dot Y) = sup(X)dot sup(Y) | forall x in X forall y in Y x, y >= 0$ (two "large" negative elements can make a larger supremum)
 TODO: Review proof 2.59
 
+/ Definition - Identity Function: This function simply outputs its input and is needed to define the inverse of a function:
+$
+  id: X -> X\
+  id(x):= x
+$
+
 / Definition - Characteristic Function: $X subset.eq Y$, the characteristic / indicator function $chi_X: Y -> {0, 1}$ indicates whether an element is part of a set:
 $
   chi_X (x) := cases(
@@ -934,7 +940,7 @@ $
   forall epsilon > 0 exists delta | forall x in X abs(x - x_0) < delta => abs(f(x) - f(x_0)) < epsilon qed
 $
 
-/ Theorem - Intermediate Value Theorem (Zwischenwertsatz): Let $f: [a, b] -> RR$ be a continuous function such that $a <= b$. $forall c in [f(a), f(b)] exists x in [a, b] | f(x) = c$. In simpler words, a continuous function $f$ takes on every value between $[f(a), f(b)]$ at least once - it is *surjective* over $[f(a), f(b)]$. This is useful to show surjectivity or to prove that an injective, continuous function is *strictly monotone* over an interval.\
+/ Theorem - Intermediate Value Theorem (Zwischenwertsatz): Let $f: [a, b] -> RR$ be a continuous function such that $a <= b$. $forall c in [f(a), f(b)] exists x in [a, b] | f(x) = c$. In simpler words, a continuous function $f$ takes on every value between $[f(a), f(b)]$ at least once - it is *surjective* over $[f(a), f(b)]$. This is useful to show surjectivity or to prove that an injective, continuous function is *strictly monotone* over an interval (assume it is not and choose a point that violates the monotonicity, there exists two points on either side with the same output due to this theorem).\
 Proof:\
 Let $c$ be any value who want to show is in the domain of the continuous function $f: [a, b] -> X$ such that $f(a) < c < f(b)$ (one can prove for $f(b) < f(a)$ similarly by working with the set $U= {x in [a, b] | c < f(x)}$).\
 Consider the set $L = {x in [a, b] | f(x) < c}$. The set is not-empty ($a in L$) and is bounded, therefore it has a supremum $s$. We will now show that $s!=a and s!=b$.\
@@ -961,6 +967,22 @@ Summary:
 - Define set $L = {x in [a, b] | f(x) < c}$
 - Show that its supremum $s in (a, b)$ due to continuity at both of those points
 - Exploit the continuity at $s$ along with points $x_0 in (s - delta, s], in L =>f(x_0) < c$ and $x_1 in [s, s + delta), in.not L => f(x_1) >= c$ to show that $f(s) = c$ as $epsilon -> 0$
+
+/ Definition - Inverse Function: Any *bijective* function $f: X -> Y$ has a corresponding inverse $f^(-1): Y -> X$ (not to be confused with the preimage, which is defined for all functions but doesn't take account of every element in $Y$, not surjective) defined such that:
+$
+  f^(-1) compose f = f compose f^(-1)= id\
+$
+
+/ Theorem - Inverse Function Theorem: A function that is strictly monotone and continuous over an interval $I subset.eq RR$ is bijective and has an inverse function, which is also strictly monotone and continuous.\
+Proof:\
+Let $J = f(I)$ and consider the strictly monotone, continuous function $f: I -> J$. It is surjective by definition and injective due to its strict monotonicity, therefore the inverse $f^(-1): J -> I$ exists, which is also strictly monotone:
+$
+  forall x_1, x_2 in X\
+  x_1< x_2 <=> f(x_1) < (>) f(x_2) <=> f^(-1)(f(x_1)) < f^(-1)(f(x_2))
+$
+The continuity of the inverse can be shown using the sequential continuity criteria but is rather complicated.
+
+/ Definition - n'th Root Function: This is defined as the inverse of $x^n: [0, oo) -> [0, oo)$ TODO
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
