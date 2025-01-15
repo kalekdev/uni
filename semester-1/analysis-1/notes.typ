@@ -934,14 +934,33 @@ $
   forall epsilon > 0 exists delta | forall x in X abs(x - x_0) < delta => abs(f(x) - f(x_0)) < epsilon qed
 $
 
-/ Theorem - Intermediate Value Theorem (Zwischenwertsatz): Let $f: [a, b] -> RR$ be a continuous function such that $a <= b$. $forall c in [f(a), f(b)] exists x in [a, b] | f(x) = c$. In simpler words, a continuous function $f$ takes on every value between $[f(a), f(b)]$ at least once - it is *surjective* over $[f(a), f(b)]$.\
+/ Theorem - Intermediate Value Theorem (Zwischenwertsatz): Let $f: [a, b] -> RR$ be a continuous function such that $a <= b$. $forall c in [f(a), f(b)] exists x in [a, b] | f(x) = c$. In simpler words, a continuous function $f$ takes on every value between $[f(a), f(b)]$ at least once - it is *surjective* over $[f(a), f(b)]$. This is useful to show surjectivity or to prove that an injective, continuous function is *strictly monotone* over an interval.\
 Proof:\
-Let $c$ be the value who want to show is in the domain of the continuous function $f: [a, b] -> X$ such that $f(a) < c < f(b)$ (one can prove for $f(b) < f(a)$ similarly).\
+Let $c$ be any value who want to show is in the domain of the continuous function $f: [a, b] -> X$ such that $f(a) < c < f(b)$ (one can prove for $f(b) < f(a)$ similarly by working with the set $U= {x in [a, b] | c < f(x)}$).\
 Consider the set $L = {x in [a, b] | f(x) < c}$. The set is not-empty ($a in L$) and is bounded, therefore it has a supremum $s$. We will now show that $s!=a and s!=b$.\
 Due to the continuity of $f$ at $a$, we can keep $f(x)$ any $epsilon > 0$ away (at most) from $f(a)$ such that $abs(x - a) < delta$. Choose $epsilon < c - f(a)$ (to pull the values away from $a$ towards whichever value outputs $c$).\
-The $x$'s which satisfy this $epsilon$ must be in $L$ ($forall x in [a, b] and f(x) - f(a) < epsilon = c-f(a)=> f(x) < c$) but not equal to $a$ (because $delta > 0$), therefore $L$ contains at least one element greater than $a =>$ the supremum $s > a$. The same can be applied to a set $U$ of outputs greater than $c$ to show that the infimum $i < b$.
-
-TODO: https://mathcenter.oxford.emory.edu/site/math111/proofs/ivt/
+The $x$'s which satisfy this $epsilon$ must be in $L$ ($forall x in [a, b] and f(x) - f(a) < epsilon = c-f(a)=> f(x) < c$) but not equal to $a$ (because $epsilon !=0$), therefore $L$ contains at least one element greater than $a =>$ the supremum $s > a$. The same can be argued about the continuity at $b$, any elements close to $b$ are greater than $c$ (due to $c < f(b)$) $=>$ not in $L$, therefore the supremum $s < b$.\
+We now know that $s in (a, b)$ and want to show $f(s) = c$. Since $f$ is continuous over $[a, b]$, it is also continuous at $s$:
+$
+  forall epsilon > 0 exists delta > 0| forall x in [a, b], abs(x - s) < delta => abs(f(x) - f(s)) < epsilon
+$
+Considering $delta$ for any $epsilon$, there must exist some $x_0 |-epsilon + f(s) < f(x_0) < epsilon + f(s)$ which is in the interval $x_0 in (s- delta, s]$ (because $s$ is the supremum). Since $f(x_0) < c$, this leads to:
+$
+  -epsilon + f(s) < c\
+  f(s) < c + epsilon
+$
+Furthermore, there exists an $x_1 in [s, s + delta) | f(x_1) >= c$ (otherwise it would've been in $L$), and due to the continuity of $f$ at $s$:
+$
+  - epsilon + f(s) < f(x_1) < epsilon + f(s)\
+  c < epsilon + f(s)\
+  -epsilon + c < f(s)\
+  -epsilon + c < f(s) < c + epsilon
+$
+Choosing $epsilon -> 0$, it is clear that $f(s) = c$ whilst $s in [a, b] qed$\
+Summary:
+- Define set $L = {x in [a, b] | f(x) < c}$
+- Show that its supremum $s in (a, b)$ due to continuity at both of those points
+- Exploit the continuity at $s$ along with points $x_0 in (s - delta, s], in L =>f(x_0) < c$ and $x_1 in [s, s + delta), in.not L => f(x_1) >= c$ to show that $f(s) = c$ as $epsilon -> 0$
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 

@@ -136,7 +136,7 @@ $
 $
 This always equal to 0 due to Newton's 3rd Law of Motion: $F_(j i) = -F_(i j)$
 
-Hence total momentum is constant and conserved, which is a useful fact for solving collision problems.
+Hence total momentum is constant and conserved in an *isolated system* (no external forces do any work), which is a useful fact for solving collision problems.
 
 Newton's 3rd law and thus the conservation of momentum does not hold when relativistic effects are apparent and therefore also in the case of magnetic fields (which is a consequence of special relativity):
 #figure(
@@ -145,7 +145,7 @@ Newton's 3rd law and thus the conservation of momentum does not hold when relati
 However, unless the particles are moving near the speed of light, the electrostatic forces far outweigh momentum losses due to magnetism.
 
 ==== Impulse
-Consider a constant force applied on a point mass for $Delta t$ seconds. The change in momentum is called impulse:
+Consider a constant resultant force applied on a point mass for $Delta t$ seconds. The change in momentum is called impulse:
 $
   Delta P = F Delta t
 $
