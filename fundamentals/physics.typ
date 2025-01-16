@@ -7,7 +7,7 @@
 == Classical Mechanics
 
 === Newton's Laws of Motion
-Published in his 1687 paper Principia, these laws describe the motion of objects and continue to serve as the foundations of classical mechanics in the modern day.
+Published in his 1687 paper Principia, these laws describe the motion of objects *in inertial reference frames* and continue to serve as the foundations of classical mechanics in the modern day.
 
 1. An object remains at rest or in motion at a constant speed unless acted on by an external force. (aka the principle of inertia)
 2. The resultant force acting on a body is the rate of change of the momentum of the object:
@@ -19,11 +19,39 @@ $
 === Frame of Reference
 A coordinate system whose origin and basis are specified in space.
 
-A frame of reference itself can be in motion, for example when considering an object on the Earth's surface as "stationary" the frame of reference in which we are thinking is moving with the same velocity as that object when compared to any other object in space. It would be considered as moving at the same velocity as the Earth's surface in a different frame of reference with the sun as the origin.
+A frame of reference itself can be in motion, for example when approximating an object on the Earth's surface as "stationary" the frame of reference in which we are thinking is moving with the same velocity as that object when compared to any other object in space. It would be considered as moving at the same velocity as the Earth's surface in a different frame of reference with the sun as the origin.
 
-_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia; ie. the frame itself is moving at a constant velocity in relation to any other inertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of.
+_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia; ie. the frame itself is moving at a constant velocity in relation to any other inertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of, although it is not truly inertial due to the rotation of the Earth.
 
-_Non-Inertial Reference Frame_ - It is accelerating in some way; objects defined as stationary / moving at a constant velocity with respect to the frame are therefore also accelerating in relation to any other inertial reference frame without the need of any external force and thus violate the principle of inertia.
+_Non-Inertial Reference Frame_ - It is accelerating in some way (for example a frame based on an observer in an accelerating car); objects defined as stationary / moving at a constant velocity with respect to the frame are therefore also accelerating in relation to any other inertial reference frame without the need of any external force and thus violate the principle of inertia.
+
+In progress:
+==== Non-Inertial Frames of Reference
+We, the observer, are in the reference frame $K$. Consider a reference frame $K'$ who's origin is given by position vector $R(t)$ with respect to $K$. It is also rotating with angular velocity $arrow(omega)$ relative to the inertial frame, such that the direction of $arrow(omega)$ indicates the z-axis of rotation and allows us to calculate the direction of the basis vectors in $K'$.
+
+Given a position vector of a particle in $K'$, for example $arrow(r')=x' e_x' + y' e_y' + z' e_z'$, we can calculate the position and velocity relative to $K$ as follows:
+$
+  arrow(r) = arrow(R) + arrow(r')\
+  arrow(v) = dot(R) + dot(r') = dot(R) + (dot(x') + e_x' + dot(y') + e_y' + dot(z') + e_z') + (
+    x' + dot(e_x') + y' + dot(e_y') + z' + dot(e_z')
+  )
+$
+The time-dependent base vectors of $K'$ can be calculated using the cross product with the angular velocity of $K'$, hence:
+$
+  arrow(v) = dot(R) + dot(r') + omega times r'\
+  dot(v) = dot.double(R) + dot.double(r') + omega times dot(r')
+$
+The product rule occurs again in the base vectors of $K'$, leading to:
+$
+  dot(v) = dot.double(R) + dot.double(r') + 2 omega times dot(r') + omega times (omega times r')
+$
+The first two terms $dot.double(R)$ (acceleration of the origin of $K'$) and $dot.double(r')$ (acceleration of the particle with respect to $K'$) are very intuitive, the last two arise due to the rotation of $K'$ and are named:
++ $dot.double(R)$ - Inertial Acceleration - bus
++ $omega times (omega times r')$ - Centripetal Acceleration - Acceleration needed to keep the particle in the same position relative to $K'$ as it rotates. Force pushing outwards as you take a corner in a car
++ $2 omega times dot(r')$ - Coriolis Acceleration
+
+==== Fictitious Forces
+This "fix" non-inertial reference frames to make Newton's Laws valid
 
 TODO: Rotating frame of reference
 
@@ -232,6 +260,41 @@ $
   arrow(F) = (-6 pi eta r) arrow(v)
 $
 Where $eta$ is the viscosity of the fluid.
+
+=== Newton's Law of Gravitation
+This is an empirical approximation of the gravitational force acting on point mass $m_1$ caused by point mass $m_2$:
+$
+  arrow(F_12) = (G m_1 m_2 arrow(e_r_12)) / (abs(arrow(r_12))^2)
+$
+Unlike Coulomb's law, it is always attractive.
+
+If this is the only force acting on $m_1$, its acceleration is given by:
+$
+  m_1 dot.double(r) = (G m_1 m_2 arrow(e_r_12)) / (abs(arrow(r_12))^2)\
+  dot.double(r) = (G m_2 arrow(e_r_12)) / (abs(arrow(r_12))^2)
+$
+On the surface of the Earth, this is a constant for all objects given the name $g approx 9.81$. $m_1$ exerts an equal and opposite on $m_2$ too, but in the case of objects on the Earth, the force is too small to cause any measurable acceleration of the Earth.
+
+==== Normal Force
+Consider a particle on the surface of the Earth. Although the gravitational force always acts in the direction of the Earth's center, the resulting normal force is only equal and opposite to the excess weight remaining after the "fake" centripetal force required to keep it in contact with the surface has been taken care of.
+
+Since the particle is performing circular motion around the cross-section of the Earth at its current latitude, the centripetal force is given by:
+$
+  F = m omega^2 r cos(phi)
+$
+Where $r$ is the radius of the sphere and $phi in [-pi/2, pi/2]$ is the latitude the particle is at, where $phi = 0$ is at the equator. *Important:* It acts towards the axis of rotation, not the center of the sphere.
+
+In the case of the Earth, the centripetal acceleration (depending on the latitude) required is less than $g$, therefore objects stay on the surface and the resulting normal force is given by:
+$
+  F_"Normal" &= -(F_"Weight" - F_"Centripetal")\
+  &= -m (vec(g cos(r), g sin(r)) - vec(omega^2 r cos(phi), 0))\
+  abs(F_"Normal" &= m sqrt((g cos(r) - omega^2 r cos(phi))^2 + (g sin(r))^2))\
+  &= -m sqrt(g^2 - omega^2 r cos phi (2 g cos r - omega^2 r cos phi))
+$
+This confirms as expected that the normal force is at its greatest at the North / South poles:
+$
+  cases(F_N < m g &"if" abs(phi) < pi/2, F_N = m g &"if" phi = pi/2)
+$
 
 === Energy
 Consider a particle of mass $m$ traveling at speed $v$ with initial kinetic energy $T$:
