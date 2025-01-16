@@ -195,6 +195,44 @@ $
 
 Taylor's "Example 3.4 Sliding and Spinning Dumbbell" is a good summary of these ideas.
 
+=== Friction
+Friction is the phenomenon of irregularities in the surfaces of materials resisting their relative motion. It is completely a braking force, acting in the opposite direction of the velocity and converting energy away from the system into heat. Friction is responsible for 20% of our energy expenditure!
+
+However it is more often than not a useful force, which is for example needed to exert lift in airplane wings and to keep vehicles from crashing as they take a turn.
+
+==== Dry Friction
+Of course, calculating the exact frictional force of each irregularity in a surface is not a good idea. Experiments show that the force needed to accelerate and then maintain an object on a frictional surface at a certain velocity (ie it becomes equal to the current friction) is initially higher than after it is in motion, where it becomes linearly proportional to the current normal force (and therefore the weight of the object).
+#figure(
+  image("images/dry-friction.png", width: 80%),
+) <fig-dry-friction>
+In practice we can ignore the changing constant of proportionality and simply define two constants:
+- $mu_0$ - Dry static friction (Haftreibung):
+$
+  abs(F) <= mu_0 abs(N)
+$
+The force is $<=$ because it would only be at full effect if the object is on the verge of sliding. Considering for example a box on a ramp, when the angle of the ramp is 0, no friction is acting on it yet. $abs(F) = mu_0 abs(N)$ when the so called *critical angle* of the ramp is reached. This also helps us define a range for an external, tangential force within which the object remains at rest.
+- $mu_1$ - Dry kinetic friction (Gleitreibung):
+$
+  abs(F) = mu_1 abs(N)
+$
+This is called Coulomb's Frictional Law. As a vector:
+$
+  F = -mu_1 abs(N) arrow(v) / abs(arrow(v))
+$
+
+Here are some typical coefficient values:
+#figure(
+  image("images/friction-coefficients.png", width: 80%),
+) <fig-friction-coefficients>
+They depend on both materials as seen above.
+
+==== Stoke's Law
+The drag force on a small sphere with radius $r$ moving through a viscous fluid is given by:
+$
+  arrow(F) = (-6 pi eta r) arrow(v)
+$
+Where $eta$ is the viscosity of the fluid.
+
 === Energy
 Consider a particle of mass $m$ traveling at speed $v$ with initial kinetic energy $T$:
 $
