@@ -982,7 +982,11 @@ $
 $
 The continuity of the inverse can be shown using the sequential continuity criteria but is rather complicated.
 
-/ Definition - n'th Root Function: This is defined as the inverse of $x^n: [0, oo) -> [0, oo)$ TODO
+/ Definition - n'th Root Function: This is defined as the inverse of $x^n: [0, oo) -> [0, oo)$ and can be written as either $root(n, x)$ or $x^(1/n)$.
+
+/ Theorem - Compact Domain: Let $f: [a, b] -> RR$ be a function with a compact (closed and bounded) domain, its range (and by convention $f$ itself) is therefore also bounded.\
+Proof:\
+Assume by contradiction that $f$ is not bounded, ie. $forall N in RR | N > 0, exists x in [a, b] | abs(f(x)) > N$. Because the domain is compact, there exists a convergent subsequence $x_n$ with a limit $lim_(n->oo) x_n in [a, b]$, such that due to the composition of functions $abs(f(x_n)) -> abs(f(lim_(n->oo) x_n))$. TODO: I did not understand the last contradiction step Theorem 3.39 Figalli
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
