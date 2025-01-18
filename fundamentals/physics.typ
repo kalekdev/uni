@@ -14,78 +14,7 @@ Published in his 1687 paper Principia, these laws describe the motion of objects
 $
   F = (d bold(P)) / (d t) = m bold(a)
 $
-3. Every action results in an equal and opposite reaction. This can also be used to show the conservation of linear momentum.
-
-=== Frame of Reference
-_Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
-
-A frame of reference itself can be in motion, for example it may be useful to use a reference with the origin fixed inside a moving car, allowing us to ignore the movement of the car (if its moving at a constant velocity) and focus on movement relative to it, for example a coin being tossed into the air.
-
-_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia (Newton's 3rd Law); the frame itself is at rest or moving at a constant velocity in relation to any other inertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of, due its very small angular velocity.
-
-_Non-Inertial Reference Frame_ - A frame which is accelerating in some way (for example a frame based on an observer in an accelerating car). Newton's Laws do not hold true in such frames and "fictitious" forces are needed to account for the motion of the frame to accurately apply the laws of motion.
-
-==== Inertial Force
-We, the observer, are in the inertial reference frame $K$. Consider a reference frame $K'$ who's origin is given by position vector $R(t)$ with respect to $K$ and may not necessarily be inertial (might be accelerating) and who's basis vectors remain constant over time.
-
-Given a position vector $arrow(r')$ of a particle in $K'$, we can calculate the position, velocity and acceleration relative to the inertial frame $K$ as follows:
-$
-  r = r' + R\
-  dot(r) = dot(r') + dot(R)\
-  dot.double(r) = dot.double(r') + dot.double(R)
-$
-Newton's Laws hold true in $K$, hence:
-$
-  m dot.double(r) = F = m(dot.double(r') + dot.double(R))\
-$
-If we want to take advantage of Newton's 2nd Law with respect to the non-inertial reference frame $K'$ we can rearrange to:
-$
-  m dot.double(r') = F - m dot.double(R)
-$
-Where $- m dot.double(R)$ is the so-called *inertial force* that "acts" on all objects in the accelerating, non rotating frame $K'$ so Newton's Laws remain accurate (it must be included when calculating resultant forces, for example a coin tossed in the air in an accelerating car would only remain at rest / constant velocity if an equal and opposite (to the inertial force) external force acted upon it). An example of this is the force that pushes you back into your seat whilst an airplane is taking off, acting in the opposite direction to acceleration.
-
-==== Rotating Frames
-_Euler's Rotation Theorem_ - Any displacement of a rigid body in 3D such that one of its points stays fixed must be a rotation around an axis of momentary stationary points. Only the angular velocity vector is needed to describe the rotation of a body.
-
-Now consider that the frame $K'$ is also rotating with angular velocity $arrow(omega)$ relative to the inertial frame (the direction of $arrow(omega)$ is usually bound to one of the principle axes of $K'$, for example the z-axis) and allows us to calculate the direction of $K'$s basis vectors relative to $K$.
-
-Given a position vector of a particle in $K'$, for example $arrow(r')=x' e_x' + y' e_y' + z' e_z'$, we can calculate the position and velocity relative to $K$ as follows:
-$
-  arrow(r) = arrow(R) + arrow(r')\
-  arrow(v) = dot(R) + dot(r') = dot(R) + (dot(x') + e_x' + dot(y') + e_y' + dot(z') + e_z') + (
-    x' + dot(e_x') + y' + dot(e_y') + z' + dot(e_z')
-  )
-$
-The time-dependent base vectors of $K'$ can be calculated using the cross product with the angular velocity of $K'$, hence:
-$
-  arrow(v) = dot(R) + dot(r') + omega times r'\
-  dot(v) = dot.double(R) + dot.double(r') + omega times dot(r')
-$
-The product rule occurs again in the base vectors of $K'$, leading to:
-$
-  dot(v) = dot.double(R) + dot.double(r') + 2 omega times dot(r') + omega times (omega times r')
-$
-The first two terms $dot.double(R)$ (acceleration of the origin of $K'$) and $dot.double(r')$ (acceleration of the particle with respect to $K'$) are very intuitive, the last two arise due to the rotation of $K'$ and are named:
-+ $dot.double(R)$ - Inertial Acceleration - bus
-+ $omega times (omega times r')$ - Centripetal Acceleration - Acceleration needed to keep the particle in the same position relative to $K'$ as it rotates. Force pushing outwards as you take a corner in a car
-+ $2 omega times dot(r')$ - Coriolis Acceleration
-
-==== Fictitious Forces
-This "fix" non-inertial reference frames to make Newton's Laws valid
-
-TODO: Rotating frame of reference
-
-=== Galilean Transformation
-The coordinates of two inertial frames of reference can be transformed between one another using the following equations:
-$
-  x' &= x - v t\
-  y' &= y\
-  z' &= z\
-  t' &= t\
-$
-This approximation is accurate when considering systems with velocities significantly slower than the speed of light (non-relativistic).
-
-Transformations between reference frames can also be represented as a matrix allowing easier vector calculations.
+3. Every action results in an equal and opposite reaction, for example the weight acting on an object also acts on the Earth. This can also be used to show the conservation of linear momentum.
 
 === Kinematics
 The equation of motion for a point mass in Cartesian Coordinates given its velocity function can be calculated by solving the differential equation:
@@ -761,6 +690,72 @@ Here is an example Bode plot of an oscillator, demonstrating the RMS of the reso
 ) <fig-driving-harmonics>
 
 
+=== Frames of Reference
+_Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
+
+A frame of reference itself can be in motion, for example it may be useful to use a reference with the origin fixed inside a moving car, allowing us to ignore the movement of the car (if its moving at a constant velocity) and focus on movement relative to it, for example a coin being tossed into the air.
+
+_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia (Newton's 3rd Law); the frame itself is at rest or moving at a constant velocity in relation to any other inertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of, due its very small angular velocity.
+
+_Non-Inertial Reference Frame_ - A frame which is accelerating in some way (for example a frame based on an observer in an accelerating car). Newton's Laws do not hold true in such frames and "fictitious" forces are needed to account for the motion of the frame to accurately apply the laws of motion.
+
+==== Galilean Transformation
+The coordinates of two inertial frames of reference can be transformed between one another, such that time is shared between them. This approximation is accurate when considering systems with velocities significantly slower than the speed of light (non-relativistic).
+
+Transformations between reference frames can also be represented as a matrix allowing easier vector calculations.
+
+==== Inertial Force
+We, the observer, are in the inertial reference frame $K$. Consider a reference frame $K'$ who's origin is given by position vector $R(t)$ with respect to $K$ and may not necessarily be inertial (might be accelerating) and who's basis vectors remain constant over time.
+
+Given a position vector $arrow(r')$ of a particle in $K'$, we can calculate the position, velocity and acceleration relative to the inertial frame $K$ as follows:
+$
+  r = r' + R\
+  dot(r) = dot(r') + dot(R)\
+  dot.double(r) = dot.double(r') + dot.double(R)
+$
+Newton's Laws hold true in $K$, hence:
+$
+  m dot.double(r) = F = m(dot.double(r') + dot.double(R))\
+$
+If we want to take advantage of Newton's 2nd Law with respect to the non-inertial reference frame $K'$ we can rearrange to:
+$
+  m dot.double(r') = F - m dot.double(R)
+$
+Where $- m dot.double(R)$ is the so-called *inertial force* that "acts" on all objects in the accelerating, non rotating frame $K'$ so Newton's Laws remain accurate (it must be included when calculating resultant forces, for example a coin tossed in the air in an accelerating car would only remain at rest / constant velocity if an equal and opposite (to the inertial force) external force acted upon it). An example of this is the force that pushes you back into your seat whilst an airplane is taking off, acting in the opposite direction to acceleration.
+
+==== Rotating Frames
+_Euler's Rotation Theorem_ - Any displacement of a rigid body in 3D such that one of its points stays fixed must be a rotation around an axis of momentary stationary points. Only the angular velocity vector is needed to describe the rotation of a body.
+
+Now consider that the frame $K'$ is also rotating with angular velocity $arrow(Omega)$ relative to the inertial frame (the direction of $arrow(Omega)$ is usually bound to one of the principle axes of $K'$, for example the z-axis) and allows us to calculate the direction of $K'$s basis vectors relative to $K$.
+
+Given a position vector of a particle in $K'$, for example $arrow(r')=x' e_x' + y' e_y' + z' e_z'$, we can calculate the position and velocity relative to $K$ as follows:
+$
+  arrow(r) = arrow(R) + arrow(r')\
+  arrow(v) = dot(R) + dot(r') = dot(R) + (dot(x') e_x' + dot(y') e_y' + dot(z') e_z') + (
+    x' dot(e_x') + y' dot(e_y') + z' dot(e_z')
+  )
+$
+The time-dependent base vectors of $K'$ can be calculated using the cross product with the angular velocity of $K'$, hence:
+$
+  arrow(v) = dot(R) + dot(r') + Omega times r'\
+  dot(v) = dot.double(R) + dot.double(r') + Omega times dot(r')
+$
+The product rule is applied again when differentiating to get the acceleration with respect to $K$, leading to:
+$
+  dot.double(r) = a = dot.double(R) + dot.double(r') + 2 Omega times dot(r') + Omega times (Omega times r')
+$
+Applying Newton's 2nd Law and rearranging to find the fictitious forces relative to $K'$:
+$
+  F = m dot.double(r) = m(dot.double(R) + dot.double(r') + 2 Omega times dot(r') + Omega times (Omega times r'))\
+  m dot.double(r') = F - m(dot.double(R) + 2 Omega times dot(r') + Omega times (Omega times r'))\
+  = F - m dot.double(R) - 2 m Omega times dot(r') - m Omega times (Omega times r')\
+$
+
+The first term $-m dot.double(R)$ is the familiar inertial force, the last two fictitious forces arise due to the rotation of $K'$ and are named:
++ $-2 m Omega times dot(r') $ - Coriolis Force - This is largest when the particle is moving perpendicular to the axis of rotation at a high speed and acts in the direction that pushes the particle in the opposite direction of angular direction to $Omega$. However, it is negligible when objects are at rest or moving slowly relative to $K'$, usually we ignore it for objects on Earth moving at $<< 500m s^(-1)$. An experiment called the *Foucault Pendulum* demonstrates its effect over a long period of time, allowing one to calculate their latitude to a reasonable accuracy. A free-falling object curves slightly to the East as it falls.
++ $-m Omega times (Omega times r')$ - Centrifugal Force - This acts perpendicularly away from the axis of rotation (rather than from the center of a sphere) and is the force felt when taking a corner in a vehicle. For objects on Earth, it is greatest near the equator as the South-North pole is taken as the axis of rotation and $Omega$ and $r'$ would point in the same direction. When the perpendicular component is subtracted from $g$, this results in a $~0.034m s^(-2)$ smaller free-fall acceleration for objects at the equator compared to at one of the poles.
+These are sometimes rearranged to be positive using the identity $a times b = -b times a$. Provided we take into account these 3 *fictitious forces* (one if the frame is not rotating but accelerating), we can continue to utilize Newton's Laws in any non-inertial frames.
+
 === Lagrangian Mechanics
 TODO: Try Brachistochrone problem for practice
 
@@ -772,7 +767,7 @@ $
 $
 For example a system of $N$ particles free to move in 3D space has $3N$ generalized coordinates.
 
-=== Unconstrained Motion
+==== Unconstrained Motion
 Consider a particle moving unconstrained in 3D, subject to a *conservative* resultant force. Its energies are:
 $
   U(r) = U(x, y, z)\
