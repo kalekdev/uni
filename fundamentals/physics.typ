@@ -17,17 +17,37 @@ $
 3. Every action results in an equal and opposite reaction. This can also be used to show the conservation of linear momentum.
 
 === Frame of Reference
-A coordinate system whose origin and basis are specified in space.
+_Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
 
-A frame of reference itself can be in motion, for example when approximating an object on the Earth's surface as "stationary" the frame of reference in which we are thinking is moving with the same velocity as that object when compared to any other object in space. It would be considered as moving at the same velocity as the Earth's surface in a different frame of reference with the sun as the origin.
+A frame of reference itself can be in motion, for example it may be useful to use a reference with the origin fixed inside a moving car, allowing us to ignore the movement of the car (if its moving at a constant velocity) and focus on movement relative to it, for example a coin being tossed into the air.
 
-_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia; ie. the frame itself is moving at a constant velocity in relation to any other inertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of, although it is not truly inertial due to the rotation of the Earth.
+_Inertial Reference Frame_ - A reference frame in which objects obey the principle of inertia (Newton's 3rd Law); the frame itself is at rest or moving at a constant velocity in relation to any other inertial reference frame. The Earth's surface is a good approximation of an inertial reference frame which we are accustomed to thinking in terms of, due its very small angular velocity.
 
-_Non-Inertial Reference Frame_ - It is accelerating in some way (for example a frame based on an observer in an accelerating car); objects defined as stationary / moving at a constant velocity with respect to the frame are therefore also accelerating in relation to any other inertial reference frame without the need of any external force and thus violate the principle of inertia.
+_Non-Inertial Reference Frame_ - A frame which is accelerating in some way (for example a frame based on an observer in an accelerating car). Newton's Laws do not hold true in such frames and "fictitious" forces are needed to account for the motion of the frame to accurately apply the laws of motion.
 
-In progress:
-==== Non-Inertial Frames of Reference
-We, the observer, are in the reference frame $K$. Consider a reference frame $K'$ who's origin is given by position vector $R(t)$ with respect to $K$. It is also rotating with angular velocity $arrow(omega)$ relative to the inertial frame, such that the direction of $arrow(omega)$ indicates the z-axis of rotation and allows us to calculate the direction of the basis vectors in $K'$.
+==== Inertial Force
+We, the observer, are in the inertial reference frame $K$. Consider a reference frame $K'$ who's origin is given by position vector $R(t)$ with respect to $K$ and may not necessarily be inertial (might be accelerating) and who's basis vectors remain constant over time.
+
+Given a position vector $arrow(r')$ of a particle in $K'$, we can calculate the position, velocity and acceleration relative to the inertial frame $K$ as follows:
+$
+  r = r' + R\
+  dot(r) = dot(r') + dot(R)\
+  dot.double(r) = dot.double(r') + dot.double(R)
+$
+Newton's Laws hold true in $K$, hence:
+$
+  m dot.double(r) = F = m(dot.double(r') + dot.double(R))\
+$
+If we want to take advantage of Newton's 2nd Law with respect to the non-inertial reference frame $K'$ we can rearrange to:
+$
+  m dot.double(r') = F - m dot.double(R)
+$
+Where $- m dot.double(R)$ is the so-called *inertial force* that "acts" on all objects in the accelerating, non rotating frame $K'$ so Newton's Laws remain accurate (it must be included when calculating resultant forces, for example a coin tossed in the air in an accelerating car would only remain at rest / constant velocity if an equal and opposite (to the inertial force) external force acted upon it). An example of this is the force that pushes you back into your seat whilst an airplane is taking off, acting in the opposite direction to acceleration.
+
+==== Rotating Frames
+_Euler's Rotation Theorem_ - Any displacement of a rigid body in 3D such that one of its points stays fixed must be a rotation around an axis of momentary stationary points. Only the angular velocity vector is needed to describe the rotation of a body.
+
+Now consider that the frame $K'$ is also rotating with angular velocity $arrow(omega)$ relative to the inertial frame (the direction of $arrow(omega)$ is usually bound to one of the principle axes of $K'$, for example the z-axis) and allows us to calculate the direction of $K'$s basis vectors relative to $K$.
 
 Given a position vector of a particle in $K'$, for example $arrow(r')=x' e_x' + y' e_y' + z' e_z'$, we can calculate the position and velocity relative to $K$ as follows:
 $
