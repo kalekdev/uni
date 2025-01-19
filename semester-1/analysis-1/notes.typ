@@ -984,9 +984,12 @@ The continuity of the inverse can be shown using the sequential continuity crite
 
 / Definition - n'th Root Function: This is defined as the inverse of $x^n: [0, oo) -> [0, oo)$ and can be written as either $root(n, x)$ or $x^(1/n)$.
 
-/ Theorem - Compact Domain: Let $f: [a, b] -> RR$ be a function with a compact (closed and bounded) domain, its range (and by convention $f$ itself) is therefore also bounded.\
+/ Theorem - Compact Domain, Bounded Function: Let $f: [a, b] -> RR$ be a *continuous* function with a compact (closed and bounded) domain, its range (and by convention $f$ itself) is therefore also bounded.\
 Proof:\
 Assume by contradiction that $f$ is not bounded, ie. $forall N in RR | N > 0, exists x in [a, b] | abs(f(x)) > N$. Because the domain is compact, there exists a convergent subsequence $x_n$ with a limit $lim_(n->oo) x_n in [a, b]$, such that due to the composition of functions $abs(f(x_n)) -> abs(f(lim_(n->oo) x_n))$. TODO: I did not understand the last contradiction step Theorem 3.39 Figalli
+- The domain must be compact, not just bounded. For example, the domain of the function $tan: (-pi/2, pi/2) -> RR$ is bounded but not closed, therefore the function is unbounded.
+
+/ Definition - Extrema: The maximum (minimum) of $f: X -> RR$ is defined as the value $f(m)$ of the point $m in X$ such that $forall x in X, f(x) <= (>=) f(m)$.
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
