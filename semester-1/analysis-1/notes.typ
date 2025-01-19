@@ -867,7 +867,7 @@ $
 $
   forall epsilon > 0 exists delta > 0 | forall x in X, abs(x - x_0) < delta => abs(f(x) - f(x_0)) < epsilon
 $
-It is continuous over a set $X$ if it is continuous $forall x_0 in X$, the definition can be amended to $forall x_1, x_2 in X, abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon$. If there is a jump in the function at the point $x$, then there exists a small enough $epsilon$, so that no matter how close $x$ is to $x_0$, the max error $epsilon$ will never be satisfied.
+It is continuous over a set $X$ if it is continuous $forall x_0 in X$, the definition can be amended to $forall x_1, x_2 in X, exists delta | abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon$ (a different $delta$ may be chosen for each pair of points). If there is a jump in the function at the point $x$, then there exists a small enough $epsilon$, so that no matter how close $x$ is to $x_0$, the max error $epsilon$ will never be satisfied.
 - The *Dirichlet Function* based on the characteristic function is non-continuous at every point: $
   1_QQ: RR -> {1, 0}\
   1_QQ := chi_QQ
@@ -897,7 +897,7 @@ $ Since $epsilon > 0$ is arbitrary, this proves the continuity of the product of
 + $forall alpha in RR, (alpha dot f_2)(x)$ - The proof follows from setting $f_1(x)$ in the previous Lemma to the constant function $f_1(x) = alpha$, which has been shown to be continuous.
 This can be extended to continuity over a common subset if they are both continuous over that set.
 
-/ Corollary - Polynomials are continuous: All polynomials can be constructed from a linear combination of $f(x) = x$ and constant functions $f(x) = a$, which were both shown to be continuous $in RR$. Hence polynomials are also continuous for all points in $RR$.
+/ Corollary - Polynomials are continuous: All polynomials can be constructed from a linear combination of $f(x) = x$, its powers and constant functions $f(x) = a$, which were both shown to be continuous $in RR$. Hence polynomials are also continuous for all points in $RR$.
 
 / Definition - Composition of Functions: Functions can be passed as arguments into one another:
 $
@@ -989,7 +989,72 @@ Proof:\
 Assume by contradiction that $f$ is not bounded, ie. $forall N in RR | N > 0, exists x in [a, b] | abs(f(x)) > N$. Because the domain is compact, there exists a convergent subsequence $x_n$ with a limit $lim_(n->oo) x_n in [a, b]$, such that due to the composition of functions $abs(f(x_n)) -> abs(f(lim_(n->oo) x_n))$. TODO: I did not understand the last contradiction step Theorem 3.39 Figalli
 - The domain must be compact, not just bounded. For example, the domain of the function $tan: (-pi/2, pi/2) -> RR$ is bounded but not closed, therefore the function is unbounded.
 
-/ Definition - Extrema: The maximum (minimum) of $f: X -> RR$ is defined as the value $f(m)$ of the point $m in X$ such that $forall x in X, f(x) <= (>=) f(m)$.
+/ Definition - Extrema: The maximum (minimum) of $f: X -> RR$ is defined as the value $f(m)$ of the point $m in X$ such that $forall x in X, f(x) <= (>=) f(m)$. Bounded functions (and therefore any continuous function with a compact domain) have both a maximum and minimum over their domain.
+
+/ Definition - Uniform Continuity: This is a stricter definition of $epsilon delta$ continuity, where *the same* $delta$ satisfies the $epsilon$ error interval for all points:
+$
+  f: X -> Y\
+  forall epsilon > 0 exists delta | forall x_1, x_2 in X, abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon
+$
+- An example of a continuous but not uniformly continuous function is $x^2: RR -> [0, oo)$ and $e^x: RR -> (0, oo)$ - they become nearly vertical as $x$ increases, meaning that $delta -> 0$ to satisfy the entire domain, which is not allowed as $delta > 0$. Allowing a different $delta$ for each point (normal continuity) is however allowed. Non-uniform continuity can be proved by choosing $x_2 = x_1 + delta/2$ and showing that $abs(f(x_1) - f(x_2))<epsilon$ doesn't hold true $forall x_1 in X$, a proof by contradiction.
+- A continuous function on a *compact* domain is *uniformly* continuous. Intuition: It has a maximum and minimum, therefore we can choose a $delta > 0$ which satisfies the epsilon interval for all points.
+
+/ Definition - Bernoulli's Inequality: This states that:
+$
+  forall a in RR | a >= -1, n in NN | n >= 1, (1+a)^n>=1 + n a
+$
+Proof by induction:\
+For $n=1, 1+a >= 1 + a$ holds true. Assume it is true for $n=k$, $n=k+1$ amounts to:
+$
+  (1+a)^k >= 1 + k a\
+  a >= -1 => (1 + a) >= 0\
+  therefore (1+a)^(k+1) = (1+a)^k dot (1+a) >= (1+ k a) dot (1 + a)\
+  (1+a)^(k+1) >= 1 + a + k a + k a^2 = 1+ a(1 + k) + k a^2\
+  k a^2 >= 0, therefore 1+ a(1 + k) + k a^2 >= 1 + a(1+k)\
+  therefore (1+a)^(k+1) >= 1 + a (1+k)
+$
+Therefore it holds true for all $n in NN qed$.
+
+/ Definition - Euler's Number as a Limit: This converging sequence was discovered by Bernoulli whilst calculating the effect of frequency of payments on compound interest:
+$
+  x in RR\
+  e^x = exp(x) := lim_(n -> oo) (1+x / n)^n
+$
+It converges to a positive, real number. Proof:\
+First we show that it is monotonically increasing. Let $n_0 >= 1, n_0 > -x$:
+$
+  forall n >= n_0, x / ((n+1)(n+x)) <= (x+n) / ((n+1)(n+x)) = 1 / (n+1) <1\
+  n+x > 0\
+  therefore x / ((n+1)(n+x)) <=1\
+  therefore -x / ((n+1)(n+x))>=-1
+$
+We now want to show that $x_(n+1)/x_n >= 1$:
+$
+  (1+x / (n+1))^(n+1) / (1+x / n)^n = (1+x / n) ((1+x / (n+1)) / (1+x / n))^(n+1)= (n + x) / n (
+    1-x / ((n+1)(x+n))
+  )^(n+1)
+$
+Applying Bernoulli's inequality to the second term with $a= -x / ((n+1)(n+x))$ and $n=n+1$:
+$
+  (n + x) / n (1-x / ((n+1)(x+n)))^(n+1) >= (n+x) / n (1 + (-x(n+1)) / ((n+1)(n+x))) = (n+x) / n (1 + -x / (n+x))\
+  = (n+x) / n (n / (n+x)) = 1\
+  therefore x_(n+1) / x_n >=1 forall n >= n_0 >=1
+$
+Showing that the $(1+x/n)^n$ is monotonically increasing. It remains to show that it is bounded, consider the case of $x <= 0$:
+$
+  forall n in NN, 1+x / n <=1
+$
+Showing that $1$ is the upper bound. Now we consider the case $x>0$:
+$
+  ((1+x / n)(1-x / n))^n = (1 - x^2 / n^2)^n <= 1\
+  therefore (1+x / n)^n<= 1 / (1-x / n)^n
+$
+$(1-x / n)^n$ was shown to have upper bound $1$ in the case $x<=0$, therefore the sequence is also bounded for $x>0$. Since it is monotonically increasing and bounded, it converges in all cases $qed$
+
+TODO: Properties of the exponential
+
+
+The exponential growth function $e^x$ also displays the unique property that its derivative at any point is $e^x$.
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
