@@ -31,6 +31,8 @@ Contradiction is a useful tool for linking statements about $>$ and $>=$. When i
 
 Conjecture - A conclusion formed on the basis of incomplete information
 Prove uniqueness through trichotomy, existence by completeness axiom.
+The convergence of a sequence can be simplified by considering long-term values of n, for example $n>abs(x)$ which often simplifies the n'th term (as in the case of Bernoulli's sequence for $e$)
+Finding two convergent boundaries around a sequence can be used to find its limit (squeeze theorem)
 
 TODO: Read Einsiedler einführung
 
@@ -1001,7 +1003,8 @@ $
 
 / Definition - Bernoulli's Inequality: This states that:
 $
-  forall a in RR | a >= -1, n in NN | n >= 1, (1+a)^n>=1 + n a
+  forall a in RR | a >= -1, n in NN | n >= 1\
+  (1+a)^n>=1 + n a
 $
 Proof by induction:\
 For $n=1, 1+a >= 1 + a$ holds true. Assume it is true for $n=k$, $n=k+1$ amounts to:
@@ -1051,10 +1054,30 @@ $
 $
 $(1-x / n)^n$ was shown to have upper bound $1$ in the case $x<=0$, therefore the sequence is also bounded for $x>0$. Since it is monotonically increasing and bounded, it converges in all cases $qed$
 
-TODO: Properties of the exponential
-
-
-The exponential growth function $e^x$ also displays the unique property that its derivative at any point is $e^x$.
+/ Definition - Properties of $e^x$: The exponential function $exp: RR -> RR_(>0)$ exhibits many useful and interesting properties:
+- $forall x > - n, e^x >= (1+x/n)^n$ since it is defined as the limit of a monotonically increasing sequence
+- $forall x in RR, exp(x) >= 1+x$ this is a consequence of the aforementioned Lemma
+Since it is defined as the limit of a sequence, we must show that the usual exponential rules also apply before we can treat it as such:
+- $exp(-x) = exp(x)^(-1)$ Proof:\ Lemma: Multiplying converging sequences\ $
+exp(x) exp(-x) = lim_(n->oo) (1-x^2/n^2)^n
+$ Eventually $n> abs(x)$, therefore $-x^2 / n^2 >= -1$ and we can apply Bernoulli's inequality: $
+exp(x) exp(-x) >= 1 + -x^2 / n^2 n = 1 -x^2/n
+$ We have shown that $lim_(n->oo) (1-x^2/n^2)^n$ has upper bound 1, therefore: $
+ 1 -x^2/n <= exp(x) exp(-x) <= 1
+$ $lim_(n->oo) 1 -x^2/n = 1$ thus $forall x in RR, exp(x)exp(-x) = 1 = exp(x) / exp(x) qed$
+- $exp(x + y) = exp(x) exp(y)$ Proof:\ I aim to show that $(exp(x) exp(y)) /exp(x+y)= 1$ $
+exp(x) exp(y) = lim_(n->oo)[(1+x/n)^n (1+y/n)^n = (1 + (x + y)/n + (x y)/n^2)^n]\
+(exp(x) exp(y)) /exp(x+y)= (1 + (x + y)/n + (x y)/n^2)^n / (1+(x+y)/n)^n = (1 + ((x y))/(n^2(1+(x+y)/n)))^n
+$ As $n-> oo$: $
+ (1+ (x y) / (2 n^2))^n < (1 + ((x y))/(n^2(1+(x+y)/n)))^n < (1+ (2 x y) / n^2)^n\
+lim_(n->oo)(1+ (x y) / (2 n^2))^n =  lim_(n->oo)(1+ (2 x y) / n^2)^n = 1
+$ Due to the squeeze theorem, $(exp(x) exp(y)) /exp(x+y)$ also converges to 1, proving that multiplication behaves the same as exponentials $qed$
+- It is continuous. Proof:\ $
+ x_0 in RR\
+ forall epsilon > 0 exists delta | abs(x - x_0) < delta => abs(exp(x) - exp(x_0)) < epsilon\
+lim((1+x/n)^n - (1+x_0/n)^n) >= 1+x
+$ TODO This proof requires a lot of lemmas / tricks, I have understood it but will only commit it to memory if required in an exam
+- It displays the unique property that its derivative at any point is the same
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
