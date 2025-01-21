@@ -1055,7 +1055,7 @@ $
 $(1-x / n)^n$ was shown to have upper bound $1$ in the case $x<=0$, therefore the sequence is also bounded for $x>0$. Since it is monotonically increasing and bounded, it converges in all cases $qed$
 
 / Definition - Properties of $e^x$: The exponential function $exp: RR -> RR_(>0)$ exhibits many useful and interesting properties:
-- $forall x > - n, e^x >= (1+x/n)^n$ since it is defined as the limit of a monotonically increasing sequence
+- $forall x > - n, exp(x) >= (1+x/n)^n$ since it is defined as the limit of a monotonically increasing sequence
 - $forall x in RR, exp(x) >= 1+x$ this is a consequence of the aforementioned Lemma
 Since it is defined as the limit of a sequence, we must show that the usual exponential rules also apply before we can treat it as such:
 - $exp(-x) = exp(x)^(-1)$ Proof:\ Lemma: Multiplying converging sequences\ $
@@ -1072,12 +1072,43 @@ $ As $n-> oo$: $
  (1+ (x y) / (2 n^2))^n < (1 + ((x y))/(n^2(1+(x+y)/n)))^n < (1+ (2 x y) / n^2)^n\
 lim_(n->oo)(1+ (x y) / (2 n^2))^n =  lim_(n->oo)(1+ (2 x y) / n^2)^n = 1
 $ Due to the squeeze theorem, $(exp(x) exp(y)) /exp(x+y)$ also converges to 1, proving that multiplication behaves the same as exponentials $qed$
-- It is continuous. Proof:\ $
- x_0 in RR\
- forall epsilon > 0 exists delta | abs(x - x_0) < delta => abs(exp(x) - exp(x_0)) < epsilon\
-lim((1+x/n)^n - (1+x_0/n)^n) >= 1+x
-$ TODO This proof requires a lot of lemmas / tricks, I have understood it but will only commit it to memory if required in an exam
-- It displays the unique property that its derivative at any point is the same
+- It is continuous - This proof requires several lemmas / tricks, dig deeper if part of Kobel-Keller's course.
+- It is strictly monotone increasing. Proof:\ Consider $x_1, x_2 in RR | x_1 < x_2 => x_2 - x_1 > 0$, we want to show that $exp(x_1) < exp(x_2)$. Applying the Lemma $exp(x) >= 1+x$: $
+exp(x_2 - x_1) >= 1+x_2 - x_1 > 1\
+exp(x_1)exp(x_2 - x_1) > 1 exp(x_1)\
+exp(x_2) > exp(x_1) qed
+$
+- It is bijective. Proof:\ It is strictly monotonically increasing and thus injective.\ Choosing $x_1, x_2 in RR$ such that $exp(x_1) < exp(x_2)$, there always exists some $x_m in RR | exp(x_m) in [exp(x_1), exp(x_2)]$ due to the intermediate value theorem, proving surjectivity over $RR_(>0) qed$
+- It displays the unique property that its derivative at any point is the same. TODO prove using first principles $
+(d e^x) / (d x) = lim_(h-> 0) (e^(x+h) - e^x) / h
+$
+
+/ Definition - Natural Logarithm: Due to the inverse function theorem, the inverse of $exp(x)$ exists and is also strictly monotonic and continuous, denoted as:
+$
+  ln(x) = exp(x)^(-1): RR_(>0) -> RR
+$
+The typical $log$ identities apply, by rearranging the exponential identities proven for $exp(x)$:
+- $ln(1) = 0$
+- $ln(x^(-1)) = - ln(x)$
+- $ln(a b) = ln(a) + ln(b)$
+- $forall x in RR_(>0), ln(x) <= x - 1$
+
+/ Theorem - Logarithm Identities: Logarithms are equipped with a variety of useful identities for basic calculations as well as calculus:
+- Change of basis, useful with log tables: $
+b^(log_b x) = x= e^(ln x) = e^(ln(b)^(log_b x)) =  e^(ln(b)log_b(x))\
+ln x =ln(b)log_b(x)\
+log_b(x) = (ln x)/(ln b)
+$
+- $a > 0, x in RR, a^x = e^(x ln(a))$ - Useful for taking the derivative of an arbitrary exponent
+- Slide rules were widely used for performing multiplication, division and many other operations before electronic calculators became widespread in the 70s. They contain pairs of scales with some logarithmic base marked, for example $ln(x)$ such that the x-values were marked at decreasing distances representing the output values. To calculate $1.2 dot 2.6$, one could align the start of the first scale at the position where $1.2$ is marked on the second, such that distance between the start of the second and $2.6$ on the first scale is equal to $ln(1.2) + ln(2.6) = ln(1.2 dot 2.6)$ (thanks to $ln(a) + ln(b) equiv ln(a b)$) which can simply be read off the marking. Division is done in a similar fashion and multiples of 10 can easily be factored out to ensure the result fits in the scale.
+
+/ Definition - Limit of Function: This can be used to represent the value of function at a point which is not necessarily in the domain of the function, for example at an asymptote. Consider a point $x_0 in RR | forall delta > 0, X sect (x_0 - delta, x_0 + delta) != emptyset$ where $X$ is the domain of $f: X -> RR$. We say that $L$ is a limit of $f$ if:
+$
+  lim_(x -> x_0) f(x) = L <=> forall epsilon > 0 exists delta > 0 | (
+    x in (X sect (x_0 - delta, x_0 + delta))
+  ) => abs(f(x) - L) < epsilon
+$
+In other words, the function is continuous around the point $x_0$, with the difference that $L$ does not actually need to a possible output.
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
