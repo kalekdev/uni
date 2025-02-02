@@ -649,9 +649,7 @@ $
   (lim inf)_(n-> oo) x_n = lim_(n -> oo) (inf{x_k | k>= n}) = sup{inf{x_k | k>= n} | n in NN}\
   (lim inf)_(n-> oo) x_n <= (lim sup)_(n-> oo) x_n
 $
-#figure(
-  image("images/limsup.png", width: 60%),
-) <fig-limsup>
+#figure(image("images/limsup.png", width: 60%)) <fig-limsup>
 - The superior and inferior limits of all *bounded* sequences are accumulation points, and therefore have convergent subsequences:
 $
   A = "Set of accumulation points"\
@@ -711,7 +709,8 @@ $
 $
 The limits $oo$ and $-oo$ are called *improper*.
 - An unbounded sequence doesn't necessarily diverge to $oo$, for example $(-1)^n n$ oscillates.
-#list.item[ An unbounded sequence always has a subsequence which diverges to $oo$ or $-oo$.\
+#list.item[
+  An unbounded sequence always has a subsequence which diverges to $oo$ or $-oo$.\
   Proof:\
   The definition of an unbounded sequence is very similar to that of divergence to $oo$ or $-oo$:
   $
@@ -839,9 +838,9 @@ This is *not* necessarily true for infinite sets, for example $f: NN -> NN, f(x)
 / Definition - Ring of Functions: For a domain $X$, we can define a *commutative* ring (not a field, there is no inverse element for multiplication) on the set of real valued functions $cal(F)(X) := {f | f: X -> RR}$ with the following operations:
 $
   f_1, f_2 in cal(F)(X)\
-  (f_1 + f_2)(x) = f_1(x) + f_2(x)\
-  (f_1 dot f_2)(x) = f_1(x) dot f_2(x)\
-  alpha in RR, (alpha dot f_1)(x) = alpha dot f_1(x)\
+  (f_1 + f_2)(x) := f_1(x) + f_2(x)\
+  (f_1 dot f_2)(x) := f_1(x) dot f_2(x)\
+  alpha in RR, (alpha dot f_1)(x) := alpha dot f_1(x)\
 $
 The constant function is defined as $forall x in X, f(x) = a$.
 - Neutral elements - Addition: $f(x) = 0$, Multiplication: $f(x) = 1$
@@ -863,7 +862,7 @@ $
 $
 - The rounding function $floor(x)$ is monotonically increasing but not strictly
 - A function is constant $<=>$ A function is both monotonically increasing and decreasing. Proof: Trichotomy
-- A *strictly* monotone function is always injective. Proof:\ Assume by contradiction that it is not injective. $exists x_1 != x_2 | f(x_1) = f(x_2$. However, since $x_1 != x_2$, they must be either $>$ or $<$ each other and therefore $f(x_1) != f(x_2)$ (monotone) which proves that they are injective by contradiction $qed$
+- A *strictly* monotone function is always injective. Proof:\ Assume by contradiction that it is not injective. $exists x_1 != x_2 | f(x_1) = f(x_2)$. However, since $x_1 != x_2$, they must be either $>$ or $<$ each other and therefore $f(x_1) != f(x_2)$ (monotone) which proves that they are injective by contradiction $qed$
 
 / Definition - $epsilon delta$ Continuity: Intuitively, a function is continuous over an interval if we can draw it without lifting the pencil. A function is continuous at a point $x_0 in X$ if:
 $
@@ -923,7 +922,7 @@ $
 The surjectivity of $f(x)$ does not matter, as the final inequality only applies if the intermediate $abs(f(x) - f(x_0)) < epsilon$ is true $qed$\
 As usual, this extends to the entire domain if both $f$ and $g$ are continuous functions.
 
-/ Theorem - Sequential Continuity: This is an alternative characterization of a continuous function. The function $f: X-> RR$ is continuous at $x_0 <=>$ For every sequence $x_n subset.neq X$ converging to $x_0$ (this always exists, for example $x_n = x_0$), the sequence $f(x_n)$ converges to $f(x_0)$.\
+/ Theorem - Sequential Continuity: This is an alternative characterization of a continuous function. The function $f: X-> RR$ is continuous at $x_0 in X <=>$ For every sequence $x_n subset.neq X$ converging to $x_0$ (there always exists at least 1, for example $x_n = x_0$), the sequence $f(x_n)$ converges to $f(x_0)$.\
 Proof:\
 The following holds true for all sequences converging to $x_0$:
 $
@@ -968,14 +967,14 @@ Choosing $epsilon -> 0$, it is clear that $f(s) = c$ whilst $s in [a, b] qed$\
 Summary:
 - Define set $L = {x in [a, b] | f(x) < c}$
 - Show that its supremum $s in (a, b)$ due to continuity at both of those points
-- Exploit the continuity at $s$ along with points $x_0 in (s - delta, s], in L =>f(x_0) < c$ and $x_1 in [s, s + delta), in.not L => f(x_1) >= c$ to show that $f(s) = c$ as $epsilon -> 0$
+- Exploit the continuity at $s$ along with points $x_0 in (s - delta, s], in L =>f(x_0) < c$ and $x_1 in [s, s + delta), in.not L => f(x_1) >= c$ to show that $f(s) = c$ as $epsilon -> 0$ for any $c in (f(a), f(b))$
 
 / Definition - Inverse Function: Any *bijective* function $f: X -> Y$ has a corresponding inverse $f^(-1): Y -> X$ (not to be confused with the preimage, which is defined for all functions but doesn't take account of every element in $Y$, not surjective) defined such that:
 $
   f^(-1) compose f = f compose f^(-1)= id\
 $
 
-/ Theorem - Inverse Function Theorem: A function that is strictly monotone and continuous over an interval $I subset.eq RR$ is bijective and has an inverse function, which is also strictly monotone and continuous.\
+/ Theorem - Inverse Function Theorem: A function that is strictly monotone and continuous (for example $a^x$) over an interval $I subset.eq RR$ is bijective and has an inverse function, which is also strictly monotone and continuous.\
 Proof:\
 Let $J = f(I)$ and consider the strictly monotone, continuous function $f: I -> J$. It is surjective by definition and injective due to its strict monotonicity, therefore the inverse $f^(-1): J -> I$ exists, which is also strictly monotone:
 $
@@ -1033,9 +1032,7 @@ $
 $
 We now want to show that $x_(n+1)/x_n >= 1$:
 $
-  (1+x / (n+1))^(n+1) / (1+x / n)^n = (1+x / n) ((1+x / (n+1)) / (1+x / n))^(n+1)= (n + x) / n (
-    1-x / ((n+1)(x+n))
-  )^(n+1)
+  (1+x / (n+1))^(n+1) / (1+x / n)^n = (1+x / n) ((1+x / (n+1)) / (1+x / n))^(n+1)= (n + x) / n ( 1-x / ((n+1)(x+n)) )^(n+1)
 $
 Applying Bernoulli's inequality to the second term with $a= -x / ((n+1)(n+x))$ and $n=n+1$:
 $
@@ -1102,13 +1099,18 @@ $
 - $a > 0, x in RR, a^x = e^(x ln(a))$ - Useful for taking the derivative of an arbitrary exponent
 - Slide rules were widely used for performing multiplication, division and many other operations before electronic calculators became widespread in the 70s. They contain pairs of scales with some logarithmic base marked, for example $ln(x)$ such that the x-values were marked at decreasing distances representing the output values. To calculate $1.2 dot 2.6$, one could align the start of the first scale at the position where $1.2$ is marked on the second, such that distance between the start of the second and $2.6$ on the first scale is equal to $ln(1.2) + ln(2.6) = ln(1.2 dot 2.6)$ (thanks to $ln(a) + ln(b) equiv ln(a b)$) which can simply be read off the marking. Division is done in a similar fashion and multiples of 10 can easily be factored out to ensure the result fits in the scale.
 
-/ Definition - Limit of Function: This can be used to represent the value of function at a point which is not necessarily in the domain of the function, for example at an asymptote. Consider a point $x_0 in RR | forall delta > 0, X sect (x_0 - delta, x_0 + delta) != emptyset$ where $X$ is the domain of $f: X -> RR$. We say that $L$ is a limit of $f$ if:
+/ Definition - Limit of a Function: This can be used to represent the value of function at a point which is not necessarily in the domain of the function, for example at an asymptote. Consider a point $x_0 in RR | forall delta > 0, X sect (x_0 - delta, x_0 + delta) != emptyset$ (the surrounding points are in the domain of $f: X -> RR$). We say that $L$ is a limit of $f$ if:
 $
-  lim_(x -> x_0) f(x) = L <=> forall epsilon > 0 exists delta > 0 | (
-    x in (X sect (x_0 - delta, x_0 + delta))
-  ) => abs(f(x) - L) < epsilon
+  lim_(x -> x_0) f(x) = L <=> forall epsilon > 0 exists delta > 0 | ( x in (X sect (x_0 - delta, x_0 + delta)) ) => abs(f(x) - L) < epsilon
 $
-In other words, the function is continuous around the point $x_0$, with the difference that $L$ does not actually need to a possible output.
+In other words, the function is continuous around the point $x_0$, with the difference that $x_0$ itself is not required to satisfy the $epsilon delta$ criteria.
+- A limit *may not always exist* but if it does, it is unique.
+- Linear combinations of functions with at $x_0$ hold: $
+lim_(x->x_0) f(x) = L_1, lim_(x->x_0) g(x) = L_2\
+lim_(x->x_0) (f + g)(x) = L_1 + L_2\
+lim_(x->x_0) (f dot g)(x) = L_1 dot L_2
+$
+TODO: Scalar multiplication proof
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
@@ -1126,7 +1128,5 @@ $
 
 ==== Neighbourhoods
 $
-  f: X -> Y "is continuous" <=>\ "The inverse image of every neighbourhood at point" f(
-    x_0
-  ) "in" Y "is also a neighbourhood of" x_0 "in" X
+  f: X -> Y "is continuous" <=>\ "The inverse image of every neighbourhood at point" f( x_0 ) "in" Y "is also a neighbourhood of" x_0 "in" X
 $
