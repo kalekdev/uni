@@ -1099,18 +1099,49 @@ $
 - $a > 0, x in RR, a^x = e^(x ln(a))$ - Useful for taking the derivative of an arbitrary exponent
 - Slide rules were widely used for performing multiplication, division and many other operations before electronic calculators became widespread in the 70s. They contain pairs of scales with some logarithmic base marked, for example $ln(x)$ such that the x-values were marked at decreasing distances representing the output values. To calculate $1.2 dot 2.6$, one could align the start of the first scale at the position where $1.2$ is marked on the second, such that distance between the start of the second and $2.6$ on the first scale is equal to $ln(1.2) + ln(2.6) = ln(1.2 dot 2.6)$ (thanks to $ln(a) + ln(b) equiv ln(a b)$) which can simply be read off the marking. Division is done in a similar fashion and multiples of 10 can easily be factored out to ensure the result fits in the scale.
 
-/ Definition - Limit of a Function: This can be used to represent the value of function at a point which is not necessarily in the domain of the function, for example at an asymptote. Consider a point $x_0 in RR | forall delta > 0, X sect (x_0 - delta, x_0 + delta) != emptyset$ (the surrounding points are in the domain of $f: X -> RR$). We say that $L$ is a limit of $f$ if:
+/ Definition - Limit of a Function: This can be used to represent the value of function at a point which is not necessarily in the domain of the function, for example at an asymptote. Consider a point $x_0 in RR | forall delta > 0, X sect (x_0 - delta, x_0 + delta) != emptyset$ (the points immediately next to $x_0$ are in the domain of $f: X -> RR$), such a point is called an *accumulation point* of the domain $X$.\
+The limit $L$ of $f$ at an accumulation point $x_0$ is formally defined as:
 $
-  lim_(x -> x_0) f(x) = L <=> forall epsilon > 0 exists delta > 0 | ( x in (X sect (x_0 - delta, x_0 + delta)) ) => abs(f(x) - L) < epsilon
+  lim_(x -> x_0) f(x) = L <=> forall epsilon > 0 exists delta > 0 | forall x in (X sect (x_0 - delta, x_0 + delta)), abs(f(x) - L) < epsilon
 $
-In other words, the function is continuous around the point $x_0$, with the difference that $x_0$ itself is not required to satisfy the $epsilon delta$ criteria.
-- A limit *may not always exist* but if it does, it is unique.
-- Linear combinations of functions with at $x_0$ hold: $
+This definition is very similar to continuity at the point $x_0$, with the difference that $x_0$ is not required to be in the domain, and $L$ is what the output $f(x_0)$ would be if based on its surrounding points.
+- A limit *may not always exist* (for example at a jump in the surrounding points) but if it does, it is unique.
+- If there is a jump in the function at $x_0$ but the surrounding points are "continuous" / it is a bound, the limit of $X \\x_0$ is nonetheless defined based on the surrounding points and the jump is ignored, this can be used to correct so-called *removable discontinuities* and defined the *continuous extension* of $f(x)$: $
+L = lim_(x->x_0\ x !=x_0) f(x)\
+tilde(f)(x): X -> RR := cases(
+  f(x) &"if" x!=x_0,
+  L &"if" x=x_0
+)
+$
+- Linear combinations of functions with limits at $x_0$ hold: $
 lim_(x->x_0) f(x) = L_1, lim_(x->x_0) g(x) = L_2\
 lim_(x->x_0) (f + g)(x) = L_1 + L_2\
-lim_(x->x_0) (f dot g)(x) = L_1 dot L_2
+lim_(x->x_0) (f dot g)(x) = L_1 dot L_2\
+lim_(x->x_0) (alpha f)(x) = alpha L_1
 $
-TODO: Scalar multiplication proof
+- A function is continuous at $x_0 <=> lim_(x->x_0) f(x) = f(x_0)$, this is the same as the continuity definition.
+
+/ Theorem - Composition of Limits: Consider a function $f: X -> Y$ such that the limit $lim_(x->x_0) f(x)$ is defined. If $f$ is composed with a *continuous* function $g: Y -> Z$, the following holds true:
+$
+  lim_(x-> x_0) g compose f(x) = g(lim_(x->x_0) f(x))
+$
+Proof: Because $g(x)$ is continuous, its limit is equal to its output throughout its domain $Y$ (Lemma), therefore when it is composed with another (potentially non-continuous) function, the limit depends on the inner value.
+
+/ Definition - Diverging Limit: The limit of a function diverges as $x->x_0$ if:
+$
+  lim_(x->x_0) f(x) = (-)oo <=> \
+  forall M in RR | M > 0 exists delta > 0 | forall x in (X sect (x_0 - delta, x_0 + delta)), (-)M < (>)x_0
+$
+
+/ Definition - One-Sided Limit: Limits can be defined with a direction the value is approached at:
+$
+  (lim_(x->x_0\ x>= (<=) x_0) f(x) = L) := (forall epsilon > 0 exists delta > 0 | forall x in (X sect[x_0, x_0 + delta) ((x_0 - delta, x_0])), abs(f(x) - L) < epsilon
+$
+A one-sided continuous extension can also be defined by using an open bound $(x_0, x_0 + delta)$ and is represented using notation such as $lim_(x->x_0\ x > x_0)$.
+- For example, the positive indicator function's $chi_+$ left $lim_(x=0 \ x< 0) = 0$ and right $lim_(x=0 \ x> 0) = 1$ limits are different at the same point $x=0$.
+
+/ Definition - Limits at $oo$: The limit of a function as its input tends to $oo$ is characterized as follows:
+$$
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
