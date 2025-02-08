@@ -140,7 +140,7 @@ $
 
 / Definition - Maxima and Minima: The maximum of a set is the smallest upper bound, which is *contained* in the set:
 $
-  X subset.eq\
+  X subset.eq RR\
   max(X) := m in X | forall x in X x<= m
 $
 The *minimum* is defined analogously:
@@ -153,19 +153,19 @@ $
 / Definition - Supremum and Infimum: Let $B = {b in RR | forall x in X x <= (>=) b}$ be the set of upper (lower) bounds for the set $X$. The supremum (infimum) is defined as the smallest (largest) such bound:
 $
   sup(X) := min(B)\
-  inf(X) := max((B))
+  inf(X) := max(B)
 $
-- Due to the $<= (>=)$ the supremum infimum may be the same as the maximum / minimum for a closed bound
+- Due to the $<= (>=)$ the supremum infimum may be the same as the maximum / minimum for a set with closed bounds
 - An alternative characterization states there is no smaller bound, anything smaller is not a bound of $X$:
 $
-  forall x in X x<= sup(X), t <= sup(X) => exists x' in X: t < x'
+  forall x in X | x<= sup(X) exists x' in X: x < x'
 $
-- The supremum / infimum does *not* exist for an unbounded or empty set, as this would be infinitely large / small, and $oo in.not RR therefore oo in.not B$
+- Formally, the supremum / infimum does *not* exist for an unbounded or empty set, as there are no strictly real bounds ($oo in.not RR$). However by convention the compactified reals are used and $plus.minus oo$ is permitted.
 #list.item[For all bounded, non-empty sets $X$, the supremum / infimum exists.\
   Proof:\
   The set of bounds $B = {b in RR | forall x in X x <= (>=) b} != emptyset$\
   We need to show that $exists sup(X) in RR | forall b in B, sup(X) <= b$\
-  Lemma: Completeness Axiom $forall x in X forall b in B, x <= b => exists c in RR | x <= c <= b forall x in X forall b in B$
+  Lemma: Completeness Axiom $forall x in X forall b in B, x <= b => exists c in RR | x <= c <= b forall x in X forall b in B$\
   This $c$ is an upper bound *and* minimum of $B$, therefore it is the supremum $qed$
 ]
 Let $X, Y$ be non-empty sets with an upper bound:
@@ -287,7 +287,7 @@ $
 
 / Definition - Neighborhood (Umgebung): A subset $U subset.eq X$ is considered a *neighborhood* of a point $x_0$ relative to a set $X$ if:
 $
-  x_0 in O subset.eq U subset.eq X
+  exists O | x_0 in O and O subset.eq U subset.eq X
 $
 Where $O$ is a non-empty open set.
 - For example, there are many possible neighborhoods around a point in the middle of a non-empty set.
@@ -445,10 +445,10 @@ $
   abs(x - y) >= abs(abs(x) - abs(y))
 $
 
-/ Definition - Completeness Axiom: The definition of an *ordered field* so far is unsuitable as we need to "fill in the gaps". The completeness axiom is an alternative but equivalent approach to Dedekind cuts (which define the cuts first and then operations in terms of cuts) which defines a *complete ordered field* if the completeness axiom holds true:
-+ Let $X, Y subset.neq K | X, Y != emptyset: forall x in X forall y in Y$ the inequality $x <= y$ holds true. If there exists $c in K | x <= c <= y$ for all such subsets $X$ and $Y$, the ordered field is complete.
-- The field of real numbers $RR$ is a completely ordered field
-- The reason subsets are checked instead of individual elements $x, y$ is because subsets can be defined in terms of inequalities. For example, consider checking the existence of $sqrt(2)$ in $QQ$. The set of rational numbers is *dense*, therefore no matter which lower bound $x$ we choose, there is *always* a rational number closer to $sqrt(2)$ and therefore the check $x<=c<= y$ holds true (although $sqrt(2)$ is not a member of $QQ$). On the other hand if we choose the subset $X = {x in QQ | x <= sqrt(2)}$, this contains the true infimum of $sqrt(2)$ and checks *completeness* rather than *density*. Of course, both approaches would involve checking infinitely many elements but luckily we can arrive at such an inequality from the axioms of an ordered set.
+/ Definition - Completeness Axiom: The ordered field of rational numbers is still unsuitable as we need to "fill in the gaps". The completeness axiom is an alternative but equivalent approach to Dedekind cuts (which define the cuts first and then operations in terms of cuts) which characterizes a *complete ordered field* if the completeness axiom holds true:
++ Let $X, Y subset.neq K | X, Y != emptyset: forall x in X forall y in Y$ the inequality $x < y$ holds true. If there exists $c in K | x < c < y forall x, y$ for all such subsets $X$ and $Y$, the ordered field is complete.
+- The field of real numbers $RR$ is a completely ordered extension of $QQ$
+- The reason subsets are checked instead of individual elements $x, y$ is because subsets can be defined in terms of inequalities. For example, consider checking the existence of $sqrt(2)$ in $QQ$. The set of rational numbers is *dense*, therefore no matter which lower bound $x$ we choose, there is *always* a rational number closer to $sqrt(2)$ and therefore the check $x<=c<= y$ holds true (although $sqrt(2)$ is not a member of $QQ$). On the other hand if we choose the subset $X = {x in QQ | x < sqrt(2)}$, this contains every possible rational $< sqrt(2)$ and checks *completeness* rather than *density*. Of course, both approaches would involve checking infinitely many elements but luckily we can arrive at such an inequality from the axioms of an ordered set.
 
 / Definition - Compactification: The reals can be extended to be compact (closed an bounded) with $-oo, oo$ for certain purposes, such as defining the supremum / infimum of an unbounded / empty set:
 $
@@ -1032,7 +1032,9 @@ $
 $
 We now want to show that $x_(n+1)/x_n >= 1$:
 $
-  (1+x / (n+1))^(n+1) / (1+x / n)^n = (1+x / n) ((1+x / (n+1)) / (1+x / n))^(n+1)= (n + x) / n ( 1-x / ((n+1)(x+n)) )^(n+1)
+  (1+x / (n+1))^(n+1) / (1+x / n)^n = (1+x / n) ((1+x / (n+1)) / (1+x / n))^(n+1)= (n + x) / n (
+    1-x / ((n+1)(x+n))
+  )^(n+1)
 $
 Applying Bernoulli's inequality to the second term with $a= -x / ((n+1)(n+x))$ and $n=n+1$:
 $
@@ -1099,14 +1101,19 @@ $
 - $a > 0, x in RR, a^x = e^(x ln(a))$ - Useful for taking the derivative of an arbitrary exponent
 - Slide rules were widely used for performing multiplication, division and many other operations before electronic calculators became widespread in the 70s. They contain pairs of scales with some logarithmic base marked, for example $ln(x)$ such that the x-values were marked at decreasing distances representing the output values. To calculate $1.2 dot 2.6$, one could align the start of the first scale at the position where $1.2$ is marked on the second, such that distance between the start of the second and $2.6$ on the first scale is equal to $ln(1.2) + ln(2.6) = ln(1.2 dot 2.6)$ (thanks to $ln(a) + ln(b) equiv ln(a b)$) which can simply be read off the marking. Division is done in a similar fashion and multiples of 10 can easily be factored out to ensure the result fits in the scale.
 
-/ Definition - Limit of a Function: This can be used to represent the value of function at a point which is not necessarily in the domain of the function, for example at an asymptote. Consider a point $x_0 in RR | forall delta > 0, X sect (x_0 - delta, x_0 + delta) != emptyset$ (the points immediately next to $x_0$ are in the domain of $f: X -> RR$), such a point is called an *accumulation point* of the domain $X$.\
-The limit $L$ of $f$ at an accumulation point $x_0$ is formally defined as:
+/ Definition - Accumulation Point: Also known as limit points, the output of a function at such points can be approximated based on its neighborhood. Consider a point $x_0 in RR$, if $forall delta > 0, X sect (x_0 - delta, x_0 + delta) != emptyset$ (there exist points immediately next to $x_0$ which are in the domain of $f: X -> RR$), such a point is called an *accumulation point* of the domain $X$ and we can define a limit.
+
+/ Definition - Limit of a Function: This can be used to represent the value of function at a point which is not necessarily in the domain of the function, for example at a gap.\
+The limit $L$ of $f$ at an *accumulation point* $x_0$ is formally defined as:
 $
-  lim_(x -> x_0) f(x) = L <=> forall epsilon > 0 exists delta > 0 | forall x in (X sect (x_0 - delta, x_0 + delta)), abs(f(x) - L) < epsilon
+  lim_(x -> x_0) f(x) = L <=> forall epsilon > 0 exists delta > 0 | forall x in (
+    X sect (x_0 - delta, x_0 + delta)
+  ), abs(f(x) - L) < epsilon
 $
-This definition is very similar to continuity at the point $x_0$, with the difference that $x_0$ is not required to be in the domain, and $L$ is what the output $f(x_0)$ would be if based on its surrounding points.
+This definition is very similar to continuity at the point $x_0$, with the difference that only points in the domain are checked (not necessarily $x_0$) and $L$ is what the output $f(x_0)$ would be if based on its surrounding points.
 - A limit *may not always exist* (for example at a jump in the surrounding points) but if it does, it is unique.
-- If there is a jump in the function at $x_0$ but the surrounding points are "continuous" / it is a bound, the limit of $X \\x_0$ is nonetheless defined based on the surrounding points and the jump is ignored, this can be used to correct so-called *removable discontinuities* and defined the *continuous extension* of $f(x)$: $
+- Endpoints are also accumulation points and the both-sided (normal) limit is defined, based only on the surrounding points from one side.
+- If there exists a discontinuity in the function at $x_0$ but the surrounding points on both sides are "continuous", we can take the limit of $X \\x_0$ which is defined based on the surrounding points and the jump is ignored, this can be used to correct so-called *removable discontinuities* (discontinuities with continuous points immediately next to them) and define the *continuous extension* of $f(x)$: $
 L = lim_(x->x_0\ x !=x_0) f(x)\
 tilde(f)(x): X -> RR := cases(
   f(x) &"if" x!=x_0,
@@ -1125,23 +1132,48 @@ $
 $
   lim_(x-> x_0) g compose f(x) = g(lim_(x->x_0) f(x))
 $
-Proof: Because $g(x)$ is continuous, its limit is equal to its output throughout its domain $Y$ (Lemma), therefore when it is composed with another (potentially non-continuous) function, the limit depends on the inner value.
+Proof: Because $g(x)$ is continuous, its limit is equal to its output throughout its domain $Y$ (Lemma), therefore when it is composed with another (potentially non-continuous) function, the output depends purely on the limit of the inner value.
+- For example, we can rewrite $x^x = e^(x ln x)$, breaking it down into limits of well-understood functions.
 
 / Definition - Diverging Limit: The limit of a function diverges as $x->x_0$ if:
 $
-  lim_(x->x_0) f(x) = (-)oo <=> \
+  lim_(x->x_0) f(x) := (-)oo <=> \
   forall M in RR | M > 0 exists delta > 0 | forall x in (X sect (x_0 - delta, x_0 + delta)), (-)M < (>)x_0
 $
 
-/ Definition - One-Sided Limit: Limits can be defined with a direction the value is approached at:
+/ Definition - One-Sided Limit: Limits can be defined with a direction the value is approached from:
 $
-  (lim_(x->x_0\ x>= (<=) x_0) f(x) = L) := (forall epsilon > 0 exists delta > 0 | forall x in (X sect[x_0, x_0 + delta) ((x_0 - delta, x_0])), abs(f(x) - L) < epsilon
+  (lim_(x->x_0\ x>= (<=) x_0) f(x) = L) := (forall epsilon > 0 exists delta > 0 | forall x in (
+    X sect[x_0, x_0 + delta) ((x_0 - delta, x_0])
+  ), abs(f(x) - L) < epsilon
 $
 A one-sided continuous extension can also be defined by using an open bound $(x_0, x_0 + delta)$ and is represented using notation such as $lim_(x->x_0\ x > x_0)$.
-- For example, the positive indicator function's $chi_+$ left $lim_(x=0 \ x< 0) = 0$ and right $lim_(x=0 \ x> 0) = 1$ limits are different at the same point $x=0$.
+- If *both the left and right limits are defined* (not an endpoint), they must be equal for the both-sided limit to exist. For example, the positive indicator function's $chi_+$ left $lim_(x=0 \ x< 0) = 0$ and right $lim_(x=0 \ x> 0) = 1$ limits are different at the same point $x=0$, therefore the both-sided $lim_(x->0)$ is not defined. Such a point with different left / right limits is called a *jump point*.
+- A function who's left / right limit is equal to $f(x_0)$ is said to be left / right continuous.
 
-/ Definition - Limits at $oo$: The limit of a function as its input tends to $oo$ is characterized as follows:
-$$
+/ Definition - Limits at $oo$: It is not meaningful to consider a both-sided limit at $plus.minus oo$ therefore the one sided limit is assumed when defining limits $-> oo$ if $forall delta > 0, X sect (delta, oo) != emptyset$ ($oo$ is an accumulation point):
+$
+  lim_(x -> (-)oo) f(x): X->RR = L <=>\
+  forall epsilon > 0 exists delta > 0 | forall x in (delta, oo) ((-oo, - delta)) sect X, abs(f(x) - L) < epsilon
+$
+- Instead of getting smaller as the error $epsilon$ reduces, $delta -> oo$ to bring points the considered points closer to $oo$ and vice versa for $-oo$.
+- A limit $-> oo$ can be transformed into the right-sided limit $-> 0$ by inputting the reciprocal instead. For example, $lim_(x->oo) e^(-x) = 0$, we arrive at the same result through $lim_(x->0^+) e^(-(x)^(-1))$ because $lim_(x->0) 1/x = oo$. This is a useful result as many functions have known Taylor expansions at $x=0$, making them easier to calculate than $x->oo$.
+
+/ Definition - Landau Big-O Notation: This relates the asymptotic behavior of two functions and is useful for characterizing the computational efficiency of an algorithm by relating it to a simpler, better understood function which behaves similarly as the argument tends to specific values (usually $oo$). The function $f: X -> RR$ is said to be a *Big-O* of $g: X->RR$ at a point $x_0$ if:
+$
+  f(x) = O(g(x)) "as" x-> x_0 <=>\
+  exists M > 0, delta > 0 | forall x in X sect (x_0 - delta, x_0 + delta) abs(f(x))<= M abs(g(x))\
+$
+In the case of $x_0 -> oo$:
+$
+  f(x) = O(g(x)) "as" x-> oo <=>\
+  exists M > 0, delta > 0 | forall x in X sect (delta, oo) abs(f(x))<= M abs(g(x))
+$
+This means that $f$ is bounded by some multiple of $g$ in the neighborhood of $x_0$.
+- For example, $x-> 0, x^2 = O(x)$ but $x->oo, x^2 != O(x)$ because $x$ grows slower than $x^2$ (constant gradient $1$ compared to $2 dot oo$) as $x->oo$ and therefore $x$ cannot bound $x^2$ over a neighborhood no matter how large $M$ or how small $delta$ is.
+- In the context of computer science, $x_0 = oo$ is usually chosen to analyze the worst-case scenario of an algorithmTODO how does a steeper increase as $x-> oo$ mean that an algorithm is slower?
+
+TODO: Little O
 
 *The range of a continuous function with / bounded to a compact domain is also compact.*
 
@@ -1159,5 +1191,7 @@ $
 
 ==== Neighbourhoods
 $
-  f: X -> Y "is continuous" <=>\ "The inverse image of every neighbourhood at point" f( x_0 ) "in" Y "is also a neighbourhood of" x_0 "in" X
+  f: X -> Y "is continuous" <=>\ "The inverse image of every neighbourhood at point" f(
+    x_0
+  ) "in" Y "is also a neighbourhood of" x_0 "in" X
 $
