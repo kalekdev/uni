@@ -1159,39 +1159,55 @@ $
 - Instead of getting smaller as the error $epsilon$ reduces, $delta -> oo$ to bring points the considered points closer to $oo$ and vice versa for $-oo$.
 - A limit $-> oo$ can be transformed into the right-sided limit $-> 0$ by inputting the reciprocal instead. For example, $lim_(x->oo) e^(-x) = 0$, we arrive at the same result through $lim_(x->0^+) e^(-(x)^(-1))$ because $lim_(x->0) 1/x = oo$. This is a useful result as many functions have known Taylor expansions at $x=0$, making them easier to calculate than $x->oo$.
 
-/ Definition - Landau Big-O Notation: This relates the asymptotic behavior of two functions and is useful for characterizing the computational efficiency of an algorithm by relating it to a simpler, better understood function which behaves similarly as the argument tends to specific values (usually $oo$). The function $f: X -> RR$ is said to be a *Big-O* of $g: X->RR$ at a point $x_0$ if:
+/ Definition - Big-O Notation: This relates the asymptotic behavior of two functions and is useful for characterizing the computational efficiency of an algorithm by relating it to a simpler, better understood function which behaves similarly as the argument tends to specific values (usually $oo$). The function $f: X -> RR$ is said to be a *Big-O* of $g: X->RR$ at a point $x_0$ if:
 $
-  f(x) = O(g(x)) "as" x-> x_0 <=>\
+  f(x) in O(g(x)) "as" x-> x_0 <=>\
   exists M > 0, delta > 0 | forall x in X sect (x_0 - delta, x_0 + delta) abs(f(x))<= M abs(g(x))\
 $
 In the case of $x_0 -> oo$:
 $
-  f(x) = O(g(x)) "as" x-> oo <=>\
-  exists M > 0, delta > 0 | forall x in X sect (delta, oo) abs(f(x))<= M abs(g(x))
+  f(x) in O(g(x)) "as" x-> oo <=>\
+  exists M > 0, delta > 0 | forall x in X sect (delta, oo) abs(f(x))<= M abs(g(x))\
 $
 This means that $f$ is bounded by some multiple of $g$ in the neighborhood of $x_0$.
-- For example, $x-> 0, x^2 = O(x)$ but $x->oo, x^2 != O(x)$ because $x$ grows slower than $x^2$ (constant gradient $1$ compared to $2 dot oo$) as $x->oo$ and therefore $x$ cannot bound $x^2$ over a neighborhood no matter how large $M$ or how small $delta$ is.
-- In the context of computer science, $x_0 = oo$ is usually chosen to analyze the worst-case scenario of an algorithmTODO how does a steeper increase as $x-> oo$ mean that an algorithm is slower?
+- For example, $x-> 0, x^2 in O(x)$ but $x->oo, x^2 in.not O(x)$ because $x$ grows slower than $x^2$ (real gradient $M$ compared to $2 dot oo$) as $x->oo$ and therefore $x$ cannot bound $x^2$ over a neighborhood no matter how large $M$ or how small $delta$ is.
+- If $f(x)$ is a sum of terms such as a polynomial, only the dominating term plays a role as $x->oo$ and constant coefficients can be ignored, for example $4x^4 + 3x^3+2x^2 + x in O(x^4)$; this can be verified by expanding $abs(f(x))$ using the triangle inequality.
+- In the context of computer science, $f(x)$ is a function of steps / storage needed to execute an algorithm given an input $n$. For example the steps needed to loop over an input list with length $n$ once is $alpha n$, where $alpha$ is the number of steps per loop iteration; such an algorithm would be classified as $O(n)$ as $n->oo$ (the worst-case scenario where $alpha$ dwindles into irrelevance). An algorithm with a flatter Big-O equivalent is said to be more efficient in the long term (for example $O(log(n))$ is quicker than $O(n^2)$).
 
-TODO: Little O
+LTD: Little-O notation Figalli's Script
 
-*The range of a continuous function with / bounded to a compact domain is also compact.*
+/ Definition - Sequence of Functions: A set of functions over the same domain $X$ can be indexed by $NN$ as a sequence $(f_n)_(n in NN)$, the order plays a role like in any normal sequence.
 
-The maxi-, mini-, supre- and infimum of a function are defined as expected on its range.
-
-*Every continuous function with a compact domain and therefore range possesses a maximum and minimum.*
-
-=== Topological Continuity Definitions
-Continuity of a function can also be defined with the following topological criteria:
-
-==== Closed / Open Sets
+/ Definition - Point-Wise Convergence: A sequence of functions is said to *converge point-wise* to a function $l: X -> RR$ if:
 $
-  f: X -> Y "is continuous" <=>\ "The inverse image (Urbild) of every relatively open / closed subset in" X "is also relatively open / closed."
+  forall x in X, lim_(n->oo) f_n(x) = l(x)
 $
+- The so-called point-wise limit $l: X->RR$ is unique. Proof: Simple by contradiction.
+#figure(
+  image("images/pointwise-convergence.png", width: 50%),
+) <fig-pointwise-convergence>
 
-==== Neighbourhoods
+/ Definition - Uniform Convergence: This is a stronger measure of convergence than point-wise, a sequence of functions $f_n$ converges uniformly to $l(x)$ if:
 $
-  f: X -> Y "is continuous" <=>\ "The inverse image of every neighbourhood at point" f(
-    x_0
-  ) "in" Y "is also a neighbourhood of" x_0 "in" X
+  forall epsilon > 0 exists N in NN | forall n > N forall x in X abs(f_n (x) - l(x)) < epsilon
 $
+This differs by applying the same error $epsilon$ for all points in the domain at a given index $N$, meaning that all points need to converge to $l$ at the same rate.
+- Uniform convergence $=>$ point-wise convergence. This is proved by acknowledging that ${n in NN | n > N} = NN sect (N, oo)$, leading to the point-wise definition.
+
+/ Theorem - Uniform Limit Continuity: The uniform limit $l: X -> RR$ of a uniformly converging sequence of *continuous functions* is also a continuous function.\
+Proof:\
+The functions $f_n$ are given to be continuous at all points, therefore the following holds true:
+$
+  forall n in NN forall x_0 in X forall epsilon > 0 exists delta > 0 | forall x in X, abs(x - x_0) < delta => abs(f_n (x) - f_n (x_0)) < epsilon
+$
+This also applies to functions indexed past $n > N$ for any given uniform convergence error $Epsilon$, such that $abs(f_n (x) - l(x)) < Epsilon$. Now we must show that $abs(f_n (x) - f_n (x_0)) < epsilon => abs(l(x) - l(x_0)) < epsilon$.\
+Both $x$ and $x_0$ are elements of $X$, hence $abs(f_n (x_((0))) - l(x_((0)))) < Epsilon$ holds true $forall Epsilon > 0$, which we can combine using the Triangle inequality to achieve our goal:
+$
+  abs(l(x) - l(x_0))) <= abs(l(x) - f_n (x)) + abs(f_n (x_0) - l(x_0))+ abs(f_n (x) - f_n (x_0)) < 3Epsilon\
+  => abs(l(x) - l(x_0)) < epsilon qed
+$
+- Unlike uniform convergence, point-wise convergence does not guarantee continuity of $l$.
+
+TODO: Exercises 3.1
+
+= Series
