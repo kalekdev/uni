@@ -500,7 +500,7 @@ We have shown that $exists.not x in X | s(x) = B$ and because $B in cal(P)(X)$, 
 / Theorem - $RR$ is Uncountable: To prove this, we can find an injection $i: cal(P)(NN) -> RR$, which is given from the decimal expansion of reals TODO: Understand Cantor diagonalization
 
 = Sequences of Real Numbers
-/ Definition - Sequence: A sequence is a function $a: NN -> RR$ which is often written as $(a_n)_(n in NN)$
+/ Definition - Sequence: A sequence is a function $a: NN -> RR$ which is often written as $(a_n)_(n in NN)$, such that the input $n$ serves as an ordered index for the outputs (hence the natural numbers are used).
 - A sequence is called *constant* if $forall n, m in NN, a_n = a_m$ and *eventually constant* if $exists N in NN | forall n, m >= N, a_n = a_m$
 
 / Definition - Convergence: A sequence is said to *converge towards $A$* if:
@@ -992,13 +992,14 @@ Assume by contradiction that $f$ is not bounded, ie. $forall N in RR | N > 0, ex
 
 / Definition - Extrema: The maximum (minimum) of $f: X -> RR$ is defined as the value $f(m)$ of the point $m in X$ such that $forall x in X, f(x) <= (>=) f(m)$. Bounded functions (and therefore any continuous function with a compact domain) have both a maximum and minimum over their domain.
 
-/ Definition - Uniform Continuity: This is a stricter definition of $epsilon delta$ continuity, where *the same* $delta$ satisfies the $epsilon$ error interval for all points:
+/ Definition - Uniform Continuity: This is a stricter definition of $epsilon delta$ continuity, where $delta$ satisfies the *the same* $epsilon$ error interval for all points:
 $
   f: X -> Y\
   forall epsilon > 0 exists delta | forall x_1, x_2 in X, abs(x_1 - x_2) < delta => abs(f(x_1) - f(x_2)) < epsilon
 $
+- Generally, uniform means the same $epsilon$ and $delta$ applies to all points in the domain (see uniform convergence), all points are continuous / converge at the same rate.
 - An example of a continuous but not uniformly continuous function is $x^2: RR -> [0, oo)$ and $e^x: RR -> (0, oo)$ - they become nearly vertical as $x$ increases, meaning that $delta -> 0$ to satisfy the entire domain, which is not allowed as $delta > 0$. Allowing a different $delta$ for each point (normal continuity) is however allowed. Non-uniform continuity can be proved by choosing $x_2 = x_1 + delta/2$ and showing that $abs(f(x_1) - f(x_2))<epsilon$ doesn't hold true $forall x_1 in X$, a proof by contradiction.
-- A continuous function on a *compact* domain is *uniformly* continuous. Intuition: It has a maximum and minimum, therefore we can choose a $delta > 0$ which satisfies the epsilon interval for all points.
+- A continuous function on a *compact* domain is *uniformly* continuous. Intuition: It is bounded and has a maximum and minimum, therefore we can choose a $delta > 0$ which satisfies the epsilon interval for all points.
 
 / Definition - Bernoulli's Inequality: This states that:
 $
@@ -1191,10 +1192,10 @@ $
 $
   forall epsilon > 0 exists N in NN | forall n > N forall x in X abs(f_n (x) - l(x)) < epsilon
 $
-This differs by applying the same error $epsilon$ for all points in the domain at a given index $N$, meaning that all points need to converge to $l$ at the same rate.
+This differs by applying the same error $epsilon$ for all points in the domain at a given index $N$, meaning that all points need to converge towards $l$ at the same rate.
 - Uniform convergence $=>$ point-wise convergence. This is proved by acknowledging that ${n in NN | n > N} = NN sect (N, oo)$, leading to the point-wise definition.
 
-/ Theorem - Uniform Limit Continuity: The uniform limit $l: X -> RR$ of a uniformly converging sequence of *continuous functions* is also a continuous function.\
+/ Theorem - Uniform Limit Continuity: The uniform limit $l: X -> RR$ of a uniformly converging sequence of *continuous functions* is also a continuous function, this can be interpreted as yet another characterization of continuity.\
 Proof:\
 The functions $f_n$ are given to be continuous at all points, therefore the following holds true:
 $
@@ -1208,6 +1209,49 @@ $
 $
 - Unlike uniform convergence, point-wise convergence does not guarantee continuity of $l$.
 
-TODO: Exercises 3.1
+/ Theorem - Bounded Uniform Limit: The uniform limit of a sequence of bounded functions is also bounded.\
+Proof:\
+As $epsilon->0, forall n > N forall x in X, f_n (x) approx l(x)$, therefore we can extrapolate $abs(f_n (x)) <= B$ to $abs(l(x)) <= B$, where $l$ is the uniform limit.
+- This does not apply to the point-wise limit.
 
-= Series
+= Series (Reihen)
+Series introduce the fundamental concept of state.
+
+/ Definition - Convergent Series: A series $s_n: NN -> RR := sum_(k=0)^n a_k$ is a sequence of partial sums of a sequence $(a_k)_(k in NN) in RR$. It may converge to a value $A in RR$ if the following limit exists:
+$
+  lim_(n-> oo) s_n = sum_(k=0)^oo a_k = A <=>\
+  forall epsilon > 0 exists N > 0 | forall n in NN | n > N, abs(s_n - A) < epsilon
+$
+Otherwise, it may diverge to $plus.minus oo$ or oscillate just like a sequence / function.
+- A series converges $=>$ its *sequence of summands converges* to $0$.\ Proof:\ We are given $lim_(n->oo) s_n = A$. The current $a_n$ is given by $s_n - s_(n-1)$ which when applying the sum of limits Lemma tends to $lim_(n->oo) (s_n - s_(n-1)) =A - A =0 qed$
+- A sequence converges to $0 arrow.double.not$ Its series converges.\ If we sum the elements of such a sequence until we pass $N$ so that it converges to $0$ for a given $epsilon$, we get: $
+abs(a_k) + abs(a_(k-1)) + ... < n epsilon
+$ However $lim_(n-> oo\ epsilon -> 0) n epsilon$ is undefined, therefore we cannot conclude that the series also converges.
+- The limit of linear combinations of convergent series can be calculated from the component limits since they are valid functions upon which the limit linear combination lemmas can be applied.
+
+/ Example - Geometric Series: This is defined as:
+$
+  q in RR, s_n := sum_(k=0)^n q^k
+$
+- Its n'th term can be calculated using the following formula (provable through induction): $
+s_n = cases((1-q^(n+1))/(1-q) &"if" q!=1,n &"otherwise")
+$
+- Taking the limit of its n'th term shows that it converges when $abs(q) < 1$ and the sequence of summands does indeed converge to $0$, in which case: $
+lim_(n->oo) s_n = (1)/(1-q)
+$
+
+/ Example - Harmonic Series: This is defined as:
+$
+  s_n := sum_(k=1)^n 1 / k
+$
+- It does *not converge*, despite the summands converging to $0$.
+
+/ Theorem - Convergence of the Tail: A series is convergent $<=>$ Its tail converges:
+$
+  forall N in NN\
+  sum_(k=0)^oo s_n = sum_(k=0)^(N-1) s_n + sum_(k=N)^oo s_n
+$
+This is simply a sum of limits, whereby a finite sum is a constant hence the existence of the limit only depends on the tail converging $qed$
+- Divergent tail $<=>$ divergent sequence
+
+Today I will finish series
