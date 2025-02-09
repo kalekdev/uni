@@ -627,7 +627,7 @@ $
   "Supremum: " min{b in RR | forall x in X,x <= b}
 $
 I aim to show convergence by combining these definitions towards: $exists A in RR forall epsilon in (0, oo) exists N in NN | forall n in NN: n >= N, abs(a_n - A) < epsilon$.\
-The existence of a bound $M$ shows that the bound set is *not* empty and a supremum "on the sequence" exists (although it may be smaller to $M$). Let $A in RR$ be such a supremum:
+The existence of a bound $M$ shows that the bound set is *not* empty and a supremum "on the sequence" exists (it may be smaller than $M$). Let $A in RR$ be such a supremum:
 $
   forall x_n, -A <= x_n <= A \
   therefore x_n - A <= 0
@@ -640,7 +640,7 @@ We now wish to show $-epsilon < x_n - A$. It is given $x_(n) >= x_(n-1)$. Furthe
 $
   -A<= x_(n-1) <= x_n\
 $
-TODO: This proof is taking too long :( but I think I am almost there. Hoping to apply the definition of the absolute function, $abs(x_n - A) < epsilon$. I also need to show that there is an $N$ after which this is valid, will try again another time...
+TODO: This proof is taking too long :( but I think I am almost there, it is rather important so I certainly need to come back to it later. Hoping to apply the definition of the absolute function, $abs(x_n - A) < epsilon$. I also need to show that there is an $N$ after which this is valid, will try again another time...
 
 / Definition - Superior / Inferior Limits: These can be thought of as the steady-state bounds of a sequence. Consider the sequence $s_n = sup{x_k | k>=n}$ based on the sequence $x_n$. As the starting term to be included $n$ gets larger, the supremum can only stay the same or get smaller (monotonically decreasing) because $m> n, {x_k | k>=m} subset.neq {x_k | k>=n}$, ie. the starting terms get excluded and $therefore s_m <= s_n$. *If the sequence $x_n$ is bounded*, $s_n$ is also bounded as the first (and subsequent) suprema are a real, non-infinite number. Therefore, $s_n$ converges to $inf{s_n | n in NN}$ and vice versa for the inferior limit $i_n$, such that:
 $
@@ -1129,6 +1129,12 @@ lim_(x->x_0) (alpha f)(x) = alpha L_1
 $
 - A function is continuous at $x_0 <=> lim_(x->x_0) f(x) = f(x_0)$, this is the same as the continuity definition.
 
+/ Definition - Indeterminate Form: Although combinations of limits such as $oo + oo = oo$ are allowed, certain combinations cannot be computed through simple addition / multiplication and are named *indeterminate forms*:
+$
+  oo -oo, 0 dot oo, 0 / 0, oo / oo, 0^0
+$
+Instead, one can often simplify an expression, for example by dividing polynomials in a fraction by some power of $n$ to reduce terms to $a/n^i$, which can be eliminated as they tend towards $0$ as $n->oo$. In more difficult cases, one may be able to apply l'Hôpital's Theorem or rewrite the function as a Taylor expansion.
+
 / Theorem - Composition of Limits: Consider a function $f: X -> Y$ such that the limit $lim_(x->x_0) f(x)$ is defined. If $f$ is composed with a *continuous* function $g: Y -> Z$, the following holds true:
 $
   lim_(x-> x_0) g compose f(x) = g(lim_(x->x_0) f(x))
@@ -1175,7 +1181,7 @@ This means that $f$ is bounded by some multiple of $g$ in the neighborhood of $x
 - If $f(x)$ is a sum of terms such as a polynomial, only the dominating term plays a role as $x->oo$ and constant coefficients can be ignored, for example $4x^4 + 3x^3+2x^2 + x in O(x^4)$; this can be verified by expanding $abs(f(x))$ using the triangle inequality.
 - In the context of computer science, $f(x)$ is a function of steps / storage needed to execute an algorithm given an input $n$. For example the steps needed to loop over an input list with length $n$ once is $alpha n$, where $alpha$ is the number of steps per loop iteration; such an algorithm would be classified as $O(n)$ as $n->oo$ (the worst-case scenario where $alpha$ dwindles into irrelevance). An algorithm with a flatter Big-O equivalent is said to be more efficient in the long term (for example $O(log(n))$ is quicker than $O(n^2)$).
 
-LTD: Little-O notation Figalli's Script
+TODO: Little-O notation, appears in both scripts
 
 / Definition - Sequence of Functions: A set of functions over the same domain $X$ can be indexed by $NN$ as a sequence $(f_n)_(n in NN)$, the order plays a role like in any normal sequence.
 
@@ -1215,8 +1221,6 @@ As $epsilon->0, forall n > N forall x in X, f_n (x) approx l(x)$, therefore we c
 - This does not apply to the point-wise limit.
 
 = Series (Reihen)
-Series introduce the fundamental concept of state.
-
 / Definition - Convergent Series: A series $s_n: NN -> RR := sum_(k=0)^n a_k$ is a sequence of partial sums of a sequence $(a_k)_(k in NN) in RR$. It may converge to a value $A in RR$ if the following limit exists:
 $
   lim_(n-> oo) s_n = sum_(k=0)^oo a_k = A <=>\
@@ -1235,16 +1239,18 @@ $
 $
 - Its n'th term can be calculated using the following formula (provable through induction): $
 s_n = cases((1-q^(n+1))/(1-q) &"if" q!=1,n &"otherwise")
-$
+$ Such n'th term formulae are very useful as they easily reveal convergence and can be found by writing out the first few + last terms of a series, where certain patterns could be found.
 - Taking the limit of its n'th term shows that it converges when $abs(q) < 1$ and the sequence of summands does indeed converge to $0$, in which case: $
 lim_(n->oo) s_n = (1)/(1-q)
 $
 
-/ Example - Harmonic Series: This is defined as:
+/ Example - Harmonic Series: Its name stems from the harmonics of a frequency, and it is defined as:
 $
   s_n := sum_(k=1)^n 1 / k
 $
-- It does *not converge*, despite the summands converging to $0$.
+- It does *not converge*, despite the summands converging to $0$. $sum 1/k^2$ on the other hand *does* converge.
+
+I will mostly discuss various convergence criteria now.
 
 / Theorem - Convergence of the Tail: A series is convergent $<=>$ Its tail converges:
 $
@@ -1254,4 +1260,44 @@ $
 This is simply a sum of limits, whereby a finite sum is a constant hence the existence of the limit only depends on the tail converging $qed$
 - Divergent tail $<=>$ divergent sequence
 
-Today I will finish series
+/ Theorem - Monotone Convergence of Series: Just like a sequence, a bounded, monotone series converges to its supremum / infimum (see monotone convergence theorem proof). Such series are monotone increasing (decreasing) if the sign of its summands is consistent and they remain positive (negative).\
+- If it is not bounded but monotone, it diverges to $plus.minus oo$
+
+/ Theorem - Majorant-Minorant Criterion: This is similar to the Sandwich Lemma for sequences. Let $A_n = sum a_k$ (minorant) and $B_n = sum b_k$ (majorant) be two series such that $forall k > N, 0 <= a_k <= b_k$ for some $N in NN$. The following implications hold:
+$
+  B_n "convergent" => A_n "convergent"\
+  A_n "divergent to" oo => B_n "divergent to" oo
+$
+Proof:\
+$a_n >=0$ ensures that the minorant $A_n$ is monotone increasing. Applying the Monotone Convergence theorem shows that it converges or diverges depending on if it is bounded by $sup(B_n) qed$
+
+/ Theorem - Cauchy Condensation Test: A series $sum a_k$ who's sequence of summands is non-negative but monotonically decreasing has the following property:
+$
+  sum 2^k a_(2^k) "converges" <=> sum a_k "converges"
+$
+This may seem like a useless fact but there are in fact many series which simplify when multiplied by $2^k$, for example $sum 1/k^i=> sum 2^k/(2^k)^i = sum (2^(1 - i))^k$, transforming into a geometric series which proves that the converges $forall i > 1$, a useful fact for the *Riemann Zeta function* $zeta(i) := sum_(k=1)^oo 1/k^i$.
+
+/ Definition - Absolute Convergence: A series $sum a_k$ is absolute convergent if $sum abs(a_k)$ converges.
+- Convergent monotone series (all summands either positive or negative and bounded accordingly) are absolute convergent.
+- A series which converges, but does *not* absolutely converge is called *conditionally convergent*, both positive and negative summands are necessary for it to converge.
+
+/ Theorem - Riemann's Rearrangement Theorem: This incredible result relies on the counter-intuitive fact that an infinite sum depends on the order of summands (unlike a finite sum which is commutative) and states that the summands of a conditionally convergent series $s_n$ can be rearranged by a bijective mapping $phi$ (every term added once) to make it converge to any real limit:
+$
+  forall A in RR exists phi: NN -> NN | sum_(k=0)^oo a_phi(k) = A
+$
+Proof:\
+We will consider the indexes of the positive and negative summands separately:
+$
+  P = {n in NN | a_n >= 0}, N = {n in NN | a_n < 0}
+$
+The following "subseries" must both diverge to ensure that the sum of their limits $lim_(n->oo) s_n = lim_(n->oo) p_n + lim_(n->oo) n_n = oo - oo < oo$:
+$
+  lim_(n->oo) p_n := sum_(k=0)^oo a_P_k = oo\
+  lim_(n->oo) n_n := sum_(k=0)^oo a_N_k = -oo
+$
+Furthermore, they must both be divergent - if they weren't $lim_(n->oo) abs(s_n)$ would converge which contradicts the fact that it is conditionally convergent.\
+The mapping $phi$ can be recursively constructed to choose a positive / negative summand as the next index depending on if the current partial sum is smaller / larger than $A$, adding the summands with the largest absolute values first so that $a_n-> 0$ as $n-> oo$ (although a null sequence of summands doesn't imply convergence, we have already guaranteed it due to the $oo-oo< oo$ considerations) $qed$
+- This might be my favorite theorem so far
+
+
+TODO: Leibnitz, Cauchy convergence criterion

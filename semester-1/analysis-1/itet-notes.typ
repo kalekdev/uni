@@ -575,7 +575,7 @@ This series converges when $s>1$. $s=1$ is the harmonic series, which does indee
 
 $zeta(2) = pi^2/6$ was proved by Euler, however $s>2$ has not yet been expressed precisely and is an open problem.
 
-LTD: It is weird that this converges but the harmonic series doesn't...
+LTD: It is weird that this converges but the harmonic series doesn't... yes intuitively it is, but Cauchy condensation states it is correct, just one of nature's beauties I guess
 
 === Conditional Convergence
 Finite sums are always associative and commutative. However, this is not always the case for infinite sums, for example the alternating harmonic series, which can be rearranged so it converges to half of the usual limit: https://en.wikipedia.org/wiki/Absolute_convergence
