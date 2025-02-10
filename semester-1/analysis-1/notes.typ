@@ -440,10 +440,15 @@ Lemma: $(abs(x) <= y) equiv (-y <= x <= y)$\
 $
   therefore abs(x + y) <= abs(x) + abs(y) qed
 $
-An alternative, the *inverse triangle inequality* can also be useful:
-$
+- An alternative, the *inverse triangle inequality* can also be useful: $
   abs(x - y) >= abs(abs(x) - abs(y))
 $
+- Setting $y=x_2 + x_3$ and applying the inequality again expands it to: $
+abs(x_1) + abs(x_2) + abs(x_3) + ... >= abs(x_1 + x_2 + x_3 + ...)
+$ By induction this holds true $forall n in NN$: $
+sum_(k=0)^n abs(a_k) >= abs(sum_(k=0)^n a_k)
+$
+- TODO: Linear algebra, this extends to any n-dimensional normed vector space, proven by the Cauchy-Schwartz inequality
 
 / Definition - Completeness Axiom: The ordered field of rational numbers is still unsuitable as we need to "fill in the gaps". The completeness axiom is an alternative but equivalent approach to Dedekind cuts (which define the cuts first and then operations in terms of cuts) which characterizes a *complete ordered field* if the completeness axiom holds true:
 + Let $X, Y subset.neq K | X, Y != emptyset: forall x in X forall y in Y$ the inequality $x < y$ holds true. If there exists $c in K | x < c < y forall x, y$ for all such subsets $X$ and $Y$, the ordered field is complete.
@@ -767,7 +772,7 @@ $
 - $abs(z dot w) = sqrt((z dot w) dot overline(z dot w)) = sqrt(z dot overline(z) dot w dot overline(w)) = sqrt(z dot overline(z)) dot sqrt(w dot overline(w)) = abs(z) dot abs(w)$
 - It has the same notion of length when complex numbers are plotted on an Argand diagram
 
-/ Theorem - Cauchy-Schwartz Inequality: $forall z= x_1 + y_1 i, w = x_2 + y_2 i in CC$:
+/ Theorem - Cauchy-Schwarz Inequality: $forall z= x_1 + y_1 i, w = x_2 + y_2 i in CC$:
 $
   x_1 x_2 + y_1 y_2 <= abs(z dot w)
 $
@@ -782,6 +787,7 @@ By applying the compatibility of addition in an ordered field (although $CC$ is 
 $
   abs(z dot w) >= x_1 x_2 + y_1 y_2 qed
 $
+TODO: Rewrite as dot product of n-dimensional space, derive triangle inequality from it. The complex only description does not do it justice! Maybe better suited in my linear algebra notes...
 
 / Theorem - Complex Triangle Inequality: We can show that the triangle inequality also holds true $forall z= x_1 + y_1 i, w = x_2 + y_2 i in CC$:
 $
@@ -1281,7 +1287,7 @@ This may seem like a useless fact but there are in fact many series which simpli
 - Convergent monotone series (all summands either positive or negative and bounded accordingly) are absolute convergent.
 - A series which converges, but does *not* absolutely converge is called *conditionally convergent*, both positive and negative summands are necessary for it to converge.
 
-/ Theorem - Riemann's Rearrangement Theorem: This incredible result relies on the counter-intuitive fact that an infinite sum depends on the order of summands (unlike a finite sum which is commutative) and states that the summands of a conditionally convergent series $s_n$ can be rearranged by a bijective mapping $phi$ (every term added once) to make it converge to any real limit:
+/ Theorem - Riemann's Rearrangement Theorem: This incredible result relies on the counter-intuitive fact that an infinite sum depends on the order of summands (unlike a finite sum which is commutative) and states that the summands of any conditionally convergent series $s_n$ can be rearranged by a bijective mapping $phi$ (every term added once) to make it converge to any real limit:
 $
   forall A in RR exists phi: NN -> NN | sum_(k=0)^oo a_phi(k) = A
 $
@@ -1299,5 +1305,44 @@ Furthermore, they must both be divergent - if they weren't $lim_(n->oo) abs(s_n)
 The mapping $phi$ can be recursively constructed to choose a positive / negative summand as the next index depending on if the current partial sum is smaller / larger than $A$, adding the summands with the largest absolute values first so that $a_n-> 0$ as $n-> oo$ (although a null sequence of summands doesn't imply convergence, we have already guaranteed it due to the $oo-oo< oo$ considerations) $qed$
 - This might be my favorite theorem so far
 
+/ Theorem - Alternating Criterion: Although the sequence of summands being a monotonic null-sequence doesn't guarantee convergence (see harmonic series), if a *monotonic null-sequence* $a_k$ is part of a so-called *alternating series* $sum_(k=0)^n (-1)^k a_k$ it converges and its limit can be numerically approximated (accuracy increasing with $n$) thanks to:
+$
+  sum_(k=0)^(2n+1) (-1)^k a_k <= sum_(k=0)^oo (-1)^k a_k <= sum_(k=0)^(2n) (-1)^k a_k
+$
+Where the even / odd $2n$ and $2n+1$ guarantee that the latest summand was negative / positive.\
+Proof:\
+We are given the following:
+$
+  abs(a_k) >= abs(a_(k+1))\
+  lim_(k->oo) a_k = 0
+$
+To apply the Monotone Convergence Theorem, it remains to show that the alternating series is always bounded accordingly (its monotonicity stems from the monotonicity of the summands):
++ If $a_n$ is monotonically decreasing, its lower bound is given by (increase max index if $k=0$ is undefined): $
+  sum_(k=0)^1 (-1)^k a_k <= forall n in NN sum_(k=0)^(n) (-1)^k a_k
+$
++ If $a_n$ is monotonically increasing, its upper bound is given by: $
+  a_k >= forall n in NN sum_(k=0)^(n) (-1)^k a_k
+$
+These intuitive bounds can be proved by induction for more rigor, the summands being a null-sequence is required so their polarity stays consistent. Hence such an alternating series always converges $qed$
+- This proves that the harmonic alternating series $sum (-1)^k/k$ converges (the exact value is deduced from the Taylor series of $ln(1-x)$).
 
-TODO: Leibnitz, Cauchy convergence criterion
+/ Theorem - Cauchy Criterion: This is essentially the definition of Cauchy convergence applied to series, which are indeed regular sequences, and doesn't require the limit to be postulated:
+$
+  forall epsilon > 0 exists N in NN | forall n>= m> N, abs(s_n - s_m) = abs(sum_(k=0)^n a_k - sum_(k=0)^m a_k)< epsilon\
+  => abs(sum_(k=m+1)^n a_k)< epsilon
+$
+
+/ Theorem - Absolute Convergence Criterion: A series is absolutely convergent $=>$ the original series is convergent. This is a useful result as there are several absolute convergence criterion we will soon see.\
+Proof:\
+We are given that the absolute series of $sum a_k$ is a Cauchy series and aim to show:
+$
+  forall epsilon > 0 exists N in NN | forall n>= m> N\
+  abs(sum_(k=m+1)^n abs(a_k))< epsilon => abs(sum_(k=m+1)^n a_k)< epsilon
+$
+Applying the Triangle Inequality $sum_(k=0)^n abs(a_k) >= abs(sum_(k=0)^n a_k)$:
+$
+  abs(sum_(k=m+1)^n a_k) <= abs(sum_(k=m+1)^n abs(a_k))< epsilon\
+  abs(sum_(k=m+1)^n a_k) < epsilon qed
+$
+
+/ Theorem - Root Criterion: This proves convergence by showing that a series is bounded by the converging geometric series, quite nifty innit.
