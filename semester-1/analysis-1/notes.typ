@@ -1135,11 +1135,12 @@ lim_(x->x_0) (alpha f)(x) = alpha L_1
 $
 - A function is continuous at $x_0 <=> lim_(x->x_0) f(x) = f(x_0)$, this is the same as the continuity definition.
 
-/ Definition - Indeterminate Form: Although combinations of limits such as $oo + oo = oo$ are allowed, certain combinations cannot be computed through simple addition / multiplication and are named *indeterminate forms*:
+/ Definition - Indeterminate Form: Although combinations of limits involving $oo$ such as $oo + oo = oo$ are allowed, certain combinations are unstable (can be thought of as race conditions) and are named *indeterminate forms*:
 $
-  oo -oo, 0 dot oo, 0 / 0, oo / oo, 0^0
+  oo -oo, 0 dot oo, 0 / 0, oo / oo, 0^0, 1^oo, oo^0
 $
-Instead, one can often simplify an expression, for example by dividing polynomials in a fraction by some power of $n$ to reduce terms to $a/n^i$, which can be eliminated as they tend towards $0$ as $n->oo$. In more difficult cases, one may be able to apply l'Hôpital's Theorem or rewrite the function as a Taylor expansion.
+For example, $n^oo -> 0$ if $n-> 1$ from the left, or it may tend to $-> oo$ if $n->1$ from the right. The rate of growth of the exponent vs base also plays a role. Therefore extreme caution must be taken with such forms and there may not always be enough information to reach a conclusive answer.
+- One can often simplify an expression to avoid such forms, for example by dividing polynomials in a fraction by some power of $n$ to reduce terms to $a/n^i$, which can be eliminated as they tend towards $0$ as $n->oo$. In more difficult cases, one may be able to apply l'Hôpital's Theorem or rewrite the function as a Taylor expansion.
 
 / Theorem - Composition of Limits: Consider a function $f: X -> Y$ such that the limit $lim_(x->x_0) f(x)$ is defined. If $f$ is composed with a *continuous* function $g: Y -> Z$, the following holds true:
 $
@@ -1281,13 +1282,13 @@ $a_n >=0$ ensures that the minorant $A_n$ is monotone increasing. Applying the M
 $
   sum 2^k a_(2^k) "converges" <=> sum a_k "converges"
 $
-This may seem like a useless fact but there are in fact many series which simplify when multiplied by $2^k$, for example $sum 1/k^i=> sum 2^k/(2^k)^i = sum (2^(1 - i))^k$, transforming into a geometric series which proves that the converges $forall i > 1$, a useful fact for the *Riemann Zeta function* $zeta(i) := sum_(k=1)^oo 1/k^i$.
+This may seem like a useless fact but there are in fact many series which simplify when converted into a "condensation series", for example $sum 1/k^i=> sum 2^k/(2^k)^i = sum (2^(1 - i))^k$, transforming into a geometric series which proves that the converges $forall i > 1$, a useful fact for the *Riemann Zeta function* $zeta(i) := sum_(k=1)^oo 1/k^i$.
 
 / Definition - Absolute Convergence: A series $sum a_k$ is absolute convergent if $sum abs(a_k)$ converges.
 - Convergent monotone series (all summands either positive or negative and bounded accordingly) are absolute convergent.
 - A series which converges, but does *not* absolutely converge is called *conditionally convergent*, both positive and negative summands are necessary for it to converge.
 
-/ Theorem - Riemann's Rearrangement Theorem: This incredible result relies on the counter-intuitive fact that an infinite sum depends on the order of summands (unlike a finite sum which is commutative) and states that the summands of any conditionally convergent series $s_n$ can be rearranged by a bijective mapping $phi$ (every term added once) to make it converge to any real limit:
+/ Theorem - Riemann's Rearrangement Theorem: This incredible result relies on the counter-intuitive fact that an infinite sum can depend on the order of summands (unlike a finite sum which is commutative) and states that the summands of any *conditionally convergent* series $s_n$ can be rearranged by a bijective mapping $phi$ (every term added once) to make it converge to any real limit:
 $
   forall A in RR exists phi: NN -> NN | sum_(k=0)^oo a_phi(k) = A
 $
@@ -1296,12 +1297,12 @@ We will consider the indexes of the positive and negative summands separately:
 $
   P = {n in NN | a_n >= 0}, N = {n in NN | a_n < 0}
 $
-The following "subseries" must both diverge to ensure that the sum of their limits $lim_(n->oo) s_n = lim_(n->oo) p_n + lim_(n->oo) n_n = oo - oo < oo$:
+The following "subseries" must both diverge to ensure that the sum of their limits $lim_(n->oo) s_n = lim_(n->oo) p_n + lim_(n->oo) n_n = oo - oo < oo$ and the series converges:
 $
   lim_(n->oo) p_n := sum_(k=0)^oo a_P_k = oo\
   lim_(n->oo) n_n := sum_(k=0)^oo a_N_k = -oo
 $
-Furthermore, they must both be divergent - if they weren't $lim_(n->oo) abs(s_n)$ would converge which contradicts the fact that it is conditionally convergent.\
+Furthermore, they must both be divergent - if they weren't the absolute series $lim_(n->oo) abs(s_n)$ would converge which contradicts the fact that it is conditionally convergent.\
 The mapping $phi$ can be recursively constructed to choose a positive / negative summand as the next index depending on if the current partial sum is smaller / larger than $A$, adding the summands with the largest absolute values first so that $a_n-> 0$ as $n-> oo$ (although a null sequence of summands doesn't imply convergence, we have already guaranteed it due to the $oo-oo< oo$ considerations) $qed$
 - This might be my favorite theorem so far
 
@@ -1345,4 +1346,88 @@ $
   abs(sum_(k=m+1)^n a_k) < epsilon qed
 $
 
-/ Theorem - Root Criterion: This proves convergence by showing that a series is bounded by the converging geometric series, quite nifty innit.
+/ Theorem - Root Criterion: This proves convergence by showing that the absolute tail of a series is bounded by a convergent geometric series (when the $abs("base") <1$), allowing us to deduce that the original series is convergent as well (invoking several Lemmas in the process):
+$
+  lim_(n->oo) sup root(n, abs(a_n)) < 1 => sum_(n=0)^oo a_n "converges"\
+  lim_(n->oo) sup root(n, abs(a_n)) > 1 => sum_(n=0)^oo a_n "diverges"\
+  lim_(n->oo) sup root(n, abs(a_n)) = 1 "inconclusive"
+$
+Proof: (TODO: Compare to the proof in script)\
+This is based on the tail and majorant criterion, convergence of geometric series and finally absolute convergence $=>$ convergence.\
+Lemma (Majorant criterion): A monotone increasing series (and therefore monotone increasing summands) converges if a convergent series bounds it from above.\
+We apply this with the geometric series as the upper bound. To generalize this criterion, we can take the absolute value of the summands (related back to the original summands later) which are always positive making the series monotone:
+$
+  forall k in NN, 0 <= abs(a_k) <= p^k\
+  0<=root(n, abs(a_k)) <= p
+$
+Lemma: The geometric series $sum p^k$ converges when $abs(p) < 1$, and we are only dealing with positive summands, so $sum a_k$ converges if:
+$
+  root(n, abs(a_k)) <= p<1\
+  root(n, abs(a_k)) <1\
+$
+The geometric series diverges when $p>=1$, which can bet set as the minorant of $abs(a_k)$ creating a root criteria for its divergence:
+$
+  0<= p^k <= abs(a_k)\
+  1<= p <= root(n, abs(a_k))\
+  1<=root(n, abs(a_k))\
+$
+Lemma: The tail of a series converges $<=>$ The series converges\
+This further generalizes the criterion by only checking the steady state of the sequence of summands:
+$
+  lim_(n->oo) sup root(n, abs(a_n))
+$
+However, this lures us into an indeterminate form; if $lim_(n->oo) sup root(n, abs(a_n))=1$, we can no longer reliable say that $abs(a_n)$ has a divergent minorant $sum 1^oo$, because the base "1" is now the result of the $lim sup$ and not a constant as in the geometric series, thus it is an indeterminate form and such a result of the test is inconclusive. On the other hand, the $< (>) 1$ criterion for convergence / divergence are not indeterminate and remain valid.\
+Finally, we apply the Lemma that an absolutely convergent series converges $qed$
+
+/ Theorem - Quotient Criterion: This is yet another application of the majorant criterion with a convergent geometric series:
+$
+  lim_(n-> oo) abs(a_(n+1)) / abs(a_n) < 1 => sum_(n=0)^oo a_n "converges"\
+  lim_(n-> oo) abs(a_(n+1)) / abs(a_n) > 1 => sum_(n=0)^oo a_n "diverges"\
+  lim_(n-> oo) abs(a_(n+1)) / abs(a_n) = 1 "inconclusive"
+$
+Proof:\
+Just like the root criterion, we prove convergence of the absolute tail of the series which extends to the regular series.\
+First, we consider the case $lim_(n->oo) abs(a_(n+1)) / abs(a_n)< 1$, explicitly:
+$
+  exists N in NN | forall n> N abs(a_(n+1)) / abs(a_n)< 1\
+$
+Due to the completeness of the reals:
+$
+  exists p in (abs(a_(n+1)) / abs(a_n), 1)\
+  abs(a_(n+1)) / abs(a_n) < p < 1\
+  abs(a_(n+1)) < p abs(a_n) < 1
+  p abs(a_(n+1)) < p^2 abs(a_n) < 1
+$
+Applying the inequality recursively (it holds true $forall n> N$), the same $p$ can be chosen (no matter how close to $1$, it will always exist):
+$
+  abs(a_(n+2)) < p abs(a_(n+1)) < p^2 abs(a_n)< 1\
+  0<= abs(a_(n+k)) < p^k abs(a_n) < 1
+$
+Since $p<1$, the RHS is the summand of a convergent geometric series ($lim_(n->oo) abs(a_n)=0$ so we can safely combine these limits); applying the majorant criterion shows that $sum abs(a_n)$ and therefore $sum a_n$ also converges.\
+In the case of $lim_(n->oo) abs(a_(n+1)) / abs(a_n)>1$, it is clear that $abs(a_n)$ is not a null-sequence, as each following term is $>$ the previous.\
+$lim_(n->oo) abs(a_(n+1)) / abs(a_n)=1$ may be a null sequence if the limit approaches from the left, in which case we would need to check $lim_(n-> oo) inf$, however if this also yields $1$ it does not help. The limit alone is not conclusive about the convergence / divergence of the series $qed$
+- Applying the root / quotient criteria is as simple as solving a regular limit.
+- Recall the identity $abs(x /y) equiv abs(x)/abs(y)$, which is useful when applying this criterion.
+- If $lim_(n-> oo) inf abs(a_(n+1)) / abs(a_n) >1 $ the series diverges
+- If $lim_(n-> oo) sup abs(a_(n+1)) / abs(a_n) <1 $ the series converges
+
+/ Theorem - Rearrangement of Absolutely Convergent Series: Unlike conditionally convergent series, the order of indexes has no effect on the limit of an *absolutely convergent* series $sum_(n=0)^oo a_n$:
+$
+  sum_(n=0)^oo a_n = sum_(n=0)^oo a_phi(n)
+$
+Where $phi: NN -> NN$ is a bijective mapping of indexes.\
+Proof:\
+The proof is based on showing that $abs(sum_(k=0)^n a_phi(k) - sum_(l=0)^oo a_l) < sum_(n=N+1)^oo abs(a_n)$ through algebraic manipulation, which is $< epsilon$ for some $N in NN$ due to the absolute convergence of the series, showing that the two series are limits of one another and they both converge.
+
+/ Theorem - Products of Series: TODO, I don't see much use in this other than working with Taylor series, so I will leave it for later
+
+= Differential Calculus
+/ Definition - The Derivative: A function $f: X-> RR$ is *differentiable* at a point $x in X$ if the following limit called the *derivative* exists:
+$
+  f'(x) := lim_(h-> 0\ h!=0) (f(x+h) - f(x)) / h
+$
+Where $'$ denotes the derivative with respect to the only input variable; the rate of change of the output as the input increases by an infinitesimal amount. $dot(x)$ is used for derivatives with respect to $t$, time.
+- $f$ is differentiable at a point $=>$ it is continuous at that point. TODO: Little o proof
+
+
+Return to power series when I meet the trig functions.
