@@ -1173,7 +1173,7 @@ $
 - Instead of getting smaller as the error $epsilon$ reduces, $delta -> oo$ to bring points the considered points closer to $oo$ and vice versa for $-oo$.
 - A limit $-> oo$ can be transformed into the right-sided limit $-> 0$ by inputting the reciprocal instead. For example, $lim_(x->oo) e^(-x) = 0$, we arrive at the same result through $lim_(x->0^+) e^(-(x)^(-1))$ because $lim_(x->0) 1/x = oo$. This is a useful result as many functions have known Taylor expansions at $x=0$, making them easier to calculate than $x->oo$.
 
-/ Definition - Big-O Notation: This relates the asymptotic behavior of two functions and is useful for characterizing the computational efficiency of an algorithm by relating it to a simpler, better understood function which behaves similarly as the argument tends to specific values (usually $oo$). The function $f: X -> RR$ is said to be a *Big-O* of $g: X->RR$ at a point $x_0$ if:
+/ Definition - Big-O Notation: This relates the *asymptotic behavior* of two functions and is useful for characterizing the computational efficiency of an algorithm by relating it to a simpler, better understood function which behaves similarly as the argument tends to specific values (usually $oo$). The function $f: X -> RR$ is said to be a *Big-O* of $g: X->RR$ at a point $x_0$ if:
 $
   f(x) in O(g(x)) "as" x-> x_0 <=>\
   exists M > 0, delta > 0 | forall x in X sect (x_0 - delta, x_0 + delta) abs(f(x))<= M abs(g(x))\
@@ -1181,14 +1181,25 @@ $
 In the case of $x_0 -> oo$:
 $
   f(x) in O(g(x)) "as" x-> oo <=>\
-  exists M > 0, delta > 0 | forall x in X sect (delta, oo) abs(f(x))<= M abs(g(x))\
+  exists M > 0, delta > 0 | forall x in X: x > delta, abs(f(x))<= M abs(g(x))\
 $
 This means that $f$ is bounded by some multiple of $g$ in the neighborhood of $x_0$.
 - For example, $x-> 0, x^2 in O(x)$ but $x->oo, x^2 in.not O(x)$ because $x$ grows slower than $x^2$ (real gradient $M$ compared to $2 dot oo$) as $x->oo$ and therefore $x$ cannot bound $x^2$ over a neighborhood no matter how large $M$ or how small $delta$ is.
 - If $f(x)$ is a sum of terms such as a polynomial, only the dominating term plays a role as $x->oo$ and constant coefficients can be ignored, for example $4x^4 + 3x^3+2x^2 + x in O(x^4)$; this can be verified by expanding $abs(f(x))$ using the triangle inequality.
 - In the context of computer science, $f(x)$ is a function of steps / storage needed to execute an algorithm given an input $n$. For example the steps needed to loop over an input list with length $n$ once is $alpha n$, where $alpha$ is the number of steps per loop iteration; such an algorithm would be classified as $O(n)$ as $n->oo$ (the worst-case scenario where $alpha$ dwindles into irrelevance). An algorithm with a flatter Big-O equivalent is said to be more efficient in the long term (for example $O(log(n))$ is quicker than $O(n^2)$).
 
-TODO: Little-O notation, appears in both scripts
+/ Definition - Little-O Notation: This is a stronger relation asymptotic notation two functions, concluding that $g$ grows much faster than $f$ as $x->x_0$:
+$
+  f(x) in o(g(x)) "as" x-> x_0 <=>\
+  forall epsilon > 0 exists delta > 0 | forall x in X sect (x_0 - delta, x_0 + delta) abs(f(x))<= epsilon abs(g(x))\
+$
+In the case of $x_0 -> oo$:
+$
+  f(x) in o(g(x)) "as" x-> oo <=>\
+  forall epsilon > 0 exists delta > 0 | forall x in X: x > delta, abs(f(x))<= epsilon abs(g(x))\
+$
+- The definition is equivalent to $lim_(x->x_0) f(x) / g(x) = 0$, which is useful when checking if it is applicable
+- For example, $x-> oo, x in o(x^2)$
 
 / Definition - Sequence of Functions: A set of functions over the same domain $X$ can be indexed by $NN$ as a sequence $(f_n)_(n in NN)$, the order plays a role like in any normal sequence.
 
@@ -1427,7 +1438,19 @@ $
   f'(x) := lim_(h-> 0\ h!=0) (f(x+h) - f(x)) / h
 $
 Where $'$ denotes the derivative with respect to the only input variable; the rate of change of the output as the input increases by an infinitesimal amount. $dot(x)$ is used for derivatives with respect to $t$, time.
-- $f$ is differentiable at a point $=>$ it is continuous at that point. TODO: Little o proof
+
+/ Theorem - Differentiability Implies Continuity: If a function $f$ is differentiable at a point $x$ it is continuous at that point.\ Proof:\
+Lemma: A function is continuous at a point if its limit is equal to its output at that point. We will aim to show $lim_(x->x_0) f(x) = f(x_0)$\
+We are given that the following limit exists:
+$
+  f'(x) = lim_(h-> 0) (f(x+h) - f(x)) / h = lim_(x-> x_0) (f(x) - f(x_0)) / (x-x_0)
+$
+We can multiply by $(x-x_0)/(x-x_0)=1$:
+$
+  lim_(x-> x_0) (f(x)) - f(x_0) = lim_(x-> x_0) (f(x)) - f(x_0) dot (x-x_0) / (x-x_0)\
+$
+TODO: Product rule for limits
+- The converse is not true, for example the function $abs(x)$ at $x=0$ is continuous but not differentiable
 
 
 Return to power series when I meet the trig functions.
