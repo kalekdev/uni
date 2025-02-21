@@ -277,12 +277,10 @@ $
   gradient times F = 0 "everywhere" <=> "The work done is path independent"
 $
 Proof:
-+ If the work done is path independent, the work done over any closed loop is 0. Consider a path from the reference potential to a point, *any* path back to the reference potential does the same work on the particle and hence:
-$
++ If the work done is path independent, the work done over any closed loop is 0. Consider a path from the reference potential to a point, *any* path back to the reference potential does the same work on the particle and hence: $
   integral.cont F dot d s = 0
 $
-+ Stoke's Theorem states:
-$
++ Stoke's Theorem states: $
   integral.cont F dot d s = integral.double (gradient dot F) dot d A
 $
 If $gradient times F = 0$ everywhere then the surface integral and subsequently the closed line integral are also 0, proving that work done is path independent $qed$.
@@ -390,14 +388,14 @@ TODO: Rotational kinetic energy
 === Oscillations
 Excellent simulator: https://www.falstad.com/harmonicosc/
 
-Consider a system where some particle has an oscillating potential energy, for example a swinging pendulum. Let $U(x)$ be a function of the particle's potential energy against displacement. The first 3 terms of a Taylor Series serves as a good approximation provided that the displacement is small:
+Consider a system where some particle has an oscillating potential energy, for example a swinging pendulum. Let $U(x)$ be a function of the particle's potential energy for a given displacement $x$. The first 3 terms of a Taylor Series serves as a good approximation provided that the displacement is small:
 $
   U(x) approx U(0) + U'(0)x + 1 / 2 U''(0) x^2+ ...
 $
 
 - $U(0) = 0$ - The equilibrium can be defined as the ground potential
-- $U'(0)$ - This is equal to the magnitude of the resultant force, which at $x=0$ is 0.
-- $U''(0) > 0$ because the position of zero displacement is stable and a local minima
+- $U'(0)$ - This is equal to the magnitude of the resultant force (potential well), which is $0$ at the equilibrium position $x=0$ by definition.
+- $U''(0) > 0$ because the equilibrium at zero displacement is stable and a local minima
 
 This leads to the familiar parabolic potential energy of an oscillating system:
 $
@@ -411,7 +409,9 @@ Recall $F_"Resultant" = -gradient U(x)$ for a body upon which only conservative 
 $
   F = - (d U(x)) / (d x) = -k x
 $
-Gives us Hooke's law.
+Giving us Hooke's law.
+
+Such motion is called simple, because the resultant force is directly proportional to displacement, and harmonic because frequency and amplitude (initial displacement) of oscillations are independent (allowing one to make musical harmonies).
 
 Applying Newton's 2nd law:
 $
@@ -420,7 +420,7 @@ $
 $
 Where $omega= sqrt(k/m)$, which ends up being the angular velocity. $x$ is not necessarily a linear displacement and can represent a displacement angle, for example in a swinging pendulum.
 
-There are two independent solutions to this 2nd order linear differential equation:
+Two possible independent solutions to this 2nd order linear differential equation are:
 $
   x(t) = e^(plus.minus i omega t)
 $
@@ -452,7 +452,7 @@ $
   T = (2 pi) / omega = (2 pi) / sqrt(k/m)
 $
 
-A more compact solution can be found by introducing a phase shift through trig identities:
+A more compact solution can be expressed using a phase shift, derived through the angle sum trigonometric identity:
 $
   x(t) = A cos(omega t - phi)\
   dot(x)(t) = -A omega sin(omega t - phi)
@@ -470,7 +470,7 @@ This reveals the following intuitive properties:
 - The total mechanical energy is constant $= 1/2 k A^2$ (taking the equilibrium potential as 0)
 
 ==== 2D Oscillations
-*Isotropic oscillation* is the simplest form of 2D oscillation, where the restoring has the same constant of proportionality in all directions:
+*Isotropic oscillation* is the simplest form of 2D oscillation, where the restoring has the *same constant of proportionality* (and hence the same angular frequency) in all directions:
 $
   arrow(F) = -k arrow(r)
 $
@@ -623,7 +623,7 @@ It is greatest when $omega_n = omega_d$ (the natural and driving frequency are t
   image("images/resonant-frequency.png", width: 60%),
 ) <fig-resonant-frequency>
 
-An application of this is when tuning a radio, the resonant frequency of an LRC circuit is adjusted so that it is the same as the desired radio station's signal and that specific induced signal has the largest amplitude.
+An application of this is when tuning a radio, the resonant frequency of an LRC circuit is adjusted so that it is close to the desired radio station's signal and that specific induced signal has the largest amplitude.
 
 ===== Q Factor
 Reducing the damping constant $beta$ not only increases the amplitude but also makes the resonance peak narrower, focusing the oscillator on a narrow ranger of driving frequencies:
@@ -689,6 +689,51 @@ Here is an example Bode plot of an oscillator, demonstrating the RMS of the reso
   image("images/driving-harmonics.png", width: 60%),
 ) <fig-driving-harmonics>
 
+
+=== Waves
+_Propagating Wave_ - A disturbance throughout a medium which transfers energy without transferring matter.\
+_Longitudinal_ - Oscillations confined parallel to the direction of propagation\
+_Transverse_ - Oscillations perpendicular to the direction of propagation
+
+==== Mechanical Waves
+_Mechanical Wave_ - A sequence of coupled oscillators, energy is transferred through matter as particles exert forces on neighboring particles to transfer an oscillation around their equilibrium positions, such matter can be modeled as a row of particles with springs in between them. Examples: Sound, string vibrations\
+- Excitation results in a wave travelling in all (possible) directions outwards, however this is often restricted
+- The velocity of a mechanical wave is dictated purely by the medium, a string with high tension and low density carries waves faster
+- Wave shape is dictated by the motion of excitation
+
+A wave with negligible dispersion can be described mathematically as a time-dependent displacement field $arrow(xi(arrow(r), t)): (RR^3, RR) -> RR^3$. Restricted to one dimension:
+$
+  xi(x, t) = f(x plus.minus v t)
+$
+- This returns the displacement from equilibrium (whether this is a physical displacement vector, electric field or scalar in the case of longitudinal waves)
+- A constant time $xi(x, t=t_0)$ can be chosen to take a "picture" of the current displacements through space and the shape of the wave given by $f(x)$
+- A constant position $xi(x=x_0, t)$ shows the oscillation over time of a particle at the specified position
+- The $plus.minus$ represents in which direction the wave propagates over time, $- v t$ means that the wave propagates along the positive x-axis at velocity $v$
+
+==== Harmonic Waves
+A wave who's shape is sinusoidal is known as a *harmonic wave* and its amplitude is given by the following equation:
+$
+  xi(x, t) &= xi_0 sin((2pi)/lambda (x plus.minus v t))\
+  &= xi_0 sin(omega t plus.minus 2pi x/lambda )
+$
+- The factor $(2pi)/lambda$ scales the propagation of the wave as a fraction of one full angular period so that the amplitude oscillates at the correct rate for a given speed and wavelength
+- To simplify calculations, Euler's formula is often used instead: $
+  xi(x, t )= "Re"(xi_0 e^(i(omega t plus.minus 2pi x/lambda)))
+$
+
+==== Wave Equation
+All waves can be characterized by the following partial differential equation, which their amplitude equation must be a solution to:
+$
+  (partial^2 arrow(xi(x, t))) / (partial t^2) = v^2 laplace arrow(xi(x, t))
+$
+Where $laplace$ represents the so-called Laplace operator:
+$
+  laplace := nabla^2 dot = vec(partial^2/(partial x^2), partial^2/(partial y^2), partial^2/(partial z^2)) dot
+$
+
+Intuitively, this states that the acceleration in the direction of displacement $(partial^2 arrow(xi(x, t))) / (partial t^2)$ is directly proportional to the rate of change of gradient of the wave shape at that point $laplace arrow(xi(x, t))$.
+
+At a peak, the Laplace operator is at its highest, meaning that the acceleration towards equilibrium is also it at its maximum, and since $v^2$ is the constant of proportionality, a faster propagating wave clearly needs faster oscillating displacement to transfer wave-fronts quicker.
 
 === Frames of Reference
 _Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
@@ -805,6 +850,8 @@ $
 
 TODO: Non-inertial reference frames?
 TODO: Generalized force and momentum
+
+== Electromagnetism
 
 == Special Relativity
 _Spacetime_ - A 4-dimensional representation of the universe as 3D space + time. Classical mechanics treats time as a uniform quantity throughout the universe with a constant rate of passage. However relativistic effects mean that time passes at different rates in different frames of reference, hence a 4th dimension is introduced.
