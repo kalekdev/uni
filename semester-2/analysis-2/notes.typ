@@ -3,6 +3,10 @@ Vector calculus, $gradient$, $gradient dot$, $gradient times$
 Spherical coordinate vector operators
 
 = Analysis 2
+Books:
+- Understanding Analysis: https://link.springer.com/book/10.1007/978-1-4939-2712-8\ Good for reviewing and developing intuition of Analysis 1
+- Analysis II Amann Escher: https://link.springer.com/book/10.1007/3-7643-7402-0 https://link.springer.com/book/10.1007/978-3-7643-7478-5 too rigorous / abstract
+- Zorich looks great
 
 == Linear Differential Equations
 Differential equations are functions like any other - they can also be represented as linear combination of some basis, for example the infinite-dimensional Fourier basis which can represent any (long-term periodic or bounded) function.

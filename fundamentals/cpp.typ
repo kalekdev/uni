@@ -6,6 +6,8 @@
 - `func(&int)` - Reference to int, like pointer but dereferencing happens automatically, recommended
 - Always pair unions with an enum to represent which type its supposed to take on
 - Properties of an object accessed with `object.property`, of a pointer to an object using `pointer->property` (or simply `.` if it is a reference `&` not raw pointer), and members of a class are accessed using `std::cout`
+- `lvalue` - an object that occupies some identifiable location in memory and can be assigned to
+- `rvalue` - expressions that aren't `lvalue`s, an object that isn't in memory, usually on the RHS in expression
 
 == Modularity
 - Use the same header file for implementation and usage
