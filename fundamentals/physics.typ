@@ -697,8 +697,10 @@ _Transverse_ - Oscillations perpendicular to the direction of propagation
 
 ==== Mechanical Waves
 _Mechanical Wave_ - A sequence of coupled oscillators, energy is transferred through matter as particles exert forces on neighboring particles to transfer an oscillation around their equilibrium positions, such matter can be modeled as a row of particles with springs in between them. Examples: Sound, string vibrations\
-- Excitation results in a wave travelling in all (possible) directions outwards, however this is often restricted
-- The velocity of a mechanical wave is dictated purely by the medium, a string with high tension and low density carries waves faster
+- Excitation results in a wave traveling in all (possible) directions outwards, however this is often restricted due to the driving forces on one end
+- The velocity of a mechanical wave is dictated purely by the medium, a string with high tension and low density carries waves faster. By considering a string with tension T and uniform density $rho$ as a series of infinitesimal coupled oscillating masses, one can derive the following approximation for its wave propagation velocity using the wave equation: $
+v approx sqrt(T/rho)
+$
 - Wave shape is dictated by the motion of excitation
 
 A wave with negligible dispersion can be described mathematically as a time-dependent displacement field $arrow(xi(arrow(r), t)): (RR^3, RR) -> RR^3$. Restricted to one dimension:
@@ -707,16 +709,17 @@ $
 $
 - This returns the displacement from equilibrium (whether this is a physical displacement vector, electric field or scalar in the case of longitudinal waves)
 - A constant time $xi(x, t=t_0)$ can be chosen to take a "picture" of the current displacements through space and the shape of the wave given by $f(x)$
-- A constant position $xi(x=x_0, t)$ shows the oscillation over time of a particle at the specified position
+- A constant position $xi(x=x_0, t)$ shows the oscillation over time at the specified position
 - The $plus.minus$ represents in which direction the wave propagates over time, $- v t$ means that the wave propagates along the positive x-axis at velocity $v$
 
 ==== Harmonic Waves
-A wave who's shape is sinusoidal is known as a *harmonic wave* and its amplitude is given by the following equation:
+A periodic wave who's shape is sinusoidal is known as a *harmonic wave* and its amplitude is given by the following equation:
 $
   xi(x, t) &= xi_0 sin((2pi)/lambda (x plus.minus v t))\
   &= xi_0 sin(omega t plus.minus 2pi x/lambda )
 $
 - The factor $(2pi)/lambda$ scales the propagation of the wave as a fraction of one full angular period so that the amplitude oscillates at the correct rate for a given speed and wavelength
+- $2pi x/lambda$ represents the phase displacement for a given position
 - To simplify calculations, Euler's formula is often used instead: $
   xi(x, t )= "Re"(xi_0 e^(i(omega t plus.minus 2pi x/lambda)))
 $
@@ -726,14 +729,107 @@ All waves can be characterized by the following partial differential equation, w
 $
   (partial^2 arrow(xi(x, t))) / (partial t^2) = v^2 laplace arrow(xi(x, t))
 $
-Where $laplace$ represents the so-called Laplace operator:
+Where $laplace$ represents the so-called *Laplace operator* ($nabla$ operator applied twice):
 $
   laplace := nabla^2 dot = vec(partial^2/(partial x^2), partial^2/(partial y^2), partial^2/(partial z^2)) dot
 $
+This is known as the wave equation as its solutions contain all possible waves.
 
 Intuitively, this states that the acceleration in the direction of displacement $(partial^2 arrow(xi(x, t))) / (partial t^2)$ is directly proportional to the rate of change of gradient of the wave shape at that point $laplace arrow(xi(x, t))$.
 
-At a peak, the Laplace operator is at its highest, meaning that the acceleration towards equilibrium is also it at its maximum, and since $v^2$ is the constant of proportionality, a faster propagating wave clearly needs faster oscillating displacement to transfer wave-fronts quicker.
+At a peak, the Laplace operator is at its greatest absolute value, meaning that the acceleration towards equilibrium is also it at its maximum, and since $v^2$ is the constant of proportionality, a faster propagating wave clearly needs faster oscillating displacement to transfer wave-fronts quicker.
+
+The general one-dimensional solution is:
+$
+  xi(x, t) = f(x - v t) + g(x + v t)
+$
+Which represents two arbitrary waveforms $f$ and $g$ propagating in opposite directions.
+
+===== Example: Waves Through Solids
+Here is an example of a wave satisfying the wave equation.
+
+Consider a solid cuboid with length $l$ and cross sectional area $A$. Modeling it as a continuous material, a stress $sigma$ leads to strain $epsilon$:
+$
+  sigma = arrow(F_perp) / A\
+  epsilon = (Delta l) / l\
+$
+In the elastic region, these quantities are linearly proportional to one another, related by Young's modulus $E$:
+$
+  E = sigma / epsilon
+$
+Furthermore, the material returns to its original shape after a stress within this range is no longer applied, allowing longitudinal (and sometimes transverse) waves to propagate throughout it.
+
+Consider the cuboid positioned as follows along the z-axis:
+#figure(
+  image("images/cuboid.png", width: 60%),
+) <fig-cuboid>
+We analyze a longitudinal wave between two infinitesimally small cross-sections at $z$ and $z + d z$ at a specific point in time, with the goal of expressing the derivatives involved in the wave equation. As the wave travels through the cuboid, a changing displacement is present between the two cross-sections:
+$
+  xi(z) = xi_0\
+  xi(z + d z) = xi_0 + (diff xi) / (diff z) d z\
+$
+The change in displacement between these two points can be used to calculate the strain and therefore the stress exerted on the first cross-section with $xi(z)=xi_0$ due to Hooke's Law:
+$
+  epsilon = sigma / E =xi + (diff xi) / (diff z) d z - xi = (diff xi) / (diff z) d z\
+  sigma = E (Delta l) / L = E ((diff xi) / (diff z) d z) / (d z) = E (diff xi) / (diff z)\
+$
+Where $E$ is the Young's Modulus of the material.
+
+The tension force acting on the entire first cross-section is therefore:
+$
+  F = A sigma
+$
+Furthermore, there is a tension force acting on the right face; $sigma$ since tension forces act throughout the whole continua as well as an additional $d sigma$ due to its difference in displacement:
+$
+  F = A (sigma + d sigma) = A (sigma + (diff sigma) / (diff z) d z) =A (sigma + E (diff^2 xi) / (diff z^2) d z)
+$
+Considering the infinitesimal volume element and applying Newton's 2nd Law:
+$
+  F = m a = A (sigma + d sigma - sigma) = A E (diff^2 xi) / (diff z^2) d z
+$
+The mass can be written in terms of density: $m = d V rho = A d z rho$, therefore:
+$
+  A d z rho a = A E (diff^2 xi) / (diff z^2) d z\
+  a = E / rho (diff^2 xi) / (diff z^2)
+$
+The acceleration at $z$ is equivalent to the rate of change of displacement $xi$ as we have only considered the resultant force along the z-axis, hence applying the wave equation:
+$
+  (diff^2 xi) / (diff t^2) = E / rho (diff^2 xi) / (diff z^2)\
+  v = sqrt(E / rho)
+$
+
+===== Plane Wave
+This is a special case of the wave equation where wave fronts travel as planes through space. In other words, at planes normal to the direction of propagation, the displacement is equal at all points on the plane:
+#figure(
+  image("images/plane-wave.png", width: 60%),
+) <fig-plane-wave>
+
+Since only the progress along the line of propagation is needed, such waves can be expressed mathematically as a function of two scalars, time and progress:
+$
+  xi: RR^2 -> RR^3\
+  xi(arrow(r), t) := f(arrow(r) dot arrow(n), t)
+$
+Where $arrow(n)$ is a unit vector in the direction of propagation of the wave.
+
+===== Spherical Waves
+TODO: Spherical coordinate Laplace operator etc
+
+==== Polarization
+Transverse waves exhibit 2 DOF in their amplitude (the only requirement is that they are normal to the direction of propagation, ie no component in that direction eliminating the 3rd DOF), hence why their wave function may return a 3-dimensional vector.
+
+However, this is often confined to 1 DOF with oscillations constantly as a scalar of the same vector normal to propagation; the *transverse* wave is said to be polarized. In this case the 3D wave equation can be reduced to 1D by encapsulating direction in the amplitude, for example a polarized harmonic wave:
+$
+  arrow(xi) (arrow(r), t) = vec(xi_(0x), xi_(0y), xi_(0z)) sin(omega t plus.minus 2pi (arrow(r) dot arrow(n))/lambda )
+$
+Usually it is convenient to set one of the axes in the direction of propagation, reducing the need for a dot product.
+
+Polarized waves may be superposed, resulting in a circular wave if they are normal to each other, coherent and at a $pi/2$ phase difference. Non-coherent waves may result in patterns similar to Lissajous curves - mathematically they are very similar to coupled oscillators.
+
+TODO: Understand 45 degree polar.
+
+LTD: Waves with normal + parallel components in their displacement also exist, see Fresnel Equations, Rayleigh waves
+
+==== Energy
 
 === Frames of Reference
 _Frame of Reference_ - A coordinate system whose origin and basis are specified in space.

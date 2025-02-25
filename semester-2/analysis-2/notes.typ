@@ -33,3 +33,17 @@ _Particular Solution_ - Single element that satisfies a differential equation
 
 _Homogeneous Differential Equation_ - Can be defined by a linear operator with constant scalars
 TODO: Inhomogeneous equations and how to solve them (see solutions to driven-damped oscillator)
+
+== Metric Spaces
+A complete metric space:
+- Contains a metric (measure of distance), usually the Euclidean norm
+- Is complete; formally every Cauchy sequence in the space converges to an element in the space
+
+Most definitions of convergence / limits etc. can be easily extended by replacing the 1-dimensional $abs(dot)$ function with the metric $d(x, y)$.
+
+/ Theorem: A sequence in $RR^n$ converges $<=>$ Each of its coordinates converges
+
+/ Theorem: $forall n>= 1, RR^n$ is complete. Proof:\ Each Cauchy sequence converges coordinate wise to an element in $RR$, therefore the sequence also converges to an element in $RR^n$
+- $(QQ, d(x, y) = abs(x - y))$ is an incomplete metric space.\ Counterexample: Sequence converging to $sqrt(2)$. TODO: Find easier example
+
+Topological definitions may also be extended through the metric.
