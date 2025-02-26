@@ -812,7 +812,22 @@ $
 Where $arrow(n)$ is a unit vector in the direction of propagation of the wave.
 
 ===== Spherical Waves
-TODO: Spherical coordinate Laplace operator etc
+A point wave source in space emits spherical waves, which satisfy the wave equation if we use the spherical coordinate Laplace operator:
+#figure(
+  image("images/laplace-spherical.png", width: 60%),
+) <fig-laplace-spherical>
+Since the displacement only depends on the radius $r$ (it is similar to a planar wave where every point on the same sphere has the same displacement) $(diff xi)/(diff theta) = (diff xi)/(diff phi)  =0$, so this simplifies to:
+$
+  (diff^2 xi) / (diff t^2) = v^2 laplace xi\
+  (diff^2 xi) / (diff t^2) = v^2((diff^2 xi) / (diff r^2) + 2 / r (diff xi) / (diff r))
+$
+Where $arrow(e_r)$ is the radius unit vector at that point in space, always pointing normal to the spheres' surface.
+
+The general solution is:
+$
+  arrow(xi) (arrow(r), t) = arrow(xi_0) / r f(arrow(r) dot arrow(e_r), t)
+$
+Where $arrow(e_r)$ is the (changing) unit vector normal to the sphere's surface at any point. The $1/r$ amplitude indicates that the displacement decreases further from the point source.
 
 ==== Polarization
 Transverse waves exhibit 2 DOF in their amplitude (the only requirement is that they are normal to the direction of propagation, ie no component in that direction eliminating the 3rd DOF), hence why their wave function may return a 3-dimensional vector.
