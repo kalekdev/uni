@@ -698,10 +698,10 @@ _Transverse_ - Oscillations perpendicular to the direction of propagation
 ==== Mechanical Waves
 _Mechanical Wave_ - A sequence of coupled oscillators, energy is transferred through matter as particles exert forces on neighboring particles to transfer an oscillation around their equilibrium positions, such matter can be modeled as a row of particles with springs in between them. Examples: Sound, string vibrations\
 - Excitation results in a wave traveling in all (possible) directions outwards, however this is often restricted due to the driving forces on one end
-- The velocity of a mechanical wave is dictated purely by the medium, a string with high tension and low density carries waves faster. By considering a string with tension T and uniform density $rho$ as a series of infinitesimal coupled oscillating masses, one can derive the following approximation for its wave propagation velocity using the wave equation: $
-v approx sqrt(T/rho)
+- The *(phase) velocity* of a mechanical wave (velocity at which any given phase of the wave propagates through space) is dictated purely by the medium, a string with high tension and low density carries waves faster. By considering a string with tension T and uniform density $rho$ as a series of infinitesimal coupled oscillating masses, one can derive the following approximation for its wave propagation velocity using the wave equation: $
+v = f lambda approx sqrt(T/rho)
 $
-- Wave shape is dictated by the motion of excitation
+- Wave shape is dictated by the motion of excitation (if dispersion is negligible)
 
 A wave with negligible dispersion can be described mathematically as a time-dependent displacement field $arrow(xi(arrow(r), t)): (RR^3, RR) -> RR^3$. Restricted to one dimension:
 $
@@ -718,14 +718,14 @@ $
   xi(x, t) &= xi_0 sin((2pi)/lambda (x plus.minus v t))\
   &= xi_0 sin(omega t plus.minus 2pi x/lambda )
 $
-- The factor $(2pi)/lambda$ scales the propagation of the wave as a fraction of one full angular period so that the amplitude oscillates at the correct rate for a given speed and wavelength
+- The factor $(2pi)/lambda$ scales the propagation of the wave as a fraction of one full angular period so that the amplitude oscillates at the correct rate for a given speed and wavelength and is sometimes denoted as $k$, the so-called wave number
 - $2pi x/lambda$ represents the phase displacement for a given position
 - To simplify calculations, Euler's formula is often used instead: $
   xi(x, t )= "Re"(xi_0 e^(i(omega t plus.minus 2pi x/lambda)))
 $
 
 ==== Wave Equation
-All waves can be characterized by the following partial differential equation, which their amplitude equation must be a solution to:
+All waves can be characterized by the following *constraining* partial differential equation, which their amplitude equation must be a solution to:
 $
   (partial^2 arrow(xi(x, t))) / (partial t^2) = v^2 laplace arrow(xi(x, t))
 $
@@ -841,10 +841,73 @@ Usually it is convenient to set one of the axes in the direction of propagation,
 Polarized waves may be superposed, resulting in a circular wave if they are normal to each other, coherent and at a $pi/2$ phase difference. Non-coherent waves may result in patterns similar to Lissajous curves - mathematically they are very similar to coupled oscillators.
 
 TODO: Understand 45 degree polar.
+TODO: Quarter wave polarization, relate to spin
+TODO: Spiraling wave, elliptic etc
 
 LTD: Waves with normal + parallel components in their displacement also exist, see Fresnel Equations, Rayleigh waves
 
 ==== Energy
+We can calculate the energy density throughout a Hookean material as a wave passes through it, for example a longitudinal wave passing through a solid rod. The kinetic energy of an infinitesimal section is given by:
+$
+  d T &= 1 / 2 d m ((diff xi(arrow(r), t)) / (diff t))^2\
+  &=1 / 2 rho d V ((diff xi(arrow(r), t)) / (diff t))^2\
+  (d T) / (d V) (arrow(r), t) &=1 / 2 rho ((diff xi(arrow(r), t)) / (diff t))^2\
+  &"This maths is questionable"
+$
+We can also express the elastic potential energy density using Hooke's law:
+$
+  (d U) / (d V)(arrow(r), t) = 1 / 2 E ((diff xi(arrow(r), t)) / (diff x))^2
+$
+Therefore the total energy density:
+$
+  (d W) / (d V)(arrow(r), t) = 1 / 2 (
+    E((diff xi(arrow(r), t)) / (diff x))^2+ rho ((diff xi(arrow(r), t)) / (diff t))^2
+  ) \
+$
+For a one dimensional wave $xi(x, t) = f(x - v t)$, we can simplify the derivatives:
+$
+  (d W) / (d V)(x, t) = 1 / 2 (E((d f) / (d u))^2+ rho (-v (d f) / (d u))^2) \
+$
+Where $u=x -v t$ following from the chain rule. Since $v^2=E / rho$ as derived before, this simplifies to:
+$
+  (d W) / (d V)(x, t) = 1 / 2 (E((d f) / (d u))^2+ rho E / rho ((d f) / (d u))^2) \
+  (d W) / (d V)(x - v t) = E((d f) / (d u) (u))^2 = rho v^2 ((d f) / (d u) (u))^2 \
+$
+*WARNING* this specifically applies to a single mechanical wave throughout a Hookean material, and that the superposition principle does not apply to wave energy (unlike displacement).
+- Although the total energy of the wave is constant, we observe that it depends on the speed of the wave
+- The energy at a point in the solid depends on its progress along the waveform. For example, in the case of a harmonic wave the energy is highest when a particle is at the equilibrium position, where the first derivative as its maximum.
+- The total energy is always $>=0$ due to the $dot^2$
+- The energy density of a transverse rope with strain $S = F/ A$ and velocity $v^2 = S / rho$ is nearly identical: $
+  (d W) / (d V)(x - v t) = S((d f) / (d u) (u))^2 = rho v^2 ((d f) / (d u) (u))^2 \
+$ For example, a harmonic, mechanical, one-dimensional wave has the energy density:
+$
+  xi(x ,t ) &= A cos((2pi)/lambda (x - v t))\
+  (d W) / (d V)(x - v t) &= rho v^2 (-A (2pi) / lambda sin((2pi)/lambda (x - v t)))^2 \
+  &=rho v^2 A^2 ((2pi) / lambda)^2 sin^2((2pi) / lambda (x - v t))\
+  &=rho A^2 omega^2 sin^2((2pi) / lambda (x - v t))\
+$
+
+LTD: I would prefer to derive the energy more generally from the wave equation somehow
+
+===== Intensity
+We can calculate the average energy density over a period of mechanical, periodic wave:
+$
+  lr(angle.l (d W) / (d V) angle.r) = 1 / T integral_0^T (d W) / (d V) (x, t) dif t
+$
+In the case of a mechanical, harmonic wave this amounts to:
+$
+  lr(angle.l (d W) / (d V) angle.r) &=
+  1 / T [1 / 2 rho omega^2 A^2 t - 1 / 4 rho omega A^2 sin lr((2((2pi) / lambda x - omega t))mid(bar))_0^T]
+  \
+  omega T &= 2pi\
+  therefore
+  lr(angle.l (d W) / (d V) angle.r) &=
+  1 / 2 rho omega^2 A^2
+$
+The anti-derivative I have computed is likely to be slightly wrong but the final result is correct.
+
+This is also known as the *energy flux* and denotes the energy passing through unit area.
+
 
 === Frames of Reference
 _Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
