@@ -875,7 +875,7 @@ $
 $
 *WARNING* this specifically applies to a single mechanical wave throughout a Hookean material, and that the superposition principle does not apply to wave energy (unlike displacement).
 - Although the total energy of the wave is constant, we observe that it depends on the speed of the wave
-- The energy at a point in the solid depends on its progress along the waveform. For example, in the case of a harmonic wave the energy is highest when a particle is at the equilibrium position, where the first derivative as its maximum.
+- The energy at a point in the solid depends on the waveform's progress throughout it. For example, in the case of a harmonic wave the energy is highest when a particle is at the equilibrium position, where the first derivative as its maximum.
 - The total energy is always $>=0$ due to the $dot^2$
 - The energy density of a transverse rope with strain $S = F/ A$ and velocity $v^2 = S / rho$ is nearly identical: $
   (d W) / (d V)(x - v t) = S((d f) / (d u) (u))^2 = rho v^2 ((d f) / (d u) (u))^2 \
@@ -886,11 +886,12 @@ $
   &=rho v^2 A^2 ((2pi) / lambda)^2 sin^2((2pi) / lambda (x - v t))\
   &=rho A^2 omega^2 sin^2((2pi) / lambda (x - v t))\
 $
+An interesting property to note is that a single position does not reveal in which direction a periodic wave is flowing through it. The direction is determined based on the movement relative to particles around it; positions just before a peak moving upwards indicate that the peak (and therefore the waves energy) is traveling towards them.
 
 LTD: I would prefer to derive the energy more generally from the wave equation somehow
 
 ===== Intensity
-We can calculate the average energy density over a period of mechanical, periodic wave:
+The average energy density over a period of mechanical, periodic wave gives us insight into into its independent variables:
 $
   lr(angle.l (d W) / (d V) angle.r) = 1 / T integral_0^T (d W) / (d V) (x, t) dif t
 $
@@ -905,9 +906,39 @@ $
   1 / 2 rho omega^2 A^2
 $
 The anti-derivative I have computed is likely to be slightly wrong but the final result is correct.
+- As expected the average energy over a period is constant at all points through which the wave propagates; energy is conserved
 
-This is also known as the *energy flux* and denotes the energy passing through unit area.
+Because energy density is both position and time dependent (it also satisfies the wave equation), it makes sense to consider its flow as the so-called *energy flux density* vector (or the Poynting vector in the context of EM waves):
+$
+  arrow(S) = (dif W) / (dif arrow(a) dif t)\
+  [arrow(S)] = W m^(-2)
+$
+Which represents the energy per unit area per unit time in the direction of the wave propagation.
 
+The Euclidean norm of the energy flux density vector is known as the *intensity* of the wave (also position and time dependent). In the case of a harmonic wave, the average intensity over a period is given by:
+$
+  lr(angle.l I angle.r) &= 1 / 2 rho omega^2 A^2 v
+$
+Which is once again constant throughout space.
+
+The total power through a finite surface can be integrated and is known as the *energy flux*:
+$
+  (dif W) / (dif t) = integral.double_A arrow(S) dot dif arrow(A)
+$
+As expected, integrating as above over a sphere surrounding a spherical wave source gives a constant power, regardless of the sphere's radius (conservation of energy):
+$
+  dot(W) = 2 pi rho omega^2 A_0^2 v
+$
+Where $A_0$ is the source amplitude (we saw $A = 1/A_0$ for a spherical wave).
+
+LTD: I suspect Gauss's law will also be applicable here to any closed surface.
+
+==== Superposition
+If multiple waves are passing through a medium, the displacement at any point is equal to the sum of their displacement functions:
+$
+  xi(x, t) = sum_(i=1)^n xi_i (x, t)
+$
+The result also satisfies the wave equation, as it is a linear differential operator and hence its solutions are a vector space.
 
 === Frames of Reference
 _Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
