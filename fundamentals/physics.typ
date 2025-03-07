@@ -940,6 +940,22 @@ $
 $
 The result also satisfies the wave equation, as it is a linear differential operator and hence its solutions are a vector space.
 
+TODO:
+- Interference
+- Coherency
+- Standing waves and harmonics
+- Huygen's principle
+- Diffraction, reflection and refraction
+- Dispersive media, group / phase velocity
+- Doppler effect
+
+==== Dispersion
+What I currently understand:
+- Certain media have a variable phase velocity, which depends on frequency. $lambda(f), v_phi = lambda(f) f$
+- Group velocity is the velocity at which a specific waveform propagates, for example a Gaussian peak which can be expressed as a Fourier series of harmonics. This is limited by the speed of light in vacuum, unlike the constituent phase velocities?
+- We are dealing with a superposition of different frequencies, which exhibit interesting phenomena if propagating through a dispersive medium
+- The different constituent frequencies have different phase velocities in a dispersive medium making them non-coherent and potentially leading to the collapse of the driven waveform over space
+
 === Frames of Reference
 _Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
 

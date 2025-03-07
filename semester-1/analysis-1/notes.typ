@@ -61,7 +61,7 @@ $
 / Definition - Subset: A set whose elements are entirely contained in a parent set with the following notation:
 - $P subset.eq Q$ - $P$ is a subset of $Q$ and they may be equal
 - $P subset.neq Q$ - $P$ is a *proper* subset of $Q$; $Q$ has at least 1 additional element
-- $P subset.not Q$ - There is at least one element in $P$ that is not in $Q$
+- $P subset.not Q$ - There exists at least one element in $P$ that is not in $Q$
 - The same applies in reverse using sup(er)set notation $supset.eq$
 - The symbols $subset$ and $supset$ are ambiguous in meaning
 - Two sets can be shown to be equal if $P subset.eq Q and Q subset.eq P$ holds true
@@ -215,7 +215,7 @@ The sphere has dimensions $d-1$ because its points only form a subspace in the d
 - $S_r^1$ - Is the line of points around a circle ie 1 dimensional
 - $S_r^2$ - Every point in the surface of a 3D ball can be reached with linear combinations of two basis vectors (such that they stay within the subspace).
 
-/ Definition - Inner Point: A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$ - there is an open ball with a radius $>0$ around $x$ such that it is entirely a subset of / equal to S.
+/ Definition - Inner Point: A point $x in S^n$ is inner $<=> exists r in (0, oo) | B_r^n (x)subset.eq S$ - there exists an open ball with a radius $>0$ around $x$ such that it is entirely a subset of / equal to S.
 
 / Definition - Interior: - The interior of a set is the set of all its inner points:
 $

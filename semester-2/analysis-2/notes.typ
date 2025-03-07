@@ -39,6 +39,11 @@ A complete metric space:
 - Contains a metric (measure of distance), usually the Euclidean norm
 - Is complete; formally every Cauchy sequence in the space converges to an element in the space
 
+A metric $d: V times V -> [0, oo)$ must satisfy the following:
++ $forall x, y in V, d(x, y) = 0 => x = y$
++ $forall x, y in V, d(x, y) = d(y, x)$
++ $forall x, y, z in V, d(x, z) <= d(x, y) + d(y, z)$
+
 Most definitions of convergence / limits etc. can be easily extended by replacing the 1-dimensional $abs(dot)$ function with the metric $d(x, y)$.
 
 / Theorem: A sequence in $RR^n$ converges $<=>$ Each of its coordinates converges
