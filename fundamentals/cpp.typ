@@ -11,6 +11,8 @@
 - Expression evaluation may be short circuited (compiler optimization). For example: `1 != 2 && 6/3 == 1` will skip the right hand side division, unless it contains an assignment or something that could affect the control flow.
 - The iteration expression is executed after the condition and the loop body have been executed, unlike JS
 - The Turing Halting problem is the reason why not all programs (even those without external inputs) cannot be checked for errors / termination without executing the entire program (hence run-time errors exist)
+- `switch - case` statements fall through unless break is used.
+- Value types such as int, double, bool are passed by values to functions - new copies of them are created on the stack and the original values cannot be accessed directly from within the function scope
 
 == Modularity
 - Use the same header file for implementation and usage
@@ -35,3 +37,28 @@
 - Prefixing a class / function with `template<typename T>` accepts a type as a generic argument, so that `T` can be used throughout implementations
 - So-called function objects can be defined by implementing the () operator, for example `bool operator()(const T& x) const { return x<val; }`
 - Type aliases can be defined: `using value_type = T` is a public property of all container classes in the standard library, accessed using `Class::value_type`
+
+== Floating-point numbers
+Floating point number systems are how types such as `double` and `float` represent real number approximations. Such systems allow storing and working with numbers in vastly different orders of magnitude and are denoted as follows:
+$
+F^* (beta, p, e_"min", e_"max")\
+plus.minus sum_(i=0)^(p - 1) (d_i beta^(-i)) times beta^e\
+d_0.d_1, ..., d_(p-1) times beta^e
+$
+Where the digits are called the _mantissa_ and the exponent _e_ indicates the order of magnitude, as in scientific notation $1.6 times 10^(-19)$:
+- $beta$ - base (for example 10 - decimal or 2 - binary)
+- $p$ - precision, how many significant figures are used to represent the mantissa
+- $e_"min/max"$ - the range of possible exponents / orders of magnitudes with respect to the base $beta$
+This results in a finite number of discrete real that can be represented perfectly by the system (further significant figures are rounded off) which are denser towards the minimum order of magnitude. To prevent multiple ways of representing the same number (for example $1 times 10 = 0.1 times 10^2$), a *normalized* floating point system requires that $d_0 != 0$.
+
+Floating point arithmetic:
++ Convert floating point numbers to the same exponent (ignoring normalized form rules)
++ Perform the operation in binary / whichever base as usual, preserving the common exponent
++ Round off any significant figures lost to precision
++ Normalize ($d_0 !=0$) and adjust the exponent accordingly
+
+The total precision / exponent range is dictated by the IEEE standard for a given system, where one bit is usually reserved for signing too. *Double* uses two 32 / 64 bit words (as the name implies), allowing more precision bits and a greater exponent range than *float*; when working on a program where memory usage is non-critical, *double* is greatly preferred.
+
+Rules of thumb:
++ Avoid equality tests involving floating point numbers - these can often return misleading results as many values (such as $1.1$) are not perfectly represented in binary
++ Adding numbers of very different orders of magnitude results to lost precision
