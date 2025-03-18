@@ -956,6 +956,11 @@ What I currently understand:
 - We are dealing with a superposition of different frequencies, which exhibit interesting phenomena if propagating through a dispersive medium
 - The different constituent frequencies have different phase velocities in a dispersive medium making them non-coherent and potentially leading to the collapse of the driven waveform over space
 
+==== Doppler Effect
+Waves propagating through a medium:
+- Source still, observer moving: wavelength and frequency is constant in space, the observer only experiences a higher frequency due to motion antiparallel to the propagation of the wave
+- Source moving: Wavefronts are compressed throughout space, resulting in non-uniform frequency / wavelength.
+
 === Frames of Reference
 _Frame of Reference_ - A coordinate system whose origin and basis are specified in space.
 

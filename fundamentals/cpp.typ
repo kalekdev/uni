@@ -8,6 +8,9 @@
 - Properties of an object accessed with `object.property`, of a pointer to an object using `pointer->property` (or simply `.` if it is a reference `&` not raw pointer), and members of a class are accessed using `std::cout`
 - `lvalue` - an object that occupies some identifiable location in memory and can be assigned to
 - `rvalue` - expressions that aren't `lvalue`s, an object that isn't in memory, usually on the RHS in expression
+- Expression evaluation may be short circuited (compiler optimization). For example: `1 != 2 && 6/3 == 1` will skip the right hand side division, unless it contains an assignment or something that could affect the control flow.
+- The iteration expression is executed after the condition and the loop body have been executed, unlike JS
+- The Turing Halting problem is the reason why not all programs (even those without external inputs) cannot be checked for errors / termination without executing the entire program (hence run-time errors exist)
 
 == Modularity
 - Use the same header file for implementation and usage
