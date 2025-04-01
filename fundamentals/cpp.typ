@@ -13,10 +13,16 @@
 - The Turing Halting problem is the reason why not all programs (even those without external inputs) cannot be checked for errors / termination without executing the entire program (hence run-time errors exist)
 - `switch - case` statements fall through unless break is used.
 - Value types such as int, double, bool are passed by values to functions - new copies of them are created on the stack and the original values cannot be accessed directly from within the function scope
+- Pre / postconditions specify the valid domain / expected range of a function (for example when dividing by an argument, it must not equal 0). These can be simply written as a comment `// PRE: condition` or expressed using `assert (e>=0 || b!=0)` by importing `#include <cassert>`, a sufficiently significant and easy to express pre / post condition is worth while expressing programatically.
+- Functions are only visible after they have been declared, which can be problematic if two functions call each other. A solution is to firstly declare a function `int g();`, from which point it can be used (it's in scope), despite the implementation `int g() {}` being somewhere later in the file.
 
 == Modularity
+- Rather than including source `.cpp` files, using header files ensures that the "library" is only compiled once.
+- All source files referenced are compiled separately, with non-main files being compiled into an `.obj` file with their implementations. A linker then copies implementations into the missing usages to create the final binary.
 - Use the same header file for implementation and usage
 - Errors are thrown to allow the user of a library to decide how to handle unexpected cases
+- Namespaces group functions to prevent duplicate naming issues. They are referenced as follows: `namespace_name::func_name()`
+- An entire namespace can be imported (functions available without prefix) through `using namespace` but this obscures the origin of a function and is recommend against.
 
 == OOP
 - `complex operator+(complex a, complex b) { return a+=b; }` overloading default operators
@@ -41,9 +47,9 @@
 == Floating-point numbers
 Floating point number systems are how types such as `double` and `float` represent real number approximations. Such systems allow storing and working with numbers in vastly different orders of magnitude and are denoted as follows:
 $
-F^* (beta, p, e_"min", e_"max")\
-plus.minus sum_(i=0)^(p - 1) (d_i beta^(-i)) times beta^e\
-d_0.d_1, ..., d_(p-1) times beta^e
+  F^* (beta, p, e_"min", e_"max")\
+  plus.minus sum_(i=0)^(p - 1) (d_i beta^(-i)) times beta^e\
+  d_0.d_1, ..., d_(p-1) times beta^e
 $
 Where the digits are called the _mantissa_ and the exponent _e_ indicates the order of magnitude, as in scientific notation $1.6 times 10^(-19)$:
 - $beta$ - base (for example 10 - decimal or 2 - binary)
