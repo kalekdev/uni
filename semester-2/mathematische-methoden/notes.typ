@@ -24,7 +24,7 @@ $
   R e^(i omega t) = R(cos(omega t) + i sin(omega t))\
 $
 This is especially useful when solving for the Fourier transform of a known integrable function (rather than sampling a signal digitally), as powers of $e$ are easy to combine and simplify.
-- They encode amplitude and phase for a given frequency, where the amplitude is simply the radius in the complex plane and the angle is the initial phase shift.
+- They encode amplitude and phase (depending on how big the real and imaginary parts are compared to each other) for a given frequency, where the amplitude is simply the radius in the complex plane and the angle is the initial phase shift.
 
 When considering $sin$ and $cos$ specifically:
 - They are infinitely differentiable

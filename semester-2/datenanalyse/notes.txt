@@ -1,0 +1,10 @@
+Usually the following suffices:
+```
+import matplotlib.pyplot as plt
+import numpy as np
+```
+Use plt.subplots to create a figure and axes simultaneously
+np.fft.rfft is usually good, since we mostly work with real signals
+ax.hist handles binning and plotting for you
+ax.set_xlabel to set axes labels
+ax.set_xlim to zoom into axis
