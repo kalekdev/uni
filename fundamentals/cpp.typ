@@ -3,7 +3,7 @@
 == Basics
 - `for(auto v: vArray)` - range over an iterable without explicit index
 - `enum class` - Doesn't explicitly map to int, safer and recommended
-- `func(&int)` - Reference to int, like pointer but dereferencing happens automatically, recommended
+- `func(&int)` - Reference to int, like pointer but dereferencing happens automatically and introduces some restrictions similar to how the `const` keyword restricts modification, recommended instead of pointers
 - Always pair unions with an enum to represent which type its supposed to take on
 - Properties of an object accessed with `object.property`, of a pointer to an object using `pointer->property` (or simply `.` if it is a reference `&` not raw pointer), and members of a class are accessed using `std::cout`
 - `lvalue` - an object that occupies some identifiable location in memory and can be assigned to
@@ -14,10 +14,19 @@
 - `switch - case` statements fall through unless break is used.
 - Value types such as int, double, bool are passed by values to functions - new copies of them are created on the stack and the original values cannot be accessed directly from within the function scope
 - Pre / postconditions specify the valid domain / expected range of a function (for example when dividing by an argument, it must not equal 0). These can be simply written as a comment `// PRE: condition` or expressed using `assert (e>=0 || b!=0)` by importing `#include <cassert>`, a sufficiently significant and easy to express pre / post condition is worth while expressing programatically.
-- Functions are only visible after they have been declared, which can be problematic if two functions call each other. A solution is to firstly declare a function `int g();`, from which point it can be used (it's in scope), despite the implementation `int g() {}` being somewhere later in the file.
+- Functions are only visible after they have been declared, which can be problematic if two functions call each other. A solution is to firstly declare a function `int g();` defining its return and argument types, from which point it can be used (it's in scope), despite the implementation `int g() {}` being somewhere later in the file.
+
+== Lists
+- Vectors are resizable `array` wrappers and usually used since they're far more flexible. Similar to `List<Type>` in `C#`
+- `vector.at(index)` allows safe index access, throwing an error if the given index is out of bounds. A compiler flag can be enabled so regular indexing has the same effect instead of simply reading the memory location.
+- Most standard library functions treat indexes as uints, which can lead to underflow problems when used in operations with regular ints
+- Long type names can be aliased: `using matrix = std::vector<std::vector<int>>;`, although `auto` may be more appropriate in one-off cases.
+- Vectors should be passed by reference `func(std::vector<int>& numbers)` to avoid copying lots of data to the stack. Arrays are automatically passed by reference, but I'm not sure about their exact functionality yet
+- Const references are especially useful for vectors, preventing the copying of the data but avoiding modification of the original array
+- In modern C++, a for each loop can be used `for(int number: numbers)`
 
 == Modularity
-- Rather than including source `.cpp` files, using header files ensures that the "library" is only compiled once.
+- Rather than including source `.cpp` files, using header files ensures that the "library" is only compiled once. Alternatively it allows calling functions from pre-compiled .obj files (for example from a closed-source library)
 - All source files referenced are compiled separately, with non-main files being compiled into an `.obj` file with their implementations. A linker then copies implementations into the missing usages to create the final binary.
 - Use the same header file for implementation and usage
 - Errors are thrown to allow the user of a library to decide how to handle unexpected cases
