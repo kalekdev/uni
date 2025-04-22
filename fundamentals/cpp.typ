@@ -34,6 +34,8 @@
 - An entire namespace can be imported (functions available without prefix) through `using namespace` but this obscures the origin of a function and is recommend against.
 
 == OOP
+- Use `struct` for plain data structures without any access modifiers or OOP features, otherwise use richer objects of a `class`
+- Struct assignment `myType item = a;` copies the members of `a`, unlike JS
 - `complex operator+(complex a, complex b) { return a+=b; }` overloading default operators
 - `new` - Assigns memory on the heap for the object and returns a pointer. Has to be explicitly deleted (even after it leaves scope). Useful to allow a variable to be accessed by its pointer from outside of the current scope (otherwise it'll be automatically deleted).
 - Concrete classes - Same as built in types, constructor initializes any needed heap properties and `~Destructor()` is called if `delete` is called to deallocate (unreserve) it .
