@@ -34,9 +34,13 @@
 - An entire namespace can be imported (functions available without prefix) through `using namespace` but this obscures the origin of a function and is recommend against.
 
 == OOP
-- Use `struct` for plain data structures without any access modifiers or OOP features, otherwise use richer objects of a `class`
+- Use `struct` for plain data structures without any access modifiers or OOP features, otherwise use richer objects of a `class`. Struct properties are public by default, class props are private but can be controlled
 - Struct assignment `myType item = a;` copies the members of `a`, unlike JS
-- `complex operator+(complex a, complex b) { return a+=b; }` overloading default operators
+- `complex operator+(complex a, complex b) { return a+=b; }` overloading default operators. This also includes implementation for type casting (for example double from a rational number class)
+- The `const` modifier after a functions argument indicates functions that const initializations of the object may call. All other functions are inaccessible / private to const objects.
+- `this` is usually a const reference to the current instance, its properties can be accessed directly by their name as shorthand for `this->property`
+- The constructor can be called directly `myClass obj (arg1, arg2);` or simply `myClass obj;` (which calls the empty argument constructor, which is automatically generated to initialize properties with their null values if no such constructor has been written)
+- Property initialization directly from the constructor arguments can be written using the following shorthand: `rational(int n, int d): num(n), den(d)` rather than writing `this.n = n; ...`
 - `new` - Assigns memory on the heap for the object and returns a pointer. Has to be explicitly deleted (even after it leaves scope). Useful to allow a variable to be accessed by its pointer from outside of the current scope (otherwise it'll be automatically deleted).
 - Concrete classes - Same as built in types, constructor initializes any needed heap properties and `~Destructor()` is called if `delete` is called to deallocate (unreserve) it .
 - representation - the properties / variables of a class, what stores memory
