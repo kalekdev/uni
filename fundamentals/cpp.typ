@@ -4,8 +4,10 @@
 - `for(auto v: vArray)` - range over an iterable without explicit index
 - `enum class` - Doesn't explicitly map to int, safer and recommended
 - `func(&int)` - Reference to int, like pointer but dereferencing happens automatically and introduces some restrictions similar to how the `const` keyword restricts modification, recommended instead of pointers
+- If one needs to reassign, use a pointer. References can only be set once.
+- `int* myPointer = &someInt; std::cout << *myPointer;`. The order of the const keyword(s) is very important to determine if the target or the pointer itself is const. This doesn't prevent the target from being changed some other way, only not through that pointer
 - Always pair unions with an enum to represent which type its supposed to take on
-- Properties of an object accessed with `object.property`, of a pointer to an object using `pointer->property` (or simply `.` if it is a reference `&` not raw pointer), and members of a class are accessed using `std::cout`
+- Properties of an object accessed with `object.property`, of a pointer to an object using `pointer->property` (equivalent to `(*pointer).property`), or simply `.` if it is a reference `&` not raw pointer, and members of a class are accessed using `std::cout`
 - `lvalue` - an object that occupies some identifiable location in memory and can be assigned to
 - `rvalue` - expressions that aren't `lvalue`s, an object that isn't in memory, usually on the RHS in expression
 - Expression evaluation may be short circuited (compiler optimization). For example: `1 != 2 && 6/3 == 1` will skip the right hand side division, unless it contains an assignment or something that could affect the control flow.
@@ -15,8 +17,9 @@
 - Value types such as int, double, bool are passed by values to functions - new copies of them are created on the stack and the original values cannot be accessed directly from within the function scope
 - Pre / postconditions specify the valid domain / expected range of a function (for example when dividing by an argument, it must not equal 0). These can be simply written as a comment `// PRE: condition` or expressed using `assert (e>=0 || b!=0)` by importing `#include <cassert>`, a sufficiently significant and easy to express pre / post condition is worth while expressing programatically.
 - Functions are only visible after they have been declared, which can be problematic if two functions call each other. A solution is to firstly declare a function `int g();` defining its return and argument types, from which point it can be used (it's in scope), despite the implementation `int g() {}` being somewhere later in the file.
+- Pointers are not initialized with `nullptr` by default to expose bugs. If this is desired they should be manually assigned in the empty constructor
 
-== Lists
+== Containers
 - Vectors are resizable `array` wrappers and usually used since they're far more flexible. Similar to `List<Type>` in `C#`
 - `vector.at(index)` allows safe index access, throwing an error if the given index is out of bounds. A compiler flag can be enabled so regular indexing has the same effect instead of simply reading the memory location.
 - Most standard library functions treat indexes as uints, which can lead to underflow problems when used in operations with regular ints
@@ -24,6 +27,9 @@
 - Vectors should be passed by reference `func(std::vector<int>& numbers)` to avoid copying lots of data to the stack. Arrays are automatically passed by reference, but I'm not sure about their exact functionality yet
 - Const references are especially useful for vectors, preventing the copying of the data but avoiding modification of the original array
 - In modern C++, a for each loop can be used `for(int number: numbers)`
+- Container is the overarching interface, each child class of which has the same iterator implementation. Another example is the `std::unordered_set<T>`, which offers the same behavior as a mathematical set
+- When working with `const` containers, the `container::const_iterator` must be used instead. Of course, the const iterator doesn't allow modifying elements
+- *Linked lists* don't require blocks of area and elements can be stored anywhere on the heap. They are linked through pointers to one another, allowing efficient modification of elements in the middle of the list but slower indexing (each element's pointer must be traversed starting from the top). `std::list<T>` is the standard implementation
 
 == Modularity
 - Rather than including source `.cpp` files, using header files ensures that the "library" is only compiled once. Alternatively it allows calling functions from pre-compiled .obj files (for example from a closed-source library)
@@ -41,7 +47,7 @@
 - `this` is usually a const reference to the current instance, its properties can be accessed directly by their name as shorthand for `this->property`
 - The constructor can be called directly `myClass obj (arg1, arg2);` or simply `myClass obj;` (which calls the empty argument constructor, which is automatically generated to initialize properties with their null values if no such constructor has been written)
 - Property initialization directly from the constructor arguments can be written using the following shorthand: `rational(int n, int d): num(n), den(d)` rather than writing `this.n = n; ...`
-- `new` - Assigns memory on the heap for the object and returns a pointer. Has to be explicitly deleted (even after it leaves scope). Useful to allow a variable to be accessed by its pointer from outside of the current scope (otherwise it'll be automatically deleted).
+- `new` - Assigns memory on the heap for the object and returns a pointer. Has to be explicitly deleted (even after it leaves scope). Useful to allow a stack variable to be accessed by its pointer from outside of the scope in which it was created (otherwise it'll be automatically deleted).
 - Concrete classes - Same as built in types, constructor initializes any needed heap properties and `~Destructor()` is called if `delete` is called to deallocate (unreserve) it .
 - representation - the properties / variables of a class, what stores memory
 - abstract class, similar to an interface in Go, simply a collection of methods such a class must implement, can be used to specify what an argument is expected to have. Implemented as `class Implementor: public Abstract {}`, this is *inheritance*
