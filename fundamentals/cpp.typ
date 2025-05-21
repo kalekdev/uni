@@ -48,17 +48,26 @@
 - The constructor can be called directly `myClass obj (arg1, arg2);` or simply `myClass obj;` (which calls the empty argument constructor, which is automatically generated to initialize properties with their null values if no such constructor has been written)
 - Property initialization directly from the constructor arguments can be written using the following shorthand: `rational(int n, int d): num(n), den(d)` rather than writing `this.n = n; ...`
 - `new` - Assigns memory on the heap for the object and returns a pointer. Has to be explicitly deleted (even after it leaves scope). Useful to allow a stack variable to be accessed by its pointer from outside of the scope in which it was created (otherwise it'll be automatically deleted).
-- Concrete classes - Same as built in types, constructor initializes any needed heap properties and `~Destructor()` is called if `delete` is called to deallocate (unreserve) it .
+- Classes incorporating dynamic memory may need to define a unique destructor `~ClassName()` which handles the deletion of dynamic properties to prevent memory leaks after the object itself has left scope or `delete` is called upon it. The default generated destructor simply calls the destructor of all properties, but this often doesn't suffice for complex data structures like a linked list
 - representation - the properties / variables of a class, what stores memory
 - abstract class, similar to an interface in Go, simply a collection of methods such a class must implement, can be used to specify what an argument is expected to have. Implemented as `class Implementor: public Abstract {}`, this is *inheritance*
 - Polymorphism - one interface used to represent many other types which may satisfy it
 - `virtual` - May be redefined later in a derived class, `virtual void x = 0` means it *must* be redefined otherwise the class cannot be instantiated, there is no default implementation.
 - Base functions / properties can be accessed within subclass implementations
-- Calling `delete` on an abstract object calls the destructor of the shallowest subclass (as it has access to the most "extra" properties)
+- Calling `delete` on an abstract object calls the destructor of the shallowest subclass (as it has access to the most "additional" properties)
 - `dynamic_cast` can be used to check what derived class an abstract argument is
-- Resource handle - A class that is responsible for managing underlying resources, these provide custom copy implementations to prevent violating validity, for example assigning a `vector` to another variable results in two vectors that refer to the *same* underlying elements. Such handles should implement a *copy constructor* and *copy assignment* operator `Vector& operator=(const Vector& a)` so underlying resources are correctly reallocated.
+- Resource handle - A class that is responsible for managing underlying resources, these provide custom copy implementations to prevent violating validity, for example assigning a `vector` to another variable results in two vectors that refer to the *same* underlying elements. Such handles should implement a *copy constructor* `ClassName(const ClassName& a)` so underlying resources are correctly initialized in a different place in memory (instead of two handles pointing to the same underlying data unintentionally in case the only explicit property is a pointer to heap data)
+- Assignment to an already existing object can be handled with *copy assignment*, simply overriding the default assignment operator `Shape& operator=(const Shape&)`
+- One should never explicitly call the destructor, `this` becomes invalid
 - Marking a constructor `explicit` prevents automatic type conversion
-- Default copy / move operations in a parent class can be deleted using `Shape& operator=(const Shape&) =delete;`
+- Marking a default function (destructor, copy constructor / assignment) with `=delete` creates a compile time error if they're unintentionally used
+
+== Smart Pointers
+- These allow a stack variable to "own" the object it points to, automatically deleting it once the smart pointer leaves the scope and will no longer be used
+- Nearly always recommended instead of explicitly calling `new` and `delete`, these are theoretically never needed
+- Use the `auto smartP = make_unique<MyClass>(constructor args)` or `make_shared` functions, which calls `new` under the hood
+- Further pointers pointing the same object can be created simply by calling the copy constructor: `shared_pointer<myClass> sharedP = otherSharedP`, the underlying object is only `delete`d once all shared pointers leave scope
+- Regular dereferencing operators `*` and `->method()` can be called on smart pointers
 
 == Generics
 - Prefixing a class / function with `template<typename T>` accepts a type as a generic argument, so that `T` can be used throughout implementations
