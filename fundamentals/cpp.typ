@@ -65,9 +65,16 @@
 == Smart Pointers
 - These allow a stack variable to "own" the object it points to, automatically deleting it once the smart pointer leaves the scope and will no longer be used
 - Nearly always recommended instead of explicitly calling `new` and `delete`, these are theoretically never needed
+- It is essential to use heap memory sometimes, for example underlying structs in a pointer vector. In such a case, using smart pointers is advantageous, potentially avoiding the need for custom destructors / copy operators.
+- Although using stack only (memory freed once leaves scope) is often simpler, sometimes a factory-type architecture is advantageous for creating objects, in which case returning a smart pointer is your best bet for transfer of ownership.
 - Use the `auto smartP = make_unique<MyClass>(constructor args)` or `make_shared` functions, which calls `new` under the hood
 - Further pointers pointing the same object can be created simply by calling the copy constructor: `shared_pointer<myClass> sharedP = otherSharedP`, the underlying object is only `delete`d once all shared pointers leave scope
 - Regular dereferencing operators `*` and `->method()` can be called on smart pointers
+
+== Dynamic Arrays
+- A so-called heap array is allocated by calling `new Type[num of elements]`, which allocated a block of *contiguous* (as opposed to a linked list without random access) memory large enough to contain all those elements and returns a pointer to the first element. The `std::vector` type uses dynamic arrays.
+- *Pointer Arithmetic* manipulates pointers with respect to their type. For example `int* intPointer = 0x...; cout << (intPointer + 1) - intPointer` would print 4 (or whatever the size in bytes of pointers on that machine). Array indexing does this under the hood
+- `delete[] firstElementPointer;` liberates the entire allocated memory of the dynamic array
 
 == Generics
 - Prefixing a class / function with `template<typename T>` accepts a type as a generic argument, so that `T` can be used throughout implementations
